@@ -1,22 +1,22 @@
-# Keras FAQ: Frequently Asked Keras Questions
+# Keras FAQ:
 
-- [How should I cite Keras?](#how-should-i-cite-keras)
-- [How can I run Keras on GPU?](#how-can-i-run-keras-on-gpu)
-- [How can I save a Keras model?](#how-can-i-save-a-keras-model)
-- [Why is the training loss much higher than the testing loss?](#why-is-the-training-loss-much-higher-than-the-testing-loss)
-- [How can I visualize the output of an intermediate layer?](#how-can-i-visualize-the-output-of-an-intermediate-layer)
-- [How can I use Keras with datasets that don't fit in memory?](#how-can-i-use-keras-with-datasets-that-dont-fit-in-memory)
-- [How can I interrupt training when the validation loss isn't decreasing anymore?](#how-can-i-interrupt-training-when-the-validation-loss-isnt-decreasing-anymore)
-- [How is the validation split computed?](#how-is-the-validation-split-computed)
-- [Is the data shuffled during training?](#is-the-data-shuffled-during-training)
-- [How can I record the training / validation loss / accuracy at each epoch?](#how-can-i-record-the-training-validation-loss-accuracy-at-each-epoch)
-- [How can I use stateful RNNs?](#how-can-i-use-stateful-rnns)
+- [Kerasを引用するには？](#keras)
+- [KerasをGPUで動かすには？](#kerasgpu)
+- [Keras modelの保存](#keras-model)
+- [なぜtraining lossがtesting lossよりもずっと大きいのですか？](#training-losstesting-loss)
+- [中間層の出力を可視化するには？](#_1)
+- [メモリに乗らない大きさのデータを扱うには？](#_2)
+- [validation lossが減らなくなったときに学習を中断するには？](#validation-loss)
+- [validation splitはどのように実行されますか？](#validation-split)
+- [訓練時にデータはシャッフルされますか？](#_3)
+- [各epochのtraining/validation lossやaccuracyを記録するには？](#epochtrainingvalidation-lossaccuracy)
+- [stateful RNNを利用するには？](#stateful-rnn)
 
 ---
 
-### How should I cite Keras?
+### Kerasを引用するには？
 
-Please cite Keras in your publications if it helps your research. Here is an example BibTeX entry:
+Kerasがあなたのお役に立てたら，ぜひ著書のなかでKerasを引用してください。BibTexの例は以下の通りです。
 
 ```
 @misc{chollet2015keras,
@@ -29,21 +29,21 @@ Please cite Keras in your publications if it helps your research. Here is an exa
 }
 ```
 
-### How can I run Keras on GPU?
+### KerasをGPUで動かすには？ 
 
-If you are running on the TensorFlow backend, your code will automatically run on GPU if any available GPU is detected.
-If you are running on the Theano backend, you can use one of the following methods:
+バックエンドでTensorFlowを使っている場合，利用可能なGPUがあれば自動的にGPUが使われます。
+バックエンドがTheanoの場合，以下の方法があります：
 
-Method 1: use Theano flags.
+方法1：Theanoフラグを使う：
 ```bash
 THEANO_FLAGS=device=gpu,floatX=float32 python my_keras_script.py
 ```
 
-The name 'gpu' might have to be changed depending on your device's identifier (e.g. `gpu0`, `gpu1`, etc).
+'gpu'の部分はデバイス識別子に合わせて変更してください(例：gpu0, gpu1など)。
 
-Method 2: set up your `.theanorc`: [Instructions](http://deeplearning.net/software/theano/library/config.html)
+方法2：`.theanorc`を使う：[使い方](http://deeplearning.net/software/theano/library/config.html)
 
-Method 3: manually set `theano.config.device`, `theano.config.floatX` at the beginning of your code:
+方法3：コードの先頭で，`theano.config.device`，`theano.config.floatX`を設定する：
 ```python
 import theano
 theano.config.device = 'gpu'
@@ -52,11 +52,11 @@ theano.config.floatX = 'float32'
 
 ---
 
-### How can I save a Keras model?
+### Keras modelの保存
 
-*It is not recommended to use pickle or cPickle to save a Keras model.*
+*Kerasのモデルを保存するのに，pickleやcPickleを使うことは推奨されません。*
 
-If you only need to save the architecture of a model, and not its weights, you can do:
+モデルのアーキテクチャのみ(weightパラメータを含まない)を保存する場合は以下の通りです：
 
 ```python
 # save as JSON
@@ -66,7 +66,7 @@ json_string = model.to_json()
 yaml_string = model.to_yaml()
 ```
 
-You can then build a fresh model from this data:
+保存したデータから，以下のように新しいモデルを作成できます：
 
 ```python
 # model reconstruction from JSON:
@@ -77,21 +77,21 @@ model = model_from_json(json_string)
 model = model_from_yaml(yaml_string)
 ```
 
-If you need to save the weights of a model, you can do so in HDF5 with the code below.
+モデルのweightパラメータを保存する場合，以下のようにHDF5を使います。
 
-Note that you will first need to install HDF5 and the Python library h5py, which do not come bundled with Keras.
+注：HDF5とPythonライブラリの h5pyがインストールされている必要があります(Kerasには同梱されていません)。
 
 ```python
 model.save_weights('my_model_weights.h5')
 ```
 
-Assuming you have code for instantiating your model, you can then load the weights you saved into a model with the same architecture:
+モデルのインスタンス作成後，同じモデルアーキテクチャのweightパラメータを以下のようにロードします：
 
 ```python
 model.load_weights('my_model_weights.h5')
 ```
 
-This leads us to a way to save and reconstruct models from only serialized data:
+モデルとパラメータの保存，読み込みの一連の処理は以下のようになります：
 ```python
 json_string = model.to_json()
 open('my_model_architecture.json', 'w').write(json_string)
@@ -102,24 +102,24 @@ model = model_from_json(open('my_model_architecture.json').read())
 model.load_weights('my_model_weights.h5')
 ```
 
-Finally, before it can be used, the model shall be compiled.
+最後に，モデルを利用前にコンパイルする必要があります。
 ```python
 model.compile(optimizer='adagrad', loss='mse')
 ```
 
 ---
 
-### Why is the training loss much higher than the testing loss?
+### なぜtraining lossがtesting lossよりもずっと大きいのですか？
 
-A Keras model has two modes: training and testing. Regularization mechanisms, such as Dropout and L1/L2 weight regularization, are turned off at testing time.
+Kerasモデルにはtrainingとtestingの二つのモードがあります。DropoutやL1/L2正則化はtesting時には機能しません。
 
-Besides, the training loss is the average of the losses over each batch of training data. Because your model is changing over time, the loss over the first batches of an epoch is generally higher than over the last batches. On the other hand, the testing loss for an epoch is computed using the model as it is at the end of the epoch, resulting in a lower loss.
+さらに，training lossは訓練データの各バッチのlossの平均です。モデルは変化していくため，各epochの最初のバッチのlossは最後のバッチのlossよりもかなり大きくなります。一方，testing lossは各epochの最後に計算されるため，lossが小さくなります。
 
 ---
 
-### How can I visualize the output of an intermediate layer?
+### 中間層の出力を可視化するには？
 
-You can build a Keras function that will return the output of a certain layer given a certain input, for example:
+以下のように，ある入力を与えたときの，ある層の出力を返すKeras functionを記述できます：
 
 ```python
 from keras import backend as K
@@ -130,10 +130,9 @@ get_3rd_layer_output = K.function([model.layers[0].input],
 layer_output = get_3rd_layer_output([X])[0]
 ```
 
-Similarly, you could build a Theano and TensorFlow function directly.
+直接TheanoやTensorFlowのfunctionを利用することもできます。
 
-Note that if your model has a different behavior in training and testing phase (e.g. if it uses `Dropout`, `BatchNormalization`, etc.), you will need
-to pass the learning phase flag to your function:
+注：訓練時とテスト時でモデルの振る舞いが異なる場合(例：`Dropout`や`BatchNormalization`利用時など)，以下のようにlearning phaseフラグを利用してください：
 
 ```python
 get_3rd_layer_output = K.function([model.layers[0].input, K.learning_phase()],
@@ -146,23 +145,23 @@ layer_output = get_3rd_layer_output([X, 0])[0]
 layer_output = get_3rd_layer_output([X, 1])[0]
 ```
 
-Another more flexible way of getting output from intermediate layers is to use the [functional API](/getting-started/functional-api-guide).
+その他の中間層の出力を取得する方法については，[functional API](/getting-started/functional-api-guide)を参照してください。
 
 ---
 
-### How can I use Keras with datasets that don't fit in memory?
+### メモリに乗らない大きさのデータを扱うには？
 
-You can do batch training using `model.train_on_batch(X, y)` and `model.test_on_batch(X, y)`. See the [models documentation](/models/sequential).
+`model.train_on_batch(X, y)`と`model.test_on_batch(X, y)`でバッチ学習ができます。詳細は[models documentation](/models/sequential)を参照してください。
 
-Alternatively, you can write a generator that yields batches of training data and use the method `model.fit_generator(data_generator, samples_per_epoch, nb_epoch)`.
+その他に，ジェネレータを使うこともできます。 `model.fit_generator(data_generator, samples_per_epoch, nb_epoch)`
 
-You can see batch training in action in our [CIFAR10 example](https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py).
+実際のバッチ学習の方法については，[CIFAR10 example](https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py)を参照してください。
 
 ---
 
-### How can I interrupt training when the validation loss isn't decreasing anymore?
+### validation lossが減らなくなったときに学習を中断するには？
 
-You can use an `EarlyStopping` callback:
+コールバック関数の`EarlyStopping`を利用してください：
 
 ```python
 from keras.callbacks import EarlyStopping
@@ -170,29 +169,29 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=2)
 model.fit(X, y, validation_split=0.2, callbacks=[early_stopping])
 ```
 
-Find out more in the [callbacks documentation](/callbacks).
+詳細は[callbacks documentation](/callbacks)を参照してください。
 
 ---
 
-### How is the validation split computed?
+### validation splitはどのように実行されますか？
 
-If you set the `validation_split` argument in `model.fit` to e.g. 0.1, then the validation data used will be the *last 10%* of the data. If you set it to 0.25, it will be the last 25% of the data, etc.
+`model.fit`の引数`validation_split`を例えば0.1に設定すると，データの*最後の10％*が検証用に利用されます(0.25なら最後の25％)。
 
 
 ---
 
-### Is the data shuffled during training?
+### 訓練時にデータはシャッフルされますか？
 
-Yes, if the `shuffle` argument in `model.fit` is set to `True` (which is the default), the training data will be randomly shuffled at each epoch.
+`model.fit`の引数`shuffle`が`True`であればシャッフルされます(初期値はTrueです)。各epochでデータはランダムにシャッフルされます。
 
-Validation data is never shuffled.
+検証用データ(validation data)はシャッフルされません。
 
 ---
 
 
-### How can I record the training / validation loss / accuracy at each epoch?
+### 各epochのtraining/validation lossやaccuracyを記録するには？
 
-The `model.fit` method returns an `History` callback, which has a `history` attribute containing the lists of successive losses and other metrics.
+`model.fit`が返す`History`コールバックの`history`を参照してください。
 
 ```python
 hist = model.fit(X, y, validation_split=0.2)
@@ -201,26 +200,26 @@ print(hist.history)
 
 ---
 
-### How can I use stateful RNNs?
+### stateful RNNを利用するには？
 
-Making a RNN stateful means that the states for the samples of each batch will be reused as initial states for the samples in the next batch.
+stateful RNNでは各バッチの内部状態を次のバッチの初期状態として再利用します。
 
-When using stateful RNNs, it is therefore assumed that:
+sateful RNNを利用する際は，以下を仮定します：
 
-- all batches have the same number of samples
-- If `X1` and `X2` are successive batches of samples, then `X2[i]` is the follow-up sequence to `X1[i]`, for every `i`.
+- 全てのバッチのサンプル数が同じ
+- `X1`と`X2`が連続するバッチであるとき，各`i`について`X2[i]`は`X1[i]`のfollow-upシーケンスになっている
 
-To use statefulness in RNNs, you need to:
+stateful RNNを利用するには：
 
-- explicitly specify the batch size you are using, by passing a `batch_input_shape` argument to the first layer in your model. It should be a tuple of integers, e.g. `(32, 10, 16)` for a 32-samples batch of sequences of 10 timesteps with 16 features per timestep.
-- set `stateful=True` in your RNN layer(s).
+- 最初の層の引数`batch_input_shape`で明示的にバッチサイズを指定してください。バッチサイズはタプルで，例えば32 samples，10 timesteps，特徴量16次元の場合，`(32, 10, 16)`となります
+- RNN層で`stateful=True`を指定してください
 
-To reset the states accumulated:
+積算された状態をリセットするには：
 
-- use `model.reset_states()` to reset the states of all layers in the model
-- use `layer.reset_states()` to reset the states of a specific stateful RNN layer
+- 全層の状態をリセットするには，`model.reset_states()`を利用してください
+- 特定のstateful RNN層の状態をリセットするには，`layer.reset_states()`を利用してください
 
-Example:
+例：
 
 ```python
 
@@ -246,5 +245,5 @@ model.reset_states()
 model.layers[0].reset_states()
 ```
 
-Notes that the methods `predict`, `fit`, `train_on_batch`, `predict_classes`, etc. will *all* update the states of the stateful layers in a model. This allows you to do not only stateful training, but also stateful prediction.
+注：`predict`, `fit`, `train_on_batch`, `predict_classes`メソッドなどは全て，stateful層の状態を更新します。そのため，訓練だけでなく，statefulな予測も可能となります。
 
