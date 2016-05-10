@@ -1,22 +1,22 @@
 
-## Usage of objectives
+## 目的関数の利用方法
 
-An objective function (or loss function, or optimization score function) is one of the two parameters required to compile a model:
+目的関数（ロス関数や最適スコア関数）はモデルをコンパイルする際に必要となるパラメータの1つです:
 
 ```python
 model.compile(loss='mean_squared_error', optimizer='sgd')
 ```
 
-You can either pass the name of an existing objective, or pass a Theano/TensorFlow symbolic function that returns a scalar for each data-point and takes the following two arguments:
+既存の目的関数の名前を引数に与えるか，各データ点に対してスカラを返し，以下の2つの引数を取るTheano/TensorFlowのシンボリック関数を与えることができます:
 
-- __y_true__: True labels. Theano/TensorFlow tensor.
-- __y_pred__: Predictions. Theano/TensorFlow tensor of the same shape as y_true.
+- __y_true__: 正解ラベル．Theano/TensorFlow テンソル
+- __y_pred__: 予測．y_trueと同じ形状のTheano/TensorFlow テンソル
 
-The actual optimized objective is the mean of the output array across all datapoints.
+実際の目的関数は全データ点における出力の平均です．
 
-For a few examples of such functions, check out the [objectives source](https://github.com/fchollet/keras/blob/master/keras/objectives.py).
+このような関数の実装例に関しては，[objectives source](https://github.com/fchollet/keras/blob/master/keras/objectives.py)を参照してください．
 
-## Available objectives
+## 利用可能な目的関数
 
 - __mean_squared_error__ / __mse__
 - __mean_absolute_error__ / __mae__
@@ -24,8 +24,8 @@ For a few examples of such functions, check out the [objectives source](https://
 - __mean_squared_logarithmic_error__ / __msle__
 - __squared_hinge__
 - __hinge__
-- __binary_crossentropy__: Also known as logloss. 
-- __categorical_crossentropy__: Also known as multiclass logloss. __Note__: using this objective requires that your labels are binary arrays of shape `(nb_samples, nb_classes)`.
-- __sparse_categorical_crossentropy__: As above but accepts sparse labels. __Note__: this objective still requires that your labels have the same number of dimensions as your outputs; you may need to add a length-1 dimension to the shape of your labels, e.g with `np.expand_dims(y, -1)`.
-- __poisson__: mean of `(predictions - targets * log(predictions))`
-- __cosine_proximity__: the opposite (negative) of the mean cosine proximity between predictions and targets.
+- __binary_crossentropy__: loglossとしても知られています．
+- __categorical_crossentropy__: マルチクラスloglossとしても知られています． __Note__: この目的関数を使うには，ラベルがバイナリ配列であり，その形状が`(nb_samples, nb_classes)`であることが必要です．
+- __sparse_categorical_crossentropy__: categorical_crossentropyと同じですが，スパースラベルを取る点で違います． __Note__: ラベルの次元と出力の次元が同じである必要があります．例えば，ラベル形状を拡張するために，`np.expand_dims(y, -1)`を用いて新しく次元を追加する必要があるかもしれません．
+- __poisson__: `(予測 - 正解 * log(予測))`の平均
+- __cosine_proximity__: 予測と正解間のコサイン近似の負の平均
