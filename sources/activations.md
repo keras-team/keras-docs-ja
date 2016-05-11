@@ -1,7 +1,7 @@
 
-## Usage of activations
+## 活性化関数(activation function)の使い方
 
-Activations can either be used through an `Activation` layer, or through the `activation` argument supported by all forward layers:
+活性化関数は`Activation`層，または全てのフォワード層で使える引数`activation`で利用できます。
 
 ```python
 from keras.layers.core import Activation, Dense
@@ -9,12 +9,12 @@ from keras.layers.core import Activation, Dense
 model.add(Dense(64))
 model.add(Activation('tanh'))
 ```
-is equivalent to:
+上のコードは以下と等価です：
 ```python
 model.add(Dense(64, activation='tanh'))
 ```
 
-You can also pass an element-wise Theano/TensorFlow function as an activation:
+element-wiseなTheano/TensorFlow関数を活性化関数として渡すこともできます：
 
 ```python
 from keras import backend as K
@@ -26,9 +26,9 @@ model.add(Dense(64, activation=tanh))
 model.add(Activation(tanh))
 ```
 
-## Available activations
+## 利用可能な活性化関数
 
-- __softmax__: Softmax applied across inputs last dimension. Expects shape either `(nb_samples, nb_timesteps, nb_dims)` or `(nb_samples, nb_dims)`.
+- __softmax__: Softmaxは入力の最後の次元に適用されます。想定入力形式は`(nb_samples, nb_timesteps, nb_dims)`または`(nb_samples, nb_dims)`です。
 - __softplus__
 - __softsign__
 - __relu__
@@ -37,6 +37,9 @@ model.add(Activation(tanh))
 - __hard_sigmoid__
 - __linear__
 
-## On Advanced Activations
+## より高度な活性化関数
 
-Activations that are more complex than a simple Theano/TensorFlow function (eg. learnable activations, configurable activations, etc.) are available as [Advanced Activation layers](layers/advanced-activations.md), and can be found in the module `keras.layers.advanced_activations`. These include PReLU and LeakyReLU.
+単純なTheano/TensorFlow関数よりも高度な活性化関数(例：learnable activations, configurable activations, etc.)は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です。
+これらは，`keras.layers.advanced_activations`モジュールに含まれています。
+PReLUやLeakyReLUはここに含まれます。
+
