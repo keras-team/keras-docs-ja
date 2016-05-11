@@ -1,7 +1,7 @@
 
-## Usage of optimizers
+## オプティマイザ（最適化アルゴリズム）の利用方法
 
-An optimizer is one of the two arguments required for compiling a Keras model:
+オプティマイザ（最適化アルゴリズム）はモデルをコンパイルする際に必要となるパラメータの1つです:
 
 ```python
 model = Sequential()
@@ -13,10 +13,10 @@ sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='mean_squared_error', optimizer=sgd)
 ```
 
-You can either instantiate an optimizer before passing it to `model.compile()` , as in the above example, or you can call it by its name. In the latter case, the default parameters for the optimizer will be used.
+上記の例のように，オプティマイザのインスタンスを `model.compile()` に渡す，もしくは，オプティマイザの名前を渡すことができます．後者の場合，オプティマイザのデフォルトパラメータが利用されます．
 
 ```python
-# pass optimizer by name: default parameters will be used
+# オプティマイザを名前で指定すると，デフォルトパラメータが利用されます
 model.compile(loss='mean_squared_error', optimizer='sgd')
 ```
 
@@ -29,14 +29,11 @@ model.compile(loss='mean_squared_error', optimizer='sgd')
 keras.optimizers.Adagrad(lr=0.01, epsilon=1e-06)
 ```
 
-Adagrad optimizer.
-
-It is recommended to leave the parameters of this optimizer
-at their default values.
+デフォルトパラメータのまま利用することを推奨します．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
+- __lr__: float >= 0. 学習率．
 - __epsilon__: float >= 0.
 
 ----
@@ -48,15 +45,12 @@ __Arguments__
 keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-06)
 ```
 
-Adadelta optimizer.
-
-It is recommended to leave the parameters of this optimizer
-at their default values.
+デフォルトパラメータのまま利用することを推奨します．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
-	It is recommended to leave it at the default value.
+- __lr__: float >= 0. 学習率．
+	デフォルト値を推奨します．
 - __rho__: float >= 0.
 - __epsilon__: float >= 0. Fuzz factor.
 
@@ -73,14 +67,12 @@ __References__
 keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 ```
 
-Adam optimizer.
-
-Default parameters follow those provided in the original paper.
+デフォルトパラメータは提案論文に従います．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
-- __beta_1/beta_2__: floats, 0 < beta < 1. Generally close to 1.
+- __lr__: float >= 0. 学習率.
+- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近づきます．
 - __epsilon__: float >= 0. Fuzz factor.
 
 __References__
@@ -95,16 +87,15 @@ __References__
 ```python
 keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 ```
+ 
+Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基づくAdamの拡張です．
 
-Adamax optimizer from Adam paper's Section 7. It is a variant
- of Adam based on the infinity norm.
-
-Default parameters follow those provided in the paper.
+デフォルトパラメータは提案論文に従います．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
-- __beta_1/beta_2__: floats, 0 < beta < 1. Generally close to 1.
+- __lr__: float >= 0. 学習率.
+- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近づきます．
 - __epsilon__: float >= 0. Fuzz factor.
 
 __References__
@@ -120,15 +111,14 @@ __References__
 keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)
 ```
 
-Stochastic gradient descent, with support for momentum,
-learning rate decay, and Nesterov momentum.
+モーメンタム，学習率減衰，Nesterov momentumをサポートした確率的勾配降下法．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
-- __momentum__: float >= 0. Parameter updates momentum.
-- __decay__: float >= 0. Learning rate decay over each update.
-- __nesterov__: boolean. Whether to apply Nesterov momentum.
+- __lr__: float >= 0. 学習率.
+- __momentum__: float >= 0. モーメンタム．
+- __decay__: float >= 0. 各更新の学習率減衰．
+- __nesterov__: boolean. Nesterov momentumを適用するかどうか.
 
 ----
 
@@ -139,17 +129,13 @@ __Arguments__
 keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-06)
 ```
 
-RMSProp optimizer.
+デフォルトパラメータのまま利用することを推奨します．
+（ただし，学習率は除き，自由に調整することが可能です）
 
-It is recommended to leave the parameters of this optimizer
-at their default values
-(except the learning rate, which can be freely tuned).
-
-This optimizer is usually a good choice for recurrent
-neural networks.
+RMSPropは再帰型ニューラルネットワークに対して良い選択となるでしょう．
 
 __Arguments__
 
-- __lr__: float >= 0. Learning rate.
+- __lr__: float >= 0. 学習率.
 - __rho__: float >= 0.
 - __epsilon__: float >= 0. Fuzz factor.
