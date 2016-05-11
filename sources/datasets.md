@@ -1,10 +1,10 @@
-# Datasets
+# データセット
 
-## CIFAR10 small image classification
+## CIFAR10 画像分類
 
-Dataset of 50,000 32x32 color training images, labeled over 10 categories, and 10,000 test images.
+10のクラスにラベル付けされた、50000枚の32x32訓練用カラー画像、10000枚のテスト用画像のデータセット。
 
-### Usage:
+### 使い方:
 
 ```python
 from keras.datasets import cifar10
@@ -12,18 +12,18 @@ from keras.datasets import cifar10
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 ```
 
-- __Return:__
-    - 2 tuples:
-        - __X_train, X_test__: uint8 array of RGB image data with shape (nb_samples, 3, 32, 32).
-        - __y_train, y_test__: uint8 array of category labels (integers in range 0-9) with shape (nb_samples,).
+- __返り値:__
+    - 2つのタプル:
+        - __X_train, X_test__: shape (nb_samples, 3, 32, 32)のRGB画像データのuint8配列。
+        - __y_train, y_test__: shape (nb_samples,)のカテゴリラベル(0-9の範囲のinteger)のuint8配列。
 
 ---
 
-## CIFAR100 small image classification
+## CIFAR100 画像分類
 
-Dataset of 50,000 32x32 color training images, labeled over 100 categories, and 10,000 test images.
+100のクラスにラベル付けされた、50000枚の32x32訓練用カラー画像、10000枚のテスト用画像のデータセット。
 
-### Usage:
+### 使い方:
 
 ```python
 from keras.datasets import cifar100
@@ -31,24 +31,24 @@ from keras.datasets import cifar100
 (X_train, y_train), (X_test, y_test) = cifar100.load_data(label_mode='fine')
 ```
 
-- __Return:__
-    - 2 tuples:
-        - __X_train, X_test__: uint8 array of RGB image data with shape (nb_samples, 3, 32, 32).
-        - __y_train, y_test__: uint8 array of category labels with shape (nb_samples,).
+- __返り値:__
+    - 2つのタプル:
+        - __X_train, X_test__: shape (nb_samples, 3, 32, 32)のRGB画像データのuint8配列。
+        - __y_train, y_test__:shape (nb_samples,)のカテゴリラベルのuint8配列。
 
-- __Arguments:__
+- __引数:__
 
-    - __label_mode__: "fine" or "coarse".
+    - __label_mode__: "fine" または "coarse".
 
 ---
 
-## IMDB Movie reviews sentiment classification
+## IMDB映画レビュー感情分類
 
-Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a [sequence](preprocessing/sequence.md) of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer "3" encodes the 3rd most frequent word in the data. This allows for quick filtering operations such as: "only consider the top 10,000 most common words, but eliminate the top 20 most common words".
+感情(肯定/否定)のラベル付けをされた、25,000のIMDB映画レビューのデータセット。レビューは前処理済みで、各レビューは単語のインデックス(整数値)の[シーケンス](preprocessing/sequence.md)としてエンコードされている。便宜上、単語はデータセットにおいての出現頻度によってインデックスされている。そのため例えば、整数値"3"はデータの中で3番目に頻度が多い単語にエンコードされる。これによって"上位20個の頻出語を除いた、上位10,000個の頻出語についてのみ考える"というようなフィルタリング作業を高速に行うことができる。
 
-As a convention, "0" does not stand for a specific word, but instead is used to encode any unknown word.
+慣例として、"0"は特定の単語を表すのではなく、代わりに未知の単語にエンコードされることになっている。
 
-### Usage:
+### 使い方:
 
 ```python
 from keras.datasets import imdb
@@ -59,27 +59,26 @@ from keras.datasets import imdb
                                                       maxlen=None,
                                                       test_split=0.1)
 ```
-- __Return:__
-    - 2 tuples:
-        - __X_train, X_test__: list of sequences, which are lists of indexes (integers). If the nb_words argument was specific, the maximum possible index value is nb_words-1. If the maxlen argument was specified, the largest possible sequence length is maxlen.
-        - __y_train, y_test__: list of integer labels (1 or 0). 
+- __返り値:__
+    - 2つのタプル:
+        - __X_train, X_test__: シーケンスのリスト、リストはインデックス(整数値)。引数nb_wordsに具体的な整数値が与えられた場合、取り得るインデックスの最大値はnb_words-1となる。引数maxlenに具体的な数値が与えられた場合、シーケンスの最大長はmaxlenとなる。
+        - __y_train, y_test__: integer型ラベル(1または0)のリスト。 
 
-- __Arguments:__
+- __引数:__
 
-    - __path__: if you do have the data locally (at `'~/.keras/datasets/' + path`), if will be downloaded to this location (in cPickle format).
-    - __nb_words__: integer or None. Top most frequent words to consider. Any less frequent word will appear as 0 in the sequence data.
-    - __skip_top__: integer. Top most frequent words to ignore (they will appear as 0s in the sequence data).
-    - __maxlen__: int. Maximum sequence length. Any longer sequence will be truncated.
-    - __test_split__: float. Fraction of the dataset to be used as test data.
-    - __seed__: int. Seed for reproducible data shuffling.
+    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)、cPickleフォーマットではこの位置にダウンロードされる。 
+    - __nb_words__: integer型 または None。 指定された数値だけ上位の頻出語が対象となる。指定された数値より下位の頻出語はシーケンスデータにおいて0と表される。
+    - __skip_top__: integer型。指定された数値だけ上位の頻出語が無視される(シーケンスデータにおいて0と表される)。
+    - __maxlen__: int型。シーケンスの最大長。最大長より長いシーケンスは切り捨てられる。
+    - __test_split__: float型。分けられたデータセットはテストデータとして使用される。
+    - __seed__: int型。再現可能なデータシャッフルのためのシード。
 
 ---
 
-## Reuters newswire topics classification
+## ロイターのニュースワイヤー トピックス分類 
+46のトピックにラベル付けされた、11,228個のロイターのニュースワイヤーのデータセット。IMDBデータセットと同様、各ワイヤーが一連の単語インデックスとしてエンコードされる(同じ慣例に基づく)。
 
-Dataset of 11,228 newswires from Reuters, labeled over 46 topics. As with the IMDB dataset, each wire is encoded as a sequence of word indexes (same conventions).
-
-### Usage:
+### 使い方:
 
 ```python
 from keras.datasets import reuters
@@ -91,25 +90,25 @@ from keras.datasets import reuters
                                                          test_split=0.1)
 ```
 
-The specifications are the same as that of the IMDB dataset.
+仕様はIMDBデータセットのそれと同様。
 
-This dataset also makes available the word index used for encoding the sequences:
+このデータセットはシーケンスをエンコードするのに使われる単語インデックスとしても利用できる。
 
 ```python
 word_index = reuters.get_word_index(path="reuters_word_index.pkl")
 ```
 
-- __Return:__ A dictionary where key are words (str) and values are indexes (integer). eg. `word_index["giraffe"]` might return `1234`. 
+- __返り値:__ キーが単語(str型)、値がインデックス(integer型)の辞書。例、`word_index["giraffe"]`は`1234`が返る。 
 
-- __Arguments:__
+- __引数:__
 
-    - __path__: if you do have the index file locally (at `'~/.keras/datasets/' + path`), if will be downloaded to this location (in cPickle format).
+    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)、cPickleフォーマットではこの位置にダウンロードされる。
     
-## MNIST database of handwritten digits
+## MNIST 手書き数字データベース
 
-Dataset of 60,000 28x28 grayscale images of the 10 digits, along with a test set of 10,000 images.
+60,000枚の28x28、10個の数字の白黒画像と10,000枚のテスト用画像データセット。
 
-### Usage:
+### 使い方:
 
 ```python
 from keras.datasets import mnist
@@ -117,11 +116,11 @@ from keras.datasets import mnist
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 ```
 
-- __Return:__
-    - 2 tuples:
-        - __X_train, X_test__: uint8 array of grayscale image data with shape (nb_samples, 28, 28).
-        - __y_train, y_test__: uint8 array of digit labels (integers in range 0-9) with shape (nb_samples,).
+- __返り値:__
+    - 2つのタプル:
+        - __X_train, X_test__: shape (nb_samples, 28, 28)の白黒画像データのuint8配列。
+        - __y_train, y_test__: shape (nb_samples,)のカテゴリラベル(0-9の範囲のinteger)のuint8配列。
 
-- __Arguments:__
+- __引数:__
 
-    - __path__: if you do have the index file locally (at `'~/.keras/datasets/' + path`), if will be downloaded to this location (in cPickle format).
+    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)、cPickleフォーマットではこの位置にダウンロードされる。
