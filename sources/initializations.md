@@ -1,23 +1,24 @@
 
-## Usage of initializations
+## レイヤーの重み初期化方法
 
-Initializations define the probability distribution used to set the initial random weights of Keras layers.
+初期化用引数で，Kerasレイヤーの重みをランダムに初期化する確率分布を指定できます。
 
-The keyword arguments used for passing initializations to layers will depend on the layer. Usually it is simply `init`:
+初期化用引数のキーワードはレイヤーにより異なりますが，大抵は単純に`init`です：
 
 ```python
 model.add(Dense(64, init='uniform'))
 ```
 
-## Available initializations
+## 利用可能な初期化方法
 
 - __uniform__
-- __lecun_uniform__: Uniform initialization scaled by the square root of the number of inputs (LeCun 98).
+- __lecun_uniform__: input数の平方根でスケーリングした一様分布 (LeCun 98)
 - __normal__
-- __identity__: Use with square 2D layers (`shape[0] == shape[1]`).
-- __orthogonal__: Use with square 2D layers (`shape[0] == shape[1]`).
+- __identity__: `shape[0] == shape[1]`の2次元のレイヤーで使えます
+- __orthogonal__: `shape[0] == shape[1]`の2次元のレイヤーで使えます
 - __zero__
-- __glorot_normal__: Gaussian initialization scaled by fan_in + fan_out (Glorot 2010)
+- __glorot_normal__: fan_in + fan_outでスケーリングした正規分布 (Glorot 2010)
 - __glorot_uniform__
-- __he_normal__: Gaussian initialization scaled by fan_in (He et al., 2014)
+- __he_normal__: fan_inでスケーリングした正規分布 (He et al., 2014)
 - __he_uniform__
+
