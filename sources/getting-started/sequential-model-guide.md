@@ -1,4 +1,4 @@
-# Getting started with the Keras Sequential model
+# ケラスで順序モデルに触れてみようGetting started with the Keras Sequential model
 
 The `Sequential` model is a linear stack of layers.
 
