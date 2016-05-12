@@ -1,9 +1,10 @@
-# ケラスで順序モデルに触れてみようGetting started with the Keras Sequential model
+# ケラスで順序モデルに触れてみよう
+# Getting started with the Keras Sequential model
 
 The `Sequential` model is a linear stack of layers.
-
+順序モデルは層を積み重ねたもの。
 You can create a `Sequential` model by passing a list of layer instances to the constructor:
-
+順序モデルを作るには、コンストラクタに層のインスタンスのリストを与える。
 ```python
 from keras.models import Sequential
 
@@ -16,7 +17,7 @@ model = Sequential([
 ```
 
 You can also simply add layers via the `.add()` method:
-
+層を`.add()`メソッドを用いて追加することも出来る。
 ```python
 model = Sequential()
 model.add(Dense(32, input_dim=784))
@@ -26,13 +27,17 @@ model.add(Activation('relu'))
 ----
 
 ## Specifying the input shape
+## 入力の大きさを指定する
 
 The model needs to know what input shape it should expect. For this reason, the first layer in a `Sequential` model (and only the first, because following layers can do automatic shape inference) needs to receive information about its input shape. There are several possible ways to do this:
+最初の層（それ以降の層では必要ない）では入力の大きさを指定しなければならない。指定する方法は複数ある。
 
 - pass an `input_shape` argument to the first layer. This is a shape tuple (a tuple of integers or `None` entries, where `None` indicates that any positive integer may be expected). In `input_shape`, the batch dimension is not included.
 - pass instead a `batch_input_shape` argument, where the batch dimension is included. This is useful for specifying a fixed batch size (e.g. with stateful RNNs).
 - some 2D layers, such as `Dense`, support the specification of their input shape via the argument `input_dim`, and some 3D temporal layers support the arguments `input_dim` and `input_length`.
-
+- 
+- 
+- 
 As such, the following three snippets are strictly equivalent:
 ```python
 model = Sequential()
