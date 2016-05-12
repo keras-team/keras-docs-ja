@@ -5,51 +5,40 @@
 keras.layers.normalization.BatchNormalization(epsilon=1e-06, mode=0, axis=-1, momentum=0.9, weights=None, beta_init='zero', gamma_init='one')
 ```
 
-Normalize the activations of the previous layer at each batch,
-i.e. applies a transformation that maintains the mean activation
-close to 0 and the activation standard deviation close to 1.
+各バッチ毎に前の層の出力（このレイヤーへの入力）を正規化します．
+つまり，平均を0，標準偏差を1に近づけるような変換を適用します．
 
-__Arguments__
+__引数__
 
-- __epsilon__: small float > 0. Fuzz parameter.
-- __mode__: integer, 0 or 1.
-	- 0: feature-wise normalization.
-	Each feature map in the input will
-	be normalized separately. The axis on which
-	to normalize is specified by the `axis` argument.
-	Note that if the input is a 4D image tensor
-	using Theano conventions (samples, channels, rows, cols)
-	then you should set `axis` to `1` to normalize along
-	the channels axis.
-	- 1: sample-wise normalization. This mode assumes a 2D input.
-- __axis__: integer, axis along which to normalize in mode 0. For instance,
-	if your input tensor has shape (samples, channels, rows, cols),
-	set axis to 1 to normalize per feature map (channels axis).
-- __momentum__: momentum in the computation of the
-	exponential average of the mean and standard deviation
-	of the data, for feature-wise normalization.
-- __weights__: Initialization weights.
-	List of 2 numpy arrays, with shapes:
-	`[(input_shape,), (input_shape,)]`
-- __beta_init__: name of initialization function for shift parameter
-	(see [initializations](../initializations.md)), or alternatively,
-	Theano/TensorFlow function to use for weights initialization.
-	This parameter is only relevant if you don't pass a `weights` argument.
-- __gamma_init__: name of initialization function for scale parameter (see
-	[initializations](../initializations.md)), or alternatively,
-	Theano/TensorFlow function to use for weights initialization.
-	This parameter is only relevant if you don't pass a `weights` argument.
+- __epsilon__: small float > 0. Fuzz parameter. 微少な値．
+- __mode__: 0または1の整数．
+	- 0: feature-wise正規化．
+	   入力の各特徴マップが別々に正規化されます．どの軸で正規化するかは`axis`引数で指定します．
+	   もし入力がTheanoの慣例である4次元の画像テンソル (samples, channels, rows, cols) の場合，
+	   チャンネル軸を正規化するためには`axis=1`とする必要があることに注意してください．
+	- 1: sample-wise正規化．このモードは2次元の入力を想定します．
+- __axis__: 整数．modeが0のときに，どの軸を正規化するかを指定します．
+    例えば，(samples, channels, rows, cols) の形状を持つテンソルを入力するとき，
+    特徴マップ（チャンネル軸）毎に正規化するためには，`axis=1`とします．
+- __momentum__: feature-wise正規化に対して，データの平均と標準偏差の指数平均を計算する際のモーメンタム．
+- __weights__: 重みの初期値．
+    2つのnumpy配列を要素に持つリスト: `[(input_shape,), (input_shape,)]`
+- __beta_init__: シフトパラメータのための初期化関数名 ([initializations](../initializations.md))，
+    または，重みの初期化のためにTheano/TensorFlow関数を指定します．
+    このパラメータは，`weights`引数を与えていない場合のみ有効です．
+- __gamma_init__: スケールパラメータのための初期化関数名 ([initializations](../initializations.md))，
+    または，重みの初期化のためにTheano/TensorFlow関数を指定します．
+    このパラメータは，`weights`引数を与えていない場合のみ有効です．
 
-__Input shape__
+__入力形状__
 
-Arbitrary. Use the keyword argument `input_shape`
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+任意．
+このレイヤーがモデルの1番目のレイヤーとなる場合は，`input_shape`引数（サンプル軸を含まない整数のタプル）を与える必要があります．
 
-__Output shape__
+__出力形状__
 
-Same shape as input.
+入力形状と同じです．
 
-__References__
+__参考文献__
 
-- [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](http://arxiv.org/pdf/1502.03167v3.pdf)
+- [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](http://jmlr.org/proceedings/papers/v37/ioffe15.html)
