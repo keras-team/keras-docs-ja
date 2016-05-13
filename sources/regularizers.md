@@ -1,24 +1,24 @@
-## Usage of regularizers
+## 正則化の利用方法
 
-Regularizers allow to apply penalties on layer parameters or layer activity during optimization. These penalties are incorporated in the loss function that the network optimizes.
+正則化によって，最適化中にレイヤーパラメータあるいはレイヤーの出力に制約を課すことができます．これらの制約はネットワークが最適化するロス関数に組み込まれます．
 
-The penalties are applied on a per-layer basis. The exact API will depend on the layer, but the layers `Dense`, `TimeDistributedDense`, `MaxoutDense`, `Convolution1D` and `Convolution2D` have a unified API.
+この制約はレイヤー毎に適用されます．厳密なAPIはレイヤーに依存しますが，`Dense`，`TimeDistributedDense`，`MaxoutDense`，`Convolution1D`，そして，`Convolution2D`レイヤーは統一的なAPIを持っています．
 
-These layers expose 3 keyword arguments:
+これらのレイヤーは3つの引数を取ります:
 
-- `W_regularizer`: instance of `keras.regularizers.WeightRegularizer`
-- `b_regularizer`: instance of `keras.regularizers.WeightRegularizer`
-- `activity_regularizer`: instance of `keras.regularizers.ActivityRegularizer`
+- `W_regularizer`: `keras.regularizers.WeightRegularizer` のインスタンス
+- `b_regularizer`: `keras.regularizers.WeightRegularizer` のインスタンス
+- `activity_regularizer`: `keras.regularizers.ActivityRegularizer` のインスタンス
 
 
-## Example
+## 例
 
 ```python
 from keras.regularizers import l2, activity_l2
 model.add(Dense(64, input_dim=64, W_regularizer=l2(0.01), activity_regularizer=activity_l2(0.01)))
 ```
 
-## Available penalties
+## 利用可能な制約
 
 ```python
 keras.regularizers.WeightRegularizer(l1=0., l2=0.)
@@ -28,13 +28,13 @@ keras.regularizers.WeightRegularizer(l1=0., l2=0.)
 keras.regularizers.ActivityRegularizer(l1=0., l2=0.)
 ```
 
-## Shortcuts
+## ショートカット
 
-These are shortcut functions available in `keras.regularizers`.
+`keras.regularizers` の中に利用可能なショートカット関数があります．
 
-- __l1__(l=0.01): L1 weight regularization penalty, also known as LASSO
-- __l2__(l=0.01): L2 weight regularization penalty, also known as weight decay, or Ridge
-- __l1l2__(l1=0.01, l2=0.01): L1-L2 weight regularization penalty, also known as ElasticNet
-- __activity_l1__(l=0.01): L1 activity regularization
-- __activity_l2__(l=0.01): L2 activity regularization
-- __activity_l1l2__(l1=0.01, l2=0.01): L1+L2 activity regularization
+- __l1__(l=0.01): 重みのL1正則化．LASSOとしても知られています．
+- __l2__(l=0.01): 重みのL2正則化．荷重減衰やRidgeとしても知られています．
+- __l1l2__(l1=0.01, l2=0.01): 重みのL1+L2正則化．ElasticNetとしても知られています．
+- __activity_l1__(l=0.01): 出力のL1正則化．
+- __activity_l2__(l=0.01): 出力のL2正則化．
+- __activity_l1l2__(l1=0.01, l2=0.01): 出力のL1+L2正則化．
