@@ -1,21 +1,22 @@
 
-## Model visualization
+## モデルの可視化
 
-The `keras.utils.visualize_util` module provides utility functions to plot
-a Keras model (using graphviz).
+`keras.utils.visualize_util`モジュールは（graphvizを用いて）Kerasモデルの可視化するためのユーティリティ関数を提供します．
 
-This will plot a graph of the model and save it to a file:
+以下の例は，モデルのグラフ構造をプロットし，それをファイルに保存します:
+
 ```python
 from keras.utils.visualize_util import plot
 plot(model, to_file='model.png')
 ```
 
-`plot` takes one optional arguments:
+`plot`は1つのオプショナルな引数を取ります:
 
-- `show_shapes` (defaults to False) controls whether output shapes are shown in the graph.
+- `show_shapes`（デフォルト: False）グラフ中に出力形状を出力するかどうかを制御します．
 
-You can also directly obtain the `pydot.Graph` object and render it yourself,
-for example to show it in an ipython notebook :
+また，`pydot.Graph`オブジェクトを直接操作して可視化することもできます．
+IPython Notebook内で可視化する例:
+
 ```python
 from IPython.display import SVG
 from keras.utils.visualize_util import model_to_dot
