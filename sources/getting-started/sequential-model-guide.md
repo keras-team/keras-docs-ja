@@ -1,7 +1,7 @@
-# Kerasで順序モデルに触れてみよう
+# 順序モデルでKerasに触れてみよう
 
 
-順序モデルは層を積み重ねたもの。
+順序(Sequential)モデルは層を積み重ねたもの。
 順序モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
 ```python
 from keras.models import Sequential
@@ -29,12 +29,10 @@ model.add(Activation('relu'))
 最初の層では入力の形を指定しなければならない（それ以降の層では必要ない）。指定する方法は複数ある:
 
 -  最初の層に`input_shape`引数を与える。これは形を表すタプル（タプルの要素は整数か`None`で`None`はどんなサイズでも良いことを表す。）`input_shape`にbatchサイズは含まれない。
--  代わりに`batch_input_shape`引数を与える。ここではbatchサイズは含まれる。これは固定のbatchサイズを指定するときに便利である。（例えば stateful RNN)
+-  代わりに`batch_input_shape`引数を与える。ここではbatchサイズが含まれる。これは固定のbatchサイズを指定するときに便利である。（例えば stateful RNN)
 -  `Dense`などの一部の2Dの層では入力の形を`input_dim`で指定できる。一部の3Dの層では`input_dim` と `input_length`で指定できる。
 
-- 
-- 
--
+
 これらの３つのコードは同じことをする。
 ```python
 model = Sequential()
@@ -66,7 +64,6 @@ model.add(LSTM(32, input_length=10, input_dim=64))
 
 ----
 
-## The Merge layer
 ## マージ層
 
 複数の`Sequential`のインスタンスをマージ層を使って１つの出力にすることができる。出力は新しい`Sequential`モデルの１層目に使える。以下は２つの入力がマージされている。
@@ -89,7 +86,6 @@ final_model.add(Dense(10, activation='softmax'))
 
 <img src="http://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
 
-The `Merge` layer supports a number of pre-defined modes:
 マージ層にはいくつかの結合方法(mode)がある。
 - `sum` (デフォルト）:要素単位の和
 - `concat`: テンソル結合。結合する軸は`concat_axis`で指定する。
@@ -104,7 +100,7 @@ The `Merge` layer supports a number of pre-defined modes:
 merged = Merge([left_branch, right_branch], mode=lambda x, y: x - y)
 ```
 
-これで*ほとんど*のモデルをKerasで実装できる。`Sequential`や`Merge`で作れないさらに複雑なモデルは関数型APIを使って定義できる。[the functional API](/getting-started/functional-api-guide).
+これで*ほとんど*のモデルをKerasで実装できる。`Sequential`や`Merge`では作れないさらに複雑なモデルは関数型APIを使って定義できる。[関数型API](/getting-started/functional-api-guide).
 
 
 ----
@@ -112,11 +108,10 @@ merged = Merge([left_branch, right_branch], mode=lambda x, y: x - y)
 ## コンパイル
 
 モデルのtrainingを始める前に`compile`メソッドを設定しないといけない。`compile`は３つの引数を取る。
-Before training a model, you need to configure the learning process, which is done via the `compile` method. It receives three arguments:
 
-- 最適化手法 これは`rmsprop`や `adagrad`などの既存の方法を表す文字列または`Optimizer`クラスのインスタンス。参照: [最適化アルゴリズム](/optimizers).
-- 損失関数　これをモデルは最小化する。それは文字列(例えば`categorical_crossentropy` や `mse`)または目的関数。参照[目的関数](/objectives)
-- 評価方法のリスト　例えば分類問題では正解率`metrics=['accuracy']`。評価方法は文字列（`accuracy`）または自分で定義した関数
+- 最適化手法:　これは`rmsprop`や `adagrad`などの既存の方法を表す文字列または`Optimizer`クラスのインスタンス。[最適化アルゴリズム](/optimizers).
+- 損失関数:　これをモデルは最小化する。それは文字列(例えば`categorical_crossentropy` や `mse`)または目的関数。[目的関数](/objectives)
+- 評価方法のリスト:　例えば分類問題では正解率`metrics=['accuracy']`。評価方法は文字列（`accuracy`）または自分で定義した関数
 ```python
 # for a multi-class classification problem
 model.compile(optimizer='rmsprop',
@@ -136,7 +131,7 @@ model.compile(optimizer='rmsprop',
 ----
 
 ## 学習
-Kerasのモデルの学習はNumpyの配列のデータとラベルを使う。普通`fit`関数を使って学習する。
+Kerasのモデルの学習にはNumpyの配列のデータとラベルを使う。普通`fit`関数を使って学習する。
 [ドキュメント](/models/sequential). 
 
 ```python
@@ -197,10 +192,10 @@ model.fit([data_1, data_2], labels, nb_epoch=10, batch_size=32)
 ----
 
 
-## Examples
 ## 例
 
 以下はいくつかの例です。
+
 examplesフォルダにはさらに高度な例がある。
 
 - CIFAR10　データの画像分類: onlineでデータを合成する畳み込みニューラルネット(CNN)
@@ -314,7 +309,7 @@ model.fit(X_train, Y_train, batch_size=32, nb_epoch=1)
 ```
 
 
-### LSTMを用いた順列分類:
+### LSTMを用いた順次データの分類:
 
 ```python
 from keras.models import Sequential
@@ -401,10 +396,11 @@ model.fit([images, partial_captions], next_words, batch_size=16, nb_epoch=100)
 ```
 
 
-### LSTMを積み重ねて順列を分類する
+### LSTMを積み重ねて順次を分類する
 このモデルでは３つのLSTM層を積み重ねる。
 そうすることでモデルはより高いレベルの（時間的な）特徴量を学習できる
-最初の2層は順列の全体を返すが最後の層は最後の出力だけを返す。
+最初の2層は順次の全体を返すが最後の層は最後の出力だけを返す。
+
 <img src="http://keras.io/img/regular_stacked_lstm.png" alt="stacked LSTM" style="width: 300px;"/>
 
 ```python
@@ -444,7 +440,7 @@ model.fit(x_train, y_train,
 
 
 ### 同じLSTMのモデルをstatefulにすると
-stateful のリカレントオデルはbatchを処理した内部の状態が次のbatchを処理するときに初期状態として再利用される。こうすることでより長い順列を扱うことができる。
+stateful のリカレントオデルはbatchを処理した内部の状態が次のbatchを処理するときに初期状態として再利用される。こうすることでより長い順次を扱うことができる。
 [ドキュメント](/faq/#how-can-i-use-stateful-rnns)
 
 ```python
@@ -485,11 +481,12 @@ model.fit(x_train, y_train,
 ```
 
 
-### ２つの同方向の順列を２つのLSTM encoderに渡し、その結果をマージして分類する。
+### ２つの同方向の順次を２つのLSTM encoderに渡し、その結果をマージして分類する。
 
-In this model, two input sequences are encoded into vectors by two separate LSTM modules.
+
 このモデルでは2つの入力が２つのLSTMを使ってベクトルにencodeされる。
 これらのベクトルは結合されてその上に多層パーセプトロンを学習させる。
+
 <img src="http://keras.io/img/dual_lstm.png" alt="Dual LSTM" style="width: 600px;"/>
 
 ```python
