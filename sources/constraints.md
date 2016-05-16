@@ -1,22 +1,23 @@
-## Usage of constraints
+## 制約の利用方法
 
-Functions from the `constraints` module allow setting constraints (eg. non-negativity) on network parameters during optimization.
+`constraints`モジュールの関数により，最適化中のネットワークパラメータに制約（例えば非負の制約）を設定することができます．
 
-The penalties are applied on a per-layer basis. The exact API will depend on the layer, but the layers `Dense`, `TimeDistributedDense`, `MaxoutDense`, `Convolution1D` and `Convolution2D` have a unified API.
+この制約はレイヤー毎に適用されます．厳密なAPIはレイヤーに依存しますが，`Dense`，`TimeDistributedDense`，`MaxoutDense`，`Convolution1D`，そして，`Convolution2D`レイヤーは統一的なAPIを持っています．
 
-These layers expose 2 keyword arguments:
+これらのレイヤーは2つの引数を取ります:
 
-- `W_constraint` for the main weights matrix
-- `b_constraint` for the bias.
+- `W_constraint` 重み行列の制約．
+- `b_constraint` バイアスの制約.
 
+## 例
 
 ```python
 from keras.constraints import maxnorm
 model.add(Dense(64, W_constraint = maxnorm(2)))
 ```
 
-## Available constraints
+## 利用可能な制約
 
-- __maxnorm__(m=2): maximum-norm constraint
-- __nonneg__(): non-negativity constraint
-- __unitnorm__(): unit-norm constraint, enforces the matrix to have unit norm along the last axis
+- __maxnorm__(m=2): 最大値ノルム制約
+- __nonneg__(): 非負値制約
+- __unitnorm__(): ノルム正規化制約．指定した軸でノルムを正規化します．
