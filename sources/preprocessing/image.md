@@ -1,5 +1,5 @@
 
-## ImageDataGenerator
+## 画像データジェネレータ
 
 ```python
 keras.preprocessing.image.ImageDataGenerator(featurewise_center=True,
@@ -20,45 +20,46 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=True,
     dim_ordering='th')
 ```
 
-Generate batches of tensor image data with real-time data augmentation. The data will be looped over (in batches) indefinitely.
+リアルタイムにデータ拡張しながら，テンソル画像データのバッチを生成します．また，このジェネレータは，データを無限にループするので，無限にバッチを生成します．
 
-- __Arguments__:
-    - __featurewise_center__: Boolean. Set input mean to 0 over the dataset.
-    - __samplewise_center__: Boolean. Set each sample mean to 0.
-    - __featurewise_std_normalization__: Boolean. Divide inputs by std of the dataset.
-    - __samplewise_std_normalization__: Boolean. Divide each input by its std.
-    - __zca_whitening__: Boolean. Apply ZCA whitening.
-    - __rotation_range__: Int. Degree range for random rotations.
-    - __width_shift_range__: Float (fraction of total width). Range for random horizontal shifts.
-    - __height_shift_range__: Float (fraction of total height). Range for random vertical shifts.
-    - __shear_range__: Float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
-    - __zoom_range__: Float or [lower, upper]. Range for random zoom. If a float, `[lower, upper] = [1-zoom_range, 1+zoom_range]`.
-    - __channel_shift_range__: Float. Range for random channel shifts.
-    - __fill_mode__: One of {"constant", "nearest", "reflect" or "wrap"}.  Points outside the boundaries of the input are filled according to the given mode.
-    - __cval__: Float or Int. Value used for points outside the boundaries when `fill_mode = "constant"`.
-    - __horizontal_flip__: Boolean. Randomly flip inputs horizontally.
-    - __vertical_flip__: Boolean. Randomly flip inputs vertically.
-    - __dim_ordering__: One of {"th", "tf"}.
-        "tf" mode means that the images should have shape `(samples, width, height, channels)`,
-        "th" mode means that the images should have shape `(samples, channels, width, height)`.
+- __引数__:
+    - __featurewise_center__: 真理値．データセット全体で，入力の平均を0にします．
+    - __samplewise_center__: 真理値． 各サンプルの平均を0にします．
+    - __featurewise_std_normalization__: 真理値． 入力をデータセットの標準偏差で正規化します．
+    - __samplewise_std_normalization__: 真理値．各入力をその標準偏差で正規化します．
+    - __zca_whitening__: 真理値．ZCA白色化を適用します．
+    - __rotation_range__: 整数．画像をランダムに回転する回転範囲．
+    - __width_shift_range__: 浮動小数点数（横幅に対する割合）．ランダムに水平シフトする範囲．
+    - __height_shift_range__: 浮動小数点数（縦幅に対する割合）．ランダムに垂直シフトする範囲．
+    - __shear_range__: 浮動小数点数．シアー強度（反時計回りのシアー角度（ラジアン））．
+    - __zoom_range__: 浮動小数点数または[lower，upper]．ランダムにズームする範囲．浮動小数点数が与えられた場合，`[lower, upper] = [1-zoom_range, 1+zoom_range]`となります．
+    - __channel_shift_range__: 浮動小数点数．ランダムにチャンネルをシフトする範囲．
+    - __fill_mode__: {"constant", "nearest", "reflect", "wrap"}のいずれか．指定されたモードに応じて，入力画像の境界周りを埋めます．
+    - __cval__: 浮動小数点数または整数．`fill_mode = "constant"`のときに利用される値．
+    - __horizontal_flip__: 真理値．水平方向に入力をランダムに反転します．
+    - __vertical_flip__: 真理値．垂直方向に入力をランダムに反転します．
+    - __dim_ordering__: {"th", "tf"}のいずれか．
+        "tf"モードは入力の形状が`(samples, width, height, channels)`であることを想定します．
+        "th"モードは入力の形状が`(samples, channels, width, height)`であることを想定します．
 
-- __Methods__:
-    - __fit(X)__: Required if featurewise_center or featurewise_std_normalization or zca_whitening. Compute necessary quantities on some sample data.
-        - __Arguments__:
-            - __X__: sample data.
-            - __augment__: Boolean (default: False). Whether to fit on randomly augmented samples.
-            - __rounds__: int (default: 1). If augment, how many augmentation passes over the data to use.
+- __メソッド__:
+    - __fit(X)__: featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要になります．いくつかのサンプルに対して必要な値を計算します．
+        - __引数__:
+            - __X__: サンプルデータ．
+            - __augment__: 真理値（デフォルト: False）．ランダムにサンプルを拡張するかどうか．
+            - __rounds__: 整数（デフォルト: 1）．augumentが与えられたときに，利用するデータに対して何回データ拡張を行うか．
     - __flow(X, y)__:
-        - __Arguments__:
-            - __X__: data.
-            - __y__: labels.
-            - __batch_size__: int (default: 32).
-            - __shuffle__: boolean (defaut: False).
-            - __save_to_dir__: None or str. This allows you to optimally specify a directory to which to save the augmented pictures being generated (useful for visualizing what you are doing).
-            - __save_prefix__: str. Prefix to use for filenames of saved pictures.
-            - __save_format__: one of "png", jpeg".
+        - __引数__:
+            - __X__: データ．
+            - __y__: ラベル．
+            - __batch_size__: 整数（デフォルト: 32）．
+            - __shuffle__: 真理値（デフォルト: False）．
+            - __save_to_dir__: Noneまたは文字列．生成された拡張画像を保存するディレクトリ（どのような処理を行ったか確認するのに役立つでしょう）．
+            - __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプレフィックス．
+            - __save_format__: "png"または"jpeg"．
 
-- __Example__:
+- __例__:
+
 ```python
 (X_train, y_train), (X_test, y_test) = cifar10.load_data(test_split=0.1)
 Y_train = np_utils.to_categorical(y_train, nb_classes)
