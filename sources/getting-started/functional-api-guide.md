@@ -9,7 +9,6 @@ functional APIは、複数の出力があるモデルや有向非巡回グラフ
 -----
 
 ## First example: fully connected network
-## 最初の例: 全結合ネットワーク
 
 下記のネットワークは`Sequential` modelによっても定義可能ですが、
 functional APIを使ったシンプルな例を見てきましょう。
