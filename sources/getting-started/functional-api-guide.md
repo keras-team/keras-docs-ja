@@ -1,20 +1,22 @@
 # Getting started with the Keras functional API
 
-The Keras functional API is the way to go for defining complex models, such as multi-output models, directed acyclic graphs, or models with shared layers.
+functional APIは、複数の出力があるモデルや有向非巡回グラフ、共有レイヤーを持ったモデルなどの複雑なモデルを定義するためのインターフェースです。
 
-This guide assumes that you are already familiar with the `Sequential` model.
+ここでは`Sequential` modelについて既に知識があることを前提として説明します。
 
-Let's start with something simple.
+シンプルな例から見てきましょう。
 
 -----
 
 ## First example: fully connected network
+## 最初の例: 全結合ネットワーク
 
-The `Sequential` model is probably a better choice to implement such a network, but it helps to start with something really simple.
+下記のネットワークは`Sequential` modelによっても定義可能ですが、
+functional APIを使ったシンプルな例を見てきましょう。
 
-- A layer instance is callable (on a tensor), and it returns a tensor
-- Input tensor(s) and output tensor(s) can then be used to define a `Model`
-- Such a model can be trained just like Keras `Sequential` models.
+- layerのインスタンスは関数呼び出し可能で、戻り値としてtensorを返します
+- `Model`を定義することで入力と出力のtensorは接続されます
+- 上記で定義したモデルは`Sequential`と同様に利用可能です
 
 ```python
 from keras.layers import Input, Dense
@@ -41,7 +43,7 @@ model.fit(data, labels)  # starts training
 
 ## All models are callable, just like layers
 
-With the functional API, it is easy to re-use trained models: you can treat any model as if it were a layer, by calling it on a tensor. Note that by calling a model you aren't just re-using the *architecture* of the model, you are also re-using its weights.
+functional APIを利用することで、学習済みモデルの再利用が簡単になります: 全てのモデルを、tensorを引数としたlayerのように扱うことができます。これにより、モデルのアーキテクチャだけでなく、モデルの重みも再利用することができます。
 
 ```python
 x = Input(shape=(784,))
@@ -49,7 +51,8 @@ x = Input(shape=(784,))
 y = model(x)
 ```
 
-This can allow, for instance, to quickly create models that can process *sequences* of inputs. You could turn an image classification model into a video classification model, in just one line.
+一連のシーケンスを処理するモデルを簡単に設計することが可能となります。
+例えば画像識別モデルをたった1行で動画識別モデルに応用することもできます。
 
 ```python
 from keras.layers import TimeDistributed
@@ -68,19 +71,21 @@ processed_sequences = TimeDistributed(model)(input_sequences)
 
 ## Multi-input and multi-output models
 
-Here's a good use case for the functional API: models with multiple inputs and outputs. The functional API makes it easy to manipulate a large number of intertwined datastreams.
+functional APIは複数の入出力を持ったモデルに最適です。
+複数の複雑なデータストリームを簡単に扱うことが出来ます。
 
-Let's consider the following model. We seek to predict how many retweets and likes a news headline will receive on Twitter. The main input to the model will be the headline itself, as a sequence of words, but to spice things up, our model will also have an auxiliary input, receiving extra data such as the time of day when the headline was posted, etc.
-The model will also be supervised via two loss functions. Using the main loss function earlier in a model is a good regularization mechanism for deep models.
+Twitterの新しいニュースヘッドラインを受信した際、そのツイートのリツイートやライクの回数を予測する例を考えます。主な入力はヘッドラインの単語のシーケンスですが、スパイスとして、ヘッドラインの投稿時間などのデータを入力として追加します。
+このモデルは2つの損失関数によって学習されます。
 
-Here's what our model looks like:
+以下がモデルの図になります。
 
 <img src="http://s3.amazonaws.com/keras.io/img/multi-input-multi-output-graph.png" alt="multi-input-multi-output-graph" style="width: 400px;"/>
 
-Let's implement it with the functional API.
+functional APIを利用してこのネットワークを実装してみましょう。
 
-The main input will receive the headline, as a sequence of integers (each integer encodes a word).
-The integers will be between 1 and 10,000 (a vocabulary of 10,000 words) and the sequences will be 100 words long.
+main inputはヘッドラインを整数のシーケンス(それぞれの整数は単語をエンコードしたしたもの)として受け取ります。
+整数の範囲は1から10000となり（単語数は10000語)、各シーケンスは長さ100単語で構成されます。
+
 
 ```python
 from keras.layers import Input, Embedding, LSTM, Dense, merge
@@ -99,13 +104,14 @@ x = Embedding(output_dim=512, input_dim=10000, input_length=100)(main_input)
 lstm_out = LSTM(32)(x)
 ```
 
-Here we insert the auxiliary loss, allowing the LSTM and Embedding layer to be trained smoothly even though the main loss will be much higher in the model.
+補助損失を追加し、LSTMとEmbeddeding layerの学習をスムーズに行えるようにします。
+
 
 ```python
 auxiliary_loss = Dense(1, activation='sigmoid', name='aux_output')(lstm_out)
 ```
 
-At this point, we feed into the model our auxiliary input data by concatenating it with the LSTM output:
+ここで、補助の入力データをLSTMの出力とマージしてモデルへ流し込みます。
 
 ```python
 auxiliary_input = Input(shape=(5,), name='aux_input')
@@ -120,30 +126,30 @@ x = Dense(64, activation='relu')(x)
 main_loss = Dense(1, activation='sigmoid', name='main_output')(x)
 ```
 
-This defines a model with two inputs and two outputs:
+2つの入力と2つの出力を持ったモデルを定義します。
 
 ```python
 model = Model(input=[main_input, auxiliary_input], output=[main_loss, auxiliary_loss])
 ```
 
-We compile the model and assign a weight of 0.2 to the auxiliary loss.
-To specify different `loss_weights` or `loss` for each different output, you can use a list or a dictionary.
-Here we pass a single loss as the `loss` argument, so the same loss will be used on all outputs.
+モデルをコンパイルし、補助損失に0.2の重み付けを行います。
+様々な`loss_weights`や`loss`を対応付けるためにlistもしくはdictionaryを利用します。
+`loss`に１つの損失関数を与えた場合、全ての出力に対して同一の損失関数が適用されます。
 
 ```python
 model.compile(optimizer='rmsprop', loss='binary_crossentropy',
               loss_weights=[1., 0.2])
 ```
 
-We can train the model by passing it lists of input arrays and target arrays:
+モデルに入力と教師データをlistで渡すことで学習できます。
+
 
 ```python
 model.fit([headline_data, additional_data], [labels, labels],
           nb_epoch=50, batch_size=32)
 ```
 
-Since our inputs and outputs are named (we passed them a "name" argument),
-We could also have compiled the model via:
+入力と出力に名前付けを行っていれば(引数"name"を利用)、下記のような方法でモデルをコンパイルできます。
 
 ```python
 model.compile(optimizer='rmsprop',
@@ -160,15 +166,20 @@ model.fit({'main_input': headline_data, 'aux_input': additional_data},
 
 ## Shared layers
 
-Another good use for the functional API are models that use shared layers. Let's take a look at shared layers.
+その他のfunctional APIの利用例として、共有レイヤーがあります。
+共有レイヤーについて考えてみましょう。
 
-Let's consider a dataset of tweets. We want to build a model that can tell whether two tweets are from the same person or not (this can allow us to compare users by the similarity of their tweets, for instance).
+ツイートのデータセットの例を考えてみましょう。2つのツイートが同じ人物からつぶやかれたかどうかを判定するモデルを作りたいとします。(例えばこれによりユーザーの類似度を比較することができます)
 
-One way to achieve this is to build a model that encodes two tweets into two vectors, concatenates the vectors and adds a logistic regression of top, outputting a probability that the two tweets share the same author. The model would then be trained on positive tweet pairs and negative tweet pairs.
+これを実現する一つの方法として、2つのツイートを2つのベクトルにエンコードし、それらをマージした後、ロジスティクス回帰を行うことで、その2つのツイートが同じ人物から投稿されたかどうかの確率を出力できます。
+このモデルはポジティブなツイートのペアとネガティブなツイートのペアを用いて学習することができます。
 
-Because the problem is symetric, the mechanism that encodes the first tweet should be reused (weights and all) to encode the second tweet. Here we use a shared LSTM layer to encode the tweets.
+問題はシンメトリックであるため、1つめのツイートのエンコードメカニズムは2つめのツイートのエンコード時に再利用出来ます。
+ここではLSTMの共有レイヤーによりツイートをエンコードします。
 
-Let's build this with the functional API. We will take as input for a tweet a binary matrix of shape `(140, 256)`, i.e. a sequence of 140 vectors of size 256, where each dimension in the 256-dimensional vector encodes the presence/absence of a character (out of an alphabet of 256 frequent characters).
+functional APIでこのモデルを作成してみましょう。
+入力として`(140, 256)`のバイナリー行列をとります。
+サイズが256の140個のシーケンスで、256次元のベクトルの各次元は文字(アルファベット以外も含めた256文字の出現頻度の高いもの）の有無を表します。
 
 ```python
 from keras.layers import Input, LSTM, Dense, merge
@@ -178,7 +189,7 @@ tweet_a = Input(shape=(140, 256))
 tweet_b = Input(shape=(140, 256))
 ```
 
-To share a layer across different inputs, simply instantiate the layer once, then call it on as many inputs as you want:
+それぞれのインプット間でレイヤーを共有するために、１つのレイヤーを生成し、そのレイヤーを用いて複数の入力を処理します。
 
 ```python
 # this layer can take as input a matrix
@@ -210,15 +221,20 @@ model.fit([data_a, data_b], labels, nb_epoch=10)
 
 Let's pause to take a look at how to read the shared layer's output or output shape.
 
+共有レイヤーの出力や出力のshapeを見てみましょう。
+
 -----
 
 ## The concept of layer "node"
 
-Whenever you are calling a layer on some input, you are creating a new tensor (the output of the layer), and you are adding a "node" to the layer, linking the input tensor to the output tensor. When you are calling the same layer multiple times, that layer owns multiple nodes indexed as 0, 1, 2...
+ある入力を用いてレイヤーを関数呼び出しするときは常に新しいtensor(レイヤーの出力)を生成しており、レイヤーにノードを追加すると入力のテンソルと出力のテンソルはリンクされます。
+同じレイヤーを複数回呼び出す際、そのレイヤーは0, 1, 2...とインデックスされた複数のノードを所有することになります。
 
-In previous versions of Keras, you could obtain the output tensor of a layer instance via `layer.get_output()`, or its output shape via `layer.output_shape`. You still can (except `get_output()` has been replaced by the property `output`). But what if a layer is connected to multiple inputs?
+以前のバージョンのKerasでは、`layer.get_output()`によって出力のテンソルを取得でき、`layer.output_shape`によって形を取得できました。
+もちろん現在のバージョンでもこれらは利用可能です(`get_output()`は`output`というプロパティーに変更されました）。
+しかし複数の入力が接続されているレイヤーはどうしたらよいでしょうか？
 
-As long as a layer is only connected to one input, there is no confusion, and `.output` will return the one output of the layer:
+1つのレイヤーに1つの入力しかない場合は問題はなく`.output`がレイヤー唯一の出力を返してくれるでしょう。
 
 ```python
 a = Input(shape=(140, 256))
@@ -229,7 +245,8 @@ encoded_a = lstm(a)
 assert lstm.output == encoded_a
 ```
 
-Not so if the layer has multiple inputs:
+複数の入力がある場合はそうはなりません。
+
 ```python
 a = Input(shape=(140, 256))
 b = Input(shape=(140, 256))
@@ -246,16 +263,17 @@ hence the notion of "layer output" is ill-defined.
 Use `get_output_at(node_index)` instead.
 ```
 
-Okay then. The following works:
+下記は正常に動作します。
 
 ```python
 assert lstm.get_output_at(0) == encoded_a
 assert lstm.get_output_at(1) == encoded_b
 ```
 
-Simple enough, right?
+シンプルですね。
 
-The same is true for the properties `input_shape` and `output_shape`: as long as the layer has only one node, or as long as all nodes have the same input/output shape, then the notion of "layer output/input shape" is well defined, and that one shape will be returned by `layer.output_shape`/`layer.input_shape`. But if, for instance, you apply a same `Convolution2D` layer to an input of shape `(3, 32, 32)`, and then to an input of shape `(3, 64, 64)`, the layer will have multiple input/output shapes, and you will have to fetch them by specifying the index of the node they belong to:
+`input_shape`と`output_shape`についても同じことが言えます。
+レイヤーが1つのノードしか持っていない、もしくは全てのノードが同じ入出力のshapeであれば、レイヤーの入出力のshapeが一意に定まり、`layer.output_shape`/`layer.input_shape`によって1つのshapeを返します。しかしながら、1つの`Convolution2D`レイヤーに`(3, 32, 32)`の入力と`(3, 64, 64)`の入力を行った場合、そのレイヤーは複数のinput/output shapeを持つことになるため、それぞれのshapeはノードのインデックスを指定することで取得することができます。
 
 ```python
 a = Input(shape=(3, 32, 32))
@@ -279,9 +297,12 @@ assert conv.get_input_shape_at(1) == (None, 3, 64, 64)
 
 Code examples are still the best way to get started, so here are a few more.
 
+コード例を見ることは学習時に非常に有効です。
+その他の例も見てみましょう。
+
 ### Inception module
 
-For more information about the Inception architecture, see [Going Deeper with Convolutions](http://arxiv.org/abs/1409.4842).
+Inceptionモデルについての詳細は[Going Deeper with Convolutions](http://arxiv.org/abs/1409.4842)を参照。
 
 ```python
 from keras.layers import merge, Convolution2D, MaxPooling2D, Input
@@ -302,7 +323,7 @@ output = merge([tower_1, tower_2, tower_3], mode='concat', concat_axis=1)
 
 ### Residual connection on a convolution layer
 
-For more information about residual networks, see [Deep Residual Learning for Image Recognition](http://arxiv.org/abs/1512.03385).
+Residual networksモデルについての詳細は[Deep Residual Learning for Image Recognition](http://arxiv.org/abs/1512.03385)を参照。
 
 ```python
 from keras.layers import merge, Convolution2D, Input
@@ -317,7 +338,7 @@ z = merge([x, y], mode='sum')
 
 ### Shared vision model
 
-This model re-uses the same image-processing module on two inputs, to classify whether two MNIST digits are the same digit or different digits.
+このモデルでは、2つのMNISTの数字が同じものかどうかを識別するために、同じ画像処理のモジュールを2つの入力で再利用しています。
 
 ```python
 from keras.layers import merge, Convolution2D, MaxPooling2D, Input, Dense, Flatten
@@ -348,9 +369,10 @@ classification_model = Model([digit_a, digit_b], out)
 
 ### Visual question answering model
 
-This model can select the correct one-word answer when asked a natural-language question about a picture.
+このモデルは写真に対する自然言語の質問に対して1単語の解答を選択する事ができます。
 
-It works by encoding the question into a vector, encoding the image into a vector, concatenating the two, and training on top a logistic regression over some vocabulary of potential answers.
+質問と画像をそれぞれベクトルにエンコードし、それらを1つに結合して、解答となる語彙を正解データとしてロジスティック回帰することで学習させることで実現できます。
+
 
 ```python
 from keras.layers import Convolution2D, MaxPooling2D, Flatten
@@ -397,7 +419,8 @@ vqa_model = Model(input=[image_input, question_input], output=output)
 
 ### Video question answering model
 
-Now that we have trained our image QA model, we can quickly turn it into a video QA model. With appropriate training, you will be able to show it a short video (e.g. 100-frame human action) and ask a natural language question about the video (e.g. "what sport is the boy playing?" -> "football").
+画像のQAモデルを学習したので、そのモデルを応用して動画のQA modelを作成してみましょう。
+適切な学習を行うことで、短い動画や(100フレームの人物行動)や動画を用いた自然言語のQAへ応用することができます。
 
 ```python
 from keras.layers import TimeDistributed
