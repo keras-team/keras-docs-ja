@@ -29,7 +29,7 @@ __引数__
 	[objectives](/objectives) をご覧下さい。
 - __metrics__: 訓練や検証の際にモデルを評価するためのメトリックのリスト
 	典型的には `metrics=['accuracy']`を使用するでしょう。
-- __sample_weight_mode__: もし時間ごとのサンプル重み付け(2次元重み付)　を行う必要があれば
+- __sample_weight_mode__: もし時間ごとのサンプルの重み付け(2次元重み付け)　を行う必要があれば
 	"temporal" と設定して下さい。
 	"None" の場合、サンプルへの重み(1次元重み)　付けを既定値としています。
 - __kwargs__: Theano がバックエンドの場合、 これらはK.function に渡されます。
