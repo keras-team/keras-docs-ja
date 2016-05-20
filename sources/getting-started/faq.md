@@ -20,12 +20,11 @@ Kerasがあなたのお役に立てたら，ぜひ著書のなかでKerasを引�
 
 ```
 @misc{chollet2015keras,
-  author = {Chollet, François},
-  title = {Keras},
-  year = {2015},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/fchollet/keras}}
+  title={Keras},
+  author={Chollet, Fran\c{c}ois},
+  year={2015},
+  publisher={GitHub},
+  howpublished={\url{https://github.com/fchollet/keras}},
 }
 ```
 
