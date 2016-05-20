@@ -2,7 +2,7 @@
 
 はじめに、 [Keras のシーケンシャルモデルのガイド](/getting-started/sequential-model-guide) をご覧下さい。
 
-## モデルの便利なアトリビュート
+## モデルの有用なアトリビュート
 
 - `model.layers` は、モデルに加えたレイヤーのリストです。
 
