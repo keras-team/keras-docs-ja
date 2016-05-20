@@ -1,15 +1,15 @@
-# The Sequential model API
+# シーケンシャルモデルの API
 
-To get started, read [this guide to the Keras Sequential model](/getting-started/sequential-model-guide).
+はじめに、 [Keras のシーケンシャルモデルのガイド](/getting-started/sequential-model-guide) をご覧下さい。
 
-## Useful attributes of Model
+## モデルの有用なアトリビュート
 
-- `model.layers` is a list of the layers added to the model.
+- `model.layers` は、モデルに加えたレイヤーのリストです。
 
 
 ----
 
-## Sequential model methods
+## シーケンシャルモデルのメソッド
 
 ### compile
 
@@ -19,24 +19,23 @@ compile(self, optimizer, loss, metrics=[], sample_weight_mode=None)
 ```
 
 
-Configures the learning process.
+学習過程の設定。
 
-__Arguments__
+__引数__
 
-- __optimizer__: str (name of optimizer) or optimizer object.
-	See [optimizers](/optimizers).
-- __loss__: str (name of objective function) or objective function.
-	See [objectives](/objectives).
-- __metrics__: list of metrics to be evaluated by the model
-	during training and testing.
-	Typically you will use `metrics=['accuracy']`.
-- __sample_weight_mode__: if you need to do timestep-wise
-	sample weighting (2D weights), set this to "temporal".
-	"None" defaults to sample-wise weights (1D).
-- __kwargs__: for Theano backend, these are passed into K.function.
-	Ignored for Tensorflow backend.
+- __optimizer__: 文字列型str(optimizer　の名前) あるいは optimizer のオブジェクト。
+	[optimizers](/optimizers) をご覧下さい。
+- __loss__: 文字列型 str(objective 関数の名前) あるいは objective 関数。
+	[objectives](/objectives) をご覧下さい。
+- __metrics__: 訓練や検証の際にモデルを評価するためのメトリックのリスト
+	典型的には `metrics=['accuracy']`を使用するでしょう。
+- __sample_weight_mode__: もし時間ごとのサンプルの重み付け(2次元重み付け)　を行う必要があれば
+	"temporal" と設定して下さい。
+	"None" の場合、サンプルへの重み(1次元重み)　付けを既定値としています。
+- __kwargs__: Theano がバックエンドの場合、 これらはK.function に渡されます。
+	Tensorflow がバックエンドの場合は無視されます。
 
-__Example__
+__例__
 
 ```python
 	model = Sequential()
@@ -57,47 +56,41 @@ fit(self, x, y, batch_size=32, nb_epoch=10, verbose=1, callbacks=[], validation_
 ```
 
 
-Trains the model for a fixed number of epochs.
+固定回のエポック数でモデルをトレーニングする。
 
-__Arguments__
+__引数__
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __y__: labels, as a Numpy array.
-- __batch_size__: integer. Number of samples per gradient update.
-- __nb_epoch__: integer, the number of epochs to train the model.
-- __verbose__: 0 for no logging to stdout,
-	1 for progress bar logging, 2 for one log line per epoch.
-- __callbacks__: list of `keras.callbacks.Callback` instances.
-	List of callbacks to apply during training.
-	See [callbacks](/callbacks).
-- __validation_split__: float (0. < x < 1).
-	Fraction of the data to use as held-out validation data.
-- __validation_data__: tuple (X, y) to be used as held-out
-	validation data. Will override validation_split.
-- __shuffle__: boolean or str (for 'batch').
-	Whether to shuffle the samples at each epoch.
-	'batch' is a special option for dealing with the
-	limitations of HDF5 data; it shuffles in batch-sized chunks.
-- __class_weight__: dictionary mapping classes to a weight value,
-	used for scaling the loss function (during training only).
-- __sample_weight__: Numpy array of weights for
-	the training samples, used for scaling the loss function
-	(during training only). You can either pass a flat (1D)
-	Numpy array with the same length as the input samples
-	- __(1__:1 mapping between weights and samples),
-	or in the case of temporal data,
-	you can pass a 2D array with shape (samples, sequence_length),
-	to apply a different weight to every timestep of every sample.
-	In this case you should make sure to specify
-	sample_weight_mode="temporal" in compile().
+- __x__: 入力データ, 形式は Numpy の配列、あるいはNumpy 配列のリスト
+	(モデルに複数の入力がある場合).
+- __y__: ラベル, 形式は Numpy 配列.
+- __batch_size__: 整数で、 設定したサンプル数ごとに勾配の更新を行う。
+- __nb_epoch__: 整数で、 モデルをトレーニングするエポック数。
+- __verbose__: 0 とすると標準出力にログを出力しない。
+	1 の場合ログを進捗バーで標準出力する、 2 の場合はエポックごとに1 行のログを出力する。 
+- __callbacks__: `keras.callbacks.Callback` にあるインスタンスのリスト。
+	トレーニングの間callbacks のリストを適用する。
+	[callbacks](/callbacks)をご覧下さい。
+- __validation_split__: float (0. < x < 1)型で、
+	ホールドアウト検証のデータとして使うデータの割合。
+- __validation_data__: ホールドアウト検証のデータとして使うデータのタプル (X, y)。
+	validation_split　を無視する。
+- __shuffle__: boolean　型もしくはstr 型(for 'batch')。
+	各エポックにおいてサンプルをシャッフルするかどうか。
+	'batch' はHDF5 データだけに使える特別なオプションである。バッチサイズのチャンクの中においてシャッフルする。
+- __class_weight__: dictionary 型で、重みの値でクラスを分ける、
+	損失関数をスケーリングするために(トレーニングの間だけ)使う。
+- __sample_weight__: Numpy 配列で、トレーニングのサンプルに対する重みを格納する。
+	これは損失関数をスケーリングするために(トレーニングの間だけ)使用する。
+	入力サンプルと同じ長さの1次元のNumpy 配列、
+	- __(重みとサンプルの間における1__:1 の写像),
+	あるいは時間的なデータの場合において、2次元配列の(samples, sequence_length) という形式で、
+	すべてのサンプルの各時間において異なる重みを適用できる。
+	この場合、compile() の中でsample_weight_mode="temporal" と確実に明記すべきです。
 
-__Returns__
+__返却値__
 
-A `History` object. Its `History.history` attribute is
-a record of training loss values and metrics values
-at successive epochs, as well as validation loss values
-and validation metrics values (if applicable).
+`History` オブジェクト。 `History.history` アトリビュートは
+実行に成功したエポックにおける訓練の損失値とメトリックの値の記録と、(適用可能ならば)検証における損失値とメトリックの値も記録している。
 
 ----
 
@@ -109,23 +102,22 @@ evaluate(self, x, y, batch_size=32, verbose=1, sample_weight=None)
 ```
 
 
-Computes the loss on some input data, batch by batch.
+バッチごとにある入力データにおける損失を計算する。
 
-__Arguments__
+__引数__
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __y__: labels, as a Numpy array.
-- __batch_size__: integer. Number of samples per gradient update.
-- __verbose__: verbosity mode, 0 or 1.
-- __sample_weight__: sample weights, as a Numpy array.
+- __x__: 入力データ、Numpy 配列あるいはNumpy 配列のリスト
+	(モデルに複数の入力がある場合).
+- __y__: ラベル、 Numpy 配列の形式。
+- __batch_size__: 整数で、指定したサンプル数で勾配の更新を行う。
+- __verbose__: 進行状況メッセージ出力モードで、 0 または 1。
+- __sample_weight__: サンプルの重み、 Numpy 配列の形式。
 
-__Returns__
+__返却値__
 
-Scalar test loss (if the model has no metrics)
-or list of scalars (if the model computes other metrics).
-The attribute `model.metrics_names` will give you
-the display labels for the scalar outputs.
+スカラーで、テストデータの損失(モデルのメトリックを設定していない場合)
+あるいはスカラーのリスト(モデルが他のメトリックを計算している場合)。
+アトリビュート`model.metrics_names` により、スカラーの出力でラベルを表示する。
 
 ----
 
@@ -136,19 +128,17 @@ the display labels for the scalar outputs.
 predict(self, x, batch_size=32, verbose=0)
 ```
 
+入力サンプルに対する予測値の出力を生成し、サンプルを加工してバッチ処理する。
 
-Generates output predictions for the input samples,
-processing the samples in a batched way.
+__引数__
 
-__Arguments__
+- __x__: 入力データで、Numpy 配列の形式。
+- __batch_size__: 整数。
+- __verbose__: 進行状況メッセージ出力モード、 0 または 1。
 
-- __x__: the input data, as a Numpy array.
-- __batch_size__: integer.
-- __verbose__: verbosity mode, 0 or 1.
+__返却値__
 
-__Returns__
-
-A Numpy array of predictions.
+予測値を格納した Numpy 配列 
 
 ----
 
@@ -160,19 +150,17 @@ predict_classes(self, x, batch_size=32, verbose=1)
 ```
 
 
-Generate class predictions for the input samples
-batch by batch.
+バッチごとに入力サンプルに対するクラスの予測を生成する。
 
-__Arguments__
+__引数__
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __batch_size__: integer.
-- __verbose__: verbosity mode, 0 or 1.
+- __x__: 入力データ、 Numpy 配列または Numpy 配列のリスト(モデルに複数の入力がある場合)。
+- __batch_size__: 整数。
+- __verbose__: 進行状況メッセージ出力モード、 0 または 1。
 
-__Returns__
+__返却値__
 
-A numpy array of class predictions.
+属するクラスの予測を格納したnumpy 配列。
 
 ----
 
@@ -184,19 +172,17 @@ predict_proba(self, x, batch_size=32, verbose=1)
 ```
 
 
-Generates class probability predictions for the input samples
-batch by batch.
+バッチごとに入力サンプルに対する各々のクラスに所属する確率の予測値を生成する。
 
-__Arguments__
+__引数__
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __batch_size__: integer.
-- __verbose__: verbosity mode, 0 or 1.
+- __x__: 入力データ、Numpy 配列または Numpy 配列のリスト(モデルに複数の入力がある場合)。
+- __batch_size__: 整数。
+- __verbose__: 進行状況メッセージ出力モード、 0 または 1。
 
-__Returns__
+__返却値__
 
-A Numpy array of probability predictions.
+確率の予測値を格納した Numpy 配列。
 
 ----
 
@@ -207,24 +193,21 @@ A Numpy array of probability predictions.
 train_on_batch(self, x, y, class_weight=None, sample_weight=None)
 ```
 
+サンプルのある1つのバッチにおける単一の勾配更新
 
-Single gradient update over one batch of samples.
+__引数__
 
-__Arguments__
+- __x__: 入力データ、Numpy 配列または Numpy 配列のリスト(モデルに複数の入力がある場合)。
+- __y__: ラベル、 Numpy 配列の形式。
+- __class_weight__: dictionary 型で、重みの値でクラスを分ける、
+	損失関数をスケーリングするために(トレーニングの間だけ)使う。
+- __sample_weight__: サンプルの重み、Numpy 配列の形式。
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __y__: labels, as a Numpy array.
-- __class_weight__: dictionary mapping classes to a weight value,
-	used for scaling the loss function (during training only).
-- __sample_weight__: sample weights, as a Numpy array.
+__返却値__
 
-__Returns__
-
-Scalar training loss (if the model has no metrics)
-or list of scalars (if the model computes other metrics).
-The attribute `model.metrics_names` will give you
-the display labels for the scalar outputs.
+スカラーでトレーニングの損失値(モデルにメトリックが設定されていない場合)
+あるいはスカラーのリスト(モデルが他のメトリックを計算している場合)。
+アトリビュート`model.metrics_names` により、スカラーの出力でラベルを表示する。
 
 ----
 
@@ -235,22 +218,19 @@ the display labels for the scalar outputs.
 test_on_batch(self, x, y, sample_weight=None)
 ```
 
+サンプルの単一バッチにおけるモデルの評価
 
-Evaluates the model over a single batch of samples.
+__引数__
 
-__Arguments__
+- __x__: 入力データ、Numpy 配列または Numpy 配列のリスト(モデルに複数の入力がある場合)。
+- __y__: ラベル、 Numpy 配列の形式。
+- __sample_weight__: サンプルの重み、Numpy 配列の形式。
 
-- __x__: input data, as a Numpy array or list of Numpy arrays
-	(if the model has multiple inputs).
-- __y__: labels, as a Numpy array.
-- __sample_weight__: sample weights, as a Numpy array.
+__返却値__
 
-__Returns__
-
-Scalar test loss (if the model has no metrics)
-or list of scalars (if the model computes other metrics).
-The attribute `model.metrics_names` will give you
-the display labels for the scalar outputs.
+スカラーで、テストの損失値(モデルにメトリックが設定されていない場合)
+あるいはスカラーのリスト(モデルが他のメトリックを計算している場合)。
+アトリビュート`model.metrics_names` により、スカラーの出力でラベルを表示する。
 
 ----
 
@@ -261,8 +241,7 @@ the display labels for the scalar outputs.
 predict_on_batch(self, x)
 ```
 
-
-Returns predictions for a single batch of samples.
+サンプルの単一のバッチに対する予測値を返却する
 
 ----
 
@@ -273,44 +252,37 @@ Returns predictions for a single batch of samples.
 fit_generator(self, generator, samples_per_epoch, nb_epoch, verbose=1, callbacks=[], validation_data=None, nb_val_samples=None, class_weight=None, max_q_size=10)
 ```
 
+Python のジェネレータにより、バッチごとに生成されるデータにおけるモデルに適合させる。
+ジェネレータは効率化のために、モデルを平行に実行する。
+たとえば、これのおかげでCPU 上で画像におけるリアルタイムなデータの増加と並行してGPU でモデルをトレーニングできる。
 
-Fits the model on data generated batch-by-batch by
-a Python generator.
-The generator is run in parallel to the model, for efficiency.
-For instance, this allows you to do real-time data augmentation
-on images on CPU in parallel to training your model on GPU.
+__引数__
 
-__Arguments__
-
-- __generator__: a generator.
-	The output of the generator must be either
-	- a tuple (inputs, targets)
-	- a tuple (inputs, targets, sample_weights).
-	All arrays should contain the same number of samples.
-	The generator is expected to loop over its data
-	indefinitely. An epoch finishes when `samples_per_epoch`
-	samples have been seen by the model.
-- __samples_per_epoch__: integer, number of samples to process before
-	going to the next epoch.
-- __nb_epoch__: integer, total number of iterations on the data.
-- __verbose__: verbosity mode, 0, 1, or 2.
-- __callbacks__: list of callbacks to be called during training.
-- __validation_data__: this can be either
-	- a generator for the validation data
-	- a tuple (inputs, targets)
-	- a tuple (inputs, targets, sample_weights).
-- __nb_val_samples__: only relevant if `validation_data` is a generator.
-	number of samples to use from validation generator
-	at the end of every epoch.
-- __class_weight__: dictionary mapping class indices to a weight
-	for the class.
-- __max_q_size__: maximum size for the generator queue
+- __generator__: ジェネレータ。
+	ジェネレータの出力は以下のいずれかでなければならない、
+	- タプル  (inputs, targets)
+	- タプル (inputs, targets, sample_weights)。
+	どの配列も同数のサンプルを含まなければならない。ジェネレータは漠然とそのデータを繰り返すことを期待している。
+	`samples_per_epoch`数のサンプルが、そのモデルによって確認されたときにエポックが終了する。
+- __samples_per_epoch__: 整数で、 次のエポックに進む前に加工されるサンプル数
+- __nb_epoch__: 整数で、 データにおけるイテレーションの総数。
+- __verbose__: 進行状況メッセージ出力モードで、 0、 1、 あるいは 2。
+- __callbacks__: callbacks のリストで、トレーニングの際に呼び出される。
+- __validation_data__: 以下のいずれかである。
+	- 検証データに対するジェネレータ
+	- タプル (inputs, targets)
+	- タプル (inputs, targets, sample_weights)。
+- __nb_val_samples__: `validation_data` がジェネレータである場合だけ関係がある。
+	各エポックの終わりに検証用ジェネレータから使用するサンプルの数
+- __class_weight__: dictionary 型で、重みの値でクラスを分ける、
+	損失関数をスケーリングするために(トレーニングの間だけ)使う。
+- __max_q_size__: ジェネレータのキューの最大サイズ
 
 __Returns__
 
-A `History` object.
+`History` オブジェクト。
 
-__Example__
+__例__
 
 
 ```python
@@ -337,15 +309,12 @@ model.fit_generator(generate_arrays_from_file('/my_file.txt'),
 evaluate_generator(self, generator, val_samples, max_q_size=10)
 ```
 
-
-Evaluates the model on a data generator. The generator should
-return the same kind of data as accepted by `test_on_batch`.
+ジェネレータのデータにおけるモデルを評価する。ジェネレータは`test_on_batch`で受け取ったデータと同じ種類のデータを返却するべきである。
 
 - __Arguments__:
 - __generator__:
-	generator yielding tuples (inputs, targets)
-	or (inputs, targets, sample_weights)
+	ジェネレータが生成するタプルで (inputs, targets)
+	あるいは (inputs, targets, sample_weights)
 - __val_samples__:
-	total number of samples to generate from `generator`
-	before returning.
-- __max_q_size__: maximum size for the generator queue
+	返却する前に`generator`　により生成されるサンプルの総数
+- __max_q_size__: ジェネレータのキューの最大サイズ
