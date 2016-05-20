@@ -6,15 +6,15 @@ keras.preprocessing.text.text_to_word_sequence(text,
     filters=base_filter(), lower=True, split=" ")
 ```
 
-Split a sentence into a list of words.
+文章を単語のリストに分割します．
 
-- __Return__: List of words (str).
+- __戻り値__: 単語 (str) のリスト．
 
-- __Arguments__:
-    - __text__: str.
-    - __filters__: list (or concatenation) of characters to filter out, such as punctuation. Default: base_filter(), includes basic punctuation, tabs, and newlines.
-    - __lower__: boolean. Whether to set the text to lowercase.
-    - __split__: str. Separator for word splitting.
+- __引数__:
+    - __text__: 文字列．
+    - __filters__: 句読点などフィルタする文字を含むリスト（あるいはコレクション）．デフォルトは基本的な句読点，タブ，改行を含む`base_filter()`です．
+    - __lower__: 真理値．テキストを小文字にするかどうか．
+    - __split__: 文字列．単語を分割するセパレータ．
 
 ## one_hot
 
@@ -23,12 +23,12 @@ keras.preprocessing.text.one_hot(text, n,
     filters=base_filter(), lower=True, split=" ")
 ```
 
-One-hot encode a text into a list of word indexes in a vocabulary of size n.
+文章を単語インデックス（語彙数n）のリストに1-hotエンコードします．
 
-- __Return__: List of integers in [1, n]. Each integer encodes a word (unicity non-guaranteed).
+- __戻り値__: [1, n]の整数から構成されるリスト．各整数は単語をエンコードします（単一性は保証されません）．
 
-- __Arguments__: Same as `text_to_word_sequence` above.
-    - __n__: int. Size of vocabulary.
+- __引数__: `text_to_word_sequence` と同じです．
+    - __n__: 整数．語彙数．
 
 ## Tokenizer
 
@@ -37,45 +37,44 @@ keras.preprocessing.text.Tokenizer(nb_words=None, filters=base_filter(),
     lower=True, split=" ")
 ```
 
-Class for vectorizing texts, or/and turning texts into sequences (=list of word indexes, where the word of rank i in the dataset (starting at 1) has index i).
+テキストをベクトル化する，または／かつ，テキストをシーケンス（= データセット中でランクi（1から始まる）の単語がインデックスiを持つ単語インデックスのリスト）に変換するクラス．
 
-- __Arguments__: Same as `text_to_word_sequence` above.
-    - __nb_words__: None or int. Maximum number of words to work with (if set, tokenization will be restricted to the top nb_words most common words in the dataset).
+- __引数__: `text_to_word_sequence` と同じです．
+    - __nb_words__: Noneまたは整数．利用する単語の最大数（もしこの引数が与えられた場合，データセット中の頻度上位nb_wordsの単語に制限されます）．
 
-- __Methods__:
+- __メソッド__:
 
     - __fit_on_texts(texts)__: 
-        - __Arguments__:
-            - __texts__: list of texts to train on.
+        - __引数__:
+            - __texts__: 学習に使う文章のリスト．
 
     - __texts_to_sequences(texts)__
-        - __Arguments__: 
-            - __texts__: list of texts to turn to sequences.
-        - __Return__: list of sequences (one per text input).
+        - __引数__: 
+            - __texts__: シーケンスに変換する文章のリスト．
+        - __戻り値__: シーケンスのリスト（入力文章ごとに1つ）．
 
-    - __texts_to_sequences_generator(texts)__: generator version of the above. 
-        - __Return__: yield one sequence per input text.
+    - __texts_to_sequences_generator(texts)__: 上記のジェネレータ版．
+        - __戻り値__: 入力文章ごとに1つのシーケンス．
 
     - __texts_to_matrix(texts)__:
-        - __Return__: numpy array of shape `(len(texts), nb_words)`.
-        - __Arguments__:
-            - __texts__: list of texts to vectorize.
-            - __mode__: one of "binary", "count", "tfidf", "freq" (default: "binary").
+        - __戻り値__: `(len(texts), nb_words)` の形であるnumpy配列．
+        - __引数__:
+            - __texts__: ベクトル化する文章のリスト．
+            - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．
 
     - __fit_on_sequences(sequences)__: 
-        - __Arguments__:
-            - __sequences__: list of sequences to train on. 
+        - __引数__:
+            - __sequences__: 学習に使うシーケンスのリスト．
 
     - __sequences_to_matrix(sequences)__:
-        - __Return__: numpy array of shape `(len(sequences), nb_words)`.
-        - __Arguments__:
-            - __sequences__: list of sequences to vectorize.
-            - __mode__: one of "binary", "count", "tfidf", "freq" (default: "binary").
+        - __戻り値__: `(len(sequences), nb_words)` の形であるnumpy配列．
+        - __引数__:
+            - __sequences__: ベクトル化するシーケンスのリスト．
+            - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．
 
-- __Attributes__:
-    - __word_counts__: dictionary mapping words (str) to the number of times they appeared on during fit. Only set after fit_on_texts was called. 
-    - __word_docs__: dictionary mapping words (str) to the number of documents/texts they appeared on during fit. Only set after fit_on_texts was called.
-    - __word_index__: dictionary mapping words (str) to their rank/index (int). Only set after fit_on_texts was called.
-    - __document_count__: int. Number of documents (texts/sequences) the tokenizer was trained on. Only set after fit_on_texts or fit_on_sequences was called.
-
+- __属性__:
+    - __word_counts__: 単語（文字列）とそれがfit中に表れた回数をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
+    - __word_docs__: 単語（文字列）とfit中に表れた文書／文章の数をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
+    - __word_index__: 単語（文字列）とそのランク／インデックス（整数）をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
+    - __document_count__: 整数．訓練に利用された文書（文章／シーケンス）数．`fit_on_sequences`が呼ばれた後にセットされます．
 
