@@ -1,45 +1,40 @@
-# Wrappers for the Sciki-Learn API
+# Sciki-Learn APIのためのラッパー
 
-You can use `Sequential` Keras models (single-input only) as part of your Scikit-Learn workflow via the wrappers found at `keras.wrappers.sklearn.py`.
+`keras.wrappers.sklearn.py`にあるラッパーを通して，Kerasの`Sequential`モデル（1つの入力のみ）をScikit-Learnワークフローの一部として利用することができます．
 
-There are two wrappers available:
+2つのラッパーが利用可能です:
 
-`keras.wrappers.sklearn.KerasClassifier(build_fn=None, **sk_params)`, which implements the sklearn classifier interface,
+`keras.wrappers.sklearn.KerasClassifier(build_fn=None, **sk_params)`, これはsklearnのclassifierインターフェースを実装します．
 
-`keras.wrappers.sklearn.KerasRegressor(build_fn=None, **sk_params)`, which implements the sklearn regressor interface.
+`keras.wrappers.sklearn.KerasRegressor(build_fn=None, **sk_params)`, これはsklearnのregressorインターフェースを実装します．
 
-### Arguments
+### 引数
 
-- __build_fn__: callable function or class instance
-- __sk_params__: model parameters & fitting parameters
+- __build_fn__: 呼び出し可能な関数，または，クラスインスタンス
+- __sk_params__: モデルパラメータとfittingパラメータ
 
-`build_fn` should construct, compile and return a Keras model, which
-will then be used to fit/predict. One of the following
-three values could be passed to build_fn:
+`build_fn`は，Kerasモデルを構成し，コンパイルし，返します．
+このモデルは，fit/predictのために利用されます．以下の3つの値のうち
+1つをbuild_fnに与えることができます:
 
-1. A function
-2. An instance of a class that implements the __call__ method
-3. None. This means you implement a class that inherits from either
-`KerasClassifier` or `KerasRegressor`. The __call__ method of the
-present class will then be treated as the default build_fn.
+1. 関数
+2. __call__ メソッドを実装したクラスのインスタンス
+3. None．これは`KerasClassifier`または`KerasRegressor`を継承したクラスを
+あなたが実装することを意味します．この __call__ メソッドはbuild_fnのデフォルト
+として扱われます．
 
-`sk_params` takes both model parameters and fitting parameters. Legal model
-parameters are the arguments of `build_fn`. Note that like all other
-estimators in scikit-learn, 'build_fn' should provide defalult values for
-its arguments, so that you could create the estimator without passing any
-values to `sk_params`.
+`sk_params`はモデルパラメータとfittingパラメータの両方を取ります．
+モデルパラメータは`build_fn`の引数です．`sk_params`に何も与えなくとも予測器が作れるように，
+scikit-learnの他の予測器と同様に，`build_fn`はその引数にデフォルトパラメータを取ります．
 
-`sk_params` could also accept parameters for calling `fit`, `predict`,
-`predict_proba`, and `score` methods (e.g., `nb_epoch`, `batch_size`).
-fitting (predicting) parameters are selected in the following order:
+また，`sk_params`は`fit`，`predict`，`predict_proba`，および，`score`メソッドを
+呼ぶためのパラメータも取ります（例えば，`nb_epoch`, `batch_size`）．
+fitting (predicting) パラメータは以下の順番で選択されます:
 
-1. Values passed to the dictionary arguments of
-`fit`, `predict`, `predict_proba`, and `score` methods
-2. Values passed to `sk_params`
-3. The default values of the `keras.models.Sequential`
-`fit`, `predict`, `predict_proba` and `score` methods
+1. `fit`，`predict`，`predict_proba`，および，`score`メソッドの辞書引数に与えられた値
+2. `sk_params`に与えられた値
+3. `keras.models.Sequential`，`fit`，`predict`，`predict_proba`，および，`score`メソッドのデフォルト値
 
-When using scikit-learn's `grid_search` API, legal tunable parameters are
-those you could pass to `sk_params`, including fitting parameters.
-In other words, you could use `grid_search` to search for the best
-`batch_size` or `nb_epoch` as well as the model parameters.
+scikit-learnの`grid_search`APIを利用するとき，チューニングパラメータは`sk_params`に渡したものになります．
+これには，fittingパラメータも含まれます．つまり，最適なモデルパラメータだけでなく，最適な`batch_size`や
+`nb_epoch`を探すために，`grid_search`を利用することができます．
