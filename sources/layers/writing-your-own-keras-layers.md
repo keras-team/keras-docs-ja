@@ -1,12 +1,12 @@
-# Writing your own Keras layers
+# オリジナルのKerasレイヤを作成する
 
-For simple, stateless custom operations, you are probably better off using `layers.core.Lambda` layers. But for any custom operation that has trainable weights, you should implement your own layer.
+シンプルでステートレスなカスタム操作では、'layers.core.Lambda'を用いるべきでしょう。しかし、カスタム操作はトレーニング可能な重みをもっているため、オリジナルのレイヤを実装する必要があります。
 
-Here is the skeleton of a Keras layer. There are only three methods you need to implement:
+以下にKerasレイヤのスケルトンを示します。ここでは3つのメソッドを実装する必要があります。
 
-- `build(input_shape)`: this is where you will define your weights. Trainable weights should be added to the list `self.trainable_weights`. Other attributes of note are: `self.non_trainable_weights` (list) and `self.updates` (list of update tuples (tensor, new_tensor)). For an example of how to use `non_trainable_weights` and `updates`, see the code for the `BatchNormalization` layer.
-- `call(x)`: this is where the layer's logic lives. Unless you want you want your layer to support masking, you only have to care about the first argument passed to `call`: the input tensor.
-- `get_output_shape_for(input_shape)`: in case your layer modifies the shape of its input, you should specify here the shape transformation logic. This allows Keras to do automatic shape inference.
+- `build(input_shape)`: これは重みを定義するメソッドです。トレーニング可能な重みはリスト`self.trainable_weights`に追加されます。他の注意すべき属性は以下の通りです。`self.updates`(更新されるタプル(tensor, new_tensor)のリスト)。`non_trainable_weights`と`updates`の使用する例については、`BatchNormalization`レイヤのコードを参照してください。
+- `call(x)`: ここではレイヤのロジックを記述します。オリジナルのレイヤでマスキングをサポートしない限り、第一引数の入力テンソルが`call`をパスすることに気を付ければ大丈夫です。
+- `get_output_shape_for(input_shape)`: あなたが作成したレイヤで入力の形状を変更する場合には、ここで形状変換のロジックを指定する必要があります。こうすることでKerasは、自動的に形状を推定することができます。
 
 ```python
 from keras import backend as K
@@ -31,4 +31,4 @@ class MyLayer(Layer):
         return (input_shape[0], self.output_dim)
 ```
 
-The existing Keras layers provide ample examples of how to implement almost anything. Never hesitate to read the source code!
+既存のKerasレイヤは何を実装するにしても十分なサンプルを提供します。なので、躊躇せずソースコードを読んでください!
