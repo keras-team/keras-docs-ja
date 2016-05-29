@@ -1,40 +1,37 @@
 # Keras: Pythonの深層学習ライブラリー
 
-Kerasは、ミニマリストで、モジュラーなPythonで書かれた深層学習ライブラリー。迅速な処理を可能とすることに重点を置いたライブラリーであり、TensorFlowもTheanoも使えます。それでも起こりうる最小の処理スピードの遅れは、素晴らしい研究結果の鍵となることでしょう。
+Keras は最小限で記述できる,モジュール構造に対応しているニューラルネットワークのライブラリです。Pythonによって記述されており、TensorflowやTheanoに対応しています。
+革新的な研究、開発を行うためにはアイデアから結果まで最小限の時間で行うことが求められます。そこでKerasはより早い実装、改良を行うことを目的として開発されました。
 
-こんな時にKerasを使ってみましょう。
+Kerasは以下の深層学習のライブラリを必要とするときに使用できます。
 
-- 簡単で素早いプロトタイピング（モジュール全体を通して、最小で拡張性のある）をしたい時。
-- コンボリューションネットワークとリカレントネットワークの２つをまとめたい時。
-- 任意のコネクティビティスキーム（マルチインプット、アウトプットトレーニングを含む）を作りたい時。
-- 流れるようなCPUとGPUを実現したい時。
+- 簡潔で素早いプロトタイプの作成が可能となります。（全てモジュール構成可能、最小限の記述、 拡張性高い）
+- CNN (Convolutional Neural Network)とRNN (Recurrent Neural Network)共に実装が可能です。また、お互いを組み合わせた実装も可能となっています。
+- CPUやGPUでも動作します。
 
 Keras.ioの文章も参照してください。 KerasはPython 2.7-3.5に対応しています
 
-
 ------------------
 
 
-## Guiding principles
+## ガイドライン
 
-- __Modularity.__ A model is understood as a sequence or a graph of standalone, fully-configurable modules that can be plugged together with as little restrictions as possible. In particular, neural layers, cost functions, optimizers, initialization schemes, activation functions, regularization schemes are all standalone modules that you can combine to create new models.
-
-- __Minimalism.__ Each module should be kept short and simple. Every piece of code should be transparent upon first reading. No black magic: it hurts iteration speed and ability to innovate.
-
-- __Easy extensibility.__ New modules are dead simple to add (as new classes and functions), and existing modules provide ample examples. To be able to easily create new modules allows for total expressiveness, making Keras suitable for advanced research.
-
-- __Work with Python__. No separate models configuration files in a declarative format. Models are described in Python code, which is compact, easier to debug, and allows for ease of extensibility.
+- __モジュール性__：あらゆるモデルはスタンドアローンのモジュールの組み合わせで実装することが出来ます。各モジュールも簡単に組み合わせて使うことが出来ます。特に、ニューラルネットワークの各階層、目的関数、パラメータ最適化、初期化、活性化関数、正則化、それぞれがスタンドアローンのモジュールで、新しいモデルを作るときにそれらを組み合わせて実装することが出来ます。
+- __ミニマリズム__：それぞれのモジュールが短く、簡潔に構成されています。それぞれのコードが分かりやすく、ブラックボックス化されている部分がありません。これによって作業スピードが上がり、革新的な事をしやすくなるでしょう。
+- __拡張性__：新しいモジュールを追加するのがとても簡単です。（新しいクラスや関数に関しては）また、それぞれのモジュールには多くの実装例があります。新しいモジュールを簡潔に作成できるのであらゆる事を表現することが可能になっています。これによってKerasは先進的な研究に適するモデルとなりました。
+- __Pythonで実装しましょう。__ 各モデルはPythonによって実装されています。それはコンパクトでデバッグしやすく、簡単に拡張することが出来ます。
 
 
 ------------------
 
 
 
-## Getting started: 30 seconds to Keras
+## 30秒でkerasに入門しましょう。
 
-The core data structure of Keras is a __model__, a way to organize layers. The main type of model is the [`Sequential`](http://keras.io/getting-started/sequential-model-guide) model, a linear stack of layers. For more complex architectures, you should use the [Keras function API](http://keras.io/getting-started/functional-api-guide).
+Kerasの中心はネットワーク層を構築するモデル(__model__)にあります。　主なモデルとして線形に階層された逐次モデル([`Sequential`](http://keras.io/getting-started/sequential-model-guide))があります。
+更に複雑な構造を実装する場合、[Keras functional API](http://keras.io/getting-started/functional-api-guide).を用いる必要があります。
 
-Here's the `Sequential` model:
+逐次モデルの一例を見てみましょう。
 
 ```python
 from keras.models import Sequential
@@ -42,7 +39,7 @@ from keras.models import Sequential
 model = Sequential()
 ```
 
-Stacking layers is as easy as `.add()`:
+階層（レイヤー）をスタックするのは次のように簡単です:
 
 ```python
 from keras.layers.core import Dense, Activation
@@ -53,75 +50,84 @@ model.add(Dense(output_dim=10))
 model.add(Activation("softmax"))
 ```
 
-Once your model looks good, configure its learning process with `.compile()`:
+実装したモデルが良さそうに見えたら`.compile()`で学習過程を確認しましょう。
+
 ```python
 model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 ```
 
-If you need to, you can further configure your optimizer. A core principle of Keras is to make things reasonably simple, while allowing the user to be fully in control when they need to (the ultimate control being the easy extensibility of the source code).
+もし必要なら、最適化ルーチンを設定することも出来ます。Kerasの設計主義としてあらゆるものをシンプルに実装できるというものがあります。これはユーザーが必要なときにそれを直ぐに調整できるよう設計されているからです。
+
 ```python
 from keras.optimizers import SGD
 model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, momentum=0.9, nesterov=True))
 ```
 
-You can now iterate on your training data in batches:
+ここでトレーニングデータのバッチサイズを指定してエポック数だけ実行できます。
+
 ```python
 model.fit(X_train, Y_train, nb_epoch=5, batch_size=32)
 ```
 
-Alternatively, you can feed batches to your model manually:
+以上の代わりに、バッチサイズを別に規定することも出来ます。
+
 ```python
 model.train_on_batch(X_batch, Y_batch)
 ```
 
-Evaluate your performance in one line:
+また、たったの一行で学習精度を表示することも出来ます。
+
 ```python
 loss_and_metrics = model.evaluate(X_test, Y_test, batch_size=32)
 ```
 
-Or generate predictions on new data:
+また、新しいテストデータに対してモデルを適用することも出来ます。
+
 ```python
 classes = model.predict_classes(X_test, batch_size=32)
 proba = model.predict_proba(X_test, batch_size=32)
 ```
 
-Building a question answering system, an image classification model, a Neural Turing Machine, a word2vec embedder or any other model is just as fast. The ideas behind deep learning are simple, so why should their implementation be painful?
+質疑応答システムをや画像分類、外部記憶を持ったニューラルネットワーク（neural turning machine）,word2vecモデル、その他多くのモデルを高速かつシンプルに実装することが可能となりました。　深層学習の根底にあるアイデアはとてもシンプルです。実装もシンプルであるべきではないでしょうか？
 
-For a more in-depth tutorial about Keras, you can check out:
+Kerasについてもっと詳しい情報が知りたければ以下のチュートリアルを参照してください。
 
 - [Getting started with the Sequential model](http://keras.io/getting-started/sequential-model-guide)
 - [Getting started with the functional API](http://keras.io/getting-started/functional-api-guide)
 
-In the [examples folder](https://github.com/fchollet/keras/tree/master/examples) of the repository, you will find more advanced models: question-answering with memory networks, text generation with stacked LSTMs, etc.
+examples folderのレポジトリにはもっと高度なモデルが保存してあります。
+メモリーネットワークを用いた質疑応答システムや積層LSTMを用いた文章生成等です。
 
 ------------------
 
 
-## Installation
+## インストール
 
-Keras uses the following dependencies:
+Kerasは以下のライブラリに依存関係があります。
 
 - numpy, scipy
 - pyyaml
-- HDF5 and h5py (optional, required if you use model saving/loading functions)
+- HDF5 h5py (もし必要なら。関数をセーブしたりロードしたりして呼び出したい場合)
 - Optional but recommended if you use CNNs: cuDNN.
 
-*When using the Theano backend:*
+*Theanoをバックエンドで使用したい場合:*
 
 - Theano
     - [See installation instructions](http://deeplearning.net/software/theano/install.html#install).
 
-*When using the TensorFlow backend:*
+*Tensorflowをバックエンドで使用したい場合:*
 
 - TensorFlow
     - [See installation instructions](https://github.com/tensorflow/tensorflow#download-and-setup).
 
-To install Keras, `cd` to the Keras folder and run the install command:
+Kerasをインストールするには、まず、端末上でcdコマンドでkerasのフォルダに行って以下のインストールコマンドを入力してください。
+
 ```
 sudo python setup.py install
 ```
 
-You can also install Keras from PyPI:
+PyPIからもインストール出来ます。
+
 ```
 sudo pip install keras
 ```
@@ -129,29 +135,18 @@ sudo pip install keras
 ------------------
 
 
-## Switching from Theano to TensorFlow
+## TheanoからTensorflowに変更する方法
 
-By default, Keras will use Theano as its tensor manipulation library. [Follow these instructions](http://keras.io/backend/) to configure the Keras backend.
-
-------------------
-
-
-## Support
-
-You can ask questions and join the development discussion on the [Keras Google group](https://groups.google.com/forum/#!forum/keras-users).
-
-You can also post bug reports and feature requests in [Github issues](https://github.com/fchollet/keras/issues). Make sure to read [our guidelines](https://github.com/fchollet/keras/blob/master/CONTRIBUTING.md) first.
-
+初期ではKerasはTheanoをテンソル計算ライブラリとしています。　気になる方はKerasのバックエンドについての以下の導入事項を確認ください。[Follow these instructions](http://keras.io/backend/)
 
 ------------------
 
 
-## Why this name, Keras?
+## サポート
 
-Keras (κέρας) means _horn_ in Greek. It is a reference to a literary image from ancient Greek and Latin literature, first found in the _Odyssey_, where dream spirits (_Oneiroi_, singular _Oneiros_) are divided between those who deceive men with false visions, who arrive to Earth through a gate of ivory, and those who announce a future that will come to pass, who arrive through a gate of horn. It's a play on the words κέρας (horn) / κραίνω (fulfill), and ἐλέφας (ivory) / ἐλεφαίρομαι (deceive).
+もし、質問や開発についての議論に参加したい場合は [Keras Google group](https://groups.google.com/forum/#!forum/keras-users) まで。
 
-Keras was initially developed as part of the research effort of project ONEIROS (Open-ended Neuro-Electronic Intelligent Robot Operating System).
+また、バグ報告やgithub上のfeature requestがあればよろしくお願いします。また、その場合、先に [our guidelines](https://github.com/fchollet/keras/blob/master/CONTRIBUTING.md) を読まれる事をお願いします。
 
->_"Oneiroi are beyond our unravelling --who can be sure what tale they tell? Not all that men look for comes to pass. Two gates there are that give passage to fleeting Oneiroi; one is made of horn, one of ivory. The Oneiroi that pass through sawn ivory are deceitful, bearing a message that will not be fulfilled; those that come out through polished horn have truth behind them, to be accomplished for men who see them."_ Homer, Odyssey 19. 562 ff (Shewring translation).
 
 ------------------
