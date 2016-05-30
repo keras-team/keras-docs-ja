@@ -1,6 +1,6 @@
-# シーケンシャルモデルの API
+# Sequentialモデルの API
 
-はじめに、 [Keras のシーケンシャルモデルのガイド](/getting-started/sequential-model-guide) をご覧下さい。
+はじめに、 [KerasのSequentialモデルのガイド](/getting-started/sequential-model-guide) をご覧下さい。
 
 ## モデルの有用なアトリビュート
 
@@ -9,7 +9,7 @@
 
 ----
 
-## シーケンシャルモデルのメソッド
+## Sequentialモデルのメソッド
 
 ### compile
 

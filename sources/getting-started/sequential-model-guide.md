@@ -1,8 +1,9 @@
-# 順序モデルでKerasに触れてみよう
+# SequentialモデルでKerasに触れてみよう
 
 
-順序(Sequential)モデルは層を積み重ねたもの。
-順序モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
+`Sequential`(順序)モデルは層を積み重ねたもの。
+`Sequential`モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
+
 ```python
 from keras.models import Sequential
 
