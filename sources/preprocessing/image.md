@@ -1,5 +1,5 @@
 
-## 画像データジェネレータ
+## ImageDataGenerator　(画像データジェネレータ)
 
 ```python
 keras.preprocessing.image.ImageDataGenerator(featurewise_center=True,
