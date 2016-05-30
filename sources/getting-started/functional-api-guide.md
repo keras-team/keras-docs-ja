@@ -218,8 +218,6 @@ model.compile(optimizer='rmsprop',
 model.fit([data_a, data_b], labels, nb_epoch=10)
 ```
 
-Let's pause to take a look at how to read the shared layer's output or output shape.
-
 共有レイヤーの出力や出力のshapeを見てみましょう。
 
 -----
@@ -293,8 +291,6 @@ assert conv.get_input_shape_at(1) == (None, 3, 64, 64)
 -----
 
 ## More examples
-
-Code examples are still the best way to get started, so here are a few more.
 
 コード例を見ることは学習時に非常に有効です。
 その他の例も見てみましょう。
