@@ -1,8 +1,8 @@
 # SequentialモデルでKerasに触れてみよう
 
+`Sequential` (系列) モデルは層を積み重ねたもの。
 
-`Sequential`(順序)モデルは層を積み重ねたもの。
-`Sequential`モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
+`Sequential` モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
 
 ```python
 from keras.models import Sequential
@@ -15,7 +15,8 @@ model = Sequential([
 ])
 ```
 
-層を`.add()`メソッドを用いて追加することも出来る。
+単純に `.add()` メソッドを用いて層を追加できる。
+
 ```python
 model = Sequential()
 model.add(Dense(32, input_dim=784))
@@ -24,17 +25,17 @@ model.add(Activation('relu'))
 
 ----
 
-
 ## 入力の形を指定する
 
-最初の層では入力の形を指定しなければならない（それ以降の層では必要ない）。指定する方法は複数ある:
+最初の層では入力の形を指定しなければならない (それ以降の層では必要ない) 。
+指定する方法は複数ある:
 
--  最初の層に`input_shape`引数を与える。これは形を表すタプル（タプルの要素は整数か`None`で`None`はどんなサイズでも良いことを表す。）`input_shape`にbatchサイズは含まれない。
--  代わりに`batch_input_shape`引数を与える。ここではbatchサイズが含まれる。これは固定のbatchサイズを指定するときに便利である。（例えば stateful RNN)
--  `Dense`などの一部の2Dの層では入力の形を`input_dim`で指定できる。一部の3Dの層では`input_dim` と `input_length`で指定できる。
+-  最初の層に`input_shape`引数を与える。これは形を表すタプル (タプルの要素は整数か`None`で`None`はどんなサイズでも良いことを表す。) `input_shape`にbatchサイズは含まれない。
+-  代わりに`batch_input_shape`引数を与える。ここではbatchサイズが含まれる。これは固定長のbatchサイズを指定するときに便利である (例えば stateful RNN) 。
+- `Dense`などの一部の2Dの層では入力の形を`input_dim`で指定でき、一部の3Dの層では`input_dim`と`input_length`で指定できる。
 
 
-これらの３つのコードは同じことをする。
+したがって、次の3つのコードは等価である。
 ```python
 model = Sequential()
 model.add(Dense(32, input_shape=(784,)))
@@ -49,7 +50,7 @@ model.add(Dense(32, batch_input_shape=(None, 784)))
 model = Sequential()
 model.add(Dense(32, input_dim=784))
 ```
-以下の３つも同じことをする。
+次の3つのコードも等価である。
 ```python
 model = Sequential()
 model.add(LSTM(32, input_shape=(10, 64)))
@@ -67,7 +68,8 @@ model.add(LSTM(32, input_length=10, input_dim=64))
 
 ## マージ層
 
-複数の`Sequential`のインスタンスをマージ層を使って１つの出力にすることができる。出力は新しい`Sequential`モデルの１層目に使える。以下は２つの入力がマージされている。
+複数の`Sequential`のインスタンスをマージ層を使って1つの出力にマージできる。出力は新しい`Sequential`モデルの1層目として使える。
+以下は2つの入力がマージされている:
 
 ```python
 from keras.layers import Merge
@@ -87,32 +89,34 @@ final_model.add(Dense(10, activation='softmax'))
 
 <img src="http://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
 
-マージ層にはいくつかの結合方法(mode)がある。
-- `sum` (デフォルト）:要素単位の和
-- `concat`: テンソル結合。結合する軸は`concat_axis`で指定する。
-- `mul`: 要素単位での乗算
-- `ave`: テンソルの平均
-- `dot`: 内積　内積を取る軸を`dot_axes`で指定できる。
-- `cos`: 2Dテンソルのコサイン類似度
+マージ層にはいくつかの定義されたモードがある。
+
+- `sum` (デフォルト): 要素ごとの和
+- `concat`: テンソル結合。結合する軸は`concat_axis`で指定できる。
+- `mul`: 要素ごとの積
+- `ave`: テンソル平均
+- `dot`: ドット積。ドット積を取る軸は`dot_axes`で指定できる。
+- `cos`: 2Dテンソルで表現されたベクトル間のコサイン類似度。
  
-`mode`に関数を渡すこともできる。
+任意の変換のために`mode`に関数を渡すこともできる。
 
 ```python
 merged = Merge([left_branch, right_branch], mode=lambda x, y: x - y)
 ```
 
-これで*ほとんど*のモデルをKerasで実装できる。`Sequential`や`Merge`では作れないさらに複雑なモデルは関数型APIを使って定義できる。[関数型API](/getting-started/functional-api-guide).
+これで*ほとんど*のモデルをKerasで実装できる。`Sequential`や`Merge` では表現できないより複雑なモデルは[Functional API](/getting-started/functional-api-guide)を使って定義できる。.
 
 
 ----
 
 ## コンパイル
 
-モデルのtrainingを始める前に`compile`メソッドを設定しないといけない。`compile`は３つの引数を取る。
+モデルの学習を始める前に`compile`メソッドを使って学習経過の設定を行う必要がある。`compile` は3つの引数を取る:
 
-- 最適化手法:　これは`rmsprop`や `adagrad`などの既存の方法を表す文字列または`Optimizer`クラスのインスタンス。[最適化アルゴリズム](/optimizers).
-- 損失関数:　これをモデルは最小化する。それは文字列(例えば`categorical_crossentropy` や `mse`)または目的関数。[目的関数](/objectives)
-- 評価方法のリスト:　例えば分類問題では正解率`metrics=['accuracy']`。評価方法は文字列（`accuracy`）または自分で定義した関数
+- 最適化手法: これは定義されている手法 (`rmsprop`や`adagrad`など) を表す文字列、または`Optimizer`クラスのインスタンス。[最適化アルゴリズム](/optimizers)。
+- 損失関数: これをモデルは最小化する。それは文字列 (例えば`categorical_crossentropy`や`mse`) または目的関数。[目的関数](/objectives)。
+- 評価指標のリスト: 例えば分類問題では正解率 `metrics=['accuracy']`。評価指標は文字列 (`accuracy`) または自分で定義した関数。
+
 ```python
 # for a multi-class classification problem
 model.compile(optimizer='rmsprop',
@@ -132,8 +136,9 @@ model.compile(optimizer='rmsprop',
 ----
 
 ## 学習
-Kerasのモデルの学習にはNumpyの配列のデータとラベルを使う。普通`fit`関数を使って学習する。
-[ドキュメント](/models/sequential). 
+
+KerasのモデルはNumpyの配列のデータとラベルを用いて学習する。典型的には`fit`関数を使う。
+[詳細はドキュメントを](/models/sequential) 。
 
 ```python
 # for a single-input model with 2 classes (binary):
@@ -197,17 +202,19 @@ model.fit([data_1, data_2], labels, nb_epoch=10, batch_size=32)
 
 以下はいくつかの例です。
 
-examplesフォルダにはさらに高度な例がある。
+examplesフォルダには現実的なデータを使ったモデルの例がある。
 
-- CIFAR10　データの画像分類: onlineでデータを合成する畳み込みニューラルネット(CNN)
-- IMDB映画レビューのセンチメント分類: LSTMを単語単位で
-- Reuters 記事のトピック分類: 多層パーセプトロン(MLP)
+- CIFAR10 小規模な画像分類: リアルタイムなデータ拡大を用いた畳み込みニューラルネット (CNN)
+- IMDB 映画レビューのセンチメント分類: 単語単位のLSTM
+- Reuters 記事のトピック分類: 多層パーセプトロン (MLP)
 - MNIST 手書き文字認識: MLPとCNN
-- LSTMを使った文字レベルの文章生成
+- LSTMを用いた文字単位の文章生成
+
 ...など
 
 
-### 多層パーセプトロン(MLP)を用いたマルチクラス分類:
+### 多層パーセプトロン (MLP) を用いた多値分類:
+
 ```python
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
@@ -238,7 +245,7 @@ score = model.evaluate(X_test, y_test, batch_size=16)
 ```
 
 
-### MLPを別の方法で実装:
+### 別実装によるMLP:
 
 ```python
 model = Sequential()
@@ -254,7 +261,7 @@ model.compile(loss='categorical_crossentropy',
 ```
 
 
-### 二値分類のためのMLP:
+### MLPによる二値分類:
 ```python
 model = Sequential()
 model.add(Dense(64, input_dim=20, init='uniform', activation='relu'))
@@ -269,7 +276,7 @@ model.compile(loss='binary_crossentropy',
 ```
 
 
-### VGG風 の畳み込みニューラルネット:
+### VGG風 のCNN:
 
 ```python
 from keras.models import Sequential
@@ -310,7 +317,7 @@ model.fit(X_train, Y_train, batch_size=32, nb_epoch=1)
 ```
 
 
-### LSTMを用いた順次データの分類:
+### LSTMを用いた系列データの分類:
 
 ```python
 from keras.models import Sequential
@@ -333,10 +340,10 @@ model.fit(X_train, Y_train, batch_size=16, nb_epoch=10)
 score = model.evaluate(X_test, Y_test, batch_size=16)
 ```
 
-### 画像の説明文章を生成するモデル（CNN＋Gated Recurrent Unit)
-(単語単位のembedding、説明文章の最大の長さは16文字）
-良い結果を得るためにはpre-trained weightsで初期化されたより大きいCNNが必要。
+### CNNとGated Recurrent Unitを用いた画像の説明文生成モデル
+(単語単位のembeddingを使い、説明文は最大で16文字)
 
+良い結果を得るためには事前学習で得られた重みで初期化されたより大きいCNNが必要。
 
 ```python
 max_caption_len = 16
@@ -397,10 +404,12 @@ model.fit([images, partial_captions], next_words, batch_size=16, nb_epoch=100)
 ```
 
 
-### LSTMを積み重ねて順次を分類する
-このモデルでは３つのLSTM層を積み重ねる。
-そうすることでモデルはより高いレベルの（時間的な）特徴量を学習できる
-最初の2層は順次の全体を返すが最後の層は最後の出力だけを返す。
+### 多層LSTMによる系列分類
+
+このモデルでは3つのLSTM層を積み重ねることでより高いレベルの系列表現を学習できる。
+
+最初の2層は全系列を返すが最後の層は最終時刻の出力だけを返す
+(言い換えれば入力系列を1つのベクトルに変換する) 。
 
 <img src="http://keras.io/img/regular_stacked_lstm.png" alt="stacked LSTM" style="width: 300px;"/>
 
@@ -439,10 +448,11 @@ model.fit(x_train, y_train,
 ```
 
 
+### 同じLSTMのモデルを"stateful"に
 
-### 同じLSTMのモデルをstatefulにすると
-stateful のリカレントオデルはbatchを処理した内部の状態が次のbatchを処理するときに初期状態として再利用される。こうすることでより長い順次を扱うことができる。
-[ドキュメント](/faq/#how-can-i-use-stateful-rnns)
+stateful な再帰型モデルは、あるbatchを処理した後の内部の状態を次のbatchを処理するときの初期状態として再利用する。こうすることでより長い系列を扱うことができる。
+
+[より詳しいstateful RNNsについてはFAQを](/faq/#how-can-i-use-stateful-rnns)。
 
 ```python
 from keras.models import Sequential
@@ -482,11 +492,10 @@ model.fit(x_train, y_train,
 ```
 
 
-### ２つの同方向の順次を２つのLSTM encoderに渡し、その結果をマージして分類する。
+### 2つの系列データをそれぞれ別のLSTM encoderに渡し、その結果をマージして分類
 
-
-このモデルでは2つの入力が２つのLSTMを使ってベクトルにencodeされる。
-これらのベクトルは結合されてその上に多層パーセプトロンを学習させる。
+このモデルでは2つの入力系列が別々のLSTMによってベクトルにencodeされる。
+これら2つのベクトルを結合した1つのベクトルを使って全結合層で学習が行われる。
 
 <img src="http://keras.io/img/dual_lstm.png" alt="Dual LSTM" style="width: 600px;"/>
 
