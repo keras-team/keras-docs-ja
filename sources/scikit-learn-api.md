@@ -1,4 +1,4 @@
-# Sciki-Learn APIのためのラッパー
+# Scikit-Learn APIのためのラッパー
 
 `keras.wrappers.sklearn.py`にあるラッパーを通して，Kerasの`Sequential`モデル（1つの入力のみ）をScikit-Learnワークフローの一部として利用することができます．
 
