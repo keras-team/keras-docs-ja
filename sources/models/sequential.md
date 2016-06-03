@@ -74,7 +74,7 @@ __引数__
 	ホールドアウト検証のデータとして使うデータの割合。
 - __validation_data__: ホールドアウト検証用データとして使うデータのタプル (X, y)。
 	設定すると validation_split を無視します。
-- __shuffle__: boolean 型もしくは str 型　(for 'batch')。
+- __shuffle__: boolean 型もしくは str 型 (for 'batch')。
 	各エポックにおいてサンプルをシャッフルするかどうか。
 	'batch' は HDF5 データだけに使える特別なオプションです。バッチサイズのチャンクの中においてシャッフルします。
 - __class_weight__: dictionary 型で、クラス毎の重みを格納します。
