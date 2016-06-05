@@ -5,12 +5,7 @@
 keras.layers.convolutional.Convolution1D(nb_filter, filter_length, init='uniform', activation='linear', weights=None, border_mode='valid', subsample_length=1, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None, input_length=None)
 ```
 
-Convolution operator for filtering neighborhoods of one-dimensional inputs.
-When using this layer as the first layer in a model,
-either provide the keyword argument `input_dim`
-(int, e.g. 128 for sequences of 128-dimensional vectors),
-or `input_shape` (tuple of integers, e.g. (10, 128) for sequences
-of 10 vectors of 128-dimensional vectors).
+１次元入力の近傍をフィルターする畳み込み演算。このレイヤーを第一層に使う場合、キーワードとして`input_dim`（整数値、例えば128次元ベクトル系列には1128）を指定するか`input_shape`（整数のタプル、例えば10個の128次元ベクトル系列のでは(10, 128)）を指定してください。
 
 __Example__
 
