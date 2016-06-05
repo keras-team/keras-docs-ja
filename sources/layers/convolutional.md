@@ -112,15 +112,14 @@ __Arguments__
 
 __Input shape__
 
-4D tensor with shape:
-`(samples, channels, rows, cols)` if dim_ordering='th'
-or 4D tensor with shape:
-`(samples, rows, cols, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(samples, channels, rows, cols)`の４次元テンソル，あるいは
+dim_ordering='tf'の場合，配列サイズ
+`(samples, rows, cols, channels)`の４次元テンソル
 
 __Output shape__
 
-4D tensor with shape:
-dim_ordering='th'の場合，配列サイズ`(samples, nb_filter, new_rows, new_cols)`の４次元テンソル if
+dim_ordering='th'の場合，配列サイズ`(samples, nb_filter, new_rows, new_cols)`の４次元テンソル，
 あるいは
 dim_ordering='tf'の場合，配列サイズ`(samples, new_rows, new_cols, nb_filter)`の４次元テンソル
 `rows`と`cols`値はパディングにより変っている可能性あり．
