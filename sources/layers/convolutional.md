@@ -64,11 +64,10 @@ __Output shape__
 keras.layers.convolutional.Convolution2D(nb_filter, nb_row, nb_col, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1), dim_ordering='th', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 ```
 
-Convolution operator for filtering windows of two-dimensional inputs.
-When using this layer as the first layer in a model,
-provide the keyword argument `input_shape`
-(tuple of integers, does not include the sample axis),
-e.g. `input_shape=(3, 128, 128)` for 128x128 RGB pictures.
+２次元入力のフィルター窓の畳み込み演算子
+このレイヤーをモデルの第一層に使うときはキーワード引数`input_shape`
+整数のタプル，サンプル軸を含まない）を指定してください．
+例えば128x128 RGBのピクチャーでは`input_shape=(3, 128, 128)`．
 
 __Examples__
 
