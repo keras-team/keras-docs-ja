@@ -5,7 +5,7 @@
 keras.layers.convolutional.Convolution1D(nb_filter, filter_length, init='uniform', activation='linear', weights=None, border_mode='valid', subsample_length=1, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None, input_length=None)
 ```
 
-１次元入力の近傍をフィルターする畳み込み演算．このレイヤーを第一層に使う場合，キーワード引数として`input_dim`（整数値、例えば128次元ベクトル系列には1128）を指定するか`input_shape`（整数のタプル，例えば10個の128次元ベクトル系列のでは(10, 128)）を指定してください．
+１次元入力の近傍をフィルターする畳み込み演算．このレイヤーを第一層に使う場合，キーワード引数として`input_dim`（整数値，例えば128次元ベクトル系列には1128）を指定するか`input_shape`（整数のタプル，例えば10個の128次元ベクトル系列のでは(10, 128)）を指定してください．
 
 __Example__
 
@@ -27,9 +27,9 @@ __Arguments__
 - __nb_filter__: 使用する畳み込みカーネルの数（出力の次元）．
 - __filter_length__: それぞれのフィルターの（空間もしくは時間的な）長さ．
 - __init__: レイヤーの重みの初期化関数の名前（[initializations](../initializations.md)参照），
-	もしくは重み初期化に用いるTheano関数。このパラメータは`weights`引数を与えない場合にのみ有効です．
+	もしくは重み初期化に用いるTheano関数．このパラメータは`weights`引数を与えない場合にのみ有効です．
 - __activation__: 使用する活性化関数の名前（[activations](../activations.md)参照），
-	もしくは要素ごとのTheano関数。もしなにも指定しなければ活性化は一切適用されません（つまり"線形"活性a(x) = x）．
+	もしくは要素ごとのTheano関数．もしなにも指定しなければ活性化は一切適用されません（つまり"線形"活性a(x) = x）．
 - __weights__: 初期重みとして設定されるnumpy配列のリスト．
 - __border_mode__: 'valid' あるいは 'same'．
 - __subsample_length__: 出力を部分サンプルするときの長さ．　<>check
@@ -85,36 +85,30 @@ model.add(Convolution2D(32, 3, 3, border_mode='same'))
 
 __Arguments__
 
-- __nb_filter__: Number of convolution filters to use.
-- __nb_row__: Number of rows in the convolution kernel.
-- __nb_col__: Number of columns in the convolution kernel.
-- __init__: name of initialization function for the weights of the layer
-	(see [initializations](../initializations.md)), or alternatively,
-	Theano function to use for weights initialization.
-	This parameter is only relevant if you don't pass
-	a `weights` argument.
-- __activation__: name of activation function to use
-	(see [activations](../activations.md)),
-	or alternatively, elementwise Theano function.
-	If you don't specify anything, no activation is applied
-	(ie. "linear" activation: a(x) = x).
-- __weights__: list of numpy arrays to set as initial weights.
-- __border_mode__: 'valid' or 'same'.
-- __subsample__: tuple of length 2. Factor by which to subsample output.
-	Also called strides elsewhere.
-- __W_regularizer__: instance of [WeightRegularizer](../regularizers.md)
-	(eg. L1 or L2 regularization), applied to the main weights matrix.
-- __b_regularizer__: instance of [WeightRegularizer](../regularizers.md),
-	applied to the bias.
-- __activity_regularizer__: instance of [ActivityRegularizer](../regularizers.md),
-	applied to the network output.
-- __W_constraint__: instance of the [constraints](../constraints.md) module
-	(eg. maxnorm, nonneg), applied to the main weights matrix.
-- __b_constraint__: instance of the [constraints](../constraints.md) module,
-	applied to the bias.
-- __dim_ordering__: 'th' or 'tf'. In 'th' mode, the channels dimension
-	(the depth) is at index 1, in 'tf' mode is it at index 3.
-- __bias__: whether to include a bias (i.e. make the layer affine rather than linear).
+- __nb_filter__: 使用する畳み込みカーネルの数.
+- __nb_row__: 畳み込みカーネルの行数．
+- __nb_col__: 畳み込みカーネルの列数．
+- __init__: レイヤーの重みの初期化関数の名前
+	（[initializations](../initializations.md)参照），
+	もしくは重み初期化に用いるTheano関数．
+	このパラメータは`weights`引数を与えない場合にのみ有効です．
+- __activation__: 使用する活性化関数の名前
+	（[activations](../activations.md)参照）
+	もしくは要素ごとのTheano関数．
+	もしなにも指定しなければ活性化は一切適用されません（つまり"線形"活性a(x) = x）．
+- __weights__: 初期重みとして設定されるnumpy配列のリスト．
+- __border_mode__:  'valid' あるいは 'same'．
+- __subsample__: 長さ２のタプル．出力を部分サンプルするときの長さ．
+	別の場所ではstrideとも呼ぶ.
+- __W_regularizer__: メインの重み行列に適用される[WeightRegularizer](../regularizers.md)
+	（例えばL1やL2正則化）のインスタンス．
+- __b_regularizer__: バイアス項に適用される[WeightRegularizer](../regularizers.md)のインスタンス．
+- __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
+- __W_constraint__: メインの重み行列に適用される[constraints](../constraints.md)モジュール（例えばmaxnorm, nonneg）のインスタンス．
+- __b_constraint__: バイアス項に適用される[constraints](../constraints.md)モジュールのインスタンス．
+- __dim_ordering__: 'th'か'tf'．'th'モードのときはチャネルの次元（深さ）はindex 1に，
+	'tf'モードではindex 3に．
+- __bias__: バイアス項を含むかどうか（レイヤをアフィンにするか線形にするか）．
 
 __Input shape__
 
@@ -126,10 +120,10 @@ or 4D tensor with shape:
 __Output shape__
 
 4D tensor with shape:
-`(samples, nb_filter, new_rows, new_cols)` if dim_ordering='th'
-or 4D tensor with shape:
-`(samples, new_rows, new_cols, nb_filter)` if dim_ordering='tf'.
-`rows` and `cols` values might have changed due to padding.
+dim_ordering='th'の場合，配列サイズ`(samples, nb_filter, new_rows, new_cols)`の４次元テンソル if
+あるいは
+dim_ordering='tf'の場合，配列サイズ`(samples, new_rows, new_cols, nb_filter)`の４次元テンソル
+`rows`と`cols`値はパディングにより変っている可能性あり．
 
 ----
 
