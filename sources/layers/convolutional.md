@@ -228,7 +228,7 @@ __Arguments__
 - __strides__: ２つの整数のタプルもしくはNone．Strides値．
 - __border_mode__: 'valid'か'same'.
 	- __Note__: 現時点では'same'はTensorFlowでのみ動きます．
-- __dim_ordering__:
+- __dim_ordering__:'th'か'tf'.
 	'th'モードのときはチャネルの次元（深さ）はindex 1に，
 	'tf'モードではindex 3に．
 
@@ -260,27 +260,28 @@ keras.layers.convolutional.MaxPooling3D(pool_size=(2, 2, 2), strides=None, borde
 
 __Arguments__
 
-- __pool_size__: tuple of 3 integers,
-	factors by which to downscale (dim1, dim2, dim3).
-	(2, 2, 2) will halve the size of the 3D input in each dimension.
-- __strides__: tuple of 3 integers, or None. Strides values.
-- __border_mode__: 'valid' or 'same'.
-- __dim_ordering__: 'th' or 'tf'. In 'th' mode, the channels dimension
-	(the depth) is at index 1, in 'tf' mode is it at index 4.
+- __pool_size__: ３つの整数のタプル(dim1, dim2, dim3)，
+	ダウンスケールするための係数．
+	(2, 2, 2)は３次元入力のサイズをそれぞれの次元で半分にします．
+- __strides__: ３つの整数のタプルもしくはNone．Strides値．
+- __border_mode__: 'valid'か'same'.
+- __dim_ordering__: 'th'か'tf'.
+	'th'モードのときはチャネルの次元（深さ）はindex 1に，
+	'tf'モードではindex 4に．
 
 __Input shape__
 
-5D tensor with shape:
-`(samples, channels, len_pool_dim1, len_pool_dim2, len_pool_dim3)` if dim_ordering='th'
-or 5D tensor with shape:
-`(samples, len_pool_dim1, len_pool_dim2, len_pool_dim3, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(samples, channels, len_pool_dim1, len_pool_dim2, len_pool_dim3)` の５次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, len_pool_dim1, len_pool_dim2, len_pool_dim3, channels)`の５次元テンソル．
 
 __Output shape__
 
-5D tensor with shape:
-`(nb_samples, channels, pooled_dim1, pooled_dim2, pooled_dim3)` if dim_ordering='th'
-or 5D tensor with shape:
-`(samples, pooled_dim1, pooled_dim2, pooled_dim3, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(nb_samples, channels, pooled_dim1, pooled_dim2, pooled_dim3)`の５次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, pooled_dim1, pooled_dim2, pooled_dim3, channels)`の５次元テンソル．
 
 ----
 
@@ -291,22 +292,22 @@ or 5D tensor with shape:
 keras.layers.convolutional.AveragePooling1D(pool_length=2, stride=None, border_mode='valid')
 ```
 
-Average pooling for temporal data.
+時系列データのための平均プーリング．
 
 __Arguments__
 
-- __pool_length__: factor by which to downscale. 2 will halve the input.
-- __stride__: integer or None. Stride value.
-- __border_mode__: 'valid' or 'same'.
-	- __Note__: 'same' will only work with TensorFlow for the time being.
+- __pool_length__: ダウンスケールする係数．２は入力を半分にします．
+- __stride__: 整数もしくはNone．Stride値．
+- __border_mode__: 'valid'か'same'.
+	- __Note__: 現時点では'same'はTensorFlowでのみ動きます．
 
 __Input shape__
 
-3D tensor with shape: `(samples, steps, features)`.
+配列サイズ`(samples, steps, features)`の３次元テンソル．
 
 __Output shape__
 
-3D tensor with shape: `(samples, downsampled_steps, features)`.
+配列サイズ`(samples, downsampled_steps, features)`の３次元テンソル．
 
 ----
 
