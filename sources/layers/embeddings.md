@@ -30,7 +30,7 @@ __引数__
 
   - __input_dim__: 0以上の整数．語彙数．入力データの最大インデックス + 1．
   - __output_dim__: 0以上の整数．出力ベクトルの次元数．
-  - __init__: 重みの初期化関数名（[initializations](../initializations.md))，または，重みを初期化するTheano関数．
+  - __init__: 重みの初期化関数名 ([initializations](../initializations.md)) ，または，重みを初期化するTheano関数．
     このパラメータは`weights`引数を与えていないときにのみ有効です．
   - __weights__: 重みの初期値として利用するnumpy配列のリスト．
     このリストは形が`(input_dim, output_dim)`である1つの要素のみを持ちます．

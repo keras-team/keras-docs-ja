@@ -10,6 +10,7 @@
 - [validation splitはどのように実行されますか？](#validation-split)
 - [訓練時にデータはシャッフルされますか？](#_3)
 - [各epochのtraining/validation lossやaccuracyを記録するには？](#epochtrainingvalidation-lossaccuracy)
+- [層を "freeze" するには？](#how-can-i-freeze-keras-layers)
 - [stateful RNNを利用するには？](#stateful-rnn)
 
 ---
@@ -195,6 +196,41 @@ model.fit(X, y, validation_split=0.2, callbacks=[early_stopping])
 ```python
 hist = model.fit(X, y, validation_split=0.2)
 print(hist.history)
+```
+
+---
+
+### 層を "freeze" するには？
+
+層を "freeze" することは学習から層を除外することを意味します，すなわちその重みは決して更新されません。
+このことはモデルのfine-tuningやテキスト入力のための固定されたembeddingsを使用するという文脈において有用です。
+
+層のコンストラクタの`trainable`に真偽値をに渡すことで，層を学習しないようにできます。
+
+```python
+frozen_layer = Dense(32, trainable=False)
+```
+
+加えて，インスタンス化後に層の`trainable`propertyに`True`か`False` を与えることができます。このことによる影響としては，`trainable`propertyの変更後のモデルで`compile()`を呼ぶ必要があります。以下にその例を示します:
+
+```python
+x = Input(shape=(32,))
+layer = Dense(32)
+layer.trainable = False
+y = layer(x)
+
+frozen_model = Model(x, y)
+# in the model below, the weights of `layer` will not be updated during training
+frozen_model.compile(optimizer='rmsprop', loss='mse')
+
+layer.trainable = True
+trainable_model = Model(x, y)
+# with this model the weights of the layer will be updated during training
+# (which will also affect the above model since it uses the same layer instance)
+trainable_model.compile(optimizer='rmsprop', loss='mse')
+
+frozen_model.fit(data, labels)  # this does NOT update the weights of `layer`
+trainable_model.fit(data, labels)  # this updates the weights of `layer`
 ```
 
 ---

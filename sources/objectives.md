@@ -27,5 +27,6 @@ model.compile(loss='mean_squared_error', optimizer='sgd')
 - __binary_crossentropy__: loglossとしても知られています．
 - __categorical_crossentropy__: マルチクラスloglossとしても知られています． __Note__: この目的関数を使うには，ラベルがバイナリ配列であり，その形状が`(nb_samples, nb_classes)`であることが必要です．
 - __sparse_categorical_crossentropy__: categorical_crossentropyと同じですが，スパースラベルを取る点で違います． __Note__: ラベルの次元と出力の次元が同じである必要があります．例えば，ラベル形状を拡張するために，`np.expand_dims(y, -1)`を用いて新しく次元を追加する必要があるかもしれません．
+ - __kullback_leibler_divergence__ / __kld__: 予測した確率分布Qから真の確率分布Pへの情報ゲイン．2つの分布の異なりの度合いを得る．
 - __poisson__: `(予測 - 正解 * log(予測))`の平均
-- __cosine_proximity__: 予測と正解間のコサイン近似の負の平均
+- __cosine_proximity__: 予測と正解間のコサイン近似の負の平均．
