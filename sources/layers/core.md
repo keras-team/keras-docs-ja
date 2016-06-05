@@ -5,65 +5,52 @@
 keras.layers.core.Dense(output_dim, init='glorot_uniform', activation='linear', weights=None, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None)
 ```
 
-Just your regular fully connected NN layer.
+通常の全結合ニューラルネットワークレイヤー．
 
-__Example__
+__例__
 
 
 ```python
-# as first layer in a sequential model:
+# シーケンシャルモデルの最初のレイヤーとして:
 model = Sequential()
 model.add(Dense(32, input_dim=16))
-# now the model will take as input arrays of shape (*, 16)
-# and output arrays of shape (*, 32)
+# 今、モデルは(*, 16)次元の入力配列となり，(*, 32)次元の出力配列となる
 
-# this is equivalent to the above:
+# これは上記と等価である:
 model = Sequential()
 model.add(Dense(32, input_shape=(16,)))
 
-# after the first layer, you don't need to specify
-# the size of the input anymore:
+# 最初のレイヤーの後，あなたはもはや入力サイズを特定する必要はない:
 model.add(Dense(32))
 ```
 
-__Arguments__
+__引数__
 
-- __output_dim__: int > 0.
-- __init__: name of initialization function for the weights of the layer
-	(see [initializations](../initializations.md)),
-	or alternatively, Theano function to use for weights
-	initialization. This parameter is only relevant
-	if you don't pass a `weights` argument.
-- __activation__: name of activation function to use
-	(see [activations](../activations.md)),
-	or alternatively, elementwise Theano function.
-	If you don't specify anything, no activation is applied
-	(ie. "linear" activation: a(x) = x).
-- __weights__: list of numpy arrays to set as initial weights.
-	The list should have 2 elements, of shape `(input_dim, output_dim)`
-	and (output_dim,) for weights and biases respectively.
-- __W_regularizer__: instance of [WeightRegularizer](../regularizers.md)
-	(eg. L1 or L2 regularization), applied to the main weights matrix.
-- __b_regularizer__: instance of [WeightRegularizer](../regularizers.md),
-	applied to the bias.
-- __activity_regularizer__: instance of [ActivityRegularizer](../regularizers.md),
-	applied to the network output.
-- __W_constraint__: instance of the [constraints](../constraints.md) module
-	(eg. maxnorm, nonneg), applied to the main weights matrix.
-- __b_constraint__: instance of the [constraints](../constraints.md) module,
-	applied to the bias.
-- __bias__: whether to include a bias (i.e. make the layer affine rather than linear).
-- __input_dim__: dimensionality of the input (integer).
-	This argument (or alternatively, the keyword argument `input_shape`)
-	is required when using this layer as the first layer in a model.
+- __output_dim__: 正の整数 > 0.
+- __init__: レイヤーの重みに対する初期化関数名([initializations](../initializations.md)を参照)，もしくは，重みを初期化するために使用するTheano関数．このパラメータは`weights`引数を与えていないときにのみ有効です．
+- __activation__: 使用する活性化関数名
+	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
+	もしあなたが何も指定しなければ、活性化は適用されない．
+	(すなわち，"線形"活性化: a(x) = x).
+- __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
+- __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
+	(例えば，L1もしくはL2正則化)．
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
+- __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
+- __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
+- __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
+- __input_dim__: 入力の次元(整数).
+	この引数(もしくは，キーワード引数`input_shape`)
+	は，モデルの最初のレイヤーとして使うときに必要とされる．
 
-__Input shape__
+__入力の型__
 
-2D tensor with shape: `(nb_samples, input_dim)`.
+2次元テンソルの型: `(nb_samples, input_dim)`.
 
-__Output shape__
+__出力の型__
 
-2D tensor with shape: `(nb_samples, output_dim)`.
+2次元テンソルの型: `(nb_samples, output_dim)`.
 
 ----
 
@@ -74,23 +61,21 @@ __Output shape__
 keras.layers.core.Activation(activation)
 ```
 
-Applies an activation function to an output.
+出力に活性化関数を適用する．
 
-__Arguments__
+__引数__
 
-- __activation__: name of activation function to use
-	- __(see__: [activations](../activations.md)),
-	or alternatively, a Theano or TensorFlow operation.
+- __activation__: 使用する活性化関数名
+	([activations](../activations.md)を参照),
+	もしくは，TheanoかTensorFlowオペレーション．
 
-__Input shape__
+__入力の型__
 
-Arbitrary. Use the keyword argument `input_shape`
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+任意. モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
 
-__Output shape__
+__出力の型__
 
-Same shape as input.
+入力と同じ型．
 
 ----
 
@@ -101,15 +86,13 @@ Same shape as input.
 keras.layers.core.Dropout(p)
 ```
 
-Applies Dropout to the input. Dropout consists in randomly setting
-a fraction `p` of input units to 0 at each update during training time,
-which helps prevent overfitting.
+入力にドロップアウトを適用する．ドロップアウトは，訓練時のそれぞれの更新において入力ユニットの`p`をランダムに0にセットすることであり，それは過学習を防ぐのを助ける．
 
-__Arguments__
+__引数__
 
-- __p__: float between 0 and 1. Fraction of the input units to drop.
+- __p__: 0と1の間の浮動小数点数. 入力ユニットをドロップする割合.
 
-__References__
+__参考文献__
 
 - [Dropout: A Simple Way to Prevent Neural Networks from Overfitting](http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf)
 
@@ -122,18 +105,18 @@ __References__
 keras.layers.core.Flatten()
 ```
 
-Flattens the input. Does not affect the batch size.
+入力を平準化する．バッチサイズに影響されない．
 
-__Example__
+__例__
 
 
 ```python
 model = Sequential()
 model.add(Convolution2D(64, 3, 3, border_mode='same', input_shape=(3, 32, 32)))
-# now: model.output_shape == (None, 64, 32, 32)
+# いま: model.output_shape == (None, 64, 32, 32)
 
 model.add(Flatten())
-# now: model.output_shape == (None, 65536)
+# いま: model.output_shape == (None, 65536)
 ```
 
 ----
@@ -145,37 +128,36 @@ model.add(Flatten())
 keras.layers.core.Reshape(target_shape)
 ```
 
-Reshapes an output to a certain shape.
+ある形に出力を変形する．
 
-__Arguments__
+__引数__
 
-- __target_shape__: target shape. Tuple of integers,
-	does not include the samples dimension (batch size).
+- __target_shape__: ターゲットの型. 整数のタプル，
+	サンプルの次元を含まない(バッチサイズ)．
 
-__Input shape__
+__入力の型__
 
-Arbitrary, although all dimensions in the input shaped must be fixed.
-Use the keyword argument `input_shape`
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+入力の型のすべての次元は固定されなければならないが，任意．
+モデルの最初のレイヤーとしてこのレイヤーを使うとき，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
 
-__Output shape__
+
+__出力の型__
 
 `(batch_size,) + target_shape`
 
-__Example__
+__例__
 
 
 ```python
-# as first layer in a Sequential model
+# シーケンシャルモデルの最初のレイヤーとして
 model = Sequential()
 model.add(Reshape((3, 4), input_shape=(12,)))
-# now: model.output_shape == (None, 3, 4)
-# note: `None` is the batch dimension
+# いま: model.output_shape == (None, 3, 4)
+# 注意: `None`はバッチの次元
 
-# as intermediate layer in a Sequential model
+# シーケンシャルモデルの中間レイヤーとして
 model.add(Reshape((6, 2)))
-# now: model.output_shape == (None, 6, 2)
+# いま: model.output_shape == (None, 6, 2)
 ```
 
 ----
@@ -187,37 +169,31 @@ model.add(Reshape((6, 2)))
 keras.layers.core.Permute(dims)
 ```
 
-Permutes the dimensions of the input according to a given pattern.
+与えられたパターンにより入力の次元を変更する．
 
-Useful for e.g. connecting RNNs and convnets together.
+例えば，RNNsやconvnetsの連結に対して役立ちます．
 
-__Example__
+__例__
 
 
 ```python
 model = Sequential()
 model.add(Permute((2, 1), input_shape=(10, 64)))
-# now: model.output_shape == (None, 64, 10)
-# note: `None` is the batch dimension
+# いま: model.output_shape == (None, 64, 10)
+# 注意: `None`はバッチの次元
 ```
 
-__Arguments__
+__引数__
 
-- __dims__: Tuple of integers. Permutation pattern, does not include the
-	samples dimension. Indexing starts at 1.
-	For instance, `(2, 1)` permutes the first and second dimension
-	of the input.
+- __dims__: 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる.例えば，`(2, 1)`は入力の1番目と2番目の次元を計算する．
 
-__Input shape__
+__入力の型__
 
-Arbitrary. Use the keyword argument `input_shape`
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+任意. モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
 
-__Output shape__
+__出力の型__
 
-Same as the input shape, but with the dimensions re-ordered according
-to the specified pattern.
+入力の型と同じだが，特定のパターンにより並べ替えられた次元を持つ．
 
 ----
 
@@ -228,32 +204,32 @@ to the specified pattern.
 keras.layers.core.RepeatVector(n)
 ```
 
-Repeats the input n times.
+n回入力を繰り返す．
 
-__Example__
+__例__
 
 
 ```python
 model = Sequential()
 model.add(Dense(32, input_dim=32))
-# now: model.output_shape == (None, 32)
-# note: `None` is the batch dimension
+# いま: model.output_shape == (None, 32)
+# 注意: `None`はバッチの次元でる．
 
 model.add(RepeatVector(3))
-# now: model.output_shape == (None, 3, 32)
+# いま: model.output_shape == (None, 3, 32)
 ```
 
-__Arguments__
+__引数__
 
-- __n__: integer, repetition factor.
+- __n__: 整数，繰返し因数．
 
-__Input shape__
+__入力の型__
 
-2D tensor of shape `(nb_samples, features)`.
+`(nb_samples, features)`の型の2次元テンソル．
 
-__Output shape__
+__出力の型__
 
-3D tensor of shape `(nb_samples, n, features)`.
+`(nb_samples, n, features)`の型の3次元テンソル．
 
 ----
 
@@ -264,10 +240,9 @@ __Output shape__
 keras.engine.topology.Merge(layers=None, mode='sum', concat_axis=-1, dot_axes=-1, output_shape=None, node_indices=None, tensor_indices=None, name=None)
 ```
 
-A `Merge` layer can be used to merge a list of tensors
-into a single tensor, following some merge `mode`.
+`Merge`レイヤーは，いくつかのマージ`mode`に従って，単一のテンソルにテンソルのリストをマージするために使うことができる．
 
-__Example usage__
+__使用例__
 
 
 ```python
@@ -279,33 +254,20 @@ model2.add(Dense(32))
 
 merged_model = Sequential()
 merged_model.add(Merge([model1, model2], mode='concat', concat_axis=1)
-- ____TODO__: would this actually work? it needs to.__
+- __TODO__: would this actually work? it needs to.__
 
-# achieve this with get_source_inputs in Sequential.
+# シーケンシャル内の`get_source_inputs`でこれを達成する．
 ```
 
-__Arguments__
+__引数__
 
-- __layers__: can be a list of Keras tensors or
-	a list of layer instances. Must be more
-	than one layer/tensor.
-- __mode__: string or lambda/function. If string, must be one
-	- __of__: 'sum', 'mul', 'concat', 'ave', 'cos', 'dot'.
-	If lambda/function, it should take as input a list of tensors
-	and return a single tensor.
-- __concat_axis__: integer, axis to use in mode `concat`.
-- __dot_axes__: integer or tuple of integers, axes to use in mode `dot`.
-- __output_shape__: shape tuple (tuple of integers), or lambda/function
-	to compute output_shape (only if merge mode is a lambda/function).
-	If the latter case, it should take as input a list of shape tuples
-	- __(1__:1 mapping to input tensors) and return a single shape tuple.
-- __node_indices__: optional list of integers containing
-	the output node index for each input layer
-	(in case some input layers have multiple output nodes).
-	will default to an array of 0s if not provided.
-- __tensor_indices__: optional list of indices of output tensors
-	to consider for merging
-	(in case some input layer node returns multiple tensors).
+- __layers__: Kerasのテンソルのリストかレイヤーのインスタンスのリストであるべき．ひとつ以上のレイヤーかテンソルでなければならない．
+- __mode__: 文字列かラムダ/関数．もし文字列であるなら，それは'sum', 'mul', 'concat', 'ave', 'cos', 'dot'のひとつでなければならない．もしラムダ/関数であるなら，それはテンソルのリストを入力とし、単一のテンソルを返さなければならない．
+- __concat_axis__: 整数，`concat`モードで使用するための軸．
+- __dot_axes__: 整数，または整数のタプル，`dot`モードで使用するための軸．
+- __output_shape__: タプルの型 (整数のタプル)，もしくは`output_shape`を計算するラムダ/関数 (マージモードに限り，ラムダ/関数となる).もし後者の場合，タプルの型のリストを入力として受け取る(入力テンソルに対して1:1にマッピングする)．また単一のタプルの型を返す．
+- __node_indices__: それぞれの入力レイヤーに対する出力ノードインデックスを含む整数の追加リスト(いくつかの入力レイヤーが複数の出力ノードを持つ場合)．それはもし供給されないなら，0の配列をデフォルトとする．
+- __tensor_indices__: マージのために考慮される出力のテンソルの追加リスト(いくつかの入力レイヤーノードが複数のテンソルを返す場合)．
 
 ----
 
@@ -316,20 +278,17 @@ __Arguments__
 keras.layers.core.Lambda(function, output_shape=None, arguments={})
 ```
 
-Used for evaluating an arbitrary Theano / TensorFlow expression
-on the output of the previous layer.
+前のレイヤーの出力で，任意のTheano/TensorFlow表現を評価するために使われる．
 
-__Examples__
+__例__
 
 
 ```python
-# add a x -> x^2 layer
+# 一つのx -> x^2レイヤーを加える．
 model.add(Lambda(lambda x: x ** 2))
 ```
 ```python
-# add a layer that returns the concatenation
-# of the positive part of the input and
-# the opposite of the negative part
+# 入力の正の部分と負の部分の反対の結合を返すレイヤーを加える．
 
 def antirectifier(x):
 	x -= K.mean(x, axis=1, keepdims=True)
@@ -347,24 +306,19 @@ def antirectifier_output_shape(input_shape):
 model.add(Lambda(antirectifier, output_shape=antirectifier_output_shape))
 ```
 
-__Arguments__
+__引数__
 
-- __function__: The function to be evaluated.
-	Takes one argument: the output of previous layer
-- __output_shape__: Expected output shape from function.
-	Could be a tuple or a function of the shape of the input
-- __arguments__: optional dictionary of keyword arguments to be passed
-	to the function.
+- __function__: 評価される関数．一つの引数を取る:前のレイヤーの出力
+- __output_shape__: 関数からの期待される出力の型．タプルもしくは入力の型の関数である
+- __arguments__: 関数に通されるキーボード引数の追加辞書
 
-__Input shape__
+__入力の型__
 
-Arbitrary. Use the keyword argument input_shape
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーボード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
 
-__Output shape__
+__出力の型__
 
-Specified by `output_shape` argument.
+`output_shape`引数によって特定される．
 
 ----
 
@@ -375,23 +329,20 @@ Specified by `output_shape` argument.
 keras.layers.core.ActivityRegularization(l1=0.0, l2=0.0)
 ```
 
-Layer that passes through its input unchanged, but applies an update
-to the cost function based on the activity.
+その変化のない入力を通過するレイヤー，しかしアクティビティに基づいたコスト関数の更新を適用する．
 
-__Arguments__
+__引数__
 
-- __l1__: L1 regularization factor (positive float).
-- __l2__: L2 regularization factor (positive float).
+- __l1__: L1正則化因子 (正の浮動小数点数).
+- __l2__: L2正則化因子 (正の浮動小数点数).
 
-__Input shape__
+__入力の型__
 
-Arbitrary. Use the keyword argument `input_shape`
-(tuple of integers, does not include the samples axis)
-when using this layer as the first layer in a model.
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーボード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
 
-__Output shape__
+__出力の型__
 
-Same shape as input.
+入力と同じ型.
 
 ----
 
@@ -402,24 +353,18 @@ Same shape as input.
 keras.layers.core.Masking(mask_value=0.0)
 ```
 
-Masks an input sequence by using a mask value to
-identify timesteps to be skipped.
+スキップされるタイムステップを特定するためのマスク値を使うことによって入力シーケンスをマスクする．
 
-For each timestep in the input tensor (dimension #1 in the tensor),
-if all values in the input tensor at that timestep
-are equal to `mask_value`, then the timestep will masked (skipped)
-in all downstream layers (as long as they support masking).
+入力テンソル(テンソルの次元 #1)のそれぞれのタイムステップに対して，
+もしそのタイムステップの入力テンソルのすべての値が`mask_value`に等しいなら，そのときそのタイムステップはすべてのダウンストリームレイヤー(それらがマスキングをサポートしている限り)でマスク(スキップ)されるでしょう．
 
-If any downstream layer does not support masking yet receives such
-an input mask, an exception will be raised.
-
-__Example__
+もしどんなダウンストリームレイヤーが，そのような入力マスクをまだ受けておらず，マスキングをサポートしていなければ，例外があがるだろう．
 
 
-Consider a Numpy data array `x` of shape `(samples, timesteps, features)`,
-to be fed to a LSTM layer.
-You want to mask timestep #3 and #5 because you lack data for
-these timesteps. You can:
+__例__
+
+LSTMレイヤーに与えるための`(samples, timesteps, features)`の型のNumpy配列`x`を検討する．
+あなたが#3と#5のタイムステップに関してデータを欠損しているので、これらのタイムステップをマスクしたい場合，あなたは以下のようにできる:
 
 - set `x[:, 3, :] = 0.` and `x[:, 5, :] = 0.`
 - insert a `Masking` layer with `mask_value=0.` before the LSTM layer:
@@ -439,49 +384,34 @@ model.add(LSTM(32))
 keras.layers.core.Highway(init='glorot_uniform', transform_bias=-2, activation='linear', weights=None, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None)
 ```
 
-Densely connected highway network,
-a natural extension of LSTMs to feedforward networks.
+密に結合されたハイウェイネットワーク，フィードフォワードネットワークへのLSTMsの自然拡張．
 
-__Arguments__
+__引数__
 
-- __init__: name of initialization function for the weights of the layer
-	(see [initializations](../initializations.md)),
-	or alternatively, Theano function to use for weights
-	initialization. This parameter is only relevant
-	if you don't pass a `weights` argument.
-- __transform_bias__: value for the bias to take on initially (default -2)
-- __activation__: name of activation function to use
-	(see [activations](../activations.md)),
-	or alternatively, elementwise Theano function.
-	If you don't specify anything, no activation is applied
-	(ie. "linear" activation: a(x) = x).
-- __weights__: list of numpy arrays to set as initial weights.
-	The list should have 2 elements, of shape `(input_dim, output_dim)`
-	and (output_dim,) for weights and biases respectively.
-- __W_regularizer__: instance of [WeightRegularizer](../regularizers.md)
-	(eg. L1 or L2 regularization), applied to the main weights matrix.
-- __b_regularizer__: instance of [WeightRegularizer](../regularizers.md),
-	applied to the bias.
-- __activity_regularizer__: instance of [ActivityRegularizer](../regularizers.md),
-	applied to the network output.
-- __W_constraint__: instance of the [constraints](../constraints.md) module
-	(eg. maxnorm, nonneg), applied to the main weights matrix.
-- __b_constraint__: instance of the [constraints](../constraints.md) module,
-	applied to the bias.
-- __bias__: whether to include a bias (i.e. make the layer affine rather than linear).
-- __input_dim__: dimensionality of the input (integer).
-	This argument (or alternatively, the keyword argument `input_shape`)
-	is required when using this layer as the first layer in a model.
+- __init__: レイヤーの重みに対する初期化関数名([initializations](../initializations.md)を参照)，もしくは，重みを初期化するために使用するTheano関数．このパラメータは`weights`引数を与えていないときにのみ有効です．
+- __transform_bias__: 初期に取るバイアスに対する値(デフォルト -2)
+- __activation__: 使用する活性化関数名
+	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
+	もしあなたが何も指定しなければ、活性化は適用されない．
+	(すなわち，"線形"活性化: a(x) = x).
+- __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
+- __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス(例えば，L1もしくはL2正則化)．
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
+- __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
+- __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
+- __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
+- __input_dim__: 入力の次元(整数).この引数(もしくは，キーワード引数`input_shape`)は，モデルの最初のレイヤーとして使うときに必要とされる．
 
-__Input shape__
+__入力の型__
 
-2D tensor with shape: `(nb_samples, input_dim)`.
+`(nb_samples, input_dim)`の型の2次元テンソル.
 
-__Output shape__
+__出力の型__
 
-2D tensor with shape: `(nb_samples, input_dim)`.
+`(nb_samples, output_dim)`の型の2次元テンソル.
 
-__References__
+__参考文献__
 
 - [Highway Networks](http://arxiv.org/pdf/1505.00387v2.pdf)
 
@@ -494,59 +424,45 @@ __References__
 keras.layers.core.MaxoutDense(output_dim, nb_feature=4, init='glorot_uniform', weights=None, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None)
 ```
 
-A dense maxout layer.
+密なマックスアウトレイヤー．
 
-A `MaxoutDense` layer takes the element-wise maximum of
-`nb_feature` `Dense(input_dim, output_dim)` linear layers.
-This allows the layer to learn a convex,
-piecewise linear activation function over the inputs.
+`MaxoutDense`レイヤーは`nb_feature`の要素ごとの最大を取る．`Dense(input_dim, output_dim)`の線形のレイヤー．
+これはそのレイヤーに入力にわたる区分的線形活性化関数の凸を学習することを許す．
 
-Note that this is a *linear* layer;
-if you wish to apply activation function
-(you shouldn't need to --they are universal function approximators),
-an `Activation` layer must be added after.
+これは*線形*のレイヤーであることに注意する;
+もしあなたが活性化関数を適用したいのであれば，(あなたはそれをする必要はない--それらは普遍的関数近似詞である),
+`Activation`レイヤーは後で追加されなければならない．
 
-__Arguments__
+__引数__
 
-- __output_dim__: int > 0.
-- __nb_feature__: number of Dense layers to use internally.
-- __init__: name of initialization function for the weights of the layer
-	(see [initializations](../initializations.md)),
-	or alternatively, Theano function to use for weights
-	initialization. This parameter is only relevant
-	if you don't pass a `weights` argument.
-- __activation__: name of activation function to use
-	(see [activations](../activations.md)),
-	or alternatively, elementwise Theano function.
-	If you don't specify anything, no activation is applied
-	(ie. "linear" activation: a(x) = x).
-- __weights__: list of numpy arrays to set as initial weights.
-	The list should have 2 elements, of shape `(input_dim, output_dim)`
-	and (output_dim,) for weights and biases respectively.
-- __W_regularizer__: instance of [WeightRegularizer](../regularizers.md)
-	(eg. L1 or L2 regularization), applied to the main weights matrix.
-- __b_regularizer__: instance of [WeightRegularizer](../regularizers.md),
-	applied to the bias.
-- __activity_regularizer__: instance of [ActivityRegularizer](../regularizers.md),
-	applied to the network output.
-- __W_constraint__: instance of the [constraints](../constraints.md) module
-	(eg. maxnorm, nonneg), applied to the main weights matrix.
-- __b_constraint__: instance of the [constraints](../constraints.md) module,
-	applied to the bias.
-- __bias__: whether to include a bias (i.e. make the layer affine rather than linear).
-- __input_dim__: dimensionality of the input (integer).
-	This argument (or alternatively, the keyword argument `input_shape`)
-	is required when using this layer as the first layer in a model.
+- __output_dim__: 正の整数 > 0.
+- __nb_feature__: 内部で使われるデンスレイヤーの数．
+- __init__: レイヤーの重みに対する初期化関数名([initializations](../initializations.md)を参照)，もしくは，重みを初期化するために使用するTheano関数．このパラメータは`weights`引数を与えていないときにのみ有効です．
+- __activation__: 使用する活性化関数名
+	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
+	もしあなたが何も指定しなければ、活性化は適用されない．
+	(すなわち，"線形"活性化: a(x) = x).
+- __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
+- __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
+	(例えば，L1もしくはL2正則化)．
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
+- __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
+- __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
+- __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
+- __input_dim__: 入力の次元(整数).
+	この引数(もしくは，キーワード引数`input_shape`)
+	は，モデルの最初のレイヤーとして使うときに必要とされる．
 
-__Input shape__
+__入力の型__
 
-2D tensor with shape: `(nb_samples, input_dim)`.
+2次元テンソル: `(nb_samples, input_dim)`.
 
-__Output shape__
+__出力の型__
 
-2D tensor with shape: `(nb_samples, output_dim)`.
+2次元テンソル: `(nb_samples, output_dim)`.
 
-__References__
+__参考文献__
 
 - [Maxout Networks](http://arxiv.org/pdf/1302.4389.pdf)
 
@@ -559,49 +475,42 @@ __References__
 keras.layers.core.TimeDistributedDense(output_dim, init='glorot_uniform', activation='linear', weights=None, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None, input_length=None)
 ```
 
-Apply a same Dense layer for each dimension[1] (time_dimension) input.
-Especially useful after a recurrent network with 'return_sequence=True'.
+それぞれの次元[1](time_dimension)の入力に対して同じデンスレイヤーを適用する．
+特に'return_sequence=True'でリカレントネットワークの後に役立つ．
 
-- __Note__: this layer is deprecated, prefer using the `TimeDistributed` wrapper:
+- __注意__: このレイヤーは廃止される予定である, `TimeDistributed`を使うことがより好まれる。
+
+ラッパー:
 ```python
 model.add(TimeDistributed(Dense(32)))
 ```
 
-__Input shape__
+__入力の型__
 
-3D tensor with shape `(nb_sample, time_dimension, input_dim)`.
-__Output shape__
+`(nb_sample, time_dimension, input_dim)`の型の3次元テンソル．
 
-3D tensor with shape `(nb_sample, time_dimension, output_dim)`.
-__Arguments__
+__出力の型__
 
-- __output_dim__: int > 0.
-- __init__: name of initialization function for the weights of the layer
-	(see [initializations](../initializations.md)),
-	or alternatively, Theano function to use for weights
-	initialization. This parameter is only relevant
-	if you don't pass a `weights` argument.
-- __activation__: name of activation function to use
-	(see [activations](../activations.md)),
-	or alternatively, elementwise Theano function.
-	If you don't specify anything, no activation is applied
-	(ie. "linear" activation: a(x) = x).
-- __weights__: list of numpy arrays to set as initial weights.
-	The list should have 2 elements, of shape `(input_dim, output_dim)`
-	and (output_dim,) for weights and biases respectively.
-- __W_regularizer__: instance of [WeightRegularizer](../regularizers.md)
-	(eg. L1 or L2 regularization), applied to the main weights matrix.
-- __b_regularizer__: instance of [WeightRegularizer](../regularizers.md),
-	applied to the bias.
-- __activity_regularizer__: instance of [ActivityRegularizer](../regularizers.md),
-	applied to the network output.
-- __W_constraint__: instance of the [constraints](../constraints.md) module
-	(eg. maxnorm, nonneg), applied to the main weights matrix.
-- __b_constraint__: instance of the [constraints](../constraints.md) module,
-	applied to the bias.
-- __bias__: whether to include a bias (i.e. make the layer affine rather than linear).
-- __input_dim__: dimensionality of the input (integer).
-	This argument (or alternatively, the keyword argument `input_shape`)
-	is required when using this layer as the first layer in a model.
-- __input_length__: length of inputs sequences
-	(integer, or None for variable-length sequences).
+`(nb_sample, time_dimension, output_dim)`の型の3次元テンソル．
+
+__引数__
+
+- __output_dim__: 正の整数 > 0.
+- __init__: レイヤーの重みに対する初期化関数名([initializations](../initializations.md)を参照)，もしくは，重みを初期化するために使用するTheano関数．このパラメータは`weights`引数を与えていないときにのみ有効です．
+- __activation__: 使用する活性化関数名
+	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
+	もしあなたが何も指定しなければ、活性化は適用されない．
+	(すなわち，"線形"活性化: a(x) = x).
+- __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
+- __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
+	(例えば，L1もしくはL2正則化)．
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
+- __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
+- __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
+- __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
+- __input_dim__: 入力の次元(整数).
+	この引数(もしくは，キーワード引数`input_shape`)
+	は，モデルの最初のレイヤーとして使うときに必要とされる．
+- __input_length__: 入力シーケンスの長さ
+	(整数，もしくは可変長のシーケンスに対してNone)．
