@@ -1,5 +1,5 @@
 
-## ImageDataGenerator　(画像データジェネレータ)
+## ImageDataGenerator (画像データジェネレータ)
 
 ```python
 keras.preprocessing.image.ImageDataGenerator(featurewise_center=True,
@@ -41,6 +41,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=True,
     - __dim_ordering__: {"th", "tf"}のいずれか．
         "tf"モードは入力の形状が`(samples, width, height, channels)`であることを想定します．
         "th"モードは入力の形状が`(samples, channels, width, height)`であることを想定します．
+        デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 - __メソッド__:
     - __fit(X)__: featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要になります．いくつかのサンプルに対して必要な値を計算します．
