@@ -393,19 +393,19 @@ dim_ordering='th'の場合，配列サイズ
 keras.layers.convolutional.UpSampling1D(length=2)
 ```
 
-Repeat each temporal step `length` times along the time axis.
+時間軸方向にそれぞれの時間ステップを`length`回繰り返す．
 
 __Arguments__
 
-- __length__: integer. Upsampling factor.
+- __length__: 整数．アップサンプリング係数．
 
 __Input shape__
 
-3D tensor with shape: `(samples, steps, features)`.
+配列サイズ `(samples, steps, features)`の３次元テンソル．
 
 __Output shape__
 
-3D tensor with shape: `(samples, upsampled_steps, features)`.
+配列サイズ `(samples, upsampled_steps, features)`の３次元テンソル．
 
 ----
 
@@ -416,29 +416,28 @@ __Output shape__
 keras.layers.convolutional.UpSampling2D(size=(2, 2), dim_ordering='th')
 ```
 
-Repeat the rows and columns of the data
-by size[0] and size[1] respectively.
+データの行と列をそれぞれsize[0]及びsize[1]回繰り返す．
 
 __Arguments__
 
-- __size__: tuple of 2 integers. The upsampling factors for rows and columns.
-- __dim_ordering__: 'th' or 'tf'.
-	In 'th' mode, the channels dimension (the depth)
-	is at index 1, in 'tf' mode is it at index 3.
+- __size__: ２つの整数のタプル．行と列のアップサンプリング係数．
+- __dim_ordering__: 'th'か'tf'.
+	'th'モードのときはチャネルの次元（深さ）はindex 1に，
+	'tf'モードではindex 3に．
 
 __Input shape__
 
 4D tensor with shape:
-`(samples, channels, rows, cols)` if dim_ordering='th'
-or 4D tensor with shape:
-`(samples, rows, cols, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ`(samples, channels, rows, cols)`の４次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, rows, cols, channels)`の４次元テンソル．
 
 __Output shape__
 
-4D tensor with shape:
-`(samples, channels, upsampled_rows, upsampled_cols)` if dim_ordering='th'
-or 4D tensor with shape:
-`(samples, upsampled_rows, upsampled_cols, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(samples, channels, upsampled_rows, upsampled_cols)`の４次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, upsampled_rows, upsampled_cols, channels)`の４次元テンソル．
 
 ----
 
@@ -449,31 +448,30 @@ or 4D tensor with shape:
 keras.layers.convolutional.UpSampling3D(size=(2, 2, 2), dim_ordering='th')
 ```
 
-Repeat the first, second and third dimension of the data
-by size[0], size[1] and size[2] respectively.
+データの１番目，２番目，３番目の次元をそれぞれsize[0]，size[1]，size[2]だけ繰り返す．
 
-- __Note__: this layer will only work with Theano for the time being.
+- __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
 __Arguments__
 
-- __size__: tuple of 3 integers. The upsampling factors for dim1, dim2 and dim3.
-- __dim_ordering__: 'th' or 'tf'.
-	In 'th' mode, the channels dimension (the depth)
-	is at index 1, in 'tf' mode is it at index 4.
+- __size__: ３つの整数のタプル．dim1, dim2 and dim3のアップサンプリング係数．
+- __dim_ordering__: 'th'か'tf'.
+		'th'モードのときはチャネルの次元（深さ）はindex 1に，
+		'tf'モードではindex 4に．
 
 __Input shape__
 
-5D tensor with shape:
-`(samples, channels, dim1, dim2, dim3)` if dim_ordering='th'
-or 5D tensor with shape:
-`(samples, dim1, dim2, dim3, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(samples, channels, dim1, dim2, dim3)`の５次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, dim1, dim2, dim3, channels)`の５次元テンソル．
 
 __Output shape__
 
-5D tensor with shape:
-`(samples, channels, upsampled_dim1, upsampled_dim2, upsampled_dim3)` if dim_ordering='th'
-or 5D tensor with shape:
-`(samples, upsampled_dim1, upsampled_dim2, upsampled_dim3, channels)` if dim_ordering='tf'.
+dim_ordering='th'の場合，配列サイズ
+`(samples, channels, upsampled_dim1, upsampled_dim2, upsampled_dim3)`の５次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
+`(samples, upsampled_dim1, upsampled_dim2, upsampled_dim3, channels)`の５次元テンソル．
 
 ----
 
@@ -484,21 +482,20 @@ or 5D tensor with shape:
 keras.layers.convolutional.ZeroPadding1D(padding=1)
 ```
 
-Zero-padding layer for 1D input (e.g. temporal sequence).
+一次元入力（例，時系列）に対するゼローパッディングレイヤー．
 
 __Arguments__
 
-- __padding__: int
-	How many zeros to add at the beginning and end of
-	the padding dimension (axis 1).
+- __padding__: 整数．
+	パッディング次元（axis 1）の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
-3D tensor with shape (samples, axis_to_pad, features)
+配列サイズ`(samples, axis_to_pad, features)`の３次元テンソル．
 
 __Output shape__
 
-3D tensor with shape (samples, padded_axis, features)
+配列サイズ`(samples, padded_axis, features)`の３次元テンソル．
 
 ----
 
@@ -509,23 +506,20 @@ __Output shape__
 keras.layers.convolutional.ZeroPadding2D(padding=(1, 1), dim_ordering='th')
 ```
 
-Zero-padding layer for 2D input (e.g. picture).
+２次元入力（例，画像）のためのゼローパッディングレイヤー
 
 __Arguments__
 
-- __padding__: tuple of int (length 2)
-	How many zeros to add at the beginning and end of
-	the 2 padding dimensions (axis 3 and 4).
+- __padding__: 整数のタプル（長さ２）．
+	２つのパッディング次元(axis 3 と 4)の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
-4D tensor with shape:
-(samples, depth, first_axis_to_pad, second_axis_to_pad)
+配列サイズ`(samples, depth, first_axis_to_pad, second_axis_to_pad)`の４次元テンソル．
 
 __Output shape__
 
-4D tensor with shape:
-(samples, depth, first_padded_axis, second_padded_axis)
+配列サイズ`(samples, depth, first_padded_axis, second_padded_axis)`の４次元テンソル．
 
 ----
 
@@ -536,22 +530,19 @@ __Output shape__
 keras.layers.convolutional.ZeroPadding3D(padding=(1, 1, 1), dim_ordering='th')
 ```
 
-Zero-padding layer for 3D data (spatial or spatio-temporal).
+３次元データ（空間及び時空間）のためのゼローパッディングレイヤー．
 
-- __Note__: this layer will only work with Theano for the time being.
+- __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
 __Arguments__
 
-- __padding__: tuple of int (length 3)
-	How many zeros to add at the beginning and end of
-	the 3 padding dimensions (axis 3, 4 and 5).
+- __padding__: 整数のタプル（長さ３）
+	３つのパッディング次元(axis 3, 4 and 5)の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
-5D tensor with shape:
-(samples, depth, first_axis_to_pad, second_axis_to_pad, third_axis_to_pad)
+配列サイズ`(samples, depth, first_axis_to_pad, second_axis_to_pad, third_axis_to_pad)`の５次元テンソル．
 
 __Output shape__
 
-5D tensor with shape:
-(samples, depth, first_padded_axis, second_padded_axis, third_axis_to_pad)
+配列サイズ`(samples, depth, first_padded_axis, second_padded_axis, third_axis_to_pad)`の５次元テンソル．
