@@ -33,7 +33,7 @@ __Arguments__
 	もしなにも指定しなければ活性化は一切適用されません（つまり"線形"活性a(x) = x）．
 - __weights__: 初期重みとして設定されるnumpy配列のリスト．
 - __border_mode__: 'valid' あるいは 'same'．
-- __subsample_length__: 出力を部分サンプルするときの長さ．　<!--check-->
+- __subsample_length__: 出力を部分サンプルするときの長さ．
 - __W_regularizer__: メインの重み行列に適用される[WeightRegularizer](../regularizers.md)（例えばL1やL2正則化）のインスタンス．
 - __b_regularizer__: バイアス項に適用される[WeightRegularizer](../regularizers.md)のインスタンス．
 - __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
@@ -44,7 +44,7 @@ __Arguments__
 	このレイヤーがモデルの初めのレイヤーの場合，
 	この引数もしくはキーワード引数`input_shape`を指定する必要があります．
 - __input_length__: 入力系列が一定のときのその長さ．
-	この引数は上流の`Flatten`そして`Dense`レイヤーを繋ぐときに必要となります．　<!--check-->
+	この引数は上流の`Flatten`そして`Dense`レイヤーを繋ぐときに必要となります．　
 	これがないとdense出力の配列サイズを計算することができません．
 
 __Input shape__
