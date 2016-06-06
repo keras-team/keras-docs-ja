@@ -65,7 +65,7 @@ __Output shape__
 keras.layers.convolutional.Convolution2D(nb_filter, nb_row, nb_col, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1), dim_ordering='th', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 ```
 
-２次元入力をフィルターする畳み込み演算子．
+２次元入力をフィルターする畳み込み演算．
 このレイヤーをモデルの第一層に使うときはキーワード引数`input_shape`
 （整数のタプル，サンプル軸を含まない）を指定してください．
 例えば128x128 RGBのピクチャーでは`input_shape=(3, 128, 128)`．
@@ -113,8 +113,8 @@ __Arguments__
 __Input shape__
 
 dim_ordering='th'の場合，配列サイズ
-`(samples, channels, rows, cols)`の４次元テンソル，あるいは
-dim_ordering='tf'の場合，配列サイズ
+`(samples, channels, rows, cols)`の４次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ
 `(samples, rows, cols, channels)`の４次元テンソル
 
 __Output shape__
@@ -133,12 +133,12 @@ dim_ordering='tf'の場合，配列サイズ`(samples, new_rows, new_cols, nb_fi
 keras.layers.convolutional.Convolution3D(nb_filter, kernel_dim1, kernel_dim2, kernel_dim3, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1, 1), dim_ordering='th', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 ```
 
-３次元入力をフィルターする畳み込み演算子．
+３次元入力をフィルターする畳み込み演算．
 このレイヤーをモデルの第一層に使うときはキーワード引数`input_shape`
 （整数のタプル，サンプル軸を含まない）を指定してください．
 例えば10フレームの128x128 RGBのピクチャーでは`input_shape=(3, 10, 128, 128)`．
 
-- __Note__: このレイヤーは現時点ではTheanoにしか働きません．
+- __Note__: このレイヤーは現時点ではTheanoでのみ動きます．
 
 __Arguments__
 
@@ -192,7 +192,7 @@ dim_ordering='th'の場合配列サイズ
 keras.layers.convolutional.MaxPooling1D(pool_length=2, stride=None, border_mode='valid')
 ```
 
-時系列データのマックスプーリング演算子．
+時系列データのマックスプーリング演算．
 
 __Input shape__
 
@@ -218,7 +218,7 @@ __Arguments__
 keras.layers.convolutional.MaxPooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering='th')
 ```
 
-空間データのマックスプーリング演算子．
+空間データのマックスプーリング演算．
 
 __Arguments__
 
@@ -236,14 +236,14 @@ __Input shape__
 
 dim_ordering='th'の場合，`(samples, channels, rows, cols)`の４次元テンソル，
 もしくは
-dim_ordering='tf'の場合，`(samples, rows, cols, channels)`の４次元テンソル，
+dim_ordering='tf'の場合，`(samples, rows, cols, channels)`の４次元テンソル．
 
 __Output shape__
 
 dim_ordering='th'の場合，4D tensor with shape:
 `(nb_samples, channels, pooled_rows, pooled_cols)`の４次元テンソル，
 もしくは
-dim_ordering='tf'の場合，`(samples, pooled_rows, pooled_cols, channels)`の４次元テンソル，
+dim_ordering='tf'の場合，`(samples, pooled_rows, pooled_cols, channels)`の４次元テンソル．
 
 ----
 
@@ -254,7 +254,7 @@ dim_ordering='tf'の場合，`(samples, pooled_rows, pooled_cols, channels)`の�
 keras.layers.convolutional.MaxPooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering='th')
 ```
 
-３次元データ（空間もしくは時空間）に対するマクスプーリング演算子
+３次元データ（空間もしくは時空間）に対するマクスプーリング演算．
 
 - __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
@@ -292,7 +292,7 @@ dim_ordering='th'の場合，配列サイズ
 keras.layers.convolutional.AveragePooling1D(pool_length=2, stride=None, border_mode='valid')
 ```
 
-時系列データのための平均プーリング演算子．
+時系列データのための平均プーリング演算．
 
 __Arguments__
 
@@ -318,7 +318,7 @@ __Output shape__
 keras.layers.convolutional.AveragePooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering='th')
 ```
 
-空間データのための平均プーリング演算子．
+空間データのための平均プーリング演算．
 
 __Arguments__
 
@@ -355,7 +355,7 @@ dim_ordering='th'の場合，配列サイズ
 keras.layers.convolutional.AveragePooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering='th')
 ```
 
-３次元データ（空間もしくは時空間）に対する平均プーリング演算子．
+３次元データ（空間もしくは時空間）に対する平均プーリング演算．
 
 - __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
@@ -482,12 +482,12 @@ dim_ordering='th'の場合，配列サイズ
 keras.layers.convolutional.ZeroPadding1D(padding=1)
 ```
 
-一次元入力（例，時系列）に対するゼローパッディングレイヤー．
+一次元入力（例，時系列）に対するゼローパディングレイヤー．
 
 __Arguments__
 
 - __padding__: 整数．
-	パッディング次元（axis 1）の始めと終わりにいくつのゼロを加えるか．
+	パディング次元（axis 1）の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
@@ -506,12 +506,12 @@ __Output shape__
 keras.layers.convolutional.ZeroPadding2D(padding=(1, 1), dim_ordering='th')
 ```
 
-２次元入力（例，画像）のためのゼローパッディングレイヤー
+２次元入力（例，画像）のためのゼローパディングレイヤー
 
 __Arguments__
 
 - __padding__: 整数のタプル（長さ２）．
-	２つのパッディング次元(axis 3 と 4)の始めと終わりにいくつのゼロを加えるか．
+	２つのパディング次元(axis 3 と 4)の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
@@ -530,14 +530,14 @@ __Output shape__
 keras.layers.convolutional.ZeroPadding3D(padding=(1, 1, 1), dim_ordering='th')
 ```
 
-３次元データ（空間及び時空間）のためのゼローパッディングレイヤー．
+３次元データ（空間及び時空間）のためのゼローパディングレイヤー．
 
 - __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
 __Arguments__
 
 - __padding__: 整数のタプル（長さ３）
-	３つのパッディング次元(axis 3, 4 and 5)の始めと終わりにいくつのゼロを加えるか．
+	３つのパディング次元(axis 3, 4 and 5)の始めと終わりにいくつのゼロを加えるか．
 
 __Input shape__
 
