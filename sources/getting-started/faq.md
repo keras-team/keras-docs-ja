@@ -10,7 +10,7 @@
 - [validation splitはどのように実行されますか？](#validation-split)
 - [訓練時にデータはシャッフルされますか？](#_3)
 - [各epochのtraining/validation lossやaccuracyを記録するには？](#epochtrainingvalidation-lossaccuracy)
-- [層を "freeze" するには？](#how-can-i-freeze-keras-layers)
+- [層を "freeze" するには？](#freeze)
 - [stateful RNNを利用するには？](#stateful-rnn)
 
 ---
