@@ -4,9 +4,9 @@
 keras.preprocessing.sequence.pad_sequences(sequences, maxlen=None, dtype='int32')
 ```
 
-`nb_samples sequences`から構成されるリスト（スカラのリスト）を形状が`(nb_samples, nb_timesteps)`である2次元のnumpy配列に変換します．`nb_timesteps`は`maxlen`引数が与えられれば`maxlen`，あるいは，最大のシーケンス長になります．`nb_timesteps`より短いシーケンスはパディングされます．
+`nb_samples sequences`から構成されるリスト（スカラのリスト）を形状が`(nb_samples, nb_timesteps)`である2次元のNumpy配列に変換します．`nb_timesteps`は`maxlen`引数が与えられれば`maxlen`，あるいは，最大のシーケンス長になります．`nb_timesteps`より短いシーケンスはパディングされます．
 
-- __戻り値__: 形状が`(nb_samples, nb_timesteps)`である2次元のnumpy配列．
+- __戻り値__: 形状が`(nb_samples, nb_timesteps)`である2次元のNumpy配列．
 
 - __引数__:
     - __sequences__: 整数または浮動小数点数を含むリストのリスト．
@@ -21,8 +21,8 @@ keras.preprocessing.sequence.pad_sequences(sequences, maxlen=None, dtype='int32'
 ## skipgrams
 
 ```python
-keras.preprocessing.sequence.skipgrams(sequence, vocabulary_size, 
-    window_size=4, negative_samples=1., shuffle=True, 
+keras.preprocessing.sequence.skipgrams(sequence, vocabulary_size,
+    window_size=4, negative_samples=1., shuffle=True,
     categorical=False, sampling_table=None)
 ```
 
@@ -46,7 +46,7 @@ Vector Space](http://arxiv.org/pdf/1301.3781v3.pdf)
     - __negative_samples__: 0以上の浮動小数点数．0はネガティブサンプル数が0になります．1はネガティブサンプル数がポジティブサンプルと同じ数になります．
     - __shuffle__: 真理値．サンプルをシャッフルするかどうか．
     - __categorical__: 真理値．戻り値のラベルをカテゴリカルにするかどうか．
-    - __sampling_table__: 形状が`(vocabulary_size,)`であるnumpy配列．`sampling_table[i]`はインデックスiを持つ単語（データセット中でi番目に頻出する単語であることを想定します）のサンプリング確率です．
+    - __sampling_table__: 形状が`(vocabulary_size,)`であるNumpy配列．`sampling_table[i]`はインデックスiを持つ単語（データセット中でi番目に頻出する単語であることを想定します）のサンプリング確率です．
 
 ---
 
@@ -58,7 +58,7 @@ keras.preprocessing.sequence.make_sampling_table(size, sampling_factor=1e-5)
 
 `skipgrams`の`sampling_table`引数を生成するために利用します．`sampling_table[i]`はデータセット中でi番目に頻出する単語をサンプリングする確率です（バランスを保つために，より頻出する語はこれより低い頻度でサンプリングされます）．
 
-- __戻り値__: 形状が`(size,)`であるnumpy配列．
+- __戻り値__: 形状が`(size,)`であるNumpy配列．
 
 - __引数__:
     - __size__: 語彙数．
