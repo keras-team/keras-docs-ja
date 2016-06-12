@@ -1,32 +1,37 @@
 # Keras backends
 
-## What is a "backend"?
+## "バックエンド"とは?
 
-Keras is a model-level library, providing high-level building blocks for developing deep learning models. It does not handle itself low-level operations such as tensor products, convolutions and so on. Instead, it relies on a specialized, well-optimized tensor manipulation library to do so, serving as the "backend engine" of Keras. Rather than picking one single tensor library and making the implementation of Keras tied to that library, Keras handles the problem in a modular way, and several different backend engines can be plugged seamlessly into Keras.
+Kerasはモデルレベルのライブラリーで，深層学習モデルを開発するための高水準のモデル構築ブロックを与えます. 
+テンソル積，たたみ込みなどのような低水準の操作を自身で扱うことはありません．
+代わりに，Kerasの"バックエンドエンジン"としての役割を果たす，そのような操作を行うために特別に良く最適化されたテンソル操作ライブラリに依存します．
+一つの単一のテンソルライブラリーを取り上げたり，そのライブラリに束縛されたKerasの実装を行うのではなく，
+Kerasはモジュール方式でこの問題を扱い，いくつかの異なるバックエンドエンジンをKerasにシームレスに付加できます．
 
-At this time, Keras has two backend implementations available: the **Theano** backend and the **TensorFlow** backend.
+今回から，Kerasは二つのバックエンド，即ち**Theano**バックエンドと**TensorFlow**バックエンド，が利用可能になりました．
 
-- [Theano](http://deeplearning.net/software/theano/) is an open-source symbolic tensor manipulation framework developed by LISA/MILA Lab at Université de Montréal.
-- [TensorFlow](http://www.tensorflow.org/) is an open-source symbolic tensor manipulation framework developed by Google, Inc.
+- [Theano](http://deeplearning.net/software/theano/) はモントリオール大学のLISA/MILA Labにより開発されたオープンソースのシンボリックなテンソル操作のフレームワークです．
+- [TensorFlow](http://www.tensorflow.org/) はGoogle, Inc.により開発されたオープンソースのシンボリックなテンソル操作のフレームワークです．
 
 ----
 
-## Switching from one backend to another
+## あるバックエンドから別のバックエンドへの移行
 
-If you have run Keras at least once, you will find the Keras configuration file at:
+少なくとも一度Kerasを実行したら，Kerasの設定ファイルを
 
 `~/.keras/keras.json`
 
-If it isn't there, you can create it.
+で見つけるでしょう．
 
-It probably looks like this:
+そこになければ，あなたはこの設定ファイルを作成することができます．
+
+おそらくこのように見えるでしょう:
 
 `{"epsilon": 1e-07, "floatx": "float32", "backend": "theano"}`
 
-Simply change the field `backend` to either `"theano"` or `"tensorflow"`, and Keras will use the new configuration next time you run any Keras code.
+単にフィールド`backend`を`"theano"`もしくは`"tensorflow"`に変えると，次回あなたが任意のKerasコードを実行するときに新しい設定を利用します．
 
-You can also define the environment variable ``KERAS_BACKEND`` and this will
-override what is defined in your config file :
+あなたは環境変数``KERAS_BACKEND''も定義することができ，これはあなたの設定ファイルで定義されているものを上書きします:
 
 ```bash
 KERAS_BACKEND=tensorflow python -c "from keras import backend; print backend._BACKEND"
@@ -36,38 +41,41 @@ tensorflow
 
 ----
 
-## Using the abstract Keras backend to write new code
+## 新しいコードを書くための抽象的なKerasバックエンドの利用
 
-If you want the Keras modules you write to be compatible with both Theano and TensorFlow, you have to write them via the abstract Keras backend API. Here's an intro.
+TheanoとTesorFlowの両方で互換性があるように書くKerasモジュールが欲しいときは，
+抽象的なKerasバックエンドAPIを通じて書く必要があります．
 
-You can import the backend module via:
+あなたは以下を通じてバックエンドモジュールをインポートできます:
 ```python
 from keras import backend as K
 ```
 
-The code below instantiates an input placeholder. It's equivalent to `tf.placeholder()` or `T.matrix()`, `T.tensor3()`, etc.
+以下のコードは入力のプレースホルダーのインスタンスを作成します．
+これは`tf.placeholder()`や`T.matrix()`, `T.tensor3()`, などと同じことです．
 
 ```python
 input = K.placeholder(shape=(2, 4, 5))
-# also works:
+# 以下も動作します:
 input = K.placeholder(shape=(None, 4, 5))
-# also works:
+# 以下も動作します:
 input = K.placeholder(ndim=3)
 ```
 
-The code below instantiates a shared variable. It's equivalent to `tf.variable()` or `theano.shared()`.
+以下のコードは共有変数のインスタンスを作成します．
+これは`tf.variable()`や`theano.shared()`と同じことです．
 
 ```python
 val = np.random.random((3, 4, 5))
 var = K.variable(value=val)
 
-# all-zeros variable:
+# すべて0の変数:
 var = K.zeros(shape=(3, 4, 5))
-# all-ones:
+# すべて1の変数:
 var = K.ones(shape=(3, 4, 5))
 ```
 
-Most tensor operations you will need can be done as you would in TensorFlow or Theano:
+あなたが必要とする大抵のテンソル操作はTensorFlowやTheanoにおいて行うように実行できます:
 
 ```python
 a = b + c * K.abs(d)
@@ -80,7 +88,7 @@ a = concatenate([b, c], axis=-1)
 
 ----
 
-## Backend functions
+## バックエンド関数
 
 
 ### learning_phase
@@ -91,11 +99,11 @@ learning_phase()
 ```
 
 
-Returns the learning phase flag.
+学習フェーズのフラグを返します．
 
-The learning phase flag is an integer tensor (0 = test, 1 = train)
-to be passed as input to any Keras function
-that uses a different behavior at train time and test time.
+学習フェーズのフラグは
+訓練期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される
+整数のテンソル (0 = test, 1 = train) です．
 
 ----
 
@@ -107,7 +115,7 @@ floatx()
 ```
 
 
-Returns the default float type, as a string
+デフォルトのfloat型を文字列で返します
 (e.g. 'float16', 'float32', 'float64').
 
 ----
@@ -120,7 +128,7 @@ cast_to_floatx(x)
 ```
 
 
-Cast a Numpy array to floatx.
+Numpyアレイをfloatxにキャストします．
 
 ----
 
@@ -132,7 +140,7 @@ shape(x)
 ```
 
 
-Returns the symbolic shape of a tensor.
+テンソルのシンボリックなshapeを返します．
 
 ----
 
@@ -144,17 +152,17 @@ variable(value, dtype='float32', name=None)
 ```
 
 
-Instantiates a tensor.
+テンソルのインスタンスを作成します．
 
-__Arguments__
+__引数__
 
-- __value__: numpy array, initial value of the tensor.
-- __dtype__: tensor type.
-- __name__: optional name string for the tensor.
+- __value__: numpyアレイ, テンソルの初期値．
+- __dtype__: テンソルの型.
+- __name__: このテンソルに対する任意の名前を表す文字列．
 
-__Returns__
+__返り値__
 
-Tensor variable instance.
+テンソル変数のインスタンス．
 
 ----
 
@@ -166,21 +174,21 @@ placeholder(shape=None, ndim=None, dtype='float32', name=None)
 ```
 
 
-Instantiates a placeholder.
+プレースホルダーのインスタンスを作成します．
 
-__Arguments__
+__引数__
 
-- __shape__: shape of the placeholder
-(integer tuple, may include None entries).
-- __ndim__: number of axes of the tensor.
-At least one of {`shape`, `ndim`} must be specified.
-If both are specified, `shape` is used.
-- __dtype__: placeholder type.
-- __name__: optional name string for the placeholder.
+- __shape__: プレースホルダーのshape
+（整数のタプル，Noneのエントリーを含んでも構いません）．
+- __ndim__: テンソルの軸の数．
+少なくとも{`shape`, `ndim`}から一つ指定する必要があります．
+両方が指定されると，`shape`が利用されます．
+- __dtype__: プレースホルダー型．
+- __name__: このプレースホルダーに対する任意の名前を表す文字列．
 
-__Returns__
+__返り値__
 
-Placeholder tensor instance.
+プレースホルダーのテンソルインスタンス．
 
 ----
 
@@ -192,8 +200,7 @@ int_shape(x)
 ```
 
 
-Returns the shape of a tensor as a tuple of
-integers or None entries.
+整数もしくはNoneのエントリーからなるタプルとしてテンソルのshapeを返します．
 
 ----
 
@@ -205,7 +212,7 @@ ndim(x)
 ```
 
 
-Returns the number of axes in a tensor, as an integer.
+テンソルの軸の数を整数として返します．
 
 ----
 
@@ -217,7 +224,7 @@ dtype(x)
 ```
 
 
-Returns the dtype of a tensor, as a string.
+テンソルのdtypeを文字列として返します．
 
 ----
 
@@ -229,8 +236,8 @@ eval(x)
 ```
 
 
-Evaluates the value of a tensor.
-Returns a Numpy array.
+テンソルの値を評価します．
+Numpyアレイを返します．
 
 ----
 
@@ -242,7 +249,7 @@ zeros(shape, dtype='float32', name=None)
 ```
 
 
-Instantiates an all-zeros tensor variable.
+すべて0のテンソル変数のインスタンスを作成します．
 
 ----
 
@@ -254,7 +261,7 @@ ones(shape, dtype='float32', name=None)
 ```
 
 
-Instantiates an all-ones tensor variable.
+すべて1のテンソル変数のインスタンスを作成します．
 
 ----
 
@@ -266,7 +273,7 @@ eye(size, dtype='float32', name=None)
 ```
 
 
-Instantiate an identity matrix.
+単位行列のインスタンスを作成します．
 
 ----
 
@@ -278,8 +285,7 @@ zeros_like(x, name=None)
 ```
 
 
-Instantiates an all-zeros tensor
-of the same shape as another tensor.
+別のテンソルと同じshapeを持つすべて0のテンソルのインスタンスを作成します．
 
 ----
 
@@ -291,8 +297,7 @@ ones_like(x, name=None)
 ```
 
 
-Instantiates an all-ones tensor
-of the same shape as another tensor.
+別のテンソルと同じshapeを持つすべて1のテンソルのインスタンスを作成します．
 
 ----
 
@@ -304,7 +309,7 @@ count_params(x)
 ```
 
 
-Returns the number of scalars in a tensor.
+テンソルにおけるスカラーの数を返します．
 
 ----
 
@@ -316,7 +321,7 @@ cast(x, dtype)
 ```
 
 
-Casts a tensor to a different dtype.
+テンソルを異なる型にキャストします．
 
 ----
 
@@ -328,9 +333,8 @@ dot(x, y)
 ```
 
 
-Multiplies 2 tensors.
-When attempting to multiply a ND tensor
-with a ND tensor, reproduces the Theano behavior
+二つのテンソルを掛け合わせます．
+NDテンソルにNDテンソルを掛けようとすると，Theanoの振る舞いを再現します．
 (e.g. (2, 3).(4, 3, 5) = (2, 4, 5))
 
 ----
@@ -343,29 +347,28 @@ batch_dot(x, y, axes=None)
 ```
 
 
-Batchwise dot product.
+バッチごとのdot積．
 
-batch_dot results in a tensor with less dimensions than the input.
+batch_dotの結果は入力より小さい次元を持つテンソルになります．
+次元数が1になれば，ndimが少なくとも2であることを確認するために`expand_dims`を利用します．
 If the number of dimensions is reduced to 1, we use `expand_dims` to
 make sure that ndim is at least 2.
 
-__Example__
+__例__
 
-Assume x = [[1, 2]   and y = [[5, 6]
-	[3, 4]]   [7, 8]]
-batch_dot(x, y, axes=1) = [[17, 53]] which is the main diagonal
-of x.dot(y.T), although we never have to calculate the off-diagonal
-elements.
+x = [[1, 2], [3,4]],  y = [[5, 6], [7, 8]]
+と仮定すると，
+非対角成分を計算しなくても，x.dot(y.T)の主対角成分である
+batch_dot(x, y, axes=1) = [[17, 53]]が得られます．
 
+__引数__
 
-__Arguments__
+x, y: ndim >= 2であるようなテンソル
+- __axes__: 目標となる次元を持つ整数のリスト（もしくは整数単体）
 
-x, y: tensors with ndim >= 2
-- __axes__: list (or single) int with target dimensions
+__返り値__
 
-__Returns__
-
-Tensor with ndim >= 2
+ndim >= 2であるようなテンソル
 
 ----
 
@@ -377,7 +380,7 @@ transpose(x)
 ```
 
 
-Transposes a matrix.
+行列を転置します．
 
 ----
 
@@ -389,17 +392,16 @@ gather(reference, indices)
 ```
 
 
-Retrieves the vectors of indices `indices`
-in the 2D tensor `reference`.
+2Dテンソル`reference`の中で添字ベクトル`indices`を探索します．
 
 __Arguments__
 
-- __reference__: a 2D tensor.
-- __indices__: an int tensor of indices.
+- __reference__: 2Dテンソル.
+- __indices__: 添字の整数テンソル．
 
-__Returns__
+__返り値__
 
-A 3D tensor of same type as `reference`.
+`reference`と同じ型を持つ3Dテンソル．
 
 ----
 
@@ -411,7 +413,7 @@ max(x, axis=None, keepdims=False)
 ```
 
 
-Maximum value in a tensor.
+テンソル内の最大値．
 
 ----
 
@@ -423,7 +425,7 @@ min(x, axis=None, keepdims=False)
 ```
 
 
-Minimum value in a tensor.
+テンソル内の最小値．
 
 ----
 
@@ -435,7 +437,7 @@ sum(x, axis=None, keepdims=False)
 ```
 
 
-Sum of the values in a tensor, alongside the specified axis.
+テンソル内の値の，指定した軸に沿った和．
 
 ----
 
@@ -447,7 +449,7 @@ prod(x, axis=None, keepdims=False)
 ```
 
 
-Multiplies the values in a tensor, alongside the specified axis.
+テンソル内の値の，指定した軸に沿った積．
 
 ----
 
@@ -459,7 +461,7 @@ std(x, axis=None, keepdims=False)
 ```
 
 
-Standard deviation of a tensor, alongside the specificied axis.
+テンソル内の値の，指定した軸に沿った標準偏差．
 
 ----
 
@@ -471,7 +473,7 @@ mean(x, axis=None, keepdims=False)
 ```
 
 
-Mean of a tensor, alongside the specificied axis.
+テンソル内の値の，指定した軸に沿った平均．
 
 ----
 
@@ -483,9 +485,9 @@ any(x, axis=None, keepdims=False)
 ```
 
 
-Bitwise reduction (logical OR).
+ビットごとの縮約（論理OR）．
 
-Returns an uint8 tensor (0s and 1s).
+（0と1からなる）unit8テンソルを返します．
 
 ----
 
@@ -497,8 +499,7 @@ argmax(x, axis=-1)
 ```
 
 
-Returns the index of the maximum value
-along a tensor axis.
+テンソルの軸に沿った最大値の添字を返します．
 
 ----
 
@@ -510,8 +511,7 @@ argmin(x, axis=-1)
 ```
 
 
-Returns the index of the minimum value
-along a tensor axis.
+テンソルの軸に沿った最小値の添字を返します．
 
 ----
 
@@ -523,7 +523,7 @@ square(x)
 ```
 
 
-Element-wise square.
+成分ごとの二乗．
 
 ----
 
@@ -535,7 +535,7 @@ abs(x)
 ```
 
 
-Element-wise absolute value.
+成分ごとの絶対値．
 
 ----
 
@@ -547,7 +547,7 @@ sqrt(x)
 ```
 
 
-Element-wise square root.
+成分ごとの平方根．
 
 ----
 
@@ -559,7 +559,7 @@ exp(x)
 ```
 
 
-Element-wise exponential.
+指数関数における成分ごとの値．
 
 ----
 
@@ -571,7 +571,7 @@ log(x)
 ```
 
 
-Element-wise log.
+成分ごとの対数．
 
 ----
 
@@ -583,7 +583,7 @@ round(x)
 ```
 
 
-Element-wise rounding to the closest integer.
+成分ごとの最も近い整数への丸め．
 
 ----
 
@@ -595,7 +595,7 @@ sign(x)
 ```
 
 
-Element-wise sign.
+成分ごとの符号．
 
 ----
 
@@ -607,7 +607,7 @@ pow(x, a)
 ```
 
 
-Element-wise exponentiation.
+成分ごとの指数乗．
 
 ----
 
@@ -619,7 +619,7 @@ clip(x, min_value, max_value)
 ```
 
 
-Element-wise value clipping.
+成分ごとの値のクリッピング．
 
 ----
 
@@ -631,8 +631,8 @@ equal(x, y)
 ```
 
 
-Element-wise equality between two tensors.
-Returns a bool tensor.
+二つのテンソル間の成分ごとの等値性．
+ブール値からなるテンソルを返します．
 
 ----
 
@@ -644,8 +644,8 @@ not_equal(x, y)
 ```
 
 
-Element-wise inequality between two tensors.
-Returns a bool tensor.
+二つのテンソル間の成分ごとの不等性．
+ブール値からなるテンソルを返します．
 
 ----
 
@@ -657,7 +657,7 @@ maximum(x, y)
 ```
 
 
-Element-wise maximum of two tensors.
+二つのテンソルの成分ごとの最大値．
 
 ----
 
@@ -669,7 +669,7 @@ minimum(x, y)
 ```
 
 
-Element-wise minimum of two tensors.
+二つのテンソルの成分ごとの最小値．
 
 ----
 
@@ -681,7 +681,7 @@ sin(x)
 ```
 
 
-Computes sin of x element-wise.
+成分ごとにxのsinを計算します．
 
 ----
 
@@ -693,7 +693,7 @@ cos(x)
 ```
 
 
-Computes cos of x element-wise.
+成分ごとにxのcosを計算します．
 
 ----
 
@@ -705,7 +705,7 @@ concatenate(tensors, axis=-1)
 ```
 
 
-Concantes a list of tensors alongside the specified axis.
+指定した軸に沿ってテンソルのリストを連結します．
 
 ----
 
@@ -717,7 +717,7 @@ reshape(x, shape)
 ```
 
 
-Reshapes a tensor to the specified shape.
+指定したshapeにテンソルを整形します．
 
 ----
 
@@ -729,12 +729,11 @@ permute_dimensions(x, pattern)
 ```
 
 
-Permutes axes in a tensor.
+テンソルにおける軸を置換します．
 
-__Arguments__
+__引数__
 
-- __pattern__: should be a tuple of
-dimension indices, e.g. (0, 2, 1).
+- __pattern__: 次元の添字かなるタプルであるべきです, e.g. (0, 2, 1).
 
 ----
 
@@ -746,11 +745,10 @@ resize_images(X, height_factor, width_factor, dim_ordering)
 ```
 
 
-Resizes the images contained in a 4D tensor of shape
-- [batch, channels, height, width] (for 'th' dim_ordering)
-- [batch, height, width, channels] (for 'tf' dim_ordering)
-by a factor of (height_factor, width_factor). Both factors should be
-positive integers.
+次のshapeを持つ4Dテンソルに含まれるように(height_factor, width_factor)の因子についてイメージのサイズを変更します
+- [batch, channels, height, width] ('th' dim_orderingに対して)
+- [batch, height, width, channels] ('tf' dim_orderingに対して)
+両方の因子は正の整数であるべきです．
 
 ----
 
@@ -762,10 +760,9 @@ repeat_elements(x, rep, axis)
 ```
 
 
-Repeats the elements of a tensor along an axis, like np.repeat
+np.repeatのように，軸に沿ってテンソルの要素を繰り返します．
 
-If x has shape (s1, s2, s3) and axis=1, the output
-will have shape (s1, s2 * rep, s3)
+xがshape (s1, s2, s3)を持ち，axis=1であれば, この出力はshape (s1, s2 * rep, s3)を持ちます．
 
 ----
 
@@ -777,10 +774,10 @@ repeat(x, n)
 ```
 
 
-Repeats a 2D tensor:
+2Dテンソルを繰り返します:
 
-if x has shape (samples, dim) and n=2,
-the output will have shape (samples, 2, dim)
+xがshape (samples, dim)を持ちn=2であれば，
+この出力はshape (samples, 2, dim)を持ちます．
 
 ----
 
@@ -792,8 +789,7 @@ batch_flatten(x)
 ```
 
 
-Turn a n-D tensor into a 2D tensor where
-the first dimension is conserved.
+n-Dテンソルを最初の次元が保たれるように2Dテンソルに変換します．
 
 ----
 
@@ -805,7 +801,7 @@ expand_dims(x, dim=-1)
 ```
 
 
-Adds a 1-sized dimension at index "dim".
+添字"dim"でのサイズ1の次元を加えます．
 
 ----
 
@@ -817,7 +813,7 @@ squeeze(x, axis)
 ```
 
 
-Removes a 1-dimension from the tensor at index "axis".
+テンソルから添字"axis"での1次元を除きます．
 
 ----
 
@@ -829,8 +825,7 @@ temporal_padding(x, padding=1)
 ```
 
 
-Pads the middle dimension of a 3D tensor
-with "padding" zeros left and right.
+左と右に"padding"個の0を増やすことで，3Dテンソルの真ん中の次元を増やします．
 
 ----
 
@@ -842,8 +837,7 @@ spatial_2d_padding(x, padding=(1, 1), dim_ordering='th')
 ```
 
 
-Pads the 2nd and 3rd dimensions of a 4D tensor
-with "padding[0]" and "padding[1]" (resp.) zeros left and right.
+左と右にそれぞれ"padding[0]"個と"padding[1]"の0を増やすことで，4Dテンソルの二番目と三番目の次元を増やします．
 
 ----
 
@@ -855,8 +849,7 @@ get_value(x)
 ```
 
 
-Returns the value of a tensor variable,
-as a Numpy array.
+Numpyアレイのようにテンソル変数の値を返します．
 
 ----
 
@@ -868,8 +861,7 @@ batch_get_value(xs)
 ```
 
 
-Returns the value of more than one tensor variable,
-as a list of Numpy arrays.
+Numpyアレイのリストのように，一つ以上のテンソル変数の値を返します．
 
 ----
 
@@ -881,8 +873,7 @@ set_value(x, value)
 ```
 
 
-Sets the value of a tensor variable,
-from a Numpy array.
+Numpyアレイから，テンソル変数の値を設定します．
 
 ----
 
@@ -894,12 +885,12 @@ batch_set_value(tuples)
 ```
 
 
-Sets the values of many tensor variables at once.
+多くのテンソル変数の値を一度に設定します．
 
-__Arguments__
+__引数__
 
-- __tuples__: a list of tuples `(tensor, value)`.
-`value` should be a Numpy array.
+- __tuples__: タプルのリスト `(tensor, value)`.
+`value`はNumpyアレイであるべきです．
 
 ----
 
@@ -911,13 +902,13 @@ function(inputs, outputs, updates=[])
 ```
 
 
-Instantiates a Keras function.
+Keras関数のインスタンスを作成します．
 
-__Arguments__
+__引数__
 
-- __inputs__: list of placeholder/variable tensors.
-- __outputs__: list of output tensors.
-- __updates__: list of update tuples (old_tensor, new_tensor).
+- __inputs__: プレースホルダー/変数のテンソルのリスト.
+- __outputs__: 出力のテンソルのリスト．
+- __updates__: 更新するタプルのリスト (old_tensor, new_tensor).
 
 ----
 
@@ -929,8 +920,7 @@ gradients(loss, variables)
 ```
 
 
-Returns the gradients of `variables` (list of tensor variables)
-with regard to `loss`.
+`variables`の`loss`についての勾配 (list of tensor variables)を返します．
 
 ----
 
@@ -942,45 +932,38 @@ rnn(step_function, inputs, initial_states, go_backwards=False, mask=None, consta
 ```
 
 
-Iterates over the time dimension of a tensor.
+テンソルの時間次元にわたって反復します．
 
-__Arguments__
+__引数__
 
-- __inputs__: tensor of temporal data of shape (samples, time, ...)
-(at least 3D).
+- __inputs__: shape (samples, time, ...) を持つ時間データのテンソル（少なくとも3D）．
 - __step_function__:
 - __Parameters__:
-	- __input__: tensor with shape (samples, ...) (no time dimension),
-	representing input for the batch of samples at a certain
-	time step.
-	- __states__: list of tensors.
-- __Returns__:
-	- __output__: tensor with shape (samples, ...) (no time dimension),
-	- __new_states__: list of tensors, same length and shapes
-	as 'states'.
-- __initial_states__: tensor with shape (samples, ...) (no time dimension),
-containing the initial values for the states used in
-the step function.
-- __go_backwards__: boolean. If True, do the iteration over
-the time dimension in reverse order.
-- __mask__: binary tensor with shape (samples, time, 1),
-with a zero for every element that is masked.
-- __constants__: a list of constant values passed at each step.
-- __unroll__: with TensorFlow the RNN is always unrolled, but with Theano you
-can use this boolean flag to unroll the RNN.
-- __input_length__: not relevant in the TensorFlow implementation.
-Must be specified if using unrolling with Theano.
+	- __input__: ある時間ステップでのサンプルのバッチに対する入力を表す，
+	shape (samples, ...) を持つテンソル（時間軸を持たない）．
+	- __states__: テンソルのリスト．
+- __返り値__:
+	- __output__: shape (samples, ...) を持つテンソル（時間軸を持たない）．
+	- __new_states__: 'states'と同じ長さとshapeを持つテンソルのリスト.
+- __initial_states__: ステップ関数で利用される状態に対する初期値を含む，
+shape (samples, ...) を持つテンソル（時間軸を持たない）．
+- __go_backwards__: ブール値．真ならば，逆順で時間軸にわたって反復します．
+- __mask__: マスクされたすべての要素に対して0となるような，
+shape (samples, time, 1)を持つバイナリテンソル．
+- __constants__: 各ステップで渡される定数値のリスト．
+- __unroll__: TensorFlowではRNNは常にアンロールされますが，
+TheanoではRNNをアンロールするブール値のフラグを利用することができます．
+- __input_length__: TensorFlowの実装では関係ありません．
+Theanoでアンロールを利用するときは指定する必要があります．
 
-__Returns__
+__返り値__
 
-A tuple (last_output, outputs, new_states).
+タプル (last_output, outputs, new_states).
 
-- __last_output__: the latest output of the rnn, of shape (samples, ...)
-- __outputs__: tensor with shape (samples, time, ...) where each
-entry outputs[s, t] is the output of the step function
-at time t for sample s.
-- __new_states__: list of tensors, latest states returned by
-the step function, of shape (samples, ...).
+- __last_output__: shape (samples, ...)を持つRNNの最新の出力．
+- __outputs__: 各エントリーの出力[s, t]がサンプルsに対する時刻tでのステップ関数の出力であるような，
+shape (samples, time, ...) を持つテンソル
+- __new_states__: shape (samples, ...)を持つ，ステップ関数で返される最新の状態を表すテンソルのリスト.
 
 ----
 
@@ -992,15 +975,14 @@ switch(condition, then_expression, else_expression)
 ```
 
 
-Switches between two operations depending on a scalar value (int or bool).
-Note that both `then_expression` and `else_expression`
-should be symbolic tensors of the *same shape*.
+スカラー値に依存した二つの操作間を入れ替えます（整数もしくはブール値）．
+`then_expression`と`else_expression`はともに*同じshape*を持つシンボリックなテンソルであるべきであることに注意してください．
 
 __Arguments__
 
-- __condition__: scalar tensor.
-- __then_expression__: TensorFlow operation.
-- __else_expression__: TensorFlow operation.
+- __condition__: スカラーテンソル.
+- __then_expression__: TensorFlow操作．
+- __else_expression__: TensorFlow操作．
 
 ----
 
@@ -1012,8 +994,8 @@ in_train_phase(x, alt)
 ```
 
 
-Selects `x` in train phase, and `alt` otherwise.
-Note that `alt` should have the *same shape* as `x`.
+訓練フェーズでは`x`を選択し，それ以外では`alt`を選択します．
+`alt`は`x`と*同じshape*を持つべきであることに注意してください．
 
 ----
 
@@ -1025,8 +1007,8 @@ in_test_phase(x, alt)
 ```
 
 
-Selects `x` in test phase, and `alt` otherwise.
-Note that `alt` should have the *same shape* as `x`.
+テストフェーズでは`x`を選択し，それ以外では`alt`を選択します．
+`alt`は`x`と*同じshape*を持つべきであることに注意してください．
 
 ----
 
@@ -1038,12 +1020,12 @@ relu(x, alpha=0.0, max_value=None)
 ```
 
 
-Rectified linear unit
+修正線形ユニット
 
-__Arguments__
+__引数__
 
-- __alpha__: slope of negative section.
-- __max_value__: saturation threshold.
+- __alpha__: 負のセクションの傾き．
+- __max_value__: 飽和度の閾値．
 
 ----
 
@@ -1055,7 +1037,7 @@ softmax(x)
 ```
 
 
-Softmax of a tensor.
+テンソルのソフトマックス．
 
 ----
 
@@ -1067,7 +1049,7 @@ softplus(x)
 ```
 
 
-Softplus of a tensor.
+テンソルのソフトプラス．
 
 ----
 
@@ -1079,9 +1061,8 @@ categorical_crossentropy(output, target, from_logits=False)
 ```
 
 
-Categorical crossentropy between an output tensor
-and a target tensor, where the target is a tensor of the same
-shape as the output.
+出力テンソルと目標テンソルの間のカテゴリカルクロスエントロピー．
+目標テンソルは出力と同じshapeを持つ必要があります．
 
 ----
 
@@ -1093,8 +1074,8 @@ sparse_categorical_crossentropy(output, target, from_logits=False)
 ```
 
 
-Categorical crossentropy between an output tensor
-and a target tensor, where the target is an integer tensor.
+出力テンソルと目標テンソルの間のカテゴリカルクロスエントロピー．
+目標テンソルは整数のテンソルである必要があります．
 
 ----
 
@@ -1106,7 +1087,7 @@ binary_crossentropy(output, target, from_logits=False)
 ```
 
 
-Binary crossentropy between an output tensor and a target tensor.
+出力テンソルと目標テンソルの間のバイナリクロスエントロピー．
 
 ----
 
@@ -1118,7 +1099,7 @@ sigmoid(x)
 ```
 
 
-Element-wise sigmoid.
+成分ごとのシグモイド．
 
 ----
 
@@ -1130,8 +1111,8 @@ hard_sigmoid(x)
 ```
 
 
-Segment-wise linear approximation of sigmoid.
-Faster than sigmoid.
+セグメントごとのシグモイドの線形近似．
+シグモイドよりも高速．
 
 ----
 
@@ -1143,7 +1124,7 @@ tanh(x)
 ```
 
 
-Element-wise tanh.
+成分ごとのtanh．
 
 ----
 
@@ -1155,15 +1136,13 @@ dropout(x, level, seed=None)
 ```
 
 
-Sets entries in `x` to zero at random,
-while scaling the entire tensor.
+`x`のエントリーにランダムに0を設定し，一方でテンソル全体をスケーリングします．
 
-__Arguments__
+__引数__
 
-- __x__: tensor
-- __level__: fraction of the entries in the tensor
-that will be set to 0
-- __seed__: random seed to ensure determinism.
+- __x__: テンソル
+- __level__: 0に設定されるテンソルにおけるエントリーの割合
+- __seed__: 決定論を保証するランダムシード．
 
 ----
 
@@ -1175,7 +1154,7 @@ l2_normalize(x, axis)
 ```
 
 
-Normalizes a tensor wrt the L2 norm alonside the specified axis.
+指定した軸に沿って，L2ノルムについてテンソルを基準化します．
 
 ----
 
@@ -1187,15 +1166,14 @@ conv2d(x, kernel, strides=(1, 1), border_mode='valid', dim_ordering='th', image_
 ```
 
 
-2D convolution.
+2Dのたたみ込み．
 
-__Arguments__
+__引数__
 
-- __kernel__: kernel tensor.
-- __strides__: strides tuple.
-- __border_mode__: string, "same" or "valid".
-- __dim_ordering__: "tf" or "th". Whether to use Theano or TensorFlow dimension ordering
-in inputs/kernels/ouputs.
+- __kernel__: カーネルテンソル．
+- __strides__: ストライドのタプル．
+- __border_mode__: 文字列，"same"もしくは"valid"．
+- __dim_ordering__: "tf"もしくは"th"．入力/カーネル/出力でTheanoもしくはTensorFlowの次元順序を利用するかどうか．
 
 ----
 
@@ -1207,18 +1185,12 @@ pool2d(x, pool_size, strides=(1, 1), border_mode='valid', dim_ordering='th', poo
 ```
 
 
-2D Pooling.
+2Dのプーリング．
 
-__Arguments__
+__引数__
 
-- __pool_size__: tuple of 2 integers.
-- __strides__: tuple of 2 integers.
-- __border_mode__: one of "valid", "same".
-- __dim_ordering__: one of "th", "tf".
-- __pool_mode__: one of "max", "avg".
-
-
-
-
-
-
+- __pool_size__: 二つの整数からなるタプル．
+- __strides__: 二つの整数からなるタプル．
+- __border_mode__: "valid"もしくは"same"の一つ．
+- __dim_ordering__: "th"もしくは"tf"の一つ.
+- __pool_mode__: "max"，"avg"の一つ．
