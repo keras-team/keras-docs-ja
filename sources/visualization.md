@@ -10,9 +10,10 @@ from keras.utils.visualize_util import plot
 plot(model, to_file='model.png')
 ```
 
-`plot`は1つのオプショナルな引数を取ります:
+`plot`は2つのオプショナルな引数を取ります:
 
 - `show_shapes`（デフォルト: False）グラフ中に出力形状を出力するかどうかを制御します．
+- `show_layer_names` （デフォルト: True） グラフ中にレイヤー名を出力するかどうかを制御します．
 
 また，`pydot.Graph`オブジェクトを直接操作して可視化することもできます．
 IPython Notebook内で可視化する例:
