@@ -14,7 +14,7 @@ model.add(Activation('tanh'))
 model.add(Dense(64, activation='tanh'))
 ```
 
-element-wiseなTheano/TensorFlow関数を活性化関数として渡すこともできます：
+element-wiseなTheano/TensorFlow関数を活性化関数として渡すこともできます:
 
 ```python
 from keras import backend as K

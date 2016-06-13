@@ -31,26 +31,26 @@ __引数__
 - __activation__: 使用する活性化関数名
 	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
 	もしあなたが何も指定しなければ、活性化は適用されない．
-	(すなわち，"線形"活性化: a(x) = x).
+	(すなわち，"線形"活性化: a(x) = x)．
 - __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
 - __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
 	(例えば，L1もしくはL2正則化)．
-- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス．
 - __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
 - __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
 - __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
-- __input_dim__: 入力の次元(整数).
+- __input_dim__: 入力の次元(整数)．
 	この引数(もしくは，キーワード引数`input_shape`)
 	は，モデルの最初のレイヤーとして使うときに必要とされる．
 
 __入力の型__
 
-2次元テンソルの型: `(nb_samples, input_dim)`.
+2次元テンソルの型: `(nb_samples, input_dim)`．
 
 __出力の型__
 
-2次元テンソルの型: `(nb_samples, output_dim)`.
+2次元テンソルの型: `(nb_samples, output_dim)`．
 
 ----
 
@@ -71,7 +71,7 @@ __引数__
 
 __入力の型__
 
-任意. モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
 
 __出力の型__
 
@@ -90,7 +90,7 @@ keras.layers.core.Dropout(p)
 
 __引数__
 
-- __p__: 0と1の間の浮動小数点数. 入力ユニットをドロップする割合.
+- __p__: 0と1の間の浮動小数点数．入力ユニットをドロップする割合．
 
 __参考文献__
 
@@ -132,7 +132,7 @@ keras.layers.core.Reshape(target_shape)
 
 __引数__
 
-- __target_shape__: ターゲットの型. 整数のタプル，
+- __target_shape__: ターゲットの型．整数のタプル，
 	サンプルの次元を含まない(バッチサイズ)．
 
 __入力の型__
@@ -185,7 +185,7 @@ model.add(Permute((2, 1), input_shape=(10, 64)))
 
 __引数__
 
-- __dims__: 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる.例えば，`(2, 1)`は入力の1番目と2番目の次元を計算する．
+- __dims__: 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる．例えば，`(2, 1)`は入力の1番目と2番目の次元を計算する．
 
 __入力の型__
 
@@ -265,7 +265,7 @@ __引数__
 - __mode__: 文字列かラムダ/関数．もし文字列であるなら，それは'sum', 'mul', 'concat', 'ave', 'cos', 'dot'のひとつでなければならない．もしラムダ/関数であるなら，それはテンソルのリストを入力とし、単一のテンソルを返さなければならない．
 - __concat_axis__: 整数，`concat`モードで使用するための軸．
 - __dot_axes__: 整数，または整数のタプル，`dot`モードで使用するための軸．
-- __output_shape__: タプルの型 (整数のタプル)，もしくは`output_shape`を計算するラムダ/関数 (マージモードに限り，ラムダ/関数となる).もし後者の場合，タプルの型のリストを入力として受け取る(入力テンソルに対して1:1にマッピングする)．また単一のタプルの型を返す．
+- __output_shape__: タプルの型 (整数のタプル)，もしくは`output_shape`を計算するラムダ/関数 (マージモードに限り，ラムダ/関数となる)．もし後者の場合，タプルの型のリストを入力として受け取る(入力テンソルに対して1:1にマッピングする)．また単一のタプルの型を返す．
 - __node_indices__: それぞれの入力レイヤーに対する出力ノードインデックスを含む整数の追加リスト(いくつかの入力レイヤーが複数の出力ノードを持つ場合)．それはもし供給されないなら，0の配列をデフォルトとする．
 - __tensor_indices__: マージのために考慮される出力のテンソルの追加リスト(いくつかの入力レイヤーノードが複数のテンソルを返す場合)．
 
@@ -333,8 +333,8 @@ keras.layers.core.ActivityRegularization(l1=0.0, l2=0.0)
 
 __引数__
 
-- __l1__: L1正則化因子 (正の浮動小数点数).
-- __l2__: L2正則化因子 (正の浮動小数点数).
+- __l1__: L1正則化因子 (正の浮動小数点数)．
+- __l2__: L2正則化因子 (正の浮動小数点数)．
 
 __入力の型__
 
@@ -342,7 +342,7 @@ __入力の型__
 
 __出力の型__
 
-入力と同じ型.
+入力と同じ型．
 
 ----
 
@@ -393,23 +393,23 @@ __引数__
 - __activation__: 使用する活性化関数名
 	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
 	もしあなたが何も指定しなければ、活性化は適用されない．
-	(すなわち，"線形"活性化: a(x) = x).
+	(すなわち，"線形"活性化: a(x) = x)．
 - __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
 - __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス(例えば，L1もしくはL2正則化)．
-- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス．
 - __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
 - __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
 - __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
-- __input_dim__: 入力の次元(整数).この引数(もしくは，キーワード引数`input_shape`)は，モデルの最初のレイヤーとして使うときに必要とされる．
+- __input_dim__: 入力の次元(整数)．この引数(もしくは，キーワード引数`input_shape`)は，モデルの最初のレイヤーとして使うときに必要とされる．
 
 __入力の型__
 
-`(nb_samples, input_dim)`の型の2次元テンソル.
+`(nb_samples, input_dim)`の型の2次元テンソル．
 
 __出力の型__
 
-`(nb_samples, output_dim)`の型の2次元テンソル.
+`(nb_samples, output_dim)`の型の2次元テンソル．
 
 __参考文献__
 
@@ -430,7 +430,7 @@ keras.layers.core.MaxoutDense(output_dim, nb_feature=4, init='glorot_uniform', w
 これはそのレイヤーに入力にわたる区分的線形活性化関数の凸を学習することを許す．
 
 これは*線形*のレイヤーであることに注意する;
-もしあなたが活性化関数を適用したいのであれば，(あなたはそれをする必要はない--それらは普遍的関数近似詞である),
+もしあなたが活性化関数を適用したいのであれば，(あなたはそれをする必要はない--それらは普遍的関数近似詞である)，
 `Activation`レイヤーは後で追加されなければならない．
 
 __引数__
@@ -441,26 +441,26 @@ __引数__
 - __activation__: 使用する活性化関数名
 	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
 	もしあなたが何も指定しなければ、活性化は適用されない．
-	(すなわち，"線形"活性化: a(x) = x).
+	(すなわち，"線形"活性化: a(x) = x)．
 - __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
 - __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
 	(例えば，L1もしくはL2正則化)．
-- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス．
 - __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
 - __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
 - __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
-- __input_dim__: 入力の次元(整数).
+- __input_dim__: 入力の次元(整数)．
 	この引数(もしくは，キーワード引数`input_shape`)
 	は，モデルの最初のレイヤーとして使うときに必要とされる．
 
 __入力の型__
 
-2次元テンソル: `(nb_samples, input_dim)`.
+2次元テンソル: `(nb_samples, input_dim)`．
 
 __出力の型__
 
-2次元テンソル: `(nb_samples, output_dim)`.
+2次元テンソル: `(nb_samples, output_dim)`．
 
 __参考文献__
 
@@ -478,7 +478,7 @@ keras.layers.core.TimeDistributedDense(output_dim, init='glorot_uniform', activa
 それぞれの次元[1](time_dimension)の入力に対して同じデンスレイヤーを適用する．
 特に'return_sequence=True'でリカレントネットワークの後に役立つ．
 
-- __注意__: このレイヤーは廃止される予定である, `TimeDistributed`を使うことがより好まれる。
+- __注意__: このレイヤーは廃止される予定である，`TimeDistributed`を使うことがより好まれる．
 
 ラッパー:
 ```python
@@ -500,16 +500,16 @@ __引数__
 - __activation__: 使用する活性化関数名
 	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
 	もしあなたが何も指定しなければ、活性化は適用されない．
-	(すなわち，"線形"活性化: a(x) = x).
+	(すなわち，"線形"活性化: a(x) = x)．
 - __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
 - __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
 	(例えば，L1もしくはL2正則化)．
-- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス.
+- __b_regularizer__: バイアスに適用される[WeightRegularizer](../regularizers.md)のインスタンス．
 - __activity_regularizer__: ネットワーク出力に適用される[ActivityRegularizer](../regularizers.md)のインスタンス．
 - __W_constraint__: 主の重み行列に適用される[constraints](../constraints.md)モジュールのインスタンス．(例えば，maxnorm，nonneg)．
 - __b_constraint__: バイアスに適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __bias__: バイアスを含めるかどうか(すなわち，線形というよりもむしろアフィンレイヤーにさせるか)．
-- __input_dim__: 入力の次元(整数).
+- __input_dim__: 入力の次元(整数)．
 	この引数(もしくは，キーワード引数`input_shape`)
 	は，モデルの最初のレイヤーとして使うときに必要とされる．
 - __input_length__: 入力シーケンスの長さ

@@ -7,7 +7,7 @@
 これらのレイヤーは2つの引数を取ります:
 
 - `W_constraint` 重み行列の制約．
-- `b_constraint` バイアスの制約.
+- `b_constraint` バイアスの制約．
 
 ## 例
 
