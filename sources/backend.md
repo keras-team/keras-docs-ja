@@ -31,7 +31,7 @@ Kerasはモジュール方式でこの問題を扱い，いくつかの異なる
 
 単にフィールド`backend`を`"theano"`もしくは`"tensorflow"`に変えると，次回あなたが任意のKerasコードを実行するときに新しい設定を利用します．
 
-あなたは環境変数``KERAS_BACKEND''も定義することができ，これはあなたの設定ファイルで定義されているものを上書きします:
+あなたは環境変数``KERAS_BACKEND``も定義することができ，これはあなたの設定ファイルで定義されているものを上書きします:
 
 ```bash
 KERAS_BACKEND=tensorflow python -c "from keras import backend; print backend._BACKEND"
@@ -128,7 +128,7 @@ cast_to_floatx(x)
 ```
 
 
-Numpyアレイをfloatxにキャストします．
+Numpy配列をfloatxにキャストします．
 
 ----
 
@@ -156,7 +156,7 @@ variable(value, dtype='float32', name=None)
 
 __引数__
 
-- __value__: numpyアレイ, テンソルの初期値．
+- __value__: Numpy配列, テンソルの初期値．
 - __dtype__: テンソルの型.
 - __name__: このテンソルに対する任意の名前を表す文字列．
 
@@ -237,7 +237,7 @@ eval(x)
 
 
 テンソルの値を評価します．
-Numpyアレイを返します．
+Numpy配列を返します．
 
 ----
 
@@ -849,7 +849,7 @@ get_value(x)
 ```
 
 
-Numpyアレイのようにテンソル変数の値を返します．
+Numpy配列のようにテンソル変数の値を返します．
 
 ----
 
@@ -861,7 +861,7 @@ batch_get_value(xs)
 ```
 
 
-Numpyアレイのリストのように，一つ以上のテンソル変数の値を返します．
+Numpy配列のリストのように，一つ以上のテンソル変数の値を返します．
 
 ----
 
@@ -873,7 +873,7 @@ set_value(x, value)
 ```
 
 
-Numpyアレイから，テンソル変数の値を設定します．
+Numpy配列から，テンソル変数の値を設定します．
 
 ----
 
@@ -890,7 +890,7 @@ batch_set_value(tuples)
 __引数__
 
 - __tuples__: タプルのリスト `(tensor, value)`.
-`value`はNumpyアレイであるべきです．
+`value`はNumpy配列であるべきです．
 
 ----
 
