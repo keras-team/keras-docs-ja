@@ -13,7 +13,7 @@ regularization layerは訓練時のみ有効です。
 
 __Arguments__
 
-- __sigma__: float, ノイズ分布の標準偏差
+- __sigma__: float，ノイズ分布の標準偏差
 
 __Input shape__
 
@@ -40,7 +40,7 @@ regularization layerは訓練時のみ有効です。
 
 __Arguments__
 
-- __p__: float, 制御パラメータ (`Dropout`同様).
+- __p__: float，制御パラメータ (`Dropout`同様)．
 
 __Input shape__
 

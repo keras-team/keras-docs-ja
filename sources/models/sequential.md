@@ -60,7 +60,7 @@ fit(self, x, y, batch_size=32, nb_epoch=10, verbose=1, callbacks=[], validation_
 
 __引数__
 
-- __x__: 入力データ、形式は Numpy の配列、あるいは Numpy 配列のリスト
+- __x__: 入力データ、形式は Numpy 配列、あるいは Numpy 配列のリスト
 	(モデルに複数の入力がある場合)。
 - __y__: ラベル、形式は Numpy 配列。
 - __batch_size__: 整数値で、設定したサンプル数ごとに勾配の更新を行います。

@@ -239,7 +239,7 @@ __引数__
 	- (inputs, targets, sample_weights)のタプル。
 - __nb_val_samples__: `validation_data`がジェネレータの場合にのみ関係します。
 	各試行の最後にバリデーションジェネレータから使うサンプル数を示します。
-- __class_weight__: クラスインデックスと各クラスの重みをマップする辞書です.
+- __class_weight__: クラスインデックスと各クラスの重みをマップする辞書です。
 - __max_q_size__: ジェネレータのキューの最大サイズです。
 
 __戻り値__
@@ -281,7 +281,6 @@ evaluate_generator(self, generator, val_samples, max_q_size=10)
 	(inputs, targets)もしくは(inputs, targets, sample_weights)のタプルを与えるジェネレータ
 - __val_samples__:
 	returnまでの間に`generator`から生成されるサンプルの合計数
-- __max_q_size__: maximum size for the generator queue
 - __max_q_size__: ジェネレータのキューのための最大サイズ
 
 __戻り値__

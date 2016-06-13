@@ -2,8 +2,8 @@
 
 ## "バックエンド"とは?
 
-Kerasはモデルレベルのライブラリーで，深層学習モデルを開発するための高水準のモデル構築ブロックを与えます. 
-テンソル積，たたみ込みなどのような低水準の操作を自身で扱うことはありません．
+Kerasはモデルレベルのライブラリーで，深層学習モデルを開発するための高水準のモデル構築ブロックを与えます．
+テンソル積，畳み込みなどのような低水準の操作を自身で扱うことはありません．
 代わりに，Kerasの"バックエンドエンジン"としての役割を果たす，そのような操作を行うために特別に良く最適化されたテンソル操作ライブラリに依存します．
 一つの単一のテンソルライブラリーを取り上げたり，そのライブラリに束縛されたKerasの実装を行うのではなく，
 Kerasはモジュール方式でこの問題を扱い，いくつかの異なるバックエンドエンジンをKerasにシームレスに付加できます．
@@ -102,7 +102,7 @@ learning_phase()
 学習フェーズのフラグを返します．
 
 学習フェーズのフラグは
-訓練期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される
+学習期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される
 整数のテンソル (0 = test, 1 = train) です．
 
 ----
@@ -116,7 +116,7 @@ floatx()
 
 
 デフォルトのfloat型を文字列で返します
-(e.g. 'float16', 'float32', 'float64').
+(e.g. 'float16', 'float32', 'float64')．
 
 ----
 
@@ -157,7 +157,7 @@ variable(value, dtype='float32', name=None)
 __引数__
 
 - __value__: Numpy配列, テンソルの初期値．
-- __dtype__: テンソルの型.
+- __dtype__: テンソルの型．
 - __name__: このテンソルに対する任意の名前を表す文字列．
 
 __返り値__
@@ -351,12 +351,10 @@ batch_dot(x, y, axes=None)
 
 batch_dotの結果は入力より小さい次元を持つテンソルになります．
 次元数が1になれば，ndimが少なくとも2であることを確認するために`expand_dims`を利用します．
-If the number of dimensions is reduced to 1, we use `expand_dims` to
-make sure that ndim is at least 2.
 
 __例__
 
-x = [[1, 2], [3,4]],  y = [[5, 6], [7, 8]]
+x = [[1, 2], [3,4]], y = [[5, 6], [7, 8]]
 と仮定すると，
 非対角成分を計算しなくても，x.dot(y.T)の主対角成分である
 batch_dot(x, y, axes=1) = [[17, 53]]が得られます．
@@ -396,7 +394,7 @@ gather(reference, indices)
 
 __Arguments__
 
-- __reference__: 2Dテンソル.
+- __reference__: 2Dテンソル．
 - __indices__: 添字の整数テンソル．
 
 __返り値__
@@ -733,7 +731,7 @@ permute_dimensions(x, pattern)
 
 __引数__
 
-- __pattern__: 次元の添字かなるタプルであるべきです, e.g. (0, 2, 1).
+- __pattern__: 次元の添字かなるタプルであるべきです，e.g. (0, 2, 1)．
 
 ----
 
@@ -762,7 +760,7 @@ repeat_elements(x, rep, axis)
 
 np.repeatのように，軸に沿ってテンソルの要素を繰り返します．
 
-xがshape (s1, s2, s3)を持ち，axis=1であれば, この出力はshape (s1, s2 * rep, s3)を持ちます．
+xがshape (s1, s2, s3)を持ち，axis=1であれば，この出力はshape (s1, s2 * rep, s3)を持ちます．
 
 ----
 
@@ -889,7 +887,7 @@ batch_set_value(tuples)
 
 __引数__
 
-- __tuples__: タプルのリスト `(tensor, value)`.
+- __tuples__: タプルのリスト `(tensor, value)`．
 `value`はNumpy配列であるべきです．
 
 ----
@@ -906,9 +904,9 @@ Keras関数のインスタンスを作成します．
 
 __引数__
 
-- __inputs__: プレースホルダー/変数のテンソルのリスト.
+- __inputs__: プレースホルダー/変数のテンソルのリスト．
 - __outputs__: 出力のテンソルのリスト．
-- __updates__: 更新するタプルのリスト (old_tensor, new_tensor).
+- __updates__: 更新するタプルのリスト (old_tensor, new_tensor)．
 
 ----
 
@@ -920,7 +918,7 @@ gradients(loss, variables)
 ```
 
 
-`variables`の`loss`についての勾配 (list of tensor variables)を返します．
+`variables`の`loss`についての勾配 (テンソル変数のリスト) を返します．
 
 ----
 
@@ -944,7 +942,7 @@ __引数__
 	- __states__: テンソルのリスト．
 - __返り値__:
 	- __output__: shape (samples, ...) を持つテンソル（時間軸を持たない）．
-	- __new_states__: 'states'と同じ長さとshapeを持つテンソルのリスト.
+	- __new_states__: 'states'と同じ長さとshapeを持つテンソルのリスト．
 - __initial_states__: ステップ関数で利用される状態に対する初期値を含む，
 shape (samples, ...) を持つテンソル（時間軸を持たない）．
 - __go_backwards__: ブール値．真ならば，逆順で時間軸にわたって反復します．
@@ -958,12 +956,12 @@ Theanoでアンロールを利用するときは指定する必要がありま�
 
 __返り値__
 
-タプル (last_output, outputs, new_states).
+タプル (last_output, outputs, new_states)．
 
 - __last_output__: shape (samples, ...)を持つRNNの最新の出力．
 - __outputs__: 各エントリーの出力[s, t]がサンプルsに対する時刻tでのステップ関数の出力であるような，
 shape (samples, time, ...) を持つテンソル
-- __new_states__: shape (samples, ...)を持つ，ステップ関数で返される最新の状態を表すテンソルのリスト.
+- __new_states__: shape (samples, ...)を持つ，ステップ関数で返される最新の状態を表すテンソルのリスト．
 
 ----
 
@@ -980,7 +978,7 @@ switch(condition, then_expression, else_expression)
 
 __Arguments__
 
-- __condition__: スカラーテンソル.
+- __condition__: スカラーテンソル．
 - __then_expression__: TensorFlow操作．
 - __else_expression__: TensorFlow操作．
 
@@ -1154,7 +1152,7 @@ l2_normalize(x, axis)
 ```
 
 
-指定した軸に沿って，L2ノルムについてテンソルを基準化します．
+指定した軸に沿って，L2ノルムについてテンソルを正規化します．
 
 ----
 
@@ -1166,7 +1164,7 @@ conv2d(x, kernel, strides=(1, 1), border_mode='valid', dim_ordering='th', image_
 ```
 
 
-2Dのたたみ込み．
+2Dの畳み込み．
 
 __引数__
 
@@ -1192,5 +1190,5 @@ __引数__
 - __pool_size__: 二つの整数からなるタプル．
 - __strides__: 二つの整数からなるタプル．
 - __border_mode__: "valid"もしくは"same"の一つ．
-- __dim_ordering__: "th"もしくは"tf"の一つ.
+- __dim_ordering__: "th"もしくは"tf"の一つ．
 - __pool_mode__: "max"，"avg"の一つ．

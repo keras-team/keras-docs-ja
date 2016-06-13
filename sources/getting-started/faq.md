@@ -32,18 +32,18 @@ Kerasがあなたのお役に立てたら，ぜひ著書のなかでKerasを引�
 ### KerasをGPUで動かすには？ 
 
 バックエンドでTensorFlowを使っている場合，利用可能なGPUがあれば自動的にGPUが使われます。
-バックエンドがTheanoの場合，以下の方法があります：
+バックエンドがTheanoの場合，以下の方法があります:
 
-方法1：Theanoフラグを使う：
+方法1: Theanoフラグを使う:
 ```bash
 THEANO_FLAGS=device=gpu,floatX=float32 python my_keras_script.py
 ```
 
-'gpu'の部分はデバイス識別子に合わせて変更してください(例：gpu0, gpu1など)。
+'gpu'の部分はデバイス識別子に合わせて変更してください(例: gpu0，gpu1など)。
 
-方法2：`.theanorc`を使う：[使い方](http://deeplearning.net/software/theano/library/config.html)
+方法2: `.theanorc`を使う: [使い方](http://deeplearning.net/software/theano/library/config.html)
 
-方法3：コードの先頭で，`theano.config.device`，`theano.config.floatX`を設定する：
+方法3: コードの先頭で，`theano.config.device`，`theano.config.floatX`を設定する:
 ```python
 import theano
 theano.config.device = 'gpu'
@@ -56,7 +56,7 @@ theano.config.floatX = 'float32'
 
 *Kerasのモデルを保存するのに，pickleやcPickleを使うことは推奨されません。*
 
-モデルのアーキテクチャのみ(weightパラメータを含まない)を保存する場合は以下の通りです：
+モデルのアーキテクチャのみ(weightパラメータを含まない)を保存する場合は以下の通りです:
 
 ```python
 # save as JSON
@@ -66,7 +66,7 @@ json_string = model.to_json()
 yaml_string = model.to_yaml()
 ```
 
-保存したデータから，以下のように新しいモデルを作成できます：
+保存したデータから，以下のように新しいモデルを作成できます:
 
 ```python
 # model reconstruction from JSON:
@@ -79,19 +79,19 @@ model = model_from_yaml(yaml_string)
 
 モデルのweightパラメータを保存する場合，以下のようにHDF5を使います。
 
-注：HDF5とPythonライブラリの h5pyがインストールされている必要があります(Kerasには同梱されていません)。
+注: HDF5とPythonライブラリの h5pyがインストールされている必要があります(Kerasには同梱されていません)。
 
 ```python
 model.save_weights('my_model_weights.h5')
 ```
 
-モデルのインスタンス作成後，同じモデルアーキテクチャのweightパラメータを以下のようにロードします：
+モデルのインスタンス作成後，同じモデルアーキテクチャのweightパラメータを以下のようにロードします:
 
 ```python
 model.load_weights('my_model_weights.h5')
 ```
 
-モデルとパラメータの保存，読み込みの一連の処理は以下のようになります：
+モデルとパラメータの保存，読み込みの一連の処理は以下のようになります:
 ```python
 json_string = model.to_json()
 open('my_model_architecture.json', 'w').write(json_string)
@@ -119,7 +119,7 @@ Kerasモデルにはtrainingとtestingの二つのモードがあります。Dro
 
 ### 中間層の出力を可視化するには？
 
-以下のように，ある入力を与えたときの，ある層の出力を返すKeras functionを記述できます：
+以下のように，ある入力を与えたときの，ある層の出力を返すKeras functionを記述できます:
 
 ```python
 from keras import backend as K
@@ -132,7 +132,7 @@ layer_output = get_3rd_layer_output([X])[0]
 
 直接TheanoやTensorFlowのfunctionを利用することもできます。
 
-注：訓練時とテスト時でモデルの振る舞いが異なる場合(例：`Dropout`や`BatchNormalization`利用時など)，以下のようにlearning phaseフラグを利用してください：
+注: 訓練時とテスト時でモデルの振る舞いが異なる場合(例: `Dropout`や`BatchNormalization`利用時など)，以下のようにlearning phaseフラグを利用してください:
 
 ```python
 get_3rd_layer_output = K.function([model.layers[0].input, K.learning_phase()],
@@ -161,7 +161,7 @@ layer_output = get_3rd_layer_output([X, 1])[0]
 
 ### validation lossが減らなくなったときに学習を中断するには？
 
-コールバック関数の`EarlyStopping`を利用してください：
+コールバック関数の`EarlyStopping`を利用してください:
 
 ```python
 from keras.callbacks import EarlyStopping
@@ -239,22 +239,22 @@ trainable_model.fit(data, labels)  # this updates the weights of `layer`
 
 stateful RNNでは各バッチの内部状態を次のバッチの初期状態として再利用します。
 
-sateful RNNを利用する際は，以下を仮定します：
+sateful RNNを利用する際は，以下を仮定します:
 
 - 全てのバッチのサンプル数が同じ
 - `X1`と`X2`が連続するバッチであるとき，各`i`について`X2[i]`は`X1[i]`のfollow-upシーケンスになっている
 
-stateful RNNを利用するには：
+stateful RNNを利用するには:
 
 - 最初の層の引数`batch_input_shape`で明示的にバッチサイズを指定してください。バッチサイズはタプルで，例えば32 samples，10 timesteps，特徴量16次元の場合，`(32, 10, 16)`となります
 - RNN層で`stateful=True`を指定してください
 
-積算された状態をリセットするには：
+積算された状態をリセットするには:
 
 - 全層の状態をリセットするには，`model.reset_states()`を利用してください
 - 特定のstateful RNN層の状態をリセットするには，`layer.reset_states()`を利用してください
 
-例：
+例:
 
 ```python
 
@@ -280,5 +280,5 @@ model.reset_states()
 model.layers[0].reset_states()
 ```
 
-注：`predict`, `fit`, `train_on_batch`, `predict_classes`メソッドなどは全て，stateful層の状態を更新します。そのため，訓練だけでなく，statefulな予測も可能となります。
+注: `predict`, `fit`, `train_on_batch`, `predict_classes`メソッドなどは全て，stateful層の状態を更新します。そのため，訓練だけでなく，statefulな予測も可能となります。
 
