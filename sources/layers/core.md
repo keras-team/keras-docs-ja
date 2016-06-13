@@ -475,7 +475,7 @@ __参考文献__
 keras.layers.core.TimeDistributedDense(output_dim, init='glorot_uniform', activation='linear', weights=None, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True, input_dim=None, input_length=None)
 ```
 
-それぞれの次元[1](time_dimension)の入力に対して同じデンスレイヤーを適用する．
+それぞれの次元[1] (time_dimension)の入力に対して同じデンスレイヤーを適用する．
 特に'return_sequence=True'でリカレントネットワークの後に役立つ．
 
 - __注意__: このレイヤーは廃止される予定である，`TimeDistributed`を使うことがより好まれる．
