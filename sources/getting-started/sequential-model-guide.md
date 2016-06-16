@@ -94,7 +94,7 @@ final_model.add(Dense(10, activation='softmax'))
 
 ```python
 final_model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
-final_model.fit([input_data_1, input_data_2], targets)  # we pass on data array per model input
+final_model.fit([input_data_1, input_data_2], targets)  # we pass one data array per model input
 ```
 
 マージ層にはいくつかの定義されたモードがある。
