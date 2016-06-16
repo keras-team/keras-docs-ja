@@ -90,6 +90,13 @@ final_model.add(Dense(10, activation='softmax'))
 
 <img src="http://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
 
+このような2つに分岐したモデルは次のようにして学習できる:
+
+```python
+final_model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+final_model.fit([input_data_1, input_data_2], targets)  # we pass on data array per model input
+```
+
 マージ層にはいくつかの定義されたモードがある。
 
 - `sum` (デフォルト): 要素ごとの和
