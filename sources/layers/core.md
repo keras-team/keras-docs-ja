@@ -438,10 +438,6 @@ __引数__
 - __output_dim__: 正の整数 > 0.
 - __nb_feature__: 内部で使われるデンスレイヤーの数．
 - __init__: レイヤーの重みに対する初期化関数名([initializations](../initializations.md)を参照)，もしくは，重みを初期化するために使用するTheano関数．このパラメータは`weights`引数を与えていないときにのみ有効です．
-- __activation__: 使用する活性化関数名
-	([activations](../activations.md)を参照)，もしくは，要素ごとのTheano関数．
-	もしあなたが何も指定しなければ，活性化は適用されない．
-	(すなわち，"線形"活性化: a(x) = x)．
 - __weights__: 初期重みとしてセットするnumpy配列のリスト．そのリストは重みとバイアスのそれぞれに対して`(入力次元, 出力次元)と(出力次元,)`の形の2要素持つべきである．
 - __W_regularizer__: 主の重み行列に適用される[WeightRegularizer](../regularizers.md)のインスタンス
 	(例えば，L1もしくはL2正則化)．
