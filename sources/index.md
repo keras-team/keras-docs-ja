@@ -28,7 +28,7 @@ Keras.ioの文章も参照してください。 KerasはPython 2.7-3.5に対応�
 
 ## 30秒でkerasに入門しましょう。
 
-Kerasの中心はネットワーク層を構築するモデル(__model__)にあります。　主なモデルとして線形に階層された逐次モデル([`Sequential`](http://keras.io/getting-started/sequential-model-guide))があります。
+Kerasの中心はネットワーク層を構築するモデル(__model__)にあります。主なモデルとして線形に階層された逐次モデル([`Sequential`](http://keras.io/getting-started/sequential-model-guide))があります。
 更に複雑な構造を実装する場合、[Keras functional API](http://keras.io/getting-started/functional-api-guide).を用いる必要があります。
 
 逐次モデルの一例を見てみましょう。
@@ -42,7 +42,7 @@ model = Sequential()
 階層（レイヤー）をスタックするのは次のように簡単です:
 
 ```python
-from keras.layers.core import Dense, Activation
+from keras.layers import Dense, Activation
 
 model.add(Dense(output_dim=64, input_dim=100))
 model.add(Activation("relu"))
@@ -88,7 +88,7 @@ classes = model.predict_classes(X_test, batch_size=32)
 proba = model.predict_proba(X_test, batch_size=32)
 ```
 
-質疑応答システムをや画像分類、外部記憶を持ったニューラルネットワーク（neural turning machine）,word2vecモデル、その他多くのモデルを高速かつシンプルに実装することが可能となりました。　深層学習の根底にあるアイデアはとてもシンプルです。実装もシンプルであるべきではないでしょうか？
+質疑応答システムをや画像分類、外部記憶を持ったニューラルネットワーク（neural turning machine）,word2vecモデル、その他多くのモデルを高速かつシンプルに実装することが可能となりました。深層学習の根底にあるアイデアはとてもシンプルです。実装もシンプルであるべきではないでしょうか？
 
 Kerasについてもっと詳しい情報が知りたければ以下のチュートリアルを参照してください。
 
@@ -137,7 +137,7 @@ sudo pip install keras
 
 ## TheanoからTensorflowに変更する方法
 
-初期ではKerasはTheanoをテンソル計算ライブラリとしています。　気になる方はKerasのバックエンドについての以下の導入事項を確認ください。[Follow these instructions](http://keras.io/backend/)
+初期ではKerasはTheanoをテンソル計算ライブラリとしています。気になる方はKerasのバックエンドについての以下の導入事項を確認ください。[Follow these instructions](http://keras.io/backend/)
 
 ------------------
 

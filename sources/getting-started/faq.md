@@ -145,7 +145,21 @@ layer_output = get_3rd_layer_output([X, 0])[0]
 layer_output = get_3rd_layer_output([X, 1])[0]
 ```
 
-その他の中間層の出力を取得する方法については，[functional API](/getting-started/functional-api-guide)を参照してください。
+その他の中間層の出力を取得する方法については，[functional API](/getting-started/functional-api-guide)を参照してください。例えばMNISTに対してautoencoderを作成したとします:
+
+```python
+inputs = Input(shape=(784,))
+encoded = Dense(32, activation='relu')(inputs)
+decoded = Dense(784)(encoded)
+model = Model(input=inputs, output=decoded)
+```
+
+コンパイルと学習後のモデルから，次のようにしてencoderからの出力を得ることができます:
+
+```python
+encoder = Model(input=inputs, output=encoded)
+X_encoded = encoder.predict(X)
+```
 
 ---
 

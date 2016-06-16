@@ -42,7 +42,7 @@ __Arguments__
 ### Adadelta
 
 ```python
-keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-06)
+keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -126,7 +126,7 @@ __Arguments__
 ### RMSprop
 
 ```python
-keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-06)
+keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
