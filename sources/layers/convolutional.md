@@ -62,7 +62,7 @@ __Output shape__
 ### Convolution2D
 
 ```python
-keras.layers.convolutional.Convolution2D(nb_filter, nb_row, nb_col, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1), dim_ordering='th', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
+keras.layers.convolutional.Convolution2D(nb_filter, nb_row, nb_col, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1), dim_ordering=K.image_dim_ordering(), W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 ```
 
 2次元入力をフィルターする畳み込み演算．
@@ -107,7 +107,8 @@ __Arguments__
 - __W_constraint__: メインの重み行列に適用される[constraints](../constraints.md)モジュール（例えばmaxnorm, nonneg）のインスタンス．
 - __b_constraint__: バイアス項に適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __dim_ordering__: 'th'か'tf'．'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 3に．
+  'tf'モードではindex 3に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 - __bias__: バイアス項を含むかどうか（レイヤをアフィンにするか線形にするか）．
 
 __Input shape__
@@ -130,7 +131,7 @@ dim_ordering='tf'の場合，配列サイズ`(samples, new_rows, new_cols, nb_fi
 ### Convolution3D
 
 ```python
-keras.layers.convolutional.Convolution3D(nb_filter, kernel_dim1, kernel_dim2, kernel_dim3, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1, 1), dim_ordering='th', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
+keras.layers.convolutional.Convolution3D(nb_filter, kernel_dim1, kernel_dim2, kernel_dim3, init='glorot_uniform', activation='linear', weights=None, border_mode='valid', subsample=(1, 1, 1), dim_ordering=K.image_dim_ordering(), W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 ```
 
 3次元入力をフィルターする畳み込み演算．
@@ -165,7 +166,8 @@ __Arguments__
 - __W_constraint__: メインの重み行列に適用される[constraints](../constraints.md)モジュール（例えばmaxnorm, nonneg）のインスタンス．
 - __b_constraint__: バイアス項に適用される[constraints](../constraints.md)モジュールのインスタンス．
 - __dim_ordering__: 'th'か'tf'．'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 4に．
+  'tf'モードではindex 4に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 - __bias__: バイアス項を含むかどうか（レイヤをアフィンにするか線形にするか）．
 
 __Input shape__
@@ -215,7 +217,7 @@ __Arguments__
 ### MaxPooling2D
 
 ```python
-keras.layers.convolutional.MaxPooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering='th')
+keras.layers.convolutional.MaxPooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering=K.image_dim_ordering())
 ```
 
 空間データのマックスプーリング演算．
@@ -229,8 +231,9 @@ __Arguments__
 - __border_mode__: 'valid'か'same'．
 	- __Note__: 現時点では'same'はTensorFlowでのみ動きます．
 - __dim_ordering__:'th'か'tf'．
-	'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 3に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 3に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -251,10 +254,10 @@ dim_ordering='tf'の場合，`(samples, pooled_rows, pooled_cols, channels)`の4
 ### MaxPooling3D
 
 ```python
-keras.layers.convolutional.MaxPooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering='th')
+keras.layers.convolutional.MaxPooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering=K.image_dim_ordering())
 ```
 
-3次元データ（空間もしくは時空間）に対するマクスプーリング演算．
+3次元データ（空間もしくは時空間）に対するマックスプーリング演算．
 
 - __Note__: 現時点ではこのレイヤーは'Theano'でのみ動きます．
 
@@ -266,8 +269,9 @@ __Arguments__
 - __strides__: 3つの整数のタプルもしくはNone．Strides値．
 - __border_mode__: 'valid'か'same'．
 - __dim_ordering__: 'th'か'tf'．
-	'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 4に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 4に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -315,7 +319,7 @@ __Output shape__
 ### AveragePooling2D
 
 ```python
-keras.layers.convolutional.AveragePooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering='th')
+keras.layers.convolutional.AveragePooling2D(pool_size=(2, 2), strides=None, border_mode='valid', dim_ordering=K.image_dim_ordering())
 ```
 
 空間データのための平均プーリング演算．
@@ -329,8 +333,9 @@ __Arguments__
 - __border_mode__: 'valid'か'same'．
 	- __Note__: 現時点では'same'はTensorFlowでのみ動きます．
 - __dim_ordering__: 'th'か'tf'．
-	'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 3に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 3に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -352,7 +357,7 @@ dim_ordering='th'の場合，配列サイズ
 ### AveragePooling3D
 
 ```python
-keras.layers.convolutional.AveragePooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering='th')
+keras.layers.convolutional.AveragePooling3D(pool_size=(2, 2, 2), strides=None, border_mode='valid', dim_ordering=K.image_dim_ordering())
 ```
 
 3次元データ（空間もしくは時空間）に対する平均プーリング演算．
@@ -367,8 +372,9 @@ __Arguments__
 - __strides__: 3つの整数のタプルもしくはNone．Strides値．
 - __border_mode__: 'valid'か'same'．
 - __dim_ordering__: 'th'か'tf'．
-	'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 4に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 4に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -413,7 +419,7 @@ __Output shape__
 ### UpSampling2D
 
 ```python
-keras.layers.convolutional.UpSampling2D(size=(2, 2), dim_ordering='th')
+keras.layers.convolutional.UpSampling2D(size=(2, 2), dim_ordering=K.image_dim_ordering())
 ```
 
 データの行と列をそれぞれsize[0]及びsize[1]回繰り返す．
@@ -422,8 +428,9 @@ __Arguments__
 
 - __size__: 2つの整数のタプル．行と列のアップサンプリング係数．
 - __dim_ordering__: 'th'か'tf'．
-	'th'モードのときはチャネルの次元（深さ）はindex 1に，
-	'tf'モードではindex 3に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 3に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -445,7 +452,7 @@ dim_ordering='th'の場合，配列サイズ
 ### UpSampling3D
 
 ```python
-keras.layers.convolutional.UpSampling3D(size=(2, 2, 2), dim_ordering='th')
+keras.layers.convolutional.UpSampling3D(size=(2, 2, 2), dim_ordering=K.image_dim_ordering())
 ```
 
 データの1番目，2番目，3番目の次元をそれぞれsize[0]，size[1]，size[2]だけ繰り返す．
@@ -456,8 +463,9 @@ __Arguments__
 
 - __size__: 3つの整数のタプル．dim1，dim2 and dim3のアップサンプリング係数．
 - __dim_ordering__: 'th'か'tf'．
-		'th'モードのときはチャネルの次元（深さ）はindex 1に，
-		'tf'モードではindex 4に．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 4に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -503,7 +511,7 @@ __Output shape__
 ### ZeroPadding2D
 
 ```python
-keras.layers.convolutional.ZeroPadding2D(padding=(1, 1), dim_ordering='th')
+keras.layers.convolutional.ZeroPadding2D(padding=(1, 1), dim_ordering=K.image_dim_ordering())
 ```
 
 2次元入力（例，画像）のためのゼロパディングレイヤー
@@ -512,6 +520,11 @@ __Arguments__
 
 - __padding__: 整数のタプル（長さ2）．
 	2つのパディング次元(axis 3 と 4)の始めと終わりにいくつのゼロを加えるか．
+デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
+- __dim_ordering__: 'th'か'tf'．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 3に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
@@ -527,7 +540,7 @@ __Output shape__
 ### ZeroPadding3D
 
 ```python
-keras.layers.convolutional.ZeroPadding3D(padding=(1, 1, 1), dim_ordering='th')
+keras.layers.convolutional.ZeroPadding3D(padding=(1, 1, 1), dim_ordering=K.image_dim_ordering())
 ```
 
 3次元データ（空間及び時空間）のためのゼロパディングレイヤー．
@@ -538,6 +551,10 @@ __Arguments__
 
 - __padding__: 整数のタプル（長さ3）
 	3つのパディング次元(axis 3, 4 and 5)の始めと終わりにいくつのゼロを加えるか．
+- __dim_ordering__: 'th'か'tf'．
+  'th'モードのときはチャネルの次元（深さ）はindex 1に，
+  'tf'モードではindex 4に．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
 
 __Input shape__
 
