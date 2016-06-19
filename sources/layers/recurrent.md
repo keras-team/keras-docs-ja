@@ -18,7 +18,7 @@ __例__
 # シーケンシャルモデルの最初のレイヤーとして
 model = Sequential()
 model.add(LSTM(32, input_shape=(10, 64)))
-# ここで model.output_shape == (None, 10, 32)
+# ここで model.output_shape == (None, 32)
 # 注: `None`はバッチ次元．note: `None` is the batch dimension.
 
 # 次は同じことです:
