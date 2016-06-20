@@ -15,9 +15,9 @@ keras.callbacks.RemoteMonitor(root='http://localhost:9000')
 
 `requests`ライブラリが必要となります。
 
-	__引数__
+__引数__
 
-	- __root__: イベントのルートURLは(すべてのエポックの終わりに)送信されます。イベントは`root + '/publish/epoch/end/'`に送信されます。コールすることによって、イベントデータをJSONエンコードした辞書型の`data`引数をHTTP POSTされます。
+- __root__: イベントのルートURLは(すべてのエポックの終わりに)送信されます。イベントは`root + '/publish/epoch/end/'`に送信されます。コールすることによって、イベントデータをJSONエンコードした辞書型の`data`引数をHTTP POSTされます。
 
 ----
 
@@ -30,9 +30,9 @@ keras.callbacks.LearningRateScheduler(schedule)
 
 学習率のスケジューラ。
 
-	__引数__
+__引数__
 
-	- __schedule__: この関数はエポックのインデックス(数値型, 0から始まるインデックス)を入力とし、新しい学習率(float)を返します。
+- __schedule__: この関数はエポックのインデックス(数値型, 0から始まるインデックス)を入力とし、新しい学習率(float)を返します。
 
 ----
 
