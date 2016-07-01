@@ -8,7 +8,7 @@
 ### RemoteMonitor
 
 ```python
-keras.callbacks.RemoteMonitor(root='http://localhost:9000')
+keras.callbacks.RemoteMonitor(root='http://localhost:9000', path='/publish/epoch/end/')
 ```
 
 このコールバックはサーバーにイベントをストリームするときに使用されます。
@@ -17,7 +17,7 @@ keras.callbacks.RemoteMonitor(root='http://localhost:9000')
 
 __引数__
 
-- __root__: イベントのルートURLは(すべてのエポックの終わりに)送信されます。イベントは`root + '/publish/epoch/end/'`に送信されます。コールすることによって、イベントデータをJSONエンコードした辞書型の`data`引数をHTTP POSTされます。
+- __root__: イベントのルートURLは(すべてのエポックの終わりに)送信されます。イベントはデフォルトで`root + '/publish/epoch/end/'`に送信されます。コールすることによって、イベントデータをJSONエンコードした辞書型の`data`引数をHTTP POSTされます。
 
 ----
 
