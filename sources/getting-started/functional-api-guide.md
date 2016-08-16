@@ -78,7 +78,7 @@ Twitterの新しいニュースヘッドラインを受信した際、そのツ�
 
 以下がモデルの図になります。
 
-<img src="http://s3.amazonaws.com/keras.io/img/multi-input-multi-output-graph.png" alt="multi-input-multi-output-graph" style="width: 400px;"/>
+<img src="https://s3.amazonaws.com/keras.io/img/multi-input-multi-output-graph.png" alt="multi-input-multi-output-graph" style="width: 400px;"/>
 
 functional APIを利用してこのネットワークを実装してみましょう。
 
@@ -326,7 +326,7 @@ from keras.layers import merge, Convolution2D, Input
 # input tensor for a 3-channel 256x256 image
 x = Input(shape=(3, 256, 256))
 # 3x3 conv with 3 output channels (same as input channels)
-y = Convolution2D(3, 3, 3, border_mode='same')
+y = Convolution2D(3, 3, 3, border_mode='same')(x)
 # this returns x + y.
 z = merge([x, y], mode='sum')
 ```
