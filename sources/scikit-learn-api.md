@@ -1,12 +1,12 @@
 # Scikit-Learn APIのためのラッパー
 
-`keras.wrappers.sklearn.py`にあるラッパーを通して，Kerasの`Sequential`モデル（1つの入力のみ）をScikit-Learnワークフローの一部として利用することができます．
+`keras.wrappers.scikit_learn.py`にあるラッパーを通して，Kerasの`Sequential`モデル（1つの入力のみ）をScikit-Learnワークフローの一部として利用することができます．
 
 2つのラッパーが利用可能です:
 
-`keras.wrappers.sklearn.KerasClassifier(build_fn=None, **sk_params)`, これはsklearnのclassifierインターフェースを実装します．
+`keras.wrappers.sk_learn.KerasClassifier(build_fn=None, **sk_params)`, これはScikit-Learnのclassifierインターフェースを実装します．
 
-`keras.wrappers.sklearn.KerasRegressor(build_fn=None, **sk_params)`, これはsklearnのregressorインターフェースを実装します．
+`keras.wrappers.sk_learn.KerasRegressor(build_fn=None, **sk_params)`, これはScikit-Learnのregressorインターフェースを実装します．
 
 ### 引数
 
