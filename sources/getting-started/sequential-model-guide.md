@@ -88,7 +88,7 @@ final_model.add(merged)
 final_model.add(Dense(10, activation='softmax'))
 ```
 
-<img src="http://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
+<img src="https://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
 
 このような2つに分岐したモデルは次のようにして学習できる:
 
@@ -105,7 +105,7 @@ final_model.fit([input_data_1, input_data_2], targets)  # we pass one data array
 - `ave`: テンソル平均
 - `dot`: ドット積。ドット積を取る軸は`dot_axes`で指定できる。
 - `cos`: 2Dテンソルで表現されたベクトル間のコサイン類似度。
- 
+
 任意の変換のために`mode`に関数を渡すこともできる。
 
 ```python
@@ -152,7 +152,7 @@ KerasのモデルはNumpyの配列のデータとラベルを用いて学習す�
 # for a single-input model with 2 classes (binary):
 
 model = Sequential()
-model.add(Dense(1, input_dim=784, activation='softmax'))
+model.add(Dense(1, input_dim=784, activation='sigmoid'))
 model.compile(optimizer='rmsprop',
               loss='binary_crossentropy',
               metrics=['accuracy'])
@@ -384,7 +384,7 @@ image_model.load_weights('weight_file.h5')
 language_model = Sequential()
 language_model.add(Embedding(vocab_size, 256, input_length=max_caption_len))
 language_model.add(GRU(output_dim=128, return_sequences=True))
-language_model.add(TimeDistributedDense(128))
+language_model.add(TimeDistributed(Dense(128)))
 
 # let's repeat the image vector to turn it into a sequence.
 image_model.add(RepeatVector(max_caption_len))
@@ -419,7 +419,7 @@ model.fit([images, partial_captions], next_words, batch_size=16, nb_epoch=100)
 最初の2層は全系列を返すが最後の層は最終時刻の出力だけを返す
 (言い換えれば入力系列を1つのベクトルに変換する) 。
 
-<img src="http://keras.io/img/regular_stacked_lstm.png" alt="stacked LSTM" style="width: 300px;"/>
+<img src="https://keras.io/img/regular_stacked_lstm.png" alt="stacked LSTM" style="width: 300px;"/>
 
 ```python
 from keras.models import Sequential
@@ -505,7 +505,7 @@ model.fit(x_train, y_train,
 このモデルでは2つの入力系列が別々のLSTMによってベクトルにencodeされる。
 これら2つのベクトルを結合した1つのベクトルを使って全結合層で学習が行われる。
 
-<img src="http://keras.io/img/dual_lstm.png" alt="Dual LSTM" style="width: 600px;"/>
+<img src="https://keras.io/img/dual_lstm.png" alt="Dual LSTM" style="width: 600px;"/>
 
 ```python
 from keras.models import Sequential

@@ -12,6 +12,8 @@
 - [各epochのtraining/validation lossやaccuracyを記録するには？](#epochtrainingvalidation-lossaccuracy)
 - [層を "freeze" するには？](#freeze)
 - [stateful RNNを利用するには？](#stateful-rnn)
+- [Sequentialモデルから層を取り除くには？](#sequential)
+- [Kerasで事前学習したモデルを使うには？](#keras_1)
 
 ---
 
@@ -29,7 +31,7 @@ Kerasがあなたのお役に立てたら，ぜひ著書のなかでKerasを引�
 }
 ```
 
-### KerasをGPUで動かすには？ 
+### KerasをGPUで動かすには？
 
 バックエンドでTensorFlowを使っている場合，利用可能なGPUがあれば自動的にGPUが使われます。
 バックエンドがTheanoの場合，以下の方法があります:
@@ -56,7 +58,30 @@ theano.config.floatX = 'float32'
 
 *Kerasのモデルを保存するのに，pickleやcPickleを使うことは推奨されません。*
 
-モデルのアーキテクチャのみ(weightパラメータを含まない)を保存する場合は以下の通りです:
+`model.save(filepath)`を使うことで，以下の含む単一のHDF5ファイルにKerasのモデルを保存できます．
+
+- 再構築可能なモデルの構造
+- モデルの重み
+- 学習時の設定 (損失関数，最適化アルゴリズム)
+- 最適化アルゴリズムの状態，学習を終えた時点から正確に継続して学習可能
+
+`keras.models.load_model(filepath)`でモデルを再インスタンス化できます．
+`load_model` は，保存してモデルの設定を使い，コンパイルも行います(ただし最初にモデルを定義した際に一度もコンパイルされなかった場合を除く)．
+
+例:
+
+```python
+from keras.models import load_model
+
+model.save('my_model.h5')  # creates a HDF5 file 'my_model.h5'
+del model  # deletes the existing model
+
+# returns a compiled model
+# identical to the previous one
+model = load_model('my_model.h5')
+```
+
+**モデルのアーキテクチャ** のみ(weightパラメータを含まない)を保存する場合は以下の通りです:
 
 ```python
 # save as JSON
@@ -65,6 +90,8 @@ json_string = model.to_json()
 # save as YAML
 yaml_string = model.to_yaml()
 ```
+
+生成されたJSON / YAMLファイルは，人間可読であり，必要に応じて人手で編集可能です．
 
 保存したデータから，以下のように新しいモデルを作成できます:
 
@@ -77,7 +104,7 @@ model = model_from_json(json_string)
 model = model_from_yaml(yaml_string)
 ```
 
-モデルのweightパラメータを保存する場合，以下のようにHDF5を使います。
+**モデルの重み** を保存する場合，以下のようにHDF5を使います。
 
 注: HDF5とPythonライブラリの h5pyがインストールされている必要があります(Kerasには同梱されていません)。
 
@@ -89,22 +116,6 @@ model.save_weights('my_model_weights.h5')
 
 ```python
 model.load_weights('my_model_weights.h5')
-```
-
-モデルとパラメータの保存，読み込みの一連の処理は以下のようになります:
-```python
-json_string = model.to_json()
-open('my_model_architecture.json', 'w').write(json_string)
-model.save_weights('my_model_weights.h5')
-
-# elsewhere...
-model = model_from_json(open('my_model_architecture.json').read())
-model.load_weights('my_model_weights.h5')
-```
-
-最後に，モデルを利用前にコンパイルする必要があります。
-```python
-model.compile(optimizer='adagrad', loss='mse')
 ```
 
 ---
@@ -296,3 +307,39 @@ model.layers[0].reset_states()
 
 注: `predict`, `fit`, `train_on_batch`, `predict_classes`メソッドなどは全て，stateful層の状態を更新します。そのため，訓練だけでなく，statefulな予測も可能となります。
 
+---
+
+### Sequentialモデルから層を取り除くには？
+`.pop()`を使うことで，Sequentialモデルへ最後に追加した層を削除できます。
+
+```python
+model = Sequential()
+model.add(Dense(32, activation='relu', input_dim=784))
+model.add(Dense(32, activation='relu'))
+
+print(len(model.layers))  # "2"
+
+model.pop()
+print(len(model.layers))  # "1"
+```
+
+---
+
+### Kerasで事前学習したモデルを使うには？
+
+以下の画像分類用のモデルのコードと事前学習した重みが利用可能です．
+
+- VGG-16
+- VGG-19
+- ResNet50
+- Inception v3
+
+コードと重みは[このリポジトリ](https://github.com/fchollet/deep-learning-models)にあります．
+
+特徴量抽出やfine-tuningのために事前学習したモデルを使う例は，[このブログ記事](http://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)をみてください．
+
+また，VGG16はいくつかのKerasのサンプルスクリプトの基礎になっています．
+
+- [Style transfer](https://github.com/fchollet/keras/blob/master/examples/neural_style_transfer.py)
+- [Feature visualization](https://github.com/fchollet/keras/blob/master/examples/conv_filter_visualization.py)
+- [Deep dream](https://github.com/fchollet/keras/blob/master/examples/deep_dream.py)
