@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L507)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L516)</span>
 ### Dense
 
 ```python
@@ -233,7 +233,7 @@ __出力の型__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/engine/topology.py#L1034)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/engine/topology.py#L1091)</span>
 ### Merge
 
 ```python
@@ -309,12 +309,18 @@ model.add(Lambda(antirectifier, output_shape=antirectifier_output_shape))
 __引数__
 
 - __function__: 評価される関数．一つの引数を取る: 前のレイヤーの出力
-- __output_shape__: 関数からの期待される出力の型．タプルもしくは入力の型の関数である
-- __arguments__: 関数に通されるキーボード引数の追加辞書
+- __output_shape__: 関数からの期待される出力の型．タプルもしくは関数．
+	タプルなら，入力に近いほうの次元だけを指定する，データサンプルの次元は入力と同じ:
+	`output_shape = (input_shape[0], ) + output_shape`
+	か入力が `None` でかつサンプル次元も`None`:
+	`output_shape = (None, ) + output_shape`
+	のどちらかが推測される．
+  関数なら，入力型の関数として型全体を指定する: `output_shape = f(input_shape)`
+- __arguments__: 関数に通されるキーワード引数の追加辞書
 
 __入力の型__
 
-任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーボード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
 
 __出力の型__
 
@@ -322,7 +328,7 @@ __出力の型__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L651)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L660)</span>
 ### ActivityRegularization
 
 ```python
@@ -338,7 +344,7 @@ __引数__
 
 __入力の型__
 
-任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーボード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプル，それはサンプルの軸を含まない)を使う．
 
 __出力の型__
 
@@ -377,7 +383,7 @@ model.add(LSTM(32))
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L826)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L830)</span>
 ### Highway
 
 ```python
@@ -417,7 +423,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L684)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L693)</span>
 ### MaxoutDense
 
 ```python
@@ -464,7 +470,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L964)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L968)</span>
 ### TimeDistributedDense
 
 ```python
