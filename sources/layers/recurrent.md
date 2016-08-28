@@ -32,41 +32,41 @@ model.add(LSTM(16))
 __引数__
 
 - __weights__: 重みの初期値として設定するnumpy arrayのリスト．
-	リストは次のshapeを持つ三つの要素からなります: 
-	`[(input_dim, output_dim), (output_dim, output_dim), (output_dim,)]`.
+  リストは次のshapeを持つ三つの要素からなります:
+  `[(input_dim, output_dim), (output_dim, output_dim), (output_dim,)]`.
 - __return_sequences__: 論理型．出力シーケンスの最後の出力を返すか，
-  	完全なシーケンスを返すか．
+    完全なシーケンスを返すか．
 - __go_backwards__: 論理型（デフォルトはFalse）．
-	Trueであれば，入力シーケンスを逆向きに進みます．
+  Trueであれば，入力シーケンスを逆向きに進みます．
 - __stateful__: 論理型（デフォルトはFalse）．Trueであれば，バッチ内の添字iの各サンプル
-  	に対する最後の状態が次のバッチ内の添字iのサンプルに対する初期状態として使われます．
+    に対する最後の状態が次のバッチ内の添字iのサンプルに対する初期状態として使われます．
 - __unroll__: 論理型（デフォルトはFalse）．Trueであれば，ネットワークは展開され，
-  	そうでなければシンボリックループが使われます．TensorFlowを利用するとき，ネットワークは
-	常に展開されるので，この引数は何もしません．
-	展開はよりメモリ集中傾向になりますが，RNNをスピードアップできます．
-	展開は短いシーケンスにのみ適しています．
+    そうでなければシンボリックループが使われます．TensorFlowを利用するとき，ネットワークは
+    常に展開されるので，この引数は何もしません．
+    展開はよりメモリ集中傾向になりますが，RNNをスピードアップできます．
+    展開は短いシーケンスにのみ適しています．
 - __consume_less__: "cpu", "mem", "gpu"の一つ (LSTM/GRUのみ)．
-	"cpu"に設定すれば，RNNはより僅かでより大きい行列積を用いた実装を利用するので，
-	CPUではより速く動作しますがより多くのメモリを消費します．
+    "cpu"に設定すれば，RNNはより僅かでより大きい行列積を用いた実装を利用するので，
+    CPUではより速く動作しますがより多くのメモリを消費します．
+    "mem"に設定すれば，RNNはより多くの行列積を利用しますが，より小さい行列積を利用します．
+    よってより遅く動作する一方（実際にはGPUではより高速になるかもしれない）
+    より少ないメモリを消費します．
+    "gpu"に設定すれば（LSTM/GRUのみ），RNNは入力ゲート，
+    忘却ゲート，出力ゲートを一つの行列に結び付け，
+    GPU上でもっと計算時間の効率の良い並列化を可能にします．
+    注意: RNNのドロップアウトはすべてのゲートに対して共有化されている必要があり，
+    結果として僅かに正則化の効果を低減することになります．
 
-	"mem"に設定すれば，RNNはより多くの行列積を利用しますが，より小さい行列積を利用します．
-	よってより遅く動作する一方（実際にはGPUではより高速になるかもしれない）
-	より少ないメモリを消費します．
-
-	"gpu"に設定すれば（LSTM/GRUのみ），RNNは入力ゲート，
-	忘却ゲート，出力ゲートを一つの行列に結び付け，
-	GPU上でもっと計算時間の効率の良い並列化を可能にします．
-	注意: RNNのドロップアウトはすべてのゲートに対して共有化されている必要があり，
-	結果として僅かに正則化の効果を低減することになります．
 - __input_dim__: 入力の次元（整数）
-  	この引数（または代わりのキーワード引数`input_shape`）は
-	このレイヤーをモデルの最初のレイヤーとして利用するときに必要となります．
+    この引数（または代わりのキーワード引数`input_shape`）は
+    このレイヤーをモデルの最初のレイヤーとして利用するときに必要となります．
+
 - __input_length__: 入力シーケンスの長さ．
-	この引数は`Flatten`ひいては`Dense`なレイヤーを上流に結びつけるときに必要となります．
-	（これなしでは，密な出力のshapeを計算できません）．
-	注意: リカレントレイヤーがあなたのモデルの最初のレイヤーでなければ，
-	最初のレイヤーのレベルで入力の長さを指定する必要があります
-	（例えば`input_shape`引数を通じて）．
+    この引数は`Flatten`ひいては`Dense`なレイヤーを上流に結びつけるときに必要となります．
+    （これなしでは，密な出力のshapeを計算できません）．
+    注意: リカレントレイヤーがあなたのモデルの最初のレイヤーでなければ，
+    最初のレイヤーのレベルで入力の長さを指定する必要があります
+    （例えば`input_shape`引数を通じて）．
 
 __入力のshape__
 
@@ -100,11 +100,14 @@ RNNレイヤーが状態管理されるように設定できます．
 これは異なる連続したバッチのサンプル間の1対1対応を仮定します．
 
 状態管理を可能にするためには:
-	- レイヤーコンストラクタにおいて`stateful=True`を指定してください．
-	- あなたのモデルの最初のレイヤーに`batch_input_shape=(...)`を通すことで，
-	あなたのモデルに対して固定されたバッチサイズを指定してください．
-	これは*バッチサイズを含む*あなたの入力の期待されるshapeです．
-	これは整数のタプルであるべきです，例えば`(32, 10, 100)`．
+  - レイヤーコンストラクタにおいて`stateful=True`を指定してください．
+  - もしsequentialモデルなら:
+      `batch_input_shape=(...)`を最初のレイヤーに
+    1つ以上の入力層をもったfunctionalモデルなら:
+      `batch_shape=(...)`をモデルのすべての最初のレイヤーに
+    渡すことで固定長のバッチサイズを指定してください．
+    これは*バッチサイズを含む*あなたの入力の期待されるshapeです．
+    これは整数のタプルであるべきです，例えば`(32, 10, 100)`．
 
 あなたのモデルの状態を再設定するためには，指定したレイヤーもしくは
 あなたの全体のモデル上で`.reset_states()`を呼び出してください．
@@ -116,7 +119,7 @@ TensorFlowバックエンドを利用するとき，状態管理RNNsについて
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L262)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L263)</span>
 ### SimpleRNN
 
 ```python
@@ -149,7 +152,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L407)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L408)</span>
 ### GRU
 
 ```python
@@ -186,7 +189,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L622)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L623)</span>
 ### LSTM
 
 ```python

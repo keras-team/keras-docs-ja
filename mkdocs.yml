@@ -24,6 +24,7 @@ pages:
   - レイヤーについて: layers/about-keras-layers.md
   - Coreレイヤー: layers/core.md
   - Convolutionalレイヤー: layers/convolutional.md
+  - Poolingレイヤー: layers/pooling.md
   - Recurrentレイヤー: layers/recurrent.md
   - Embeddingレイヤー: layers/embeddings.md
   - Advanced Activationsレイヤー: layers/advanced-activations.md
