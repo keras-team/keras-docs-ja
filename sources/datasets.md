@@ -53,11 +53,14 @@ from keras.datasets import cifar100
 ```python
 from keras.datasets import imdb
 
-(X_train, y_train), (X_test, y_test) = imdb.load_data(path="imdb.pkl",
+(X_train, y_train), (X_test, y_test) = imdb.load_data(path="imdb_full.pkl",
                                                       nb_words=None,
                                                       skip_top=0,
                                                       maxlen=None,
-                                                      test_split=0.1)
+                                                      seed=113,
+                                                      start_char=1,
+                                                      oov_char=2,
+                                                      index_from=3)
 ```
 - __返り値:__
     - 2つのタプル:
@@ -65,13 +68,15 @@ from keras.datasets import imdb
         - __y_train, y_test__: integer型ラベル(1または0)のリスト。 
 
 - __引数:__
-
     - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)、cPickleフォーマットではこの位置にダウンロードされる。 
     - __nb_words__: integer型 または None。 指定された数値だけ上位の頻出語が対象となる。指定された数値より下位の頻出語はシーケンスデータにおいて0と表される。
     - __skip_top__: integer型。指定された数値だけ上位の頻出語が無視される(シーケンスデータにおいて0と表される)。
     - __maxlen__: int型。シーケンスの最大長。最大長より長いシーケンスは切り捨てられる。
-    - __test_split__: float型。分けられたデータセットはテストデータとして使用される。
     - __seed__: int型。再現可能なデータシャッフルのためのシード。
+    - __start_char__: この文字が系列の開始記号として扱われる。
+        0は通常パディング用の文字であるため，1以上からセットしてください。
+    - __oov_char__: `nb_words`か`skip_top`によって削除された単語を置換します．
+    - __index_from__: 単語のインデックスはこのインデックス以上の数値が与えられます．
 
 ---
 
@@ -87,10 +92,16 @@ from keras.datasets import reuters
                                                          nb_words=None,
                                                          skip_top=0,
                                                          maxlen=None,
-                                                         test_split=0.1)
+                                                         test_split=0.2,
+                                                         seed=113,
+                                                         start_char=1,
+                                                         oov_char=2,
+                                                         index_from=3)
 ```
 
-仕様はIMDBデータセットのそれと同様。
+仕様はIMDBデータセットと同様のものに次のパラメータが追加される:
+
+- __test_split__: float。テストデータとして使用するデータセットの割合。
 
 このデータセットはシーケンスをエンコードするのに使われる単語インデックスとしても利用できる。
 
@@ -122,5 +133,4 @@ from keras.datasets import mnist
         - __y_train, y_test__: shape (nb_samples,)のカテゴリラベル(0-9の範囲のinteger)のuint8配列。
 
 - __引数:__
-
     - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)、cPickleフォーマットではこの位置にダウンロードされる。

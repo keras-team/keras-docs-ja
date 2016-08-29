@@ -2,7 +2,7 @@
 ### BatchNormalization
 
 ```python
-keras.layers.normalization.BatchNormalization(epsilon=1e-06, mode=0, axis=-1, momentum=0.99, weights=None, beta_init='zero', gamma_init='one')
+keras.layers.normalization.BatchNormalization(epsilon=1e-05, mode=0, axis=-1, momentum=0.99, weights=None, beta_init='zero', gamma_init='one')
 ```
 
 各バッチ毎に前の層の出力（このレイヤーへの入力）を正規化します．

@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L42)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L40)</span>
 ### Recurrent
 
 ```python
@@ -83,14 +83,10 @@ __マスキング__
 あなたのデータにマスクを導入するためには，
 `True`に設定された`mask_zero`パラメータを持つ[埋め込み](embeddings.md)レイヤーを利用してください．
 
-__TensorFlowの警告__
+__パフォーマンスの注意点__
 
-当分の間，TensorFlowバックエンドを利用するとき，
-あなたのモデルで使われるタイムステップの数は指定される必要があります．
-必ず
-（あなたのモデルで最初にリカレントレイヤーが来るとき）
-`input_length`引数(int)をあなたのリカレントレイヤーに通すか，
-もしくはそれ以外のとき完全な`input_shape`引数をあなたのモデルの最初のレイヤーに通してください．
+RNNのパフォーマンスはTensorFlowよりもTheanoのほうが遥かに優れています．
+加えて，TensorFlowを使う際は，`unroll=True`がよりパフォーマンスにとっては好ましいです．
 
 __RNNsで状態管理性を利用するときの注意__
 
@@ -119,7 +115,7 @@ TensorFlowバックエンドを利用するとき，状態管理RNNsについて
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L263)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L240)</span>
 ### SimpleRNN
 
 ```python
@@ -152,7 +148,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L408)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L385)</span>
 ### GRU
 
 ```python
@@ -189,7 +185,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L623)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L600)</span>
 ### LSTM
 
 ```python

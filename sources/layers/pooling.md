@@ -199,3 +199,89 @@ dim_ordering='th'の場合，配列サイズ
 `(nb_samples, channels, pooled_dim1, pooled_dim2, pooled_dim3)`の5次元テンソル
 もしくはdim_ordering='tf'の場合，配列サイズ
 `(samples, pooled_dim1, pooled_dim2, pooled_dim3, channels)`の5次元テンソル
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L430)</span>
+### GlobalMaxPooling1D
+
+```python
+keras.layers.pooling.GlobalMaxPooling1D()
+```
+
+時系列データのためのグルーバルなマックスプーリング演算．
+
+__Input shape__
+
+配列サイズ `(samples, steps, features)`の3次元テンソル．
+
+__Output shape__
+
+配列サイズ `(samples, downsampled_steps, features)`の3次元テンソル．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L416)</span>
+### GlobalAveragePooling1D
+
+```python
+keras.layers.pooling.GlobalAveragePooling1D()
+```
+
+時系列データのためのグルーバルな平均プーリング演算．
+
+__Input shape__
+
+配列サイズ `(samples, steps, features)`の3次元テンソル．
+
+__Output shape__
+
+配列サイズ `(samples, downsampled_steps, features)`の3次元テンソル．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L497)</span>
+### GlobalMaxPooling2D
+
+```python
+keras.layers.pooling.GlobalMaxPooling2D(dim_ordering='default')
+```
+
+空間データのグルーバルなマックスプーリング演算．
+
+__Auguments__
+
+- __dim_ordering__:'th'か'tf'．'th'モードのときはチャネルの次元（深さ）はindex 1に，'tf'モードではindex 3に．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
+
+__Input shape__
+
+dim_ordering='th'の場合，配列サイズ `(samples, channels, rows, cols)`の4次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ `(samples, rows, cols, channels)`の4次元テンソル．
+
+__Output shape__
+
+配列サイズ`(nb_samples, channels)`の2次元テンソル．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L469)</span>
+### GlobalAveragePooling2D
+
+```python
+keras.layers.pooling.GlobalAveragePooling2D(dim_ordering='default')
+```
+
+空間データのグルーバルな平均プーリング演算．
+
+__Auguments__
+
+- __dim_ordering__:'th'か'tf'．'th'モードのときはチャネルの次元（深さ）はindex 1に，'tf'モードではindex 3に．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
+
+__Input shape__
+
+dim_ordering='th'の場合，配列サイズ `(samples, channels, rows, cols)`の4次元テンソル．
+もしくはdim_ordering='tf'の場合，配列サイズ `(samples, rows, cols, channels)`の4次元テンソル．
+
+__Output shape__
+
+配列サイズ`(nb_samples, channels)`の2次元テンソル．

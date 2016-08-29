@@ -81,7 +81,7 @@ __引数__
 	(学習の間だけ) 損失関数をスケーリングするために使います。
 - __sample_weight__: 入力サンプルと同じ長さの1次元の Numpy の配列で、学習のサンプルに対する重みを格納します。
 	これは損失関数をスケーリングするために (学習の間だけ) 使用します。
-	- __(重みとサンプルの間における1__:1 の写像),
+	- (重みとサンプルの間における1:1 の写像),
 	あるいは系列データの場合において、2次元配列の (samples, sequence_length) という形式で、
 	すべてのサンプルの各時間において異なる重みを適用できます。
 	この場合、compile() の中で sample_weight_mode="temporal" と確実に明記すべきです。
@@ -248,7 +248,7 @@ predict_on_batch(self, x)
 
 
 ```python
-fit_generator(self, generator, samples_per_epoch, nb_epoch, verbose=1, callbacks=[], validation_data=None, nb_val_samples=None, class_weight=None, max_q_size=10)
+fit_generator(self, generator, samples_per_epoch, nb_epoch, verbose=1, callbacks=[], validation_data=None, nb_val_samples=None, class_weight=None, max_q_size=10, nb_worker=1, pickle_safe=False)
 ```
 
 Python のジェネレータにより、バッチごとに生成されるデータでモデルを学習させます。
@@ -276,6 +276,9 @@ __引数__
 - __class_weight__: dictionary 型で、クラス毎の重みを格納します。
 	(学習の間だけ) 損失関数をスケーリングするために使います。
 - __max_q_size__: ジェネレータのキューの最大サイズ。
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+
 
 __返り値__
 
@@ -305,15 +308,43 @@ model.fit_generator(generate_arrays_from_file('/my_file.txt'),
 
 
 ```python
-evaluate_generator(self, generator, val_samples, max_q_size=10)
+evaluate_generator(self, generator, val_samples, max_q_size=10, nb_worker=1, pickle_safe=False)
 ```
 
-ジェネレータのデータによってモデルを評価します。ジェネレータは `test_on_batch` で受け取ったデータと同じ種類のデータを返却するべきです。
+ジェネレータのデータによってモデルを評価します。ジェネレータは `test_on_batch` が受け取るデータと同じ種類のデータを返却するべきです。
 
-- __Arguments__:
+__引数__
+
 - __generator__:
-	ジェネレータが生成するタプルで (inputs, targets)
-	あるいは (inputs, targets, sample_weights)。
+	(inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
 - __val_samples__:
 	値を返すまでに `generator` により生成されるサンプルの総数
 - __max_q_size__: ジェネレータのキューの最大サイズ
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+
+
+----
+
+### predict_generator
+
+
+```python
+predict_generator(self, generator, val_samples, max_q_size=10, nb_worker=1, pickle_safe=False)
+```
+
+ジェネレータのデータに対して予測します。ジェネレータは `predict_on_batch` が受け取るデータと同じ種類のデータを返却するべきです。
+
+__引数__
+
+- __generator__:
+	(inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
+- __val_samples__:
+	値を返すまでに `generator` により生成されるサンプルの総数
+- __max_q_size__: ジェネレータのキューの最大サイズ
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+
+__返り値__
+
+予測値のNumpy配列．

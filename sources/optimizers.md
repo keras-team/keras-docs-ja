@@ -20,9 +20,66 @@ model.compile(loss='mean_squared_error', optimizer=sgd)
 model.compile(loss='mean_squared_error', optimizer='sgd')
 ```
 
----
+----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L204)</span>
+## Kerasのオプティマイザの共通パラメータ
+
+`clipnorm`と`clipvalue`はすべての最適化法についてgradient clippingを制御するために使われます:
+
+```python
+# all parameter gradients will be clipped to
+# a maximum norm of 1.
+sgd = SGD(lr=0.01, clipnorm=1.)
+```
+
+```python
+# all parameter gradients will be clipped to
+# a maximum value of 0.5 and
+# a minimum value of -0.5.
+sgd = SGD(lr=0.01, clipvalue=0.5)
+```
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L120)</span>
+### SGD
+
+```python
+keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)
+```
+
+モーメンタム，学習率減衰，Nesterov momentumをサポートした確率的勾配降下法．
+
+__Arguments__
+
+- __lr__: float >= 0. 学習率．
+- __momentum__: float >= 0. モーメンタム．
+- __decay__: float >= 0. 各更新の学習率減衰．
+- __nesterov__: boolean. Nesterov momentumを適用するかどうか．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L174)</span>
+### RMSprop
+
+```python
+keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08)
+```
+
+デフォルトパラメータのまま利用することを推奨します．
+（ただし，学習率は除き，自由に調整することが可能です）
+
+RMSPropは再帰型ニューラルネットワークに対して良い選択となるでしょう．
+
+__Arguments__
+
+- __lr__: float >= 0. 学習率．
+- __rho__: float >= 0.
+- __epsilon__: float >= 0. Fuzz factor.
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L223)</span>
 ### Adagrad
 
 ```python
@@ -36,9 +93,14 @@ __Arguments__
 - __lr__: float >= 0. 学習率．
 - __epsilon__: float >= 0.
 
+
+__References__
+
+- [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)
+
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L243)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L266)</span>
 ### Adadelta
 
 ```python
@@ -60,7 +122,7 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L298)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L322)</span>
 ### Adam
 
 ```python
@@ -71,8 +133,8 @@ keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 
 __Arguments__
 
-- __lr__: float >= 0. 学習率.
-- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近づきます．
+- __lr__: float >= 0. 学習率．
+- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
 
 __References__
@@ -81,7 +143,7 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L356)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L381)</span>
 ### Adamax
 
 ```python
@@ -94,8 +156,8 @@ Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基
 
 __Arguments__
 
-- __lr__: float >= 0. 学習率.
-- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近づきます．
+- __lr__: float >= 0. 学習率．
+- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
 
 __References__
@@ -104,38 +166,25 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L105)</span>
-### SGD
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L444)</span>
+### Nadam
 
 ```python
-keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)
+keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)
 ```
 
-モーメンタム，学習率減衰，Nesterov momentumをサポートした確率的勾配降下法．
+Nesterov Adam optimizer: Much like Adam is essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum.
 
-__Arguments__
-
-- __lr__: float >= 0. 学習率.
-- __momentum__: float >= 0. モーメンタム．
-- __decay__: float >= 0. 各更新の学習率減衰．
-- __nesterov__: boolean. Nesterov momentumを適用するかどうか.
-
-----
-
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L156)</span>
-### RMSprop
-
-```python
-keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08)
-```
-
+デフォルトパラメータは提案論文に従います．
 デフォルトパラメータのまま利用することを推奨します．
-（ただし，学習率は除き，自由に調整することが可能です）
-
-RMSPropは再帰型ニューラルネットワークに対して良い選択となるでしょう．
 
 __Arguments__
 
-- __lr__: float >= 0. 学習率.
-- __rho__: float >= 0.
+- __lr__: float >= 0. 学習率．
+- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値．
 - __epsilon__: float >= 0. Fuzz factor.
+
+__References__
+
+- [Nadam report](http://cs229.stanford.edu/proj2015/054_report.pdf)
+- [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)
