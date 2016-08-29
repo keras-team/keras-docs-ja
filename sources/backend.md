@@ -15,7 +15,7 @@ Kerasはモジュール方式でこの問題を扱い，いくつかの異なる
 
 ----
 
-## あるバックエンドから別のバックエンドへの移行
+## バックエンドの切り替え
 
 少なくとも一度Kerasを実行したら，Kerasの設定ファイルを
 
@@ -90,20 +90,22 @@ a = concatenate([b, c], axis=-1)
 
 ## バックエンド関数
 
-
-### learning_phase
-
+### epsilon
 
 ```python
-learning_phase()
+epsilon()
 ```
 
+数値演算で使われる微小値を返します．
 
-学習フェーズのフラグを返します．
+----
+### set_epsilon
 
-学習フェーズのフラグは
-学習期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される
-整数のテンソル (0 = test, 1 = train) です．
+```python
+set_epsilon()
+```
+
+数値演算で使われる微小値をセットします．
 
 ----
 
@@ -132,15 +134,51 @@ Numpy配列をfloatxにキャストします．
 
 ----
 
-### shape
+### image_dim_ordering
+
+```python
+image_dim_ordering()
+```
+
+画像における次元の順序方法 ('th' か 'tf') を返します．
+
+----
+
+### set_image_dim_ordering
+
+```python
+set_image_dim_ordering(dim_ordering)
+```
+
+画像における次元の順序方法 ('th' か 'tf') をセットします．
+
+----
+
+### learning_phase
 
 
 ```python
-shape(x)
+learning_phase()
 ```
 
 
-テンソルのシンボリックなshapeを返します．
+学習フェーズのフラグを返します．
+
+学習フェーズのフラグは
+学習期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される
+整数のテンソル (0 = test, 1 = train) です．
+
+----
+
+### manual_variable_initialization
+
+
+```python
+manual_variable_initialization(value)
+```
+
+変数が初期化され
+インスタンス化されるときに（デフォルト）
 
 ----
 
@@ -192,6 +230,18 @@ __返り値__
 
 ----
 
+### shape
+
+
+```python
+shape(x)
+```
+
+
+テンソルのシンボリックなshapeを返します．
+
+----
+
 ### int_shape
 
 
@@ -201,6 +251,7 @@ int_shape(x)
 
 
 整数もしくはNoneのエントリーからなるタプルとしてテンソルのshapeを返します．
+TensorFlow使用時にのみ動作します．
 
 ----
 
@@ -352,6 +403,17 @@ batch_dot(x, y, axes=None)
 batch_dotの結果は入力より小さい次元を持つテンソルになります．
 次元数が1になれば，ndimが少なくとも2であることを確認するために`expand_dims`を利用します．
 
+__引数__
+
+- x, y: ndim >= 2であるようなテンソル
+- __axes__: 目標となる次元を持つ整数のリスト（もしくは整数単体）
+
+__返り値__
+
+ndim >= 2であるようなテンソル
+（次元数の総和より少ない）xの次元と（バッチの次元の総和より少ない）yの次元を連結した次元に等しいテンソル．
+もし最後のランクが1なら，(batch_size, 1)にreshapeします．
+
 __例__
 
 x = [[1, 2], [3,4]], y = [[5, 6], [7, 8]]
@@ -359,14 +421,6 @@ x = [[1, 2], [3,4]], y = [[5, 6], [7, 8]]
 非対角成分を計算しなくても，x.dot(y.T)の主対角成分である
 batch_dot(x, y, axes=1) = [[17, 53]]が得られます．
 
-__引数__
-
-x, y: ndim >= 2であるようなテンソル
-- __axes__: 目標となる次元を持つ整数のリスト（もしくは整数単体）
-
-__返り値__
-
-ndim >= 2であるようなテンソル
 
 ----
 
@@ -451,6 +505,16 @@ prod(x, axis=None, keepdims=False)
 
 ----
 
+### var
+
+```python
+var(x, axis=None, keepdims=False)
+```
+
+指定した軸に沿ったテンソルの分散．
+
+----
+
 ### std
 
 
@@ -486,6 +550,18 @@ any(x, axis=None, keepdims=False)
 ビットごとの縮約（論理OR）．
 
 （0と1からなる）unit8テンソルを返します．
+
+----
+
+### all
+
+```python
+all(x, axis=None, keepdims=False)
+```
+
+ビット単位の縮約（論理 AND）．
+
+unit8テンソルを返します．
 
 ----
 
@@ -647,6 +723,49 @@ not_equal(x, y)
 
 ----
 
+### greater
+
+```python
+greater(x, y)
+```
+
+成分ごとの(x > y)の真偽値．
+ブール値からなるテンソルを返します．
+
+----
+
+### greater_equal
+
+```python
+greater_equal(x, y)
+```
+
+成分ごとの(x >= y)の真偽値．
+ブール値からなるテンソルを返します．
+
+----
+### lesser
+
+```python
+lesser(x, y)
+```
+
+成分ごとの(x < y)の真偽値．
+ブール値からなるテンソルを返します．
+
+----
+
+### lesser_equal
+
+```python
+lesser_equal(x, y)
+```
+
+成分ごとの(x <= y)の真偽値．
+ブール値からなるテンソルを返します．
+
+----
+
 ### maximum
 
 
@@ -692,6 +811,29 @@ cos(x)
 
 
 成分ごとにxのcosを計算します．
+
+----
+
+### normalize_batch_in_training
+
+```python
+normalize_batch_in_training(x, gamma, beta, reduction_axes, epsilon=0.0001)
+```
+
+平均と標準偏差を計算してからバッチにbatch_normalizationを適用します．
+
+----
+
+### normalize_batch
+
+```python
+batch_normalization(x, mean, var, beta, gamma, epsilon=0.0001)
+```
+
+与えられたmean，var，beta，gammaを使ってxにbatch normalizationを適用します:
+
+output = (x - mean) / (sqrt(var) + epsilon) * gamma + beta
+
 
 ----
 
@@ -743,10 +885,23 @@ resize_images(X, height_factor, width_factor, dim_ordering)
 ```
 
 
-次のshapeを持つ4Dテンソルに含まれるように(height_factor, width_factor)の因子についてイメージのサイズを変更します
+(height_factor, width_factor)の因子によって次のshapeを持つ4Dテンソルに含まれるイメージのサイズを変更します
 - [batch, channels, height, width] ('th' dim_orderingに対して)
 - [batch, height, width, channels] ('tf' dim_orderingに対して)
 両方の因子は正の整数であるべきです．
+
+----
+
+### resize_volumes
+
+```python
+resize_volumes(X, depth_factor, height_factor, width_factor, dim_ordering)
+```
+
+(depth_factor, height_factor, width_factor)の因子よって次のshapeをもつ5Dテンソルに含まれるvolumeのサイズを変更します
+- [batch, channels, depth, height, width] ('th' dim_orderingに対して)
+- [batch, depth, height, width, channels] ('tf'に対して)
+3つすべての因子は正の整数であるべきです．
 
 ----
 
@@ -839,6 +994,44 @@ spatial_2d_padding(x, padding=(1, 1), dim_ordering='th')
 
 ----
 
+### spatial_3d_padding
+
+
+```python
+spatial_3d_padding(x, padding=(1, 1, 1), dim_ordering='th')
+```
+
+深さ，高さ，横についてそれぞれ"padding[0]"，"padding[1]"そして"padding[2]"の分だけ5Dテンソルに0を左右にパディングします．
+'tf' dim_orderingに対しては2,3,4次元がパディングされ，'th' dim_orderingに対しては3,4,5次元がパディングされます．
+
+----
+
+### one-hot
+
+```python
+one_hot(indices, nb_classes)
+```
+
+__input__:
+
+(batch_size, dim1, dim2, ... dim(n-1))の次元をもつn階の整数テンソル．
+
+__output__:
+
+(batch_size, dim1, dim2, ... dim(n-1), nb_classes)の次元をもつ(n + 1)階の入力のone hot表現．
+
+----
+
+### reverse
+
+```python
+reverse(x, axes)
+```
+
+指定した軸に沿ってテンソルを逆にする．
+
+----
+
 ### get_value
 
 
@@ -892,6 +1085,16 @@ __引数__
 
 ----
 
+### print_tensor
+
+```python
+print_tensor(x, message='')
+```
+
+メッセージと評価したテンソルを出力し，同じテンソルを返します．
+
+----
+
 ### function
 
 
@@ -919,6 +1122,16 @@ gradients(loss, variables)
 
 
 `variables`の`loss`についての勾配 (テンソル変数のリスト) を返します．
+
+----
+
+### stop_gradient
+
+```python
+stop_gradient(variables)
+```
+
+Returns `variable` but with zero gradient with respect to every other variables.
 
 ----
 
@@ -1168,6 +1381,46 @@ conv2d(x, kernel, strides=(1, 1), border_mode='valid', dim_ordering='th', image_
 
 __引数__
 
+- __x__: 入力テンソル．
+- __kernel__: カーネルテンソル．
+- __strides__: ストライドのタプル．
+- __border_mode__: 文字列，"same"もしくは"valid"．
+- __dim_ordering__: "tf"もしくは"th"．入力/カーネル/出力でTheanoもしくはTensorFlowの次元順序を利用するかどうか．
+
+----
+
+### deconv2d
+
+```python
+deconv2d(x, kernel, output_shape, strides=(1, 1), border_mode='valid', dim_ordering='tf', image_shape=None, filter_shape=None)
+```
+
+2D deconvolution (i.e. transposed convolution).
+
+__引数__
+
+- __x__: 入力テンソル．
+- __kernel__: カーネルテンソル．
+- __output_shape__: 出力の形を表す整数値の1階テンソル
+- __strides__: ストライドのタプル．
+- __border_mode__: 文字列，"same"もしくは"valid"．
+- __dim_ordering__: "tf"もしくは"th"．入力/カーネル/出力でTheanoもしくはTensorFlowの次元順序を利用するかどうか．
+
+----
+
+### conv3d
+
+
+```python
+conv3d(x, kernel, strides=(1, 1, 1), border_mode='valid', dim_ordering='tf', volume_shape=None, filter_shape=None)
+```
+
+
+3Dの畳み込み．
+
+__引数__
+
+- __x__: 入力テンソル．
 - __kernel__: カーネルテンソル．
 - __strides__: ストライドのタプル．
 - __border_mode__: 文字列，"same"もしくは"valid"．
@@ -1187,8 +1440,88 @@ pool2d(x, pool_size, strides=(1, 1), border_mode='valid', dim_ordering='th', poo
 
 __引数__
 
+- __x__: 入力テンソル．
 - __pool_size__: 二つの整数からなるタプル．
 - __strides__: 二つの整数からなるタプル．
 - __border_mode__: "valid"もしくは"same"の一つ．
 - __dim_ordering__: "th"もしくは"tf"の一つ．
 - __pool_mode__: "max"，"avg"の一つ．
+
+----
+
+### pool3d
+
+
+```python
+pool3d(x, pool_size, strides=(1, 1, 1), border_mode='valid', dim_ordering='tf', pool_mode='max')
+```
+
+
+3Dのプーリング．
+
+__引数__
+
+- __x__: 入力テンソル．
+- __pool_size__: 3つの整数からなるタプル．
+- __strides__: 3つの整数からなるタプル．
+- __border_mode__: "valid"もしくは"same"の一つ．
+- __dim_ordering__: "th"もしくは"tf"の一つ．
+- __pool_mode__: "max"，"avg"の一つ．
+
+----
+
+
+### ctc_batch_cost
+
+
+```python
+ctc_batch_cost(y_true, y_pred, input_length, label_length)
+```
+
+各バッチ要素に対してCTC lossアルゴリズムを実行．
+
+__引数__
+
+- __y_true__: 真のラベルを含むテンソル (samples, max_string_length)
+- __y_pred__: 予測値かsoftmax関数の出力を含むテンソル (samples, time_steps, num_categories)
+- __input_length__: y_predの各バッチの系列長を含むテンソル (samples,1)
+- __label_length__: y_trueの各バッチの系列長を含むテンソル (samples,1)
+
+__Returns__
+
+各要素のCTCのロス値を含んだテンソル (samples,1)
+
+----
+
+### ctc_decode
+
+
+```python
+ctc_decode(y_pred, input_length, greedy=True, beam_width=None, dict_seq_lens=None, dict_values=None)
+```
+
+(最適パスとして知られる)greedyかconstrained dictionary searchを使ってSoftmaxの出力をデコード．
+
+__引数__
+
+- __y_pred__: 予測値かsoftmax関数の出力を含むテンソル (samples, time_steps, num_categories)
+- __input_length__: y_predの各バッチの系列長を含むテンソル (samples,1)
+- __greedy__: trueなら高速な最適パス探索を行う．このとき，辞書を使わない
+- __beam_width__: greedyがfalseでこの値がNoneでないならば，この幅のビームを使ったconstrained dictionary searchを行う
+- __dict_seq_lens__: dict_valuesリストにおける各要素の長さ
+- __dict_values__: 辞書型のリスト表現のリスト
+
+__Returns__
+
+パスの確率値(Softmaxに出力形式)を含んだ(samples,time_steps,num_categories)のテンソル．
+Note that a function that pulls out the argmax and collapses blank labels is still needed.
+
+----
+
+### backend
+
+```python
+backend()
+```
+
+現在のバックエンド名を返す公開メソッド

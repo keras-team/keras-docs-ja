@@ -233,7 +233,7 @@ __出力の型__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/engine/topology.py#L1091)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/engine/topology.py#L1095)</span>
 ### Merge
 
 ```python

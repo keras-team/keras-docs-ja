@@ -1,6 +1,6 @@
 # ModelクラスAPI
 
-関数型APIでは、テンソルの入出力が与えられると、`Model`を以下のようにインスタンス化できます。
+functional APIでは、テンソルの入出力が与えられると、`Model`を以下のようにインスタンス化できます。
 
 ```python
 from keras.models import Model
@@ -19,7 +19,7 @@ model = Model(input=a, output=b)
 model = Model(input=[a1, a2], output=[b1, b3, b3])
 ```
 
-`Model`の詳しい解説は、[Keras関数型API](/getting-started/functional-api-guide)をご覧下さい。
+`Model`の詳しい解説は、[Keras functional API](/getting-started/functional-api-guide)をご覧下さい。
 
 ## モデルの便利な属性
 
@@ -31,7 +31,7 @@ model = Model(input=[a1, a2], output=[b1, b3, b3])
 
 ## メソッド
 
-### コンパイル
+### compile
 
 
 ```python
@@ -51,7 +51,7 @@ __引数__
 
 ----
 
-### 学習
+### fit
 
 
 ```python
@@ -90,7 +90,7 @@ __戻り値__
 
 ----
 
-### 評価
+### evaluate
 
 
 ```python
@@ -116,7 +116,7 @@ __戻り値__
 
 ----
 
-### 予測
+### predict
 
 
 ```python
@@ -139,7 +139,7 @@ __戻り値__
 
 ----
 
-### バッチ単位での学習
+### train_on_batch
 
 
 ```python
@@ -169,7 +169,7 @@ __戻り値__
 
 ----
 
-### バッチ単位でのテスト
+### test_on_batch
 
 
 ```python
@@ -197,7 +197,7 @@ __戻り値__
 
 ----
 
-### バッチ単位での予測
+### predict_on_batch
 
 
 ```python
@@ -209,11 +209,11 @@ predict_on_batch(self, x)
 
 ----
 
-### 学習ジェネレータ
+### fit_generator
 
 
 ```python
-fit_generator(self, generator, samples_per_epoch, nb_epoch, verbose=1, callbacks=[], validation_data=None, nb_val_samples=None, class_weight={}, max_q_size=10)
+fit_generator(self, generator, samples_per_epoch, nb_epoch, verbose=1, callbacks=[], validation_data=None, nb_val_samples=None, class_weight={}, max_q_size=10, nb_worker=1, pickle_safe=False)
 ```
 
 
@@ -241,6 +241,8 @@ __引数__
 	各試行の最後にバリデーションジェネレータから使うサンプル数を示します。
 - __class_weight__: クラスインデックスと各クラスの重みをマップする辞書です。
 - __max_q_size__: ジェネレータのキューの最大サイズです。
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 
 __戻り値__
 
@@ -266,11 +268,11 @@ model.fit_generator(generate_arrays_from_file('/my_file.txt'),
 
 ----
 
-### 評価ジェネレータ
+### evaluate_generator
 
 
 ```python
-evaluate_generator(self, generator, val_samples, max_q_size=10)
+evaluate_generator(self, generator, val_samples, max_q_size=10, nb_worker=1, pickle_safe=False)
 ```
 
 
@@ -282,6 +284,8 @@ evaluate_generator(self, generator, val_samples, max_q_size=10)
 - __val_samples__:
 	returnまでの間に`generator`から生成されるサンプルの合計数
 - __max_q_size__: ジェネレータのキューのための最大サイズ
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 
 __戻り値__
 
@@ -291,7 +295,31 @@ __戻り値__
 
 ----
 
-### 層の取得
+### predict_generator
+
+ジェネレータのデータに対して予測します。ジェネレータは `predict_on_batch` が受け取るデータと同じ種類のデータを返却するべきです。
+
+```python
+predict_generator(self, generator, val_samples, max_q_size=10, nb_worker=1, pickle_safe=False)
+```
+
+__引数__
+
+- __generator__:
+	(inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
+- __val_samples__:
+	値を返すまでに `generator` により生成されるサンプルの総数
+- __max_q_size__: ジェネレータのキューの最大サイズ
+- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
+- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+
+__返り値__
+
+予測値のNumpy配列．
+
+----
+
+### get_layer
 
 
 ```python
