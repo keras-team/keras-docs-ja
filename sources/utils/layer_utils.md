@@ -7,12 +7,12 @@ layer_from_config(config, custom_objects={})
 
 
 
-__Arguments__
+__引数__
 
-- __config__: dict of the form {'class_name': str, 'config': dict}
-- __custom_objects__: dict mapping class names (or function names)
-of custom (non-Keras) objects to class/functions
+- __config__: {'class_name': str, 'config': dict}の形式の辞書
+- __custom_objects__: 自作の（Kerasのものではない）オブジェクトのクラス名（もしくは関数名）と
+そのクラスや関数を対応付けた辞書
 
-__Returns__
+__戻り値__
 
-Layer instance (may be Model, Sequential, Graph, Layer...)
+Layerインスタンス（Model，Sequential，Graph，Layerなど）
