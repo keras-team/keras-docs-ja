@@ -5,10 +5,9 @@
 keras.utils.io_utils.HDF5Matrix(datapath, dataset, start=0, end=None, normalizer=None)
 ```
 
-Representation of HDF5 dataset which can be used instead of a
-Numpy array.
+Numpyの配列の代わりに使えるHDF5データセットの表現です．
 
-__Example__
+__例__
 
 
 ```python
@@ -16,17 +15,15 @@ X_data = HDF5Matrix('input/file.hdf5', 'data')
 model.predict(X_data)
 ```
 
-Providing start and end allows use of a slice of the dataset.
+startとendを指定することでデータセットをスライスすることができます．
 
-Optionally, a normalizer function (or lambda) can be given. This will
-be called on every slice of data retrieved.
+normalizer関数（やラムダ式）を渡すことができます．
+normalizer関数は取得されたすべてのスライスに適用されます．
 
-__Arguments__
+__引数__
 
-- __datapath__: string, path to a HDF5 file
-- __dataset__: string, name of the HDF5 dataset in the file specified
-	in datapath
-- __start__: int, start of desired slice of the specified dataset
-- __end__: int, end of desired slice of the specified dataset
-- __normalizer__: function to be called on data when retrieved
-
+- __datapath__: 文字列．HDF5ファイルへのパス
+- __dataset__: 文字列．datapathで指定されたファイル中におけるHDF5データセットの名前
+- __start__: 整数．指定されたデータセットのスライス開始位置
+- __end__: 整数．指定されたデータセットのスライス終了位置
+- __normalizer__: 読み込まれた時にデータに対して適用する関数
