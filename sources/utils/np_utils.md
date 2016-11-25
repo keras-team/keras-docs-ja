@@ -6,16 +6,17 @@ to_categorical(y, nb_classes=None)
 ```
 
 
-Convert class vector (integers from 0 to nb_classes) to binary class matrix, for use with categorical_crossentropy.
+クラスベクトル（0からnb_classesまでの整数）を
+categorical_crossentropyとともに用いるためのバイナリのクラス行列に変換します．
 
-__Arguments__
+__引数__
 
-- __y__: class vector to be converted into a matrix
-- __nb_classes__: total number of classes
+- __y__: 行列に変換するクラスベクトル
+- __nb_classes__: 総クラス数
 
 __Returns__
 
-A binary matrix representation of the input.
+入力のバイナリ行列表現
 
 ----
 
@@ -27,7 +28,5 @@ convert_kernel(kernel, dim_ordering='default')
 ```
 
 
-Converts a kernel matrix (Numpy array)
-from Theano format to TensorFlow format
-(or reciprocally, since the transformation
-is its own inverse).
+カーネル行列（Numpyの配列）をTheano形式からTensorFlow形式に変換します。
+（この変換は逆変換と同一なので，TensorFlow形式からTheano形式への変換も可能です）
