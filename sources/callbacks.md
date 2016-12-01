@@ -167,6 +167,113 @@ __引数__
 
 ----
 
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/callbacks.py#L549)</span>
+### ReduceLROnPlateau
+
+```python
+keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, verbose=0, mode='auto', epsilon=0.0001, cooldown=0, min_lr=0)
+```
+
+評価関数の改善が止まった時に学習率を減らします．
+
+モデルは学習が停滞した時に学習率を2〜10で割ることで恩恵を受けることがあります．
+このコールバックは評価関数を監視し，patienceで指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
+
+__例__
+
+```python
+	reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2,
+				  patience=5, min_lr=0.001)
+	model.fit(X_train, Y_train, callbacks=[reduce_lr])
+```
+
+__引数__
+
+- __monitor__: 監視するデータ．
+- __factor__: 学習率を減らす割合．new_lr = lr * factor
+- __patience__: 何エポックエポック改善が見られなかったら学習率の削減を行うか．
+- __verbose__: 整数．0: 何も表示しない．1: 学習率削減時メッセージを表示．
+- __mode__: `auto`，`min`，`max`のいずれか．
+    `min`の場合，評価関数の減少が止まった時に学習率を更新します．
+    `max`の場合，評価関数の増加が止まった時に学習率を更新します．
+    `auto`の場合，monitorの名前から自動で判断します．
+- __epsilon__: 改善があったと判断する閾値．重要な変化だけに注目するために用います．
+- __cooldown__: 学習率を減らした後，通常の学習を再開するまで待機するエポック数．
+- __min_lr__: 学習率の下限．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/callbacks.py#L654)</span>
+### CSVLogger
+
+```python
+keras.callbacks.CSVLogger(filename, separator=',', append=False)
+```
+
+各エポックの結果をcsvファイルに保存するコールバックです．
+np.ndarrayのような1次元イテラブルを含む，文字列表現可能な値をサポートしています．
+
+__例__
+
+```python
+	csv_logger = CSVLogger('training.log')
+	model.fit(X_train, Y_train, callbacks=[csv_logger])
+```
+
+__引数__
+
+- __filename__: csvファイルの名前．例えば'run/log.csv'．
+- __separator__: csvファイルで各要素を区切るために用いられる文字．
+- __append__: True: ファイルが存在する場合，追記します．（学習を続ける場合に便利です）
+    False: 既存のファイルを上書きします．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/callbacks.py#L708)</span>
+### LambdaCallback
+
+```python
+keras.callbacks.LambdaCallback(on_epoch_begin=None, on_epoch_end=None, on_batch_begin=None, on_batch_end=None, on_train_begin=None, on_train_end=None)
+```
+
+シンプルな自作コールバックを急いで作るためのコールバックです．
+
+このコールバックは，適切なタイミングで呼び出される無名関数で構築されます．
+以下のような位置引数が必要であることに注意してください:
+ - `on_epoch_begin` と `on_epoch_end` は2つの位置引数が必要です: `epoch`，`logs`
+ - `on_batch_begin` と `on_batch_end` は2つの位置引数が必要です: `batch`，`logs`
+ - `on_train_begin` と `on_train_end` は1つの位置引数が必要です: `logs`
+
+__引数__
+
+- __on_epoch_begin__: すべてのエポックの開始時に呼ばれます．
+- __on_epoch_end__: すべてのエポックの終了時に呼ばれます．
+- __on_batch_begin__: すべてのバッチの開始時に呼ばれます．
+- __on_batch_end__: すべてのバッチの終了時に呼ばれます．
+- __on_train_begin__: 学習の開始時に呼ばれます．
+- __on_train_end__: 学習の終了時に呼ばれます．
+
+__例__
+
+```python
+# すべてのバッチの開始時にバッチ番号を表示
+batch_print_callback = LambdaCallback(on_batch_begin=lambda batch, logs: print(batch))
+
+# すべてのエポックの終了時に損失をプロット
+import numpy as np
+import matplotlib.pyplot as plt
+plot_loss_callback = LambdaCallback(on_epoch_end=lambda epoch, logs: plt.plot(np.arange(epoch), logs['loss']))
+
+# 学習の終了時にいくつかのプロセスを終了
+processes = ...
+cleanup_callback = LambdaCallback(on_train_end=lambda logs: [p.terminate() for p in processes if p.is_alive()])
+
+model.fit(..., callbacks=[batch_print_callback, plot_loss_callback, cleanup_callback])
+```
+
+---
+
+
 # コールバックを作成する
 
 基本クラスの`keras.callbacks.Callback`を拡張することで、カスタムコールバックを作成することができます。コールバックは、`self.model`プロパティによって、関連したモデルにアクセスすることができます。
