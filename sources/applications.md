@@ -196,7 +196,7 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効値．
 
 ### Returns
 
@@ -230,7 +230,7 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -265,7 +265,7 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -300,7 +300,7 @@ keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -335,7 +335,7 @@ keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet'
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`tf`のとき) か `(3, 299, 299)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`tf`のとき) か `(3, 299, 299)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
 
 ### Returns
 
