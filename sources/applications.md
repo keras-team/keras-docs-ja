@@ -5,21 +5,28 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 
 モデルのインスタンス化すると重みは自動的にダウンロードされます．重みは`~/.keras/models/`に格納されます．
 
-## Available models
+## 利用可能なモデル
 
-ImageNetで学習した重みをもつ画像分類のモデル:
+### ImageNetで学習した重みをもつ画像分類のモデル:
 
+- [Xception](#xception)
 - [VGG16](#vgg16)
 - [VGG19](#vgg19)
 - [ResNet50](#resnet50)
 - [InceptionV3](#inceptionv3)
 
-これらすべてのアーキテクチャは，TensorFlowとTheanoの両方で互換性があり，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
+これらすべてのアーキテクチャ (Xceptionのみ例外) は，TensorFlowとTheanoの両方で互換性があり，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
 例えば，`image_dim_ordering=tf`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Width-Height-Depth"にしたがって構築されます．
+
+`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能．
+
+### (メルスペクトログラムを入力とした) 音楽オーディオファイルの自動タグ付けモデル:
+
+- [MusicTaggerCRNN](#musictaggercrnn)
 
 -----
 
-## Examples
+## 画像分類モデルの使用例
 
 ### Classify ImageNet classes with ResNet50
 
@@ -27,6 +34,7 @@ ImageNetで学習した重みをもつ画像分類のモデル:
 from keras.applications.resnet50 import ResNet50
 from keras.preprocessing import image
 from keras.applications.resnet50 import preprocess_input, decode_predictions
+import numpy as np
 
 model = ResNet50(weights='imagenet')
 
@@ -37,8 +45,10 @@ x = np.expand_dims(x, axis=0)
 x = preprocess_input(x)
 
 preds = model.predict(x)
-print('Predicted:', decode_predictions(preds))
-# print: [[u'n02504458', u'African_elephant']]
+# decode the results into a list of tuples (class, description, probability)
+# (one such list for each sample in the batch)
+print('Predicted:', decode_predictions(preds, top=3)[0])
+# Predicted: [(u'n02504013', u'Indian_elephant', 0.82658225), (u'n01871265', u'tusker', 0.1122357), (u'n02504458', u'African_elephant', 0.061040461)]
 ```
 
 ### Extract features with VGG16
@@ -47,6 +57,7 @@ print('Predicted:', decode_predictions(preds))
 from keras.applications.vgg16 import VGG16
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input
+import numpy as np
 
 model = VGG16(weights='imagenet', include_top=False)
 
@@ -66,6 +77,7 @@ from keras.applications.vgg19 import VGG19
 from keras.preprocessing import image
 from keras.applications.vgg19 import preprocess_input
 from keras.models import Model
+import numpy as np
 
 base_model = VGG19(weights='imagenet')
 model = Model(input=base_model.input, output=base_model.get_layer('block4_pool').output)
@@ -91,10 +103,10 @@ from keras import backend as K
 # create the base pre-trained model
 base_model = InceptionV3(weights='imagenet', include_top=False)
 
-# add a global spatial average pooling layer 
-x = base_model.output 
-x = GlobalAveragePooling2D()(x) 
-# let's add a fully-connected layerx = Lambda(lambda x: K.mean(x, axis=[1, 2]))(x)  # assuming 'tf' dim ordering 
+# add a global spatial average pooling layer
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+# let's add a fully-connected layer
 x = Dense(1024, activation='relu')(x)
 # and a logistic layer -- let's say we have 200 classes
 predictions = Dense(200, activation='softmax')(x)
@@ -139,7 +151,6 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 model.fit_generator(...)
 ```
 
-
 ### Build InceptionV3 over a custom input tensor
 
 ```python
@@ -154,17 +165,72 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 
 -----
 
+# Documentation for individual models
+
+- [Xception](#xception)
+- [VGG16](#vgg16)
+- [VGG19](#vgg19)
+- [ResNet50](#resnet50)
+- [InceptionV3](#inceptionv3)
+
+-----
+
+
+## Xception
+
+```python
+keras.applications.xception.Xception(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
+```
+
+ImageNetで事前学習した重みを利用可能なXception V1モデル．
+
+ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で，top-5のvalidation accuracyは0.945です．
+
+`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能であることに注意してください．
+さらに次元の順序は"tf" (width, height, channels)のみサポートしています．
+
+デフォルトの入力サイズは299x299．
+
+### Arguments
+
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
+- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+
+### Returns
+
+Kerasのモデルインスタンス．
+
+### References
+
+- [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/abs/1610.02357)
+
+### License
+
+These weights are trained by ourselves and are released under the MIT license.
+
+-----
+
 ## VGG16
 
 ```python
-keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tensor=None)
+keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
 ```
+
+ImageNetで事前学習した重みを利用可能なVGG16モデル．
+
+このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
+"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+
+デフォルトの入力サイズは224x224．
 
 ### Arguments
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -184,14 +250,22 @@ These weights are ported from the ones [released by VGG at Oxford](http://www.ro
 
 
 ```python
-keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tensor=None)
+keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
 ```
+
+ImageNetで事前学習した重みを利用可能なVGG19モデル．
+
+このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
+"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+
+デフォルトの入力サイズは224x224．
 
 ### Arguments
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -210,16 +284,23 @@ These weights are ported from the ones [released by VGG at Oxford](http://www.ro
 
 ## ResNet50
 
+ImageNetで事前学習した重みを利用可能なResNet50モデル．
+
+このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
+"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+
+デフォルトの入力サイズは224x224．
 
 ```python
-keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input_tensor=None)
+keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
 ```
 
 ### Arguments
 
-- include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 
 ### Returns
 
@@ -238,15 +319,23 @@ These weights are ported from the ones [released by Kaiming He](https://github.c
 ## InceptionV3
 
 
+ImageNetで事前学習した重みを利用可能なInception V3モデル．
+
+このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
+"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+
+デフォルトの入力サイズは299x299．
+
 ```python
 keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None)
 ```
 
 ### Arguments
 
-- include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- inputs_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`tf`のとき) か `(3, 299, 299)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
 
 ### Returns
 
@@ -259,3 +348,66 @@ Kerasのモデルインスタンス．
 ### License
 
 These weights are trained by ourselves and are released under the MIT license.
+
+## MusicTaggerCRNN
+
+```
+keras.applications.music_tagger_crnn.MusicTaggerCRNN(weights='msd', input_tensor=None, include_top=True)
+```
+
+ベクトルで表現された楽曲のメルスペクトログラムを入力とし，そのジャンルを出力するconvolutional-recurrentモデル．
+`keras.applications.music_tagger_crnn.preprocess_input`
+を使うことで音楽ファイルをベクトル化したスペクトログラムに変換可能．
+これには[Librosa](http://librosa.github.io/librosa/)をインストールする必要があります．
+[使用例](https://keras.io/applications/#music-tagging-and-feature-extraction-with-musictaggercrnn)を見てください．
+
+### Arguments
+
+- weights: `None` (ランダム初期化) か "msd" ([Million Song Dataset](http://labrosa.ee.columbia.edu/millionsong/)で学習した重み) の一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
+- include_top: ネットワークの出力層側にある1つの全結合層を含むかどうか．Falseならネットワークの出力は32次元の特徴量．
+
+### Returns
+
+Kerasのモデルインスタンス．
+
+### References
+
+- [Convolutional Recurrent Neural Networks for Music Classification](https://arxiv.org/abs/1609.04243)
+
+### License
+
+
+この重みは，[MIT license](https://github.com/keunwoochoi/music-auto_tagging-keras/blob/master/LICENSE.md)のもとで[Keunwoo Choi](https://github.com/keunwoochoi/music-auto_tagging-keras)による実装から移植されました．
+
+### Examples: music tagging and audio feature extraction
+
+```
+from keras.applications.music_tagger_crnn import MusicTaggerCRNN
+from keras.applications.music_tagger_crnn import preprocess_input, decode_predictions
+import numpy as np
+
+# 1. Tagging
+model = MusicTaggerCRNN(weights='msd')
+
+audio_path = 'audio_file.mp3'
+melgram = preprocess_input(audio_path)
+melgrams = np.expand_dims(melgram, axis=0)
+
+preds = model.predict(melgrams)
+print('Predicted:')
+print(decode_predictions(preds))
+# print: ('Predicted:', [[('rock', 0.097071797), ('pop', 0.042456303), ('alternative', 0.032439161), ('indie', 0.024491295), ('female vocalists', 0.016455274)]])
+
+#. 2. Feature extraction
+model = MusicTaggerCRNN(weights='msd', include_top=False)
+
+audio_path = 'audio_file.mp3'
+melgram = preprocess_input(audio_path)
+melgrams = np.expand_dims(melgram, axis=0)
+
+feats = model.predict(melgrams)
+print('Features:')
+print(feats[0, :10])
+# print: ('Features:', [-0.19160545 0.94259131 -0.9991011 0.47644514 -0.19089699 0.99033844 0.1103896 -0.00340496 0.14823607 0.59856361])
+```
