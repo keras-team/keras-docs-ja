@@ -41,7 +41,7 @@ sgd = SGD(lr=0.01, clipvalue=0.5)
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L120)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L113)</span>
 ### SGD
 
 ```python
@@ -59,11 +59,11 @@ __Arguments__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L174)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L172)</span>
 ### RMSprop
 
 ```python
-keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08)
+keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -76,14 +76,15 @@ __Arguments__
 - __lr__: float >= 0. 学習率．
 - __rho__: float >= 0.
 - __epsilon__: float >= 0. Fuzz factor.
+- __decay__: float >= 0. 各更新の学習率減衰．
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L223)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L232)</span>
 ### Adagrad
 
 ```python
-keras.optimizers.Adagrad(lr=0.01, epsilon=1e-06)
+keras.optimizers.Adagrad(lr=0.01, epsilon=1e-06, decay=0.)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -92,7 +93,7 @@ __Arguments__
 
 - __lr__: float >= 0. 学習率．
 - __epsilon__: float >= 0.
-
+- __decay__: float >= 0. 各更新の学習率減衰．
 
 __References__
 
@@ -100,11 +101,11 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L266)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L284)</span>
 ### Adadelta
 
 ```python
-keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08)
+keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -115,6 +116,7 @@ __Arguments__
 	デフォルト値を推奨します．
 - __rho__: float >= 0.
 - __epsilon__: float >= 0. Fuzz factor.
+- __decay__: float >= 0. 各更新の学習率減衰．
 
 __References__
 
@@ -122,11 +124,11 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L322)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L350)</span>
 ### Adam
 
 ```python
-keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.)
 ```
 
 デフォルトパラメータは提案論文に従います．
@@ -136,6 +138,7 @@ __Arguments__
 - __lr__: float >= 0. 学習率．
 - __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
+- __decay__: float >= 0. 各更新の学習率減衰．
 
 __References__
 
@@ -143,11 +146,11 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L381)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L416)</span>
 ### Adamax
 
 ```python
-keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.)
 ```
  
 Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基づくAdamの拡張です．
@@ -159,6 +162,7 @@ __Arguments__
 - __lr__: float >= 0. 学習率．
 - __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
+- __decay__: float >= 0. 各更新の学習率減衰．
 
 __References__
 
@@ -166,7 +170,7 @@ __References__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L444)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L486)</span>
 ### Nadam
 
 ```python
@@ -188,3 +192,11 @@ __References__
 
 - [Nadam report](http://cs229.stanford.edu/proj2015/054_report.pdf)
 - [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)
+----
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L566)</span>
+### TFOptimizer
+
+```python
+keras.optimizers.TFOptimizer(optimizer)
+```
