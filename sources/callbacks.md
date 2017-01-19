@@ -72,7 +72,7 @@ keras.callbacks.History()
 keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto')
 ```
 
-全エポック終了後にモデルを保存します。
+各エポック終了後にモデルを保存します。
 
 `filepath`は、(`on_epoch_end`で渡された)`epoch`の値と`logs`のキーで埋められた書式設定オプションを含むことができます。
 
