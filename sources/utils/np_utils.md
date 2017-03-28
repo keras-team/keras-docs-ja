@@ -28,5 +28,5 @@ convert_kernel(kernel, dim_ordering='default')
 ```
 
 
-カーネル行列（Numpyの配列）をTheano形式からTensorFlow形式に変換します。
+カーネル行列（Numpyの配列）をTheano形式からTensorFlow形式に変換します．
 （この変換は逆変換と同一なので，TensorFlow形式からTheano形式への変換も可能です）
