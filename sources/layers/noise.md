@@ -5,11 +5,11 @@
 keras.layers.noise.GaussianNoise(sigma)
 ```
 
-入力に平均0，標準偏差`sigma`のガウシアンノイズを加えます。
-これはオーバーフィッティングの低減に有効です(random data augmentationの一種)。
-ガウシアンノイズは入力が実数値のときのノイズ付与として一般的です。
+入力に平均0，標準偏差`sigma`のガウシアンノイズを加えます．
+これはオーバーフィッティングの低減に有効です(random data augmentationの一種)．
+ガウシアンノイズは入力が実数値のときのノイズ付与として一般的です．
 
-regularization layerは訓練時のみ有効です。
+regularization layerは訓練時のみ有効です．
 
 __Arguments__
 
@@ -17,13 +17,13 @@ __Arguments__
 
 __Input shape__
 
-任意。
-モデルの最初のレイヤーで`input_shape`キーワードで指定してください。
+任意．
+モデルの最初のレイヤーで`input_shape`キーワードで指定してください．
 (整数のタプル(データ数の軸は含まない))
 
 __Output shape__
 
-入力と同じ。
+入力と同じ．
 
 ----
 
@@ -34,9 +34,9 @@ __Output shape__
 keras.layers.noise.GaussianDropout(p)
 ```
 
-入力に平均1，標準偏差`sqrt(p/(1-p))`のガウシアンノイズを乗じます。
+入力に平均1，標準偏差`sqrt(p/(1-p))`のガウシアンノイズを乗じます．
 
-regularization layerは訓練時のみ有効です。
+regularization layerは訓練時のみ有効です．
 
 __Arguments__
 
@@ -44,13 +44,13 @@ __Arguments__
 
 __Input shape__
 
-任意。
-モデルの最初のレイヤーで`input_shape`キーワードで指定してください。
+任意．
+モデルの最初のレイヤーで`input_shape`キーワードで指定してください．
 (整数のタプル(データ数の軸は含まない))
 
 __Output shape__
 
-入力と同じ。
+入力と同じ．
 
 __References__
 
