@@ -2,24 +2,25 @@
 ### GaussianNoise
 
 ```python
-keras.layers.noise.GaussianNoise(sigma)
+keras.layers.noise.GaussianNoise(stddev)
 ```
 
-入力に平均0，標準偏差`sigma`のガウシアンノイズを加えます．
-これはオーバーフィッティングの低減に有効です(random data augmentationの一種)．
-ガウシアンノイズは入力が実数値のときのノイズ付与として一般的です．
+平均値0，ガウシアンノイズを加えます．
+
+これはオーバーフィッティングの軽減に有効です (random data augmentationの一種)．
+ガウシアンノイズ (GS) は実数値の入力におけるノイズ付与として一般的です．
 
 regularization layerは訓練時のみ有効です．
 
 __Arguments__
 
-- __sigma__: float，ノイズ分布の標準偏差
+- __stddev__: float，ノイズ分布の標準偏差値．
 
 __Input shape__
 
 任意．
-モデルの最初のレイヤーで`input_shape`キーワードで指定してください．
-(整数のタプル(データ数の軸は含まない))
+モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
+(整数のタプル(サンプルのaxisは含まない))
 
 __Output shape__
 
@@ -31,22 +32,22 @@ __Output shape__
 ### GaussianDropout
 
 ```python
-keras.layers.noise.GaussianDropout(p)
+keras.layers.noise.GaussianDropout(rate)
 ```
 
-入力に平均1，標準偏差`sqrt(p/(1-p))`のガウシアンノイズを乗じます．
+平均値1，ガウシアンノイズを乗じます．
 
 regularization layerは訓練時のみ有効です．
 
 __Arguments__
 
-- __p__: float，制御パラメータ (`Dropout`同様)．
+- __rate__: float，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
 
 __Input shape__
 
 任意．
-モデルの最初のレイヤーで`input_shape`キーワードで指定してください．
-(整数のタプル(データ数の軸は含まない))
+モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
+(整数のタプル(サンプルのaxisは含まない))
 
 __Output shape__
 
@@ -54,5 +55,4 @@ __Output shape__
 
 __References__
 
-- __[Dropout__: A Simple Way to Prevent Neural Networks from Overfitting Srivastava, Hinton, et al. 2014](http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf)
-
+- [Dropout: A Simple Way to Prevent Neural Networks from Overfitting Srivastava, Hinton, et al. 2014](http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf)
