@@ -28,6 +28,7 @@ pages:
   - Locally-connectedレイヤー: layers/local.md
   - Recurrentレイヤー: layers/recurrent.md
   - Embeddingレイヤー: layers/embeddings.md
+  - Mergeレイヤー: layers/merge.md
   - Advanced Activationsレイヤー: layers/advanced-activations.md
   - Normalizationレイヤー: layers/normalization.md
   - Noiseレイヤー: layers/noise.md
@@ -37,7 +38,7 @@ pages:
   - シーケンスの前処理: preprocessing/sequence.md
   - テキストの前処理: preprocessing/text.md
   - 画像の前処理: preprocessing/image.md
-- 目的関数: objectives.md
+- 損失関数: losses.md
 - 最適化: optimizers.md
 - 活性化関数: activations.md
 - コールバック: callbacks.md
@@ -49,12 +50,4 @@ pages:
 - 制約: constraints.md
 - 可視化: visualization.md
 - Scikit-learn API: scikit-learn-api.md
-- ユーティリティ:
-  - データユーティリティ: utils/data_utils.md
-  - 出入力ユーティリティ: utils/io_utils.md
-  - レイヤーユーティリティ: utils/layer_utils.md
-  - Numpyユーティリティ: utils/np_utils.md
-
-
-
-
+- ユーティリティ: utils.md
