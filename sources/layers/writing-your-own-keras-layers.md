@@ -1,12 +1,14 @@
-# オリジナルのKerasレイヤーを作成する
+# Kerasレイヤーを作成
 
-シンプルで状態を持たない独自演算では，`layers.core.Lambda`を用いるべきでしょう．しかし，学習可能な重みを持つような独自演算は，自身でレイヤーを実装する必要があります．
+シンプルで状態を持たない独自演算では，`layers.core.Lambda`を用いるべきでしょう．
+しかし，学習可能な重みを持つ独自演算は，自身でレイヤーを実装する必要があります．
 
-以下にKerasレイヤーの枠組みを示します．ここでは3つのメソッドを実装する必要があります．
+以下に__Keras 2.0__でのレイヤーの枠組みを示します（古いバージョンを使っている場合は，更新してください）．
+実装する必要のあるメソッドは3つだけです．
 
-- `build(input_shape)`: これは重みを定義するメソッドです．学習可能な重みはリスト`self.trainable_weights`に追加されます．他の注意すべき属性は以下の通りです．`self.updates`(更新されるタプル(tensor, new_tensor)のリスト)．`non_trainable_weights`と`updates`の使用例は，`BatchNormalization`レイヤーのコードを参照してください．
-- `call(x)`: ここではレイヤーのロジックを記述します．オリジナルのレイヤーでマスキングをサポートしない限り，第一引数の入力テンソルが`call`に渡されることに気を付けてください．
-- `get_output_shape_for(input_shape)`: 作成したレイヤーの内部で入力の形状を変更する場合には，ここで形状変換のロジックを指定する必要があります．こうすることでKerasは，自動的に形状を推定できます．
+- `build(input_shape)`: これは重みを定義するメソッドです．このメソッドは，`self.built = True`をセットしなければいけません，これは`super([Layer], self).build()`を呼び出しでできます．
+- `call(x)`: ここではレイヤーのロジックを記述します．オリジナルのレイヤーでマスキングをサポートしない限り，第1引数である入力テンソルが`call`に渡されることに気を付けてください．
+- `get_output_shape_for(input_shape)`: 作成したレイヤーの内部で入力のshapeを変更する場合には，ここでshape変換のロジックを指定する必要があります．こうすることでKerasが自動的にshapeを推定します．
 
 ```python
 from keras import backend as K
@@ -14,21 +16,23 @@ from keras.engine.topology import Layer
 import numpy as np
 
 class MyLayer(Layer):
+
     def __init__(self, output_dim, **kwargs):
         self.output_dim = output_dim
         super(MyLayer, self).__init__(**kwargs)
 
     def build(self, input_shape):
-        input_dim = input_shape[1]
-        initial_weight_value = np.random.random((input_dim, output_dim))
-        self.W = K.variable(initial_weight_value)
-        self.trainable_weights = [self.W]
+        # Create a trainable weight variable for this layer.
+        self.kernel = self.add_weight(shape=(input_shape[1], self.output_dim),
+                                      initializer='uniform',
+                                      trainable=True)
+        super(MyLayer, self).build(input_shape)  # Be sure to call this somewhere!
 
-    def call(self, x, mask=None):
-        return K.dot(x, self.W)
+    def call(self, x):
+        return K.dot(x, self.kernel)
 
-    def get_output_shape_for(self, input_shape):
+    def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
 ```
 
-既存のKerasレイヤーは何を実装するにしても十分なサンプルを提供しています．なので，躊躇せずソースコードを読んでください!
+既存のKerasレイヤーは何を実装するにしても十分な例を提供しています．なので，躊躇せずソースコードを読んでください!
