@@ -1,7 +1,6 @@
+## 活性化関数の使い方
 
-## 活性化関数(activation function)の使い方
-
-活性化関数は`Activation`層，または全てのフォワード層で使える引数`activation`で利用できます．
+活性化関数は`Activation`レイヤー，または全てのフォワードレイヤーで使える引数`activation`で利用できます．
 
 ```python
 from keras.layers.core import Activation, Dense
@@ -9,12 +8,14 @@ from keras.layers.core import Activation, Dense
 model.add(Dense(64))
 model.add(Activation('tanh'))
 ```
+
 上のコードは以下と等価です：
+
 ```python
 model.add(Dense(64, activation='tanh'))
 ```
 
-element-wiseなTheano/TensorFlow関数を活性化関数として渡すこともできます:
+要素ごとに適用できるTensorFlow/Theano関数を活性化関数に渡すこともできます:
 
 ```python
 from keras import backend as K
@@ -28,18 +29,93 @@ model.add(Activation(tanh))
 
 ## 利用可能な活性化関数
 
-- __softmax__: Softmaxは入力の最後の次元に適用されます．想定入力形式は`(nb_samples, nb_timesteps, nb_dims)`または`(nb_samples, nb_dims)`です．
-- __softplus__
-- __softsign__
-- __relu__
-- __tanh__
-- __sigmoid__
-- __hard_sigmoid__
-- __linear__
+### softmax
+
+```python
+softmax(x, axis=-1)
+```
+
+Softmax関数
+
+__Arguments__
+
+- __x__: テンソル．
+- __axis__: 整数．どの軸にsoftmaxの正規化をするか．
+
+__Returns__
+
+テンソル．softmax変換の出力．
+
+__Raises__
+
+- __ValueError__: `dim(x) == 1`のとき．
+
+---
+
+### elu
+
+```python
+elu(x, alpha=1.0)
+```
+
+---
+
+### softplus
+
+```python
+softplus(x)
+```
+
+---
+
+### softsign
+
+```python
+softsign(x)
+```
+
+---
+
+### relu
+
+```python
+relu(x, alpha=0.0, max_value=None)
+```
+
+---
+
+### tanh
+
+```python
+tanh(x)
+```
+
+--- 
+
+### sigmoid
+
+```python
+sigmoid(x)
+```
+
+--- 
+
+###hard_sigmoid
+
+```python
+hard_sigmoid(x)
+```
+
+--- 
+### linear
+
+```python
+linear
+```
+
+---
 
 ## より高度な活性化関数
 
-単純なTheano/TensorFlow関数よりも高度な活性化関数(例：learnable activations, configurable activations, etc.)は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です．
-これらは，`keras.layers.advanced_activations`モジュールに含まれています．
-PReLUやLeakyReLUはここに含まれます．
-
+単純なTensorFlow/Theano関数よりも高度な活性化関数 (例: 状態を持てるlearnable activations) は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です．
+これらは，`keras.layers.advanced_activations`モジュールにあり，`PReLU`や`LeakyReLU`が含まれます．
