@@ -1,32 +1,122 @@
+## ロス関数の利用方法
 
-## 目的関数の利用方法
-
-目的関数（ロス関数や最適スコア関数）はモデルをコンパイルする際に必要となるパラメータの1つです:
+ロス関数（ロス関数や最適スコア関数）はモデルをコンパイルする際に必要なパラメータの1つです:
 
 ```python
 model.compile(loss='mean_squared_error', optimizer='sgd')
 ```
 
-既存の目的関数の名前を引数に与えるか，各データ点に対してスカラを返し，以下の2つの引数を取るTheano/TensorFlowのシンボリック関数を与えることができます:
+```python
+from keras import losses
 
-- __y_true__: 正解ラベル．Theano/TensorFlow テンソル
-- __y_pred__: 予測．y_trueと同じ形状のTheano/TensorFlow テンソル
+model.compile(loss=losses.mean_squared_error, optimizer='sgd')
+```
 
-実際の目的関数は全データ点における出力の平均です．
+既存の目的関数の名前を引数に与えるか，各データ点に対してスカラを返し，以下の2つの引数を取るTensorFlow/Theanoのシンボリック関数を与えることができます:
 
-このような関数の実装例に関しては，[objectives source](https://github.com/fchollet/keras/blob/master/keras/objectives.py)を参照してください．
+- __y_true__: 正解ラベル．TensorFlow/Theano テンソル
+- __y_pred__: 予測値．y_trueと同じshapeのTensorFlow/Theano テンソル
+
+実際に最適化される目的関数値は全データ点における出力の平均です．
+
+このような関数の実装例に関しては，[losses source](https://github.com/fchollet/keras/blob/master/keras/losses.py)を参照してください．
 
 ## 利用可能な目的関数
 
-- __mean_squared_error__ / __mse__
-- __mean_absolute_error__ / __mae__
-- __mean_absolute_percentage_error__ / __mape__
-- __mean_squared_logarithmic_error__ / __msle__
-- __squared_hinge__
-- __hinge__
-- __binary_crossentropy__: loglossとしても知られています．
-- __categorical_crossentropy__: マルチクラスloglossとしても知られています． __Note__: この目的関数を使うには，ラベルがバイナリ配列であり，その形状が`(nb_samples, nb_classes)`であることが必要です．
-- __sparse_categorical_crossentropy__: categorical_crossentropyと同じですが，スパースラベルを取る点で違います． __Note__: ラベルの次元と出力の次元が同じである必要があります．例えば，ラベル形状を拡張するために，`np.expand_dims(y, -1)`を用いて新しく次元を追加する必要があるかもしれません．
- - __kullback_leibler_divergence__ / __kld__: 予測した確率分布Qから真の確率分布Pへの情報ゲイン．2つの分布の異なりの度合いを得る．
-- __poisson__: `(予測 - 正解 * log(予測))`の平均
-- __cosine_proximity__: 予測と正解間のコサイン類似度の負の平均．
+### mean_squared_error
+
+```python
+mean_squared_error(y_true, y_pred)
+```
+
+---
+
+### mean_absolute_error
+
+```python
+mean_absolute_error(y_true, y_pred)
+```
+
+---
+
+### mean_absolute_percentage_error
+
+```python
+mean_absolute_percentage_error(y_true, y_pred)
+```
+
+---
+
+### mean_squared_logarithmic_error
+
+```python
+mean_squared_logarithmic_error(y_true, y_pred)
+```
+
+---
+
+### squared_hinge
+
+```python
+squared_hinge(y_true, y_pred)
+```
+
+---
+
+### hinge
+```python
+hinge(y_true, y_pred)
+```
+
+---
+
+### categorical_crossentropy
+
+```python
+categorical_crossentropy(y_true, y_pred)
+```
+---
+
+### sparse_categorical_crossentropy
+
+```python
+sparse_categorical_crossentropy(y_true, y_pred)
+```
+---
+
+### binary_crossentropy
+
+```python
+binary_crossentropy(y_true, y_pred)
+```
+---
+
+### kullback_leibler_divergence
+
+```python
+kullback_leibler_divergence(y_true, y_pred)
+```
+---
+
+### poisson
+
+```python
+poisson(y_true, y_pred)
+```
+---
+
+### cosine_proximity
+
+```python
+cosine_proximity(y_true, y_pred)
+```
+---
+
+__NOTE__: `categorical_crossentropy`を使う場合，目的値はカテゴリカルにしなければいけません．(例. もし10クラスなら，サンプルに対する目的値は，サンプルのクラスに対応する次元の値が1，それ以外が0の10次元のベクトルです)．
+*整数の目的値からカテゴリカルな目的値に*変換するためには，Keras utilityの`to_categorical`を使えます．
+
+```
+from keras.utils.np_utils import to_categorical
+
+categorical_labels = to_categorical(int_labels, num_classes=None)
+```
