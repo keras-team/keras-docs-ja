@@ -1,15 +1,16 @@
-
 ## オプティマイザ（最適化アルゴリズム）の利用方法
 
 オプティマイザ（最適化アルゴリズム）はモデルをコンパイルする際に必要となるパラメータの1つです:
 
 ```python
+from keras import optimizers
+
 model = Sequential()
-model.add(Dense(64, init='uniform', input_dim=10))
+model.add(Dense(64, init='uniform', input_shape=(10,)))
 model.add(Activation('tanh'))
 model.add(Activation('softmax'))
 
-sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='mean_squared_error', optimizer=sgd)
 ```
 
@@ -63,13 +64,13 @@ __Arguments__
 ### RMSprop
 
 ```python
-keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.)
+keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
-（ただし，学習率は除き，自由に調整することが可能です）
+（ただし，学習率を除き，自由に調整可能です）
 
-RMSPropは再帰型ニューラルネットワークに対して良い選択となるでしょう．
+RMSPropはリカレントニューラルネットワークに対して良い選択となるでしょう．
 
 __Arguments__
 
@@ -84,7 +85,7 @@ __Arguments__
 ### Adagrad
 
 ```python
-keras.optimizers.Adagrad(lr=0.01, epsilon=1e-06, decay=0.)
+keras.optimizers.Adagrad(lr=0.01, epsilon=1e-08, decay=0.0)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -105,7 +106,7 @@ __References__
 ### Adadelta
 
 ```python
-keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.)
+keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.0)
 ```
 
 デフォルトパラメータのまま利用することを推奨します．
@@ -128,7 +129,7 @@ __References__
 ### Adam
 
 ```python
-keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.)
+keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 ```
 
 デフォルトパラメータは提案論文に従います．
@@ -136,7 +137,8 @@ keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0
 __Arguments__
 
 - __lr__: float >= 0. 学習率．
-- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
 - __decay__: float >= 0. 各更新の学習率減衰．
 
@@ -150,7 +152,7 @@ __References__
 ### Adamax
 
 ```python
-keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.)
+keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 ```
  
 Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基づくAdamの拡張です．
@@ -160,7 +162,8 @@ Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基
 __Arguments__
 
 - __lr__: float >= 0. 学習率．
-- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
 - __epsilon__: float >= 0. Fuzz factor.
 - __decay__: float >= 0. 各更新の学習率減衰．
 
@@ -185,7 +188,8 @@ Nesterov Adam optimizer: Much like Adam is essentially RMSprop with momentum, Na
 __Arguments__
 
 - __lr__: float >= 0. 学習率．
-- __beta_1/beta_2__: floats, 0 < beta < 1. 一般的に1に近い値．
+- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値．
+- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値．
 - __epsilon__: float >= 0. Fuzz factor.
 
 __References__
@@ -200,3 +204,5 @@ __References__
 ```python
 keras.optimizers.TFOptimizer(optimizer)
 ```
+
+TensorFlowのオプティマイザのためのラッパークラス．
