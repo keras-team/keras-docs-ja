@@ -45,7 +45,7 @@ pages:
 - データセット: datasets.md
 - Applications: applications.md
 - バックエンド: backend.md
-- 初期化: initializations.md
+- 初期化: initializers.md
 - 正則化: regularizers.md
 - 制約: constraints.md
 - 可視化: visualization.md
