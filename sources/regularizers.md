@@ -2,39 +2,44 @@
 
 正則化によって，最適化中にレイヤーパラメータあるいはレイヤーの出力に制約を課すことができます．これらの制約はネットワークが最適化するロス関数に組み込まれます．
 
-この制約はレイヤー毎に適用されます．厳密なAPIはレイヤーに依存しますが，`Dense`，`TimeDistributedDense`，`MaxoutDense`，`Convolution1D`，そして，`Convolution2D`レイヤーは統一的なAPIを持っています．
+この制約はレイヤー毎に適用されます．厳密なAPIはレイヤーに依存しますが，`Dense`，`Conv1D`，`Conv2D`，`Conv3D`レイヤーは統一的なAPIを持っています．
 
 これらのレイヤーは3つの引数を取ります:
 
-- `W_regularizer`: `keras.regularizers.WeightRegularizer` のインスタンス
-- `b_regularizer`: `keras.regularizers.WeightRegularizer` のインスタンス
-- `activity_regularizer`: `keras.regularizers.ActivityRegularizer` のインスタンス
-
+- `kernel_regularizer`: 
+- `W_regularizer`: `keras.regularizers.Regularizer` のインスタンス
+- `bias_regularizer`: `keras.regularizers.Regularizer` のインスタンス
+- `activity_regularizer`: `keras.regularizers.Regularizer` のインスタンス
 
 ## 例
 
 ```python
-from keras.regularizers import l2, activity_l2
-model.add(Dense(64, input_dim=64, W_regularizer=l2(0.01), activity_regularizer=activity_l2(0.01)))
+from keras import regularizers
+model.add(Dense(64, input_dim=64,
+                kernel_regularizer=regularizers.l2(0.01),
+                activity_regularizer=regularizers.l1(0.01)))
 ```
 
-## 利用可能な制約
+## 利用可能な正則化
 
 ```python
-keras.regularizers.WeightRegularizer(l1=0., l2=0.)
+keras.regularizers.l1(0.)
+keras.regularizers.l2(0.)
+keras.regularizers.l1_l2(0.)
 ```
+
+## 新しい正則化の定義
+
+重み行列からロス関数に寄与するテンソルを返す任意の関数は，正則化として利用可能です，例:
 
 ```python
-keras.regularizers.ActivityRegularizer(l1=0., l2=0.)
+from keras import backend as K
+
+def l1_reg(weight_matrix):
+    return 0.01 * K.sum(K.abs(weight_matrix))
+
+model.add(Dense(64, input_dim=64,
+                kernel_regularizer=l1_reg)
 ```
 
-## ショートカット
-
-`keras.regularizers` の中に利用可能なショートカット関数があります．
-
-- __l1__(l=0.01): 重みのL1正則化．LASSOとしても知られています．
-- __l2__(l=0.01): 重みのL2正則化．荷重減衰やRidgeとしても知られています．
-- __l1l2__(l1=0.01, l2=0.01): 重みのL1+L2正則化．ElasticNetとしても知られています．
-- __activity_l1__(l=0.01): 出力のL1正則化．
-- __activity_l2__(l=0.01): 出力のL2正則化．
-- __activity_l1l2__(l1=0.01, l2=0.01): 出力のL1+L2正則化．
+また，オブジェクト指向的に正則化を定義できます．[keras/regularizers.py](https://github.com/fchollet/keras/blob/master/keras/regularizers.py)モジュールの例を見てください．
