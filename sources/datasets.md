@@ -53,7 +53,8 @@ from keras.datasets import cifar100
 ```python
 from keras.datasets import imdb
 
-(x_train, y_train), (x_test, y_test) = imdb.load_data(path="imdb_full.pkl",
+
+(x_train, y_train), (x_test, y_test) = imdb.load_data(path="imdb.npz",
                                                       num_words=None,
                                                       skip_top=0,
                                                       maxlen=None,
