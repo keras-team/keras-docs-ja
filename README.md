@@ -17,12 +17,12 @@ To contribute, please grab a task on [this TODO spreadsheet](https://docs.google
 
 このリポジトリは，[keras.io](http://keras.io/)の`.md`ファイルを日本語訳するリポジトリです．
 現在 __keras-2__ の作業中です．（なぜなら[keras-docs-ja](https://keras.io/ja/)はversion1で止まっているためです）
-contributeいただける方は，担当した作業を[this TODO spreadsheet](https://docs.google.com/spreadsheets/d/14foDtxrWUzJVIKGC0dgGFH4faNMlMyMDrLXzR02duEQ/edit?usp=sharing)に名前を書き込んでから，このリポジトリにPRをください・
+contributeいただける方は，[this TODO spreadsheet](https://docs.google.com/spreadsheets/d/14foDtxrWUzJVIKGC0dgGFH4faNMlMyMDrLXzR02duEQ/edit?usp=sharing)の中から担当したい作業を見つけて名前を書き込んでから，このリポジトリにPRをください．
 
 # TODO
 
 1. keras v2の翻訳: __作業中__
-  - kerasのmasterブランチが作業中に変更するため，`source`リンクは無視できます，(この場合，ダミーのリンクを置いてください，例えば`recurrent.md`では`<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L1)</span>`がダミーリンクになります) 
+    - kerasのmasterブランチが作業中に変更するため，`source`リンクは無視できます，(この場合，ダミーのリンクを置いてください，例えば`recurrent.md`では`<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/recurrent.py#L1)</span>`がダミーリンクになります) 
 1. 表記ゆれのために語彙を決める (see also: [termification](https://github.com/fchollet/keras-docs-ja/issues/40))
-  - 検索性のために，英語にできるだけ従うべきだと思っています
+   - 検索性のために，英語にできるだけ従うべきだと思っています
 1. masterブランチのソースコードへのリンクを更新するスクリプト作成 (作りかけがあります)
