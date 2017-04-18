@@ -17,7 +17,7 @@ __Arguments__
 - __kernel_size__: それぞれのフィルターの(空間もしくは時間的な)長さ．
 - __strides__: カーネルのストライドを指定します.
 - __padding__: `"valid"`，`"same"`，`casual`のいずれか．
-- __init__: レイヤーの重みの初期化関数の名前([initializations](../initializations.md)参照)，
+- __init__: レイヤーの重みの初期化関数の名前([initializations](../initializers.md)参照)，
 	もしくは重み初期化に用いるTheano関数．このパラメータは`weights`引数を与えない場合にのみ有効です．
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
 	もしくは要素ごとのTheano関数．
@@ -26,8 +26,8 @@ __Arguments__
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
 - __use_bias__: バイアスベクトルを加えるかどうかを指定します．
-- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializations.md)参照)
-- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializations.md)参照)
+- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializers.md)参照)
+- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializers.md)参照)
 - __kernel_regularizer__: カーネルの重みに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
 - __bias_regularizer__: バイアスに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
 - __activity_regularizer__: 出力テンソルに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
@@ -71,8 +71,8 @@ __Arguments__
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
 - __use_bias__: 真偽値で，バイアスベクトルを加えるかどうかを指定します．
-- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializations.md)参照)
-- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializations.md)参照)
+- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializers.md)参照)
+- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializers.md)参照)
 - __kernel_regularizer__: カーネルの重み行列に適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
 - __bias_regularizer__: バイアスベクトルに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
 - __activity_regularizer__: 出力テンソルに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
@@ -118,9 +118,9 @@ __Arguments__
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
 - __use_bias__: 真偽値で，バイアスベクトルを加えるかどうかを指定します．
-- __depthwise_initializer__: カーネルの重み行列の初期値をdepthwiseに指定します．([initializers](../initializations.md)参照)
-- __pointwise_initializer__: カーネルの重み行列の初期値をpointwiseに指定します．([initializers](../initializations.md)参照)
-- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializations.md)参照)
+- __depthwise_initializer__: カーネルの重み行列の初期値をdepthwiseに指定します．([initializers](../initializers.md)参照)
+- __pointwise_initializer__: カーネルの重み行列の初期値をpointwiseに指定します．([initializers](../initializers.md)参照)
+- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializers.md)参照)
 - __depthwise_regularizer__: 重み行列に対し，"depthwise"に適用させるRegularizerを指定します．([ regularizer](../regularizers.md)参照)
 - __pointwise_regularizer__: 重み行列に対し，"pointwise"に適用させるRegularizerを指定します．([ regularizer](../regularizers.md)参照)
 - __bias_regularizer__: バイアスベクトルに適用させるRegularizerを指定します．([regularizer](../regularizers.md)参照)
@@ -171,8 +171,8 @@ __Arguments__
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
 - __use_bias__: 真偽値で，バイアスベクトルを加えるかどうかを指定します．
-- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializations.md)参照)
-- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializations.md)参照)
+- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializers.md)参照)
+- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializers.md)参照)
 - __kernel_regularizer__: カーネルの重み行列に適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
 - __bias_regularizer__: バイアスベクトルに適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
 - __activity_regularizer__: 出力テンソルに適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
@@ -228,11 +228,11 @@ __Arguments__
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
 - __use_bias__: 真偽値で，バイアスベクトルを加えるかどうかを指定します．
-- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializations.md)参照)
-- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializations.md)参照)
-- __kernel_regularizer__: カーネルの重み行列に適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
-- __bias_regularizer__: バイアスベクトルに適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
-- __activity_regularizer__: 出力テンソルに適用させるRegularizer関数を指定します．([ regularizer](../regularizers.md)参照)
+- __kernel_initializer__: カーネルの重み行列の初期値を指定します．([initializers](../initializers.md)参照)
+- __bias_initializer__: バイアスベクトルの初期値を指定します．([initializers](../initializers.md)参照)
+- __kernel_regularizer__: カーネルの重み行列に適用させるRegularizer関数を指定します．([regularizer](../regularizers.md)参照)
+- __bias_regularizer__: バイアスベクトルに適用させるRegularizer関数を指定します．([regularizer](../regularizers.md)参照)
+- __activity_regularizer__: 出力テンソルに適用させるRegularizer関数を指定します．([regularizer](../regularizers.md)参照)
 - __kernel_constraint__: カーネルの行列に適用させるConstraint関数を指定します．([Constraint](../constraints.md)参照)
 - __bias_constraint__: バイアスベクトルに適用させるConstraint関数を指定します．([Constraint](../constraints.md)参照)
 
