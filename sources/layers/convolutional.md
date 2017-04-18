@@ -325,8 +325,8 @@ __Arguments__
 	`(symmetric_dim1_crop, symmetric_dim2_crop, symmetric_dim3_crop)`
 	- タプルのタプル: 六面それぞれにクロップが実行されます．  
 	`((left_dim1_crop, right_dim1_crop), (left_dim2_crop, right_dim2_crop), (left_dim3_crop, right_dim3_crop))`
-	- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
-	`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
+`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
 
@@ -465,20 +465,20 @@ __Arguments__
 	`(symmetric_height_pad, symmetric_width_pad)`
 	- タプルのタプル: 四辺それぞれにパディング．  
 	`((top_pad, bottom_pad), (left_pad, right_pad))`
-	- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.   
-	`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．  
-	`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．  
-	デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.   
+`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．  
+`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．  
+デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
-	__Input Shape__
+__Input Shape__
 
-	`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．  
-	`"channels_first"`の場合，`(batch, channels, rows, cols)`の四次元テンソル．
+`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．  
+`"channels_first"`の場合，`(batch, channels, rows, cols)`の四次元テンソル．
 
-	__Output Shape__
+__Output Shape__
 
-	`data_format`が`"channels_last"`の場合，`(batch, padded_rows, padded_cols, channels)`．
-	`"channels_first"`の場合，`(batch, channels, padded_rows, padded_cols)`の四次元テンソル．
+`data_format`が`"channels_last"`の場合，`(batch, padded_rows, padded_cols, channels)`．
+`"channels_first"`の場合，`(batch, channels, padded_rows, padded_cols)`の四次元テンソル．
 
 ----
 
@@ -499,8 +499,8 @@ __Arguments__
 	`(symmetric_dim1_pad, symmetric_dim2_pad, symmetric_dim3_pad)`
 	- タプルのタプル: 六面それぞれにパディングが実行されます．
 	`((left_dim1_pad, right_dim1_pad), (left_dim2_pad, right_dim2_pad), (left_dim3_pad, right_dim3_pad))`
-	- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
-	`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
+`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
 
