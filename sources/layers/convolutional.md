@@ -5,7 +5,7 @@
 keras.layers.convolutional.Conv1D(filters, kernel_size, strides=1, padding='valid', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
 ```
 
-1次元入力の近傍をフィルターする畳み込み層．  
+1次元入力の近傍をフィルターする畳み込み層．
 
 `use_bias`をTrueにすると，バイアスベクトルが出力に加えられます．`activation`が`None`でない場合，指定した活性化関数が出力に適用されます．
 
