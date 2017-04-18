@@ -39,7 +39,7 @@ pages:
   - テキストの前処理: preprocessing/text.md
   - 画像の前処理: preprocessing/image.md
 - 損失関数: losses.md
-- Metrics: metrics.md
+- 評価関数: metrics.md
 - 最適化: optimizers.md
 - 活性化関数: activations.md
 - コールバック: callbacks.md
