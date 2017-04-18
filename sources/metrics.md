@@ -17,18 +17,39 @@ model.compile(loss='mean_squared_error',
               metrics=[metrics.mae, metrics.categorical_accuracy])
 ```
 
-評価関数は [目的関数](/objectives) とよく似ていますが，
-評価結果の値が訓練に直接使われることはありません．
+評価関数は [損失関数](/losses) とよく似ていますが，評価結果の値が訓練に直接使われることはありません．
 
 渡す `metrics` パラメータには既存の評価関数の名前を引数に与えるか，
 自分で作った評価関数を渡す事ができます ([カスタマイズ](#_3) を参照して下さい)．
 
 ## 利用可能な評価関数
 
-- __binary_accuracy__
-- __categorical_accuracy__
-- __sparse_categorical_accuracy__
-- __top_k_categorical_accuracy__
+### binary_accuracy
+```python
+binary_accuracy(y_true, y_pred)
+```
+
+---
+
+### categorical_accuracy
+```python
+categorical_accurac(y_true, y_pred)
+```
+
+---
+
+### sparse_categorical_accuracy
+```python
+sparse_categorical_accurac(y_true, y_pred)
+```
+
+---
+
+### top_k_categorical_accuracy
+
+```python
+top_k_categorical_accurac(y_true, y_pred, k=5)
+```
 
 ## カスタマイズ
 
