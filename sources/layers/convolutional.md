@@ -17,8 +17,6 @@ __Arguments__
 - __kernel_size__: それぞれのフィルターの(空間もしくは時間的な)長さ．
 - __strides__: カーネルのストライドを指定します.
 - __padding__: `"valid"`，`"same"`，`casual`のいずれか．
-- __init__: レイヤーの重みの初期化関数の名前([initializations](../initializers.md)参照)，
-	もしくは重み初期化に用いるTheano関数．このパラメータは`weights`引数を与えない場合にのみ有効です．
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
 	もしくは要素ごとのTheano関数．
 	もしなにも指定しなければ活性化は一切適用されません(つまり"線形"活性a(x) = x)．
