@@ -33,14 +33,14 @@ keras.preprocessing.text.one_hot(text, n,
 ## Tokenizer
 
 ```python
-keras.preprocessing.text.Tokenizer(nb_words=None, filters=base_filter(), 
+keras.preprocessing.text.Tokenizer(num_words=None, filters=base_filter(), 
     lower=True, split=" ")
 ```
 
 テキストをベクトル化する，または／かつ，テキストをシーケンス（= データセット中でランクi（1から始まる）の単語がインデックスiを持つ単語インデックスのリスト）に変換するクラス．
 
 - __引数__: `text_to_word_sequence` と同じです．
-    - __nb_words__: Noneまたは整数．利用する単語の最大数（もしこの引数が与えられた場合，データセット中の頻度上位nb_wordsの単語に制限されます）．
+    - __num_words__: Noneまたは整数．利用する単語の最大数（もしこの引数が与えられた場合，データセット中の頻度上位num_wordsの単語に制限されます）．
 
 - __メソッド__:
 
@@ -57,7 +57,7 @@ keras.preprocessing.text.Tokenizer(nb_words=None, filters=base_filter(),
         - __戻り値__: 入力文章ごとに1つのシーケンス．
 
     - __texts_to_matrix(texts)__:
-        - __戻り値__: `(len(texts), nb_words)` の形であるnumpy配列．
+        - __戻り値__: `(len(texts), num_words)` の形であるnumpy配列．
         - __引数__:
             - __texts__: ベクトル化する文章のリスト．
             - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．
@@ -67,14 +67,14 @@ keras.preprocessing.text.Tokenizer(nb_words=None, filters=base_filter(),
             - __sequences__: 学習に使うシーケンスのリスト．
 
     - __sequences_to_matrix(sequences)__:
-        - __戻り値__: `(len(sequences), nb_words)` の形であるnumpy配列．
+        - __戻り値__: `(len(sequences), num_words)` の形であるnumpy配列．
         - __引数__:
             - __sequences__: ベクトル化するシーケンスのリスト．
             - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．
 
 - __属性__:
-    - __word_counts__: 単語（文字列）とそれがfit中に表れた回数をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
-    - __word_docs__: 単語（文字列）とfit中に表れた文書／文章の数をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
-    - __word_index__: 単語（文字列）とそのランク／インデックス（整数）をマッピングする辞書．`fit_on_texts`が呼ばれた後にセットされます．
-    - __document_count__: 整数．訓練に利用された文書（文章／シーケンス）数．`fit_on_sequences`が呼ばれた後にセットされます．
+    - __word_counts__: 単語（文字列）とそれがfit中に表れた回数をマッピングする辞書．`fit_on_texts`が呼ばれた後にのみセットされます．
+    - __word_docs__: 単語（文字列）とfit中に表れた文書／文章の数をマッピングする辞書．`fit_on_texts`が呼ばれた後にのみセットされます．
+    - __word_index__: 単語（文字列）とそのランク／インデックス（整数）をマッピングする辞書．`fit_on_texts`が呼ばれた後にのみセットされます．
+    - __document_count__: 整数．訓練に利用された文書（文章／シーケンス）数．`fit_on_texts`，または`fit_on_sequences`が呼ばれた後にのみセットされます．
 
