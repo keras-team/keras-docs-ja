@@ -49,6 +49,11 @@ pages:
 - 制約: constraints.md
 - 可視化: visualization.md
 - Scikit-learn API: scikit-learn-api.md
+- ユーティリティ:
+  - データユーティリティ: utils/data_utils.md
+  - 出入力ユーティリティ: utils/io_utils.md
+  - レイヤーユーティリティ: utils/layer_utils.md
+  - Numpyユーティリティ: utils/np_utils.md
 
 
 

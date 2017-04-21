@@ -1,7 +1,7 @@
 
 ## 活性化関数(activation function)の使い方
 
-活性化関数は`Activation`層，または全てのフォワード層で使える引数`activation`で利用できます。
+活性化関数は`Activation`層，または全てのフォワード層で使える引数`activation`で利用できます．
 
 ```python
 from keras.layers.core import Activation, Dense
@@ -28,7 +28,7 @@ model.add(Activation(tanh))
 
 ## 利用可能な活性化関数
 
-- __softmax__: Softmaxは入力の最後の次元に適用されます。想定入力形式は`(nb_samples, nb_timesteps, nb_dims)`または`(nb_samples, nb_dims)`です。
+- __softmax__: Softmaxは入力の最後の次元に適用されます．想定入力形式は`(nb_samples, nb_timesteps, nb_dims)`または`(nb_samples, nb_dims)`です．
 - __softplus__
 - __softsign__
 - __relu__
@@ -39,7 +39,7 @@ model.add(Activation(tanh))
 
 ## より高度な活性化関数
 
-単純なTheano/TensorFlow関数よりも高度な活性化関数(例：learnable activations, configurable activations, etc.)は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です。
-これらは，`keras.layers.advanced_activations`モジュールに含まれています。
-PReLUやLeakyReLUはここに含まれます。
+単純なTheano/TensorFlow関数よりも高度な活性化関数(例：learnable activations, configurable activations, etc.)は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です．
+これらは，`keras.layers.advanced_activations`モジュールに含まれています．
+PReLUやLeakyReLUはここに含まれます．
 

@@ -41,6 +41,29 @@ tensorflow
 
 ----
 
+## keras.json の詳細
+
+
+```
+{
+    "image_dim_ordering": "tf",
+    "epsilon": 1e-07,
+    "floatx": "float32",
+    "backend": "tensorflow"
+}
+```
+
+`~/.keras/keras.json`を編集することでこれらの設定を変更できます．
+
+* `image_dim_ordering`: 文字列， `"tf"` か `"th"` のいずれか．Kerasが従う次元の順序付け規則を指定します． (`keras.backend.image_dim_ordering()` がこれを返します．)
+  - 2次元データ (例えば画像) に対しては， `"tf"` は `(rows, cols, channels)` とみなし，`"th"` は `(channels, rows, cols)`とみなします．
+  - 3次元データに対しては， `"tf"` は `(conv_dim1, conv_dim2, conv_dim3, channels)` とみなし， `"th"` は `(channels, conv_dim1, conv_dim2, conv_dim3)` とみなします．
+* `epsilon`: float，いくつかの操作で0除算を避けるために使う微小値定数．
+* `floatx`: 文字列，`"float16"`，`"float32"`，か `"float64"`．デフォルトの浮動小数点精度．
+* `backend`: 文字列，`"tensorflow"` か `"theano"`．
+
+----
+
 ## 新しいコードを書くための抽象的なKerasバックエンドの利用
 
 TheanoとTesorFlowの両方で互換性があるように書くKerasモジュールが欲しいときは，
