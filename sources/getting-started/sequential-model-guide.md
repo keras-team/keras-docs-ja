@@ -1,22 +1,23 @@
-# SequentialモデルでKerasに触れてみよう
+# SequentialモデルでKerasを始めてみよう
 
-`Sequential` (系列) モデルは層を積み重ねたもの．
+`Sequential` (系列) モデルは層を積み重ねたものです．
 
-`Sequential` モデルはコンストラクタに層のインスタンスのリストを与えることで作れる:
+`Sequential` モデルはコンストラクタに層のインスタンスのリストを与えることで作れます:
 
 ```python
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 
 model = Sequential([
-    Dense(32, input_dim=784),
+    Dense(32, input_shape=(784,)),
     Activation('relu'),
     Dense(10),
     Activation('softmax'),
 ])
 ```
 
-単純に `.add()` メソッドを用いて層を追加できる．
+
+`.add()` メソッドを用いることで簡単に層を追加することができます．
 
 ```python
 model = Sequential()
@@ -28,179 +29,106 @@ model.add(Activation('relu'))
 
 ## 入力の形を指定する
 
-最初の層では入力の形を指定しなければならない (それ以降の層では必要ない) ．
-指定する方法は複数ある:
+モデルはどのような入力の形を想定しているのかを知る必要があります．
+このため， `Sequential` モデルの最初の層に入力のshapeについての情報を与える必要があります （最初の層以外は入力のshapeを推定することができるため，指定する必要はありません）．
+入力のshapeを指定する方法はいくつかあります:
 
--  最初の層に`input_shape`引数を与える．これは形を表すタプル (タプルの要素は整数か`None`で`None`はどんなサイズでも良いことを表す．) `input_shape`にbatchサイズは含まれない．
--  代わりに`batch_input_shape`引数を与える．ここではbatchサイズが含まれる．これは固定長のbatchサイズを指定するときに便利である (例えば stateful RNN) ．
-- `Dense`などの一部の2Dの層では入力の形を`input_dim`で指定でき，一部の3Dの層では`input_dim`と`input_length`で指定できる．
+- 最初の層の `input_shape`引数を指定する．この引数にはshapeを示すタプルを与えます (このタプルの要素は整数か `None`を取ります．`None`は任意の正の整数を期待することを意味します)．
+- `Dense` のような二次元の層では `input_dim`引数を指定することで入力のshapeを指定するできます．同様に，三次元の層では `input_dim`引数と `input_length`引数を指定することで入力のshapeを指定できます．
+- （stateful reccurent networkなどで）バッチサイズを指定したい場合， `batch_size`引数を指定することができます．もし， `batch_size=32`と `input_shape=(6, 8)`を同時に指定した場合，想定されるバッチごとの入力のshapeは `(32, 6, 8)`となります．
 
 
-したがって，次の3つのコードは等価である．
+このため，次のコードは等価となります．
 ```python
 model = Sequential()
 model.add(Dense(32, input_shape=(784,)))
 ```
 ```python
 model = Sequential()
-model.add(Dense(32, batch_input_shape=(None, 784)))
-# note that batch dimension is "None" here,
-# so the model will be able to process batches of any size.
-```
-```python
-model = Sequential()
 model.add(Dense(32, input_dim=784))
 ```
-次の3つのコードも等価である．
-```python
-model = Sequential()
-model.add(LSTM(32, input_shape=(10, 64)))
-```
-```python
-model = Sequential()
-model.add(LSTM(32, batch_input_shape=(None, 10, 64)))
-```
-```python
-model = Sequential()
-model.add(LSTM(32, input_length=10, input_dim=64))
-```
-
-----
-
-## マージ層
-
-複数の`Sequential`のインスタンスをマージ層を使って1つの出力にマージできる．出力は新しい`Sequential`モデルの1層目として使える．
-以下は2つの入力がマージされている:
-
-```python
-from keras.layers import Merge
-
-left_branch = Sequential()
-left_branch.add(Dense(32, input_dim=784))
-
-right_branch = Sequential()
-right_branch.add(Dense(32, input_dim=784))
-
-merged = Merge([left_branch, right_branch], mode='concat')
-
-final_model = Sequential()
-final_model.add(merged)
-final_model.add(Dense(10, activation='softmax'))
-```
-
-<img src="https://s3.amazonaws.com/keras.io/img/two_branches_sequential_model.png" alt="two branch Sequential" style="width: 400px;"/>
-
-このような2つに分岐したモデルは次のようにして学習できる:
-
-```python
-final_model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
-final_model.fit([input_data_1, input_data_2], targets)  # we pass one data array per model input
-```
-
-マージ層にはいくつかの定義されたモードがある．
-
-- `sum` (デフォルト): 要素ごとの和
-- `concat`: テンソル結合．結合する軸は`concat_axis`で指定できる．
-- `mul`: 要素ごとの積
-- `ave`: テンソル平均
-- `dot`: ドット積．ドット積を取る軸は`dot_axes`で指定できる．
-- `cos`: 2Dテンソルで表現されたベクトル間のコサイン類似度．
-
-任意の変換のために`mode`に関数を渡すこともできる．
-
-```python
-merged = Merge([left_branch, right_branch], mode=lambda x, y: x - y)
-```
-
-これで*ほとんど*のモデルをKerasで実装できる．`Sequential`や`Merge` では表現できないより複雑なモデルは[Functional API](/getting-started/functional-api-guide)を使って定義できる．.
-
 
 ----
 
 ## コンパイル
 
-モデルの学習を始める前に`compile`メソッドを使って学習経過の設定を行う必要がある．`compile` は3つの引数を取る:
+モデルの学習を始める前に，`compile`メソッドを用いどのような学習処理を行なうかを設定する必要があります．`compile`メソッドは3つの引数を取ります:
 
-- 最適化手法: これは定義されている手法 (`rmsprop`や`adagrad`など) を表す文字列，または`Optimizer`クラスのインスタンス．[最適化アルゴリズム](/optimizers)．
-- 損失関数: これをモデルは最小化する．それは文字列 (例えば`categorical_crossentropy`や`mse`) または目的関数．[目的関数](/objectives)．
-- 評価指標のリスト: 例えば分類問題では正解率 `metrics=['accuracy']`．評価指標は文字列 (`accuracy`) または自分で定義した関数．
+- 最適化手法: 引数として，定義されている最適化手法の識別子を文字列として与える（`rmsprop`や`adagrad`など），もしくは `Optimizer`クラスのインスタンスを与えることができます． 参考: [optimizers](/optimizers)
+- 損失関数: モデルが最小化しようとする目的関数です．引数として，定義されている損失関数の識別子を文字列として与える（`categorical_crossentropy`や`mse`など），もしくは目的関数を関数として与えることができます． 参考: [losses](/losses)
+- 評価指標のリスト: 分類問題では精度として`metrics=['accuracy']`を指定したくなるでしょう．引数として，定義されている評価指標の識別子を文字列として与える，もしくは自分で定義した関数を関数として与えることができます．
 
 ```python
-# for a multi-class classification problem
+# マルチクラス分類問題においては
 model.compile(optimizer='rmsprop',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-# for a binary classification problem
+# 二値分類問題においては
 model.compile(optimizer='rmsprop',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-# for a mean squared error regression problem
+# 平均二乗誤差を最小化する回帰問題においては
 model.compile(optimizer='rmsprop',
               loss='mse')
+
+# 独自定義の評価指標を定義するには
+import keras.backend as K
+
+def mean_pred(y_true, y_pred):
+    return K.mean(y_pred)
+
+model.compile(optimizer='rmsprop',
+              loss='binary_crossentropy',
+              metrics=['accuracy', mean_pred])
 ```
 
 ----
 
 ## 学習
 
-KerasのモデルはNumpyの配列のデータとラベルを用いて学習する．典型的には`fit`関数を使う．
-[詳細はドキュメントを](/models/sequential) ．
+KerasのモデルはNumpyの配列として入力データとラベルデータから学習を行います．モデルを訓練するときは，一般に`fit`関数を使います．[ドキュメントはこちら](/models/sequential).
 
 ```python
-# for a single-input model with 2 classes (binary):
+# 一つの入力から2クラス分類をするモデルにおいては
 
 model = Sequential()
-model.add(Dense(1, input_dim=784, activation='sigmoid'))
+model.add(Dense(32, activation='relu', input_dim=100))
+model.add(Dense(1, activation='sigmoid'))
 model.compile(optimizer='rmsprop',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-# generate dummy data
+# ダミーデータの作成
 import numpy as np
-data = np.random.random((1000, 784))
+data = np.random.random((1000, 100))
 labels = np.random.randint(2, size=(1000, 1))
 
-# train the model, iterating on the data in batches
-# of 32 samples
-model.fit(data, labels, nb_epoch=10, batch_size=32)
+# 各イテレーションのバッチサイズを32で学習を行なう
+model.fit(data, labels, epochs=10, batch_size=32)
 ```
+
 ```python
-# for a multi-input model with 10 classes:
-
-left_branch = Sequential()
-left_branch.add(Dense(32, input_dim=784))
-
-right_branch = Sequential()
-right_branch.add(Dense(32, input_dim=784))
-
-merged = Merge([left_branch, right_branch], mode='concat')
+# 一つの入力から10クラスの分類を行なう場合について(カテゴリ分類)
 
 model = Sequential()
-model.add(merged)
+model.add(Dense(32, activation='relu', input_dim=100))
 model.add(Dense(10, activation='softmax'))
-
 model.compile(optimizer='rmsprop',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-# generate dummy data
+# ダミーデータ作成
 import numpy as np
-from keras.utils.np_utils import to_categorical
-data_1 = np.random.random((1000, 784))
-data_2 = np.random.random((1000, 784))
-
-# these are integers between 0 and 9
+data = np.random.random((1000, 100))
 labels = np.random.randint(10, size=(1000, 1))
-# we convert the labels to a binary matrix of size (1000, 10)
-# for use with categorical_crossentropy
-labels = to_categorical(labels, 10)
 
-# train the model
-# note that we are passing a list of Numpy arrays as training data
-# since the model has 2 inputs
-model.fit([data_1, data_2], labels, nb_epoch=10, batch_size=32)
+# ラベルデータをカテゴリの1-hotベクトルにエンコードする
+one_hot_labels = keras.utils.to_categorical(labels, num_classes=10)
+
+# 各イテレーションのバッチサイズを32で学習を行なう
+model.fit(data, one_hot_labels, epochs=10, batch_size=32)
 ```
 
 ----
@@ -208,11 +136,11 @@ model.fit([data_1, data_2], labels, nb_epoch=10, batch_size=32)
 
 ## 例
 
-以下はいくつかの例です．
+いますぐKerasを始められるようにいくつか例を用意しました！
 
-examplesフォルダには現実的なデータを使ったモデルの例がある．
+[examples folder](https://github.com/fchollet/keras/tree/master/examples)フォルダにはリアルデータセットを利用したモデルがあります．
 
-- CIFAR10 小規模な画像分類: リアルタイムなデータ拡大を用いた畳み込みニューラルネット (CNN)
+- CIFAR10 小規模な画像分類: リアルタイムなdata augmentationを用いたConvolutional Neural Network (CNN)
 - IMDB 映画レビューのセンチメント分類: 単語単位のLSTM
 - Reuters 記事のトピック分類: 多層パーセプトロン (MLP)
 - MNIST 手書き文字認識: MLPとCNN
@@ -228,51 +156,48 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
 
+# ダミーデータ生成
+import numpy as np
+x_train = np.random.random((1000, 20))
+y_train = keras.utils.to_categorical(np.random.randint(10, size=(1000, 1)), num_classes=10)
+x_test = np.random.random((100, 20))
+y_test = keras.utils.to_categorical(np.random.randint(10, size=(100, 1)), num_classes=10)
+
 model = Sequential()
-# Dense(64) is a fully-connected layer with 64 hidden units.
-# in the first layer, you must specify the expected input data shape:
-# here, 20-dimensional vectors.
-model.add(Dense(64, input_dim=20, init='uniform'))
-model.add(Activation('tanh'))
-model.add(Dropout(0.5))
-model.add(Dense(64, init='uniform'))
-model.add(Activation('tanh'))
-model.add(Dropout(0.5))
-model.add(Dense(10, init='uniform'))
-model.add(Activation('softmax'))
-
-sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='categorical_crossentropy',
-              optimizer=sgd,
-              metrics=['accuracy'])
-
-model.fit(X_train, y_train,
-          nb_epoch=20,
-          batch_size=16)
-score = model.evaluate(X_test, y_test, batch_size=16)
-```
-
-
-### 別実装によるMLP:
-
-```python
-model = Sequential()
-model.add(Dense(64, input_dim=20, activation='relu'))
+# Dense(64) は，64個のhidden unitを持つ全結合層です．
+# 最初のlayerでは，想定する入力データshapeを指定する必要があり，ここでは20次元としてます．
+model.add(Dense(64, activation='relu', input_dim=20))
 model.add(Dropout(0.5))
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy',
-              optimizer='adadelta',
+              optimizer=sgd,
               metrics=['accuracy'])
+
+model.fit(x_train, y_train,
+          epochs=20,
+          batch_size=128)
+score = model.evaluate(x_test, y_test, batch_size=128)
 ```
 
+### MLPを用いた二値分類:
 
-### MLPによる二値分類:
 ```python
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+
+# 疑似データの生成
+x_train = np.random.random((1000, 20))
+y_train = np.random.randint(2, size=(1000, 1))
+x_test = np.random.random((100, 20))
+y_test = np.random.randint(2, size=(100, 1))
+
 model = Sequential()
-model.add(Dense(64, input_dim=20, init='uniform', activation='relu'))
+model.add(Dense(64, input_dim=20, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.5))
@@ -281,143 +206,109 @@ model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
+
+model.fit(x_train, y_train,
+          epochs=20,
+          batch_size=128)
+score = model.evaluate(x_test, y_test, batch_size=128)
 ```
 
-
-### VGG風 のCNN:
+### VGG-likeなconvnet
 
 ```python
+import numpy as np
+import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import SGD
 
+# 疑似データ生成
+x_train = np.random.random((100, 100, 100, 3))
+y_train = keras.utils.to_categorical(np.random.randint(10, size=(100, 1)), num_classes=10)
+x_test = np.random.random((20, 100, 100, 3))
+y_test = keras.utils.to_categorical(np.random.randint(10, size=(20, 1)), num_classes=10)
+
 model = Sequential()
-# input: 100x100 images with 3 channels -> (3, 100, 100) tensors.
-# this applies 32 convolution filters of size 3x3 each.
-model.add(Convolution2D(32, 3, 3, border_mode='valid', input_shape=(3, 100, 100)))
-model.add(Activation('relu'))
-model.add(Convolution2D(32, 3, 3))
-model.add(Activation('relu'))
+# 入力: サイズが100x100で3チャンネルをもつ画像 -> (100, 100, 3) のテンソル
+# それぞれのlayerで3x3の畳み込み処理を適用している
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(100, 100, 3)))
+model.add(Conv2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
-model.add(Convolution2D(64, 3, 3, border_mode='valid'))
-model.add(Activation('relu'))
-model.add(Convolution2D(64, 3, 3))
-model.add(Activation('relu'))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
 model.add(Flatten())
-# Note: Keras does automatic shape inference.
-model.add(Dense(256))
-model.add(Activation('relu'))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
+model.add(Dense(10, activation='softmax'))
 
-model.add(Dense(10))
-model.add(Activation('softmax'))
-
-sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
-model.fit(X_train, Y_train, batch_size=32, nb_epoch=1)
+model.fit(x_train, y_train, batch_size=32, epochs=10)
+score = model.evaluate(x_test, y_test, batch_size=32)
 ```
 
 
-### LSTMを用いた系列データの分類:
+### LSTMを用いた系列データ分類:
 
 ```python
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
+from keras.layers import Dense, Dropout
 from keras.layers import Embedding
 from keras.layers import LSTM
 
 model = Sequential()
-model.add(Embedding(max_features, 256, input_length=maxlen))
-model.add(LSTM(output_dim=128, activation='sigmoid', inner_activation='hard_sigmoid'))
+model.add(Embedding(max_features, output_dim=256))
+model.add(LSTM(128))
 model.add(Dropout(0.5))
-model.add(Dense(1))
-model.add(Activation('sigmoid'))
+model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
 
-model.fit(X_train, Y_train, batch_size=16, nb_epoch=10)
-score = model.evaluate(X_test, Y_test, batch_size=16)
+model.fit(x_train, y_train, batch_size=16, epochs=10)
+score = model.evaluate(x_test, y_test, batch_size=16)
 ```
 
-### CNNとGated Recurrent Unitを用いた画像の説明文生成モデル
-(単語単位のembeddingを使い，説明文は最大で16文字)
-
-良い結果を得るためには事前学習で得られた重みで初期化されたより大きいCNNが必要．
+### 1D Convolutionを用いた系列データ分類:
 
 ```python
-max_caption_len = 16
-vocab_size = 10000
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from keras.layers import Embedding
+from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
 
-# first, let's define an image model that
-# will encode pictures into 128-dimensional vectors.
-# it should be initialized with pre-trained weights.
-image_model = Sequential()
-image_model.add(Convolution2D(32, 3, 3, border_mode='valid', input_shape=(3, 100, 100)))
-image_model.add(Activation('relu'))
-image_model.add(Convolution2D(32, 3, 3))
-image_model.add(Activation('relu'))
-image_model.add(MaxPooling2D(pool_size=(2, 2)))
-
-image_model.add(Convolution2D(64, 3, 3, border_mode='valid'))
-image_model.add(Activation('relu'))
-image_model.add(Convolution2D(64, 3, 3))
-image_model.add(Activation('relu'))
-image_model.add(MaxPooling2D(pool_size=(2, 2)))
-
-image_model.add(Flatten())
-image_model.add(Dense(128))
-
-# let's load the weights from a save file.
-image_model.load_weights('weight_file.h5')
-
-# next, let's define a RNN model that encodes sequences of words
-# into sequences of 128-dimensional word vectors.
-language_model = Sequential()
-language_model.add(Embedding(vocab_size, 256, input_length=max_caption_len))
-language_model.add(GRU(output_dim=128, return_sequences=True))
-language_model.add(TimeDistributed(Dense(128)))
-
-# let's repeat the image vector to turn it into a sequence.
-image_model.add(RepeatVector(max_caption_len))
-
-# the output of both models will be tensors of shape (samples, max_caption_len, 128).
-# let's concatenate these 2 vector sequences.
 model = Sequential()
-model.add(Merge([image_model, language_model], mode='concat', concat_axis=-1))
-# let's encode this vector sequence into a single vector
-model.add(GRU(256, return_sequences=False))
-# which will be used to compute a probability
-# distribution over what the next word in the caption should be!
-model.add(Dense(vocab_size))
-model.add(Activation('softmax'))
+model.add(Conv1D(64, 3, activation='relu', input_shape=(seq_length, 100)))
+model.add(Conv1D(64, 3, activation='relu'))
+model.add(MaxPooling1D(3))
+model.add(Conv1D(128, 3, activation='relu'))
+model.add(Conv1D(128, 3, activation='relu'))
+model.add(GlobalAveragePooling1D())
+model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid'))
 
-model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+model.compile(loss='binary_crossentropy',
+              optimizer='rmsprop',
+              metrics=['accuracy'])
 
-# "images" is a numpy float array of shape (nb_samples, nb_channels=3, width, height).
-# "captions" is a numpy integer array of shape (nb_samples, max_caption_len)
-# containing word index sequences representing partial captions.
-# "next_words" is a numpy float array of shape (nb_samples, vocab_size)
-# containing a categorical encoding (0s and 1s) of the next word in the corresponding
-# partial caption.
-model.fit([images, partial_captions], next_words, batch_size=16, nb_epoch=100)
+model.fit(x_train, y_train, batch_size=16, epochs=10)
+score = model.evaluate(x_test, y_test, batch_size=16)
 ```
 
+### Stacked LSTMを用いた系列データ分類
 
-### 多層LSTMによる系列分類
+このモデルは，3つのLSTM layerを繋げ，高等表現を獲得できるような設計となっています．
 
-このモデルでは3つのLSTM層を積み重ねることでより高いレベルの系列表現を学習できる．
-
-最初の2層は全系列を返すが最後の層は最終時刻の出力だけを返す
-(言い換えれば入力系列を1つのベクトルに変換する) ．
+最初の2つのLSTMは出力系列をすべて出力しています．
+しかし，最後のLSTMは最後のステップの状態のみを出力しており，データの次元が落ちています(入力系列を一つのベクトルにしているようなものです)．
 
 <img src="https://keras.io/img/regular_stacked_lstm.png" alt="stacked LSTM" style="width: 300px;"/>
 
@@ -428,39 +319,39 @@ import numpy as np
 
 data_dim = 16
 timesteps = 8
-nb_classes = 10
+num_classes = 10
 
-# expected input data shape: (batch_size, timesteps, data_dim)
+# 想定する入力データshape: (batch_size, timesteps, data_dim)
 model = Sequential()
 model.add(LSTM(32, return_sequences=True,
-               input_shape=(timesteps, data_dim)))  # returns a sequence of vectors of dimension 32
-model.add(LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
-model.add(LSTM(32))  # return a single vector of dimension 32
+               input_shape=(timesteps, data_dim)))  # 32次元のベクトルのsequenceを出力する
+model.add(LSTM(32, return_sequences=True)) # 32次元のベクトルのsequenceを出力する
+model.add(LSTM(32))  # 32次元のベクトルを一つ出力する
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
 
-# generate dummy training data
+# 疑似訓練データを生成する
 x_train = np.random.random((1000, timesteps, data_dim))
-y_train = np.random.random((1000, nb_classes))
+y_train = np.random.random((1000, num_classes))
 
-# generate dummy validation data
+# 疑似検証データを生成する
 x_val = np.random.random((100, timesteps, data_dim))
-y_val = np.random.random((100, nb_classes))
+y_val = np.random.random((100, num_classes))
 
 model.fit(x_train, y_train,
-          batch_size=64, nb_epoch=5,
+          batch_size=64, epochs=5,
           validation_data=(x_val, y_val))
 ```
 
+### 同じようなStacked LSTMを"stateful"にする
 
-### 同じLSTMのモデルを"stateful"に
+Stateful recurent modelは，バッチを処理し得られた内部状態を次のバッチの内部状態の初期値として再利用するモデルの一つです．
+このため，計算複雑度を調整できるようにしたまま，長い系列を処理することができるようになりました．
 
-stateful な再帰型モデルは，あるbatchを処理した後の内部の状態を次のbatchを処理するときの初期状態として再利用する．こうすることでより長い系列を扱うことができる．
-
-[より詳しいstateful RNNsについてはFAQを](/faq/#how-can-i-use-stateful-rnns)．
+[FAQにもstateful RNNsについての情報があります](/getting-started/faq/#how-can-i-use-stateful-rnns)
 
 ```python
 from keras.models import Sequential
@@ -469,12 +360,12 @@ import numpy as np
 
 data_dim = 16
 timesteps = 8
-nb_classes = 10
+num_classes = 10
 batch_size = 32
 
-# expected input batch shape: (batch_size, timesteps, data_dim)
-# note that we have to provide the full batch_input_shape since the network is stateful.
-# the sample of index i in batch k is the follow-up for the sample i in batch k-1.
+# 想定している入力バッチshape: (batch_size, timesteps, data_dim)
+# 注意: ネットワークがstatefulであるため，batch_input_shapewをすべてうめて与えなければなりません
+# バッチkのi番目のサンプルは，バッチk-1のi番目のサンプルの次の時系列となります．
 model = Sequential()
 model.add(LSTM(32, return_sequences=True, stateful=True,
                batch_input_shape=(batch_size, timesteps, data_dim)))
@@ -486,62 +377,15 @@ model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
 
-# generate dummy training data
+# 疑似訓練データを生成
 x_train = np.random.random((batch_size * 10, timesteps, data_dim))
-y_train = np.random.random((batch_size * 10, nb_classes))
+y_train = np.random.random((batch_size * 10, num_classes))
 
-# generate dummy validation data
+# 疑似検証データを生成
 x_val = np.random.random((batch_size * 3, timesteps, data_dim))
-y_val = np.random.random((batch_size * 3, nb_classes))
+y_val = np.random.random((batch_size * 3, num_classes))
 
 model.fit(x_train, y_train,
-          batch_size=batch_size, nb_epoch=5,
+          batch_size=batch_size, epochs=5, shuffle=False,
           validation_data=(x_val, y_val))
-```
-
-
-### 2つの系列データをそれぞれ別のLSTM encoderに渡し，その結果をマージして分類
-
-このモデルでは2つの入力系列が別々のLSTMによってベクトルにencodeされる．
-これら2つのベクトルを結合した1つのベクトルを使って全結合層で学習が行われる．
-
-<img src="https://keras.io/img/dual_lstm.png" alt="Dual LSTM" style="width: 600px;"/>
-
-```python
-from keras.models import Sequential
-from keras.layers import Merge, LSTM, Dense
-import numpy as np
-
-data_dim = 16
-timesteps = 8
-nb_classes = 10
-
-encoder_a = Sequential()
-encoder_a.add(LSTM(32, input_shape=(timesteps, data_dim)))
-
-encoder_b = Sequential()
-encoder_b.add(LSTM(32, input_shape=(timesteps, data_dim)))
-
-decoder = Sequential()
-decoder.add(Merge([encoder_a, encoder_b], mode='concat'))
-decoder.add(Dense(32, activation='relu'))
-decoder.add(Dense(nb_classes, activation='softmax'))
-
-decoder.compile(loss='categorical_crossentropy',
-                optimizer='rmsprop',
-                metrics=['accuracy'])
-
-# generate dummy training data
-x_train_a = np.random.random((1000, timesteps, data_dim))
-x_train_b = np.random.random((1000, timesteps, data_dim))
-y_train = np.random.random((1000, nb_classes))
-
-# generate dummy validation data
-x_val_a = np.random.random((100, timesteps, data_dim))
-x_val_b = np.random.random((100, timesteps, data_dim))
-y_val = np.random.random((100, nb_classes))
-
-decoder.fit([x_train_a, x_train_b], y_train,
-            batch_size=64, nb_epoch=5,
-            validation_data=([x_val_a, x_val_b], y_val))
 ```
