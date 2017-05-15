@@ -1,13 +1,13 @@
 
 ## モデルの可視化
 
-`keras.utils.visualize_util`モジュールは（graphvizを用いて）Kerasモデルの可視化するためのユーティリティ関数を提供します．
+`keras.utils.vis_utils`モジュールは（graphvizを用いて）Kerasモデルの可視化するためのユーティリティ関数を提供します．
 
 以下の例は，モデルのグラフ構造をプロットし，それをファイルに保存します:
 
 ```python
-from keras.utils.visualize_util import plot
-plot(model, to_file='model.png')
+from keras.utils import plot_model
+plot_model(model, to_file='model.png')
 ```
 
 `plot`は2つのオプショナルな引数を取ります:
@@ -20,7 +20,7 @@ IPython Notebook内で可視化する例:
 
 ```python
 from IPython.display import SVG
-from keras.utils.visualize_util import model_to_dot
+from keras.utils.vis_utils import model_to_dot
 
 SVG(model_to_dot(model).create(prog='dot', format='svg'))
 ```
