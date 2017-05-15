@@ -1,5 +1,4 @@
-
-## ImageDataGenerator (画像データジェネレータ)
+## ImageDataGenerator
 
 ```python
 keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
@@ -23,7 +22,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
 
 リアルタイムにデータ拡張しながら，テンソル画像データのバッチを生成します．また，このジェネレータは，データを無限にループするので，無限にバッチを生成します．
 
-- __引数__:
+- __Arguments__:
     - __featurewise_center__: 真理値．データセット全体で，入力の平均を0にします．
     - __samplewise_center__: 真理値． 各サンプルの平均を0にします．
     - __featurewise_std_normalization__: 真理値． 入力をデータセットの標準偏差で正規化します．
@@ -40,20 +39,20 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __horizontal_flip__: 真理値．水平方向に入力をランダムに反転します．
     - __vertical_flip__: 真理値．垂直方向に入力をランダムに反転します．
     - __rescale__: rescale factor. デフォルトはNone．Noneか0ならば，適用しない．それ以外であれば，(他の変換を行う前に) 与えられた値をデータに積算する．
-    - __dim_ordering__: {"th", "tf"}のいずれか．
-        "tf"モードは入力の形状が`(samples, width, height, channels)`であることを想定します．
-        "th"モードは入力の形状が`(samples, channels, width, height)`であることを想定します．
-        デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_dim_ordering`の値です．値を設定していなければ，"th"になります．
+    - __preprocessing_function__: 各入力に適用される関数です．この関数は他の変更が行われる前に実行されます．この関数は三次元のnumpyテンソルを引数にとり，同じshapeのテンソルを出力するように定義する必要があります．
+    - __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します. `"channels_last"`の場合，入力の型は`(samples, height, width, channels)`となり，"channels_first"の場合は`(samples, channels, height, width)`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
-- __メソッド__:
-    - __fit(X)__: featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要になります．いくつかのサンプルに対して必要な値を計算します．
+- __Methods__:
+    - __fit(x)__: 与えられたサンプルデータに基づいて，データに依存する統計量を計算します．
+    featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要になります．
         - __引数__:
-            - __X__: サンプルデータ．
+            - __x__: サンプルデータ．
             - __augment__: 真理値（デフォルト: False）．ランダムにサンプルを拡張するかどうか．
             - __rounds__: 整数（デフォルト: 1）．augumentが与えられたときに，利用するデータに対して何回データ拡張を行うか．
-    - __flow(X, y)__: numpyデータとラベルのarrayを受け取り，拡張/正規化したデータのバッチを生成する．データを無限ループ内で，無限にバッチを生成します．
+            - __seed__: 整数 (デフォルト: None). ランダムシード.
+    - __flow(x, y)__: numpyデータとラベルのarrayを受け取り，拡張/正規化したデータのバッチを生成する．無限ループ内で，無限にバッチを生成します．
         - __引数__:
-            - __X__: データ．
+            - __x__: データ．4次元データである必要があります．RGBではチャネルを3に, グレースケールではチャネルを1にしてください．
             - __y__: ラベル．
             - __batch_size__: 整数（デフォルト: 32）．
             - __shuffle__: 真理値（デフォルト: False）．
@@ -74,15 +73,16 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
             - __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプレフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
             - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"jpeg"．
+            - __follow_links__: サブディレクトリ内のシンボリックリンクに従うかどうか．デフォルトはFalse．
 
-- __例__:
+- __Examples__:
 
-`.flow(X, y)`の使用例:
+`.flow(x, y)`の使用例:
 
 ```python
-(X_train, y_train), (X_test, y_test) = cifar10.load_data()
-Y_train = np_utils.to_categorical(y_train, nb_classes)
-Y_test = np_utils.to_categorical(y_test, nb_classes)
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+y_train = np_utils.to_categorical(y_train, num_classes)
+y_test = np_utils.to_categorical(y_test, num_classes)
 
 datagen = ImageDataGenerator(
     featurewise_center=True,
@@ -94,20 +94,20 @@ datagen = ImageDataGenerator(
 
 # compute quantities required for featurewise normalization
 # (std, mean, and principal components if ZCA whitening is applied)
-datagen.fit(X_train)
+datagen.fit(x_train)
 
 # fits the model on batches with real-time data augmentation:
-model.fit_generator(datagen.flow(X_train, Y_train, batch_size=32),
-                    samples_per_epoch=len(X_train), nb_epoch=nb_epoch)
+model.fit_generator(datagen.flow(x_train, y_train, batch_size=32),
+                    steps_per_epoch=len(x_train), epochs=epochs)
 
 # here's a more "manual" example
-for e in range(nb_epoch):
-    print 'Epoch', e
+for e in range(epochs):
+    print('Epoch', e)
     batches = 0
-    for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=32):
-        loss = model.train(X_batch, Y_batch)
+    for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=32):
+        model.train(x_batch, y_batch)
         batches += 1
-        if batches >= len(X_train) / 32:
+        if batches >= len(x_train) / 32:
             # we need to break the loop by hand because
             # the generator loops indefinitely
             break
@@ -142,4 +142,41 @@ model.fit_generator(
         nb_epoch=50,
         validation_data=validation_generator,
         nb_val_samples=800)
+```
+
+画像とマスクに対して，同時に変更を加える例．
+
+```python
+# we create two instances with the same arguments
+data_gen_args = dict(featurewise_center=True,
+                     featurewise_std_normalization=True,
+                     rotation_range=90.,
+                     width_shift_range=0.1,
+                     height_shift_range=0.1,
+                     zoom_range=0.2)
+image_datagen = ImageDataGenerator(**data_gen_args)
+mask_datagen = ImageDataGenerator(**data_gen_args)
+
+# Provide the same seed and keyword arguments to the fit and flow methods
+seed = 1
+image_datagen.fit(images, augment=True, seed=seed)
+mask_datagen.fit(masks, augment=True, seed=seed)
+
+image_generator = image_datagen.flow_from_directory(
+    'data/images',
+    class_mode=None,
+    seed=seed)
+
+mask_generator = mask_datagen.flow_from_directory(
+    'data/masks',
+    class_mode=None,
+    seed=seed)
+
+# combine generators into one which yields image and masks
+train_generator = zip(image_generator, mask_generator)
+
+model.fit_generator(
+    train_generator,
+    steps_per_epoch=2000,
+    epochs=50)
 ```
