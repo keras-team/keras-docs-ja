@@ -69,7 +69,7 @@ to_categorical(y, num_classes=None)
 __Arguments__
 
 - __y__: 行列に変換されるクラスベクトル (0から`num_classes`までの整数値)
-- __nb_classes__: 総クラス数
+- __num_classes__: 総クラス数
 
 __Returns__
 
@@ -116,8 +116,18 @@ __Arguments__
 ### plot_model
 
 ```python
-plot_model(model, to_file='model.png', show_shapes=False, show_layer_names=True)
+plot_model(model, to_file='model.png', show_shapes=False, show_layer_names=True, rankdir='TB')
 ```
+
+Converts a Keras model to dot format and save to a file.
+
+__Arguments__
+
+- __model__: Kerasのモデルインスタンス
+- __to_file__: 保存するファイル名
+- __show_shapes__: shapeの情報を表示するかどうか
+- __show_layer_names__: レイヤー名を表示するかどうか
+- __rankdir__: PyDotに渡す`rankdir`引数，プロットのフォーマットを指定する文字列：'TB' はvertical plot，'LR'はhorizontal plot．
 
 ---
 

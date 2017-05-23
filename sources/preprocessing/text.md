@@ -12,7 +12,7 @@ keras.preprocessing.text.text_to_word_sequence(text,
 
 - __引数__:
     - __text__: 文字列．
-    - __filters__: 句読点などフィルタする文字を含むリスト（あるいはコレクション）．デフォルトは基本的な句読点，タブ，改行を含む`base_filter()`です．
+    - __filters__: 句読点などフィルタする文字を含むリスト（あるいはコレクション）．デフォルトは基本的な句読点，タブ，改行を含む'!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'です．
     - __lower__: 真理値．テキストを小文字にするかどうか．
     - __split__: 文字列．単語を分割するセパレータ．
 
@@ -20,7 +20,7 @@ keras.preprocessing.text.text_to_word_sequence(text,
 
 ```python
 keras.preprocessing.text.one_hot(text, n,
-    filters=base_filter(), lower=True, split=" ")
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n', lower=True, split=" ")
 ```
 
 文章を単語インデックス（語彙数n）のリストに1-hotエンコードします．
@@ -33,14 +33,15 @@ keras.preprocessing.text.one_hot(text, n,
 ## Tokenizer
 
 ```python
-keras.preprocessing.text.Tokenizer(num_words=None, filters=base_filter(), 
-    lower=True, split=" ")
+keras.preprocessing.text.Tokenizer(num_words=None, filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True, split=" ", char_level=False)
 ```
 
 テキストをベクトル化する，または／かつ，テキストをシーケンス（= データセット中でランクi（1から始まる）の単語がインデックスiを持つ単語インデックスのリスト）に変換するクラス．
 
 - __引数__: `text_to_word_sequence` と同じです．
     - __num_words__: Noneまたは整数．利用する単語の最大数（もしこの引数が与えられた場合，データセット中の頻度上位num_wordsの単語に制限されます）．
+    - __char_level__: Trueなら，全文字はトークンとして扱われる
 
 - __メソッド__:
 

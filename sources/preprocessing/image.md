@@ -6,6 +6,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     featurewise_std_normalization=False,
     samplewise_std_normalization=False,
     zca_whitening=False,
+    zca_epsilon=1e-6,
     rotation_range=0.,
     width_shift_range=0.,
     height_shift_range=0.,
@@ -17,7 +18,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     horizontal_flip=False,
     vertical_flip=False,
     rescale=None,
-    dim_ordering=K.image_dim_ordering())
+    dim_ordering=K.image_data_format())
 ```
 
 リアルタイムにデータ拡張しながら，テンソル画像データのバッチを生成します．また，このジェネレータは，データを無限にループするので，無限にバッチを生成します．
@@ -28,7 +29,8 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __featurewise_std_normalization__: 真理値． 入力をデータセットの標準偏差で正規化します．
     - __samplewise_std_normalization__: 真理値．各入力をその標準偏差で正規化します．
     - __zca_whitening__: 真理値．ZCA白色化を適用します．
-    - __rotation_range__: 整数．画像をランダムに回転する回転範囲．
+    - __zca_epsilon__: ZCA白色化のイプシロン．デフォルトは1e-6．
+    - __rotation_range__: 整数．画像をランダムに回転する回転範囲（0-180）．
     - __width_shift_range__: 浮動小数点数（横幅に対する割合）．ランダムに水平シフトする範囲．
     - __height_shift_range__: 浮動小数点数（縦幅に対する割合）．ランダムに垂直シフトする範囲．
     - __shear_range__: 浮動小数点数．シアー強度（反時計回りのシアー角度（ラジアン））．
@@ -58,7 +60,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __shuffle__: 真理値（デフォルト: False）．
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
             - __save_prefix__: 文字列（デフォルト`''`）．画像を保存する際にファイル名に付けるプレフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
-            - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"jpeg"．
+            - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
         - __yields__: `(x, y)`からなるタプルで`x`は画像データのnumpy配列で`y`はラベルのnumpy配列．ジェネレーターは無限ループする．
     - __flow_from_directory(directory)__: ディレクトリへのパスを受け取り，拡張/正規化したデータのバッチを生成する．データを無限にループするので，無限にバッチを生成します．
         - __引数__:
@@ -72,7 +74,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __seed__: shuffleのための乱数seed
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
             - __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプレフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
-            - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"jpeg"．
+            - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
             - __follow_links__: サブディレクトリ内のシンボリックリンクに従うかどうか．デフォルトはFalse．
 
 - __Examples__:
@@ -139,7 +141,7 @@ validation_generator = test_datagen.flow_from_directory(
 model.fit_generator(
         train_generator,
         samples_per_epoch=2000,
-        nb_epoch=50,
+        epochs=50,
         validation_data=validation_generator,
         nb_val_samples=800)
 ```

@@ -22,6 +22,17 @@ model.compile(loss='mean_squared_error',
 渡す `metrics` パラメータには既存の評価関数の名前を引数に与えるか，
 自分で作った評価関数を渡す事ができます ([カスタマイズ](#_3) を参照して下さい)．
 
+#### 引数
+
+- __y_true__: 真のラベル．Theano/TensorFlowのテンソル
+- __y_pred__: 予測値．y_trueと同じshapeのTheano/TensorFlowのテンソル
+
+#### 返り値
+
+全データ点の平均値を表すスカラ．
+
+---
+
 ## 利用可能な評価関数
 
 ### binary_accuracy

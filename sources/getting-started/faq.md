@@ -27,7 +27,7 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
 ```
 @misc{chollet2015keras,
   title={Keras},
-  author={Chollet, Fran\c{c}ois},
+  author={Chollet, Fran\c{c}ois and others},
   year={2015},
   publisher={GitHub},
   howpublished={\url{https://github.com/fchollet/keras}},
