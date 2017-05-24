@@ -212,7 +212,7 @@ __例__
 ```python
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2,
                               patience=5, min_lr=0.001)
-model.fit(X_train, Y_train, callbacks=[reduce_lr])
+model.fit(x_train, y_train, callbacks=[reduce_lr])
 ```
 
 __引数__
@@ -246,7 +246,7 @@ __例__
 
 ```python
 csv_logger = CSVLogger('training.log')
-model.fit(X_train, Y_train, callbacks=[csv_logger])
+model.fit(x_train, y_train, callbacks=[csv_logger])
 ```
 
 __引数__
@@ -345,7 +345,7 @@ model.add(Activation('softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
 history = LossHistory()
-model.fit(X_train, Y_train, batch_size=128, epochs=20, verbose=0, callbacks=[history])
+model.fit(x_train, y_train, batch_size=128, epochs=20, verbose=0, callbacks=[history])
 
 print(history.losses)
 # 出力
@@ -369,6 +369,6 @@ model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 '''
 バリデーションロスが減少した場合に，各エポック終了後，モデルの重みを保存します
 '''
-checkpointer = ModelCheckpoint(filepath="/tmp/weights.hdf5", verbose=1, save_best_only=True)
-model.fit(X_train, Y_train, batch_size=128, epochs=20, verbose=0, validation_data=(X_test, Y_test), callbacks=[checkpointer])
+checkpointer = ModelCheckpoint(filepath='/tmp/weights.hdf5', verbose=1, save_best_only=True)
+model.fit(x_train, y_train, batch_size=128, epochs=20, verbose=0, validation_data=(x_test, y_test), callbacks=[checkpointer])
 ```

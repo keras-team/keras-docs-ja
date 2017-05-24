@@ -151,16 +151,16 @@ model.load_weights('my_model_weights.h5', by_name=True)
 """
 Assume original model looks like this:
     model = Sequential()
-    model.add(Dense(2, input_dim=3, name="dense_1"))
-    model.add(Dense(3, name="dense_2"))
+    model.add(Dense(2, input_dim=3, name='dense_1'))
+    model.add(Dense(3, name='dense_2'))
     ...
     model.save_weights(fname)
 """
 
 # new model
 model = Sequential()
-model.add(Dense(2, input_dim=3, name="dense_1"))  # will be loaded
-model.add(Dense(10, name="new_dense"))  # will not be loaded
+model.add(Dense(2, input_dim=3, name='dense_1'))  # will be loaded
+model.add(Dense(10, name='new_dense'))  # will not be loaded
 
 # load weights from first model; will only affect the first layer, dense_1.
 model.load_weights(fname, by_name=True)
@@ -199,7 +199,7 @@ from keras import backend as K
 # with a Sequential model
 get_3rd_layer_output = K.function([model.layers[0].input],
                                   [model.layers[3].output])
-layer_output = get_3rd_layer_output([X])[0]
+layer_output = get_3rd_layer_output([x])[0]
 ```
 
 同様に，TheanoやTensorFlowのfunctionを直接利用することもできます．
@@ -211,19 +211,19 @@ get_3rd_layer_output = K.function([model.layers[0].input, K.learning_phase()],
                                   [model.layers[3].output])
 
 # output in test mode = 0
-layer_output = get_3rd_layer_output([X, 0])[0]
+layer_output = get_3rd_layer_output([x, 0])[0]
 
 # output in train mode = 1
-layer_output = get_3rd_layer_output([X, 1])[0]
+layer_output = get_3rd_layer_output([x, 1])[0]
 ```
 
 ---
 
 ### メモリに載らない大きさのデータを扱うには？
 
-`model.train_on_batch(X, y)`と`model.test_on_batch(X, y)` を使うことでバッチ学習ができます．詳細は[モデルに関するドキュメント](/models/sequential)を参照してください．
+`model.train_on_batch(x, y)`と`model.test_on_batch(x, y)` を使うことでバッチ学習ができます．詳細は[モデルに関するドキュメント](/models/sequential)を参照してください．
 
-代わりに，訓練データのバッチを生成するジェネレータを記述して， `model.fit_generator(data_generator, samples_per_epoch, nb_epoch)` の関数を使うこともできます．
+代わりに，訓練データのバッチを生成するジェネレータを記述して， `model.fit_generator(data_generator, samples_per_epoch, epochs)` の関数を使うこともできます．
 
 実際のバッチ学習の方法については，[CIFAR10 example](https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py)を参照してください．
 
@@ -236,7 +236,7 @@ layer_output = get_3rd_layer_output([X, 1])[0]
 ```python
 from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='val_loss', patience=2)
-model.fit(X, y, validation_split=0.2, callbacks=[early_stopping])
+model.fit(x, y, validation_split=0.2, callbacks=[early_stopping])
 ```
 
 詳細は[コールバックに関するドキュメント](/callbacks)を参照してください．
@@ -265,7 +265,7 @@ model.fit(X, y, validation_split=0.2, callbacks=[early_stopping])
 `model.fit` が返す `History` コールバックの `history` を参照してください． `history` はlossや他の指標のリストを含んでいます．
 
 ```python
-hist = model.fit(X, y, validation_split=0.2)
+hist = model.fit(x, y, validation_split=0.2)
 print(hist.history)
 ```
 
@@ -313,7 +313,7 @@ RNNをstatefulにするとは，各バッチのサンプルの状態が，次の
 stateful RNNが使われるときには以下のような状態となっているはずです：
 
 - 全てのバッチのサンプル数が同じである
-- `X1` と `X2` が連続するバッチであるとき，各 `i`に ついて `X2[i]` は `X1[i]` のfollow-upシーケンスになっている
+- `x1` と `x2` が連続するバッチであるとき，各 `i`に ついて `x2[i]` は `x1[i]` のfollow-upシーケンスになっている
 
 実際にstateful RNNを利用するには，以下を行う必要があります:
 
@@ -331,7 +331,7 @@ stateful RNNが使われるときには以下のような状態となってい�
 
 ```python
 
-X  # this is our input data, of shape (32, 21, 16)
+x  # this is our input data, of shape (32, 21, 16)
 # we will feed it to our model in sequences of length 10
 
 model = Sequential()
@@ -341,10 +341,10 @@ model.add(Dense(16, activation='softmax'))
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 
 # we train the network to predict the 11th timestep given the first 10:
-model.train_on_batch(X[:, :10, :], np.reshape(X[:, 10, :], (32, 16)))
+model.train_on_batch(x[:, :10, :], np.reshape(x[:, 10, :], (32, 16)))
 
 # the state of the network has changed. We can feed the follow-up sequences:
-model.train_on_batch(X[:, 10:20, :], np.reshape(X[:, 20, :], (32, 16)))
+model.train_on_batch(x[:, 10:20, :], np.reshape(x[:, 20, :], (32, 16)))
 
 # let's reset the states of the LSTM layer:
 model.reset_states()
@@ -419,8 +419,8 @@ model = VGG16(weights='imagenet', include_top=True)
 ```python
 import h5py
 with h5py.File('input/file.hdf5', 'r') as f:
-    X_data = f['X_data']
-    model.predict(X_data)
+    X_data = f['x_data']
+    model.predict(x_data)
 ```
 
 ---
