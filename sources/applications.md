@@ -3,7 +3,7 @@
 Kerasの応用は事前学習した重みを利用可能な深層学習のモデルです．
 これらのモデルは予測，特徴量抽出そしてfine-tuningのために利用できます．
 
-モデルのインスタンス化すると重みは自動的にダウンロードされます．重みは`~/.keras/models/`に格納されます．
+モデルをインスタンス化すると重みは自動的にダウンロードされます．重みは`~/.keras/models/`に格納されます．
 
 ## 利用可能なモデル
 
@@ -15,14 +15,10 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [ResNet50](#resnet50)
 - [InceptionV3](#inceptionv3)
 
-これらすべてのアーキテクチャ (Xceptionのみ例外) は，TensorFlowとTheanoの両方で互換性があり，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
-例えば，`image_dim_ordering=tf`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Width-Height-Depth"にしたがって構築されます．
+（Xceptionを除く）これらすべてのアーキテクチャは，TensorFlowとTheanoの両方に対応しており，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
+例えば，`image_dim_ordering=channels_last`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Width-Height-Depth"にしたがって構築されます．
 
-`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能．
-
-### (メルスペクトログラムを入力とした) 音楽オーディオファイルの自動タグ付けモデル:
-
-- [MusicTaggerCRNN](#musictaggercrnn)
+`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能です．
 
 -----
 
@@ -80,7 +76,7 @@ from keras.models import Model
 import numpy as np
 
 base_model = VGG19(weights='imagenet')
-model = Model(input=base_model.input, output=base_model.get_layer('block4_pool').output)
+model = Model(inputs=base_model.input, outputs=base_model.get_layer('block4_pool').output)
 
 img_path = 'elephant.jpg'
 img = image.load_img(img_path, target_size=(224, 224))
@@ -112,7 +108,7 @@ x = Dense(1024, activation='relu')(x)
 predictions = Dense(200, activation='softmax')(x)
 
 # this is the model we will train
-model = Model(input=base_model.input, output=predictions)
+model = Model(inputs=base_model.input, outputs=predictions)
 
 # first: train only the top layers (which were randomly initialized)
 # i.e. freeze all convolutional InceptionV3 layers
@@ -151,6 +147,7 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 model.fit_generator(...)
 ```
 
+
 ### Build InceptionV3 over a custom input tensor
 
 ```python
@@ -158,7 +155,7 @@ from keras.applications.inception_v3 import InceptionV3
 from keras.layers import Input
 
 # this could also be the output a different Keras model or layer
-input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_dim_ordering() == 'tf'
+input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
 
 model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=True)
 ```
@@ -178,6 +175,7 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 
 ## Xception
 
+
 ```python
 keras.applications.xception.Xception(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
 ```
@@ -187,16 +185,21 @@ ImageNetで事前学習した重みを利用可能なXception V1モデル．
 ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で，top-5のvalidation accuracyは0.945です．
 
 `SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能であることに注意してください．
-さらに次元の順序は"tf" (width, height, channels)のみサポートしています．
+さらにデータフォーマットは"channels_last" (height, width, channels)のみサポートしています．
 
 デフォルトの入力サイズは299x299．
 
 ### Arguments
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効な値です．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
 ### Returns
 
@@ -208,7 +211,7 @@ Kerasのモデルインスタンス．
 
 ### License
 
-These weights are trained by ourselves and are released under the MIT license.
+この重みは私達自身が学習したもので，MITライセンスの下で公開されています．
 
 -----
 
@@ -221,16 +224,21 @@ keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tenso
 ImageNetで事前学習した重みを利用可能なVGG16モデル．
 
 このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
-"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+"channels_first" データフォーマット (channels, height, width) か "channels_last" データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは224x224．
 
 ### Arguments
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
 ### Returns
 
@@ -242,7 +250,7 @@ Kerasのモデルインスタンス．
 
 ### License
 
-These weights are ported from the ones [released by VGG at Oxford](http://www.robots.ox.ac.uk/~vgg/research/very_deep/) under the [Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/).
+この重みは[Oxford大学のVGG](http://www.robots.ox.ac.uk/~vgg/research/very_deep/)により[Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/)の下で公開されたものを移植しています．
 
 -----
 
@@ -256,7 +264,7 @@ keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tenso
 ImageNetで事前学習した重みを利用可能なVGG19モデル．
 
 このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
-"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+"channels_first" データフォーマット (channels, height, width) か "channels_last" データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは224x224．
 
@@ -264,8 +272,13 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
 ### Returns
 
@@ -278,29 +291,35 @@ Kerasのモデルインスタンス．
 
 ### License
 
-These weights are ported from the ones [released by VGG at Oxford](http://www.robots.ox.ac.uk/~vgg/research/very_deep/) under the [Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/).
+この重みは[Oxford大学のVGG](http://www.robots.ox.ac.uk/~vgg/research/very_deep/)により[Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/)の下で公開されたものを移植しています．
 
 -----
 
 ## ResNet50
 
-ImageNetで事前学習した重みを利用可能なResNet50モデル．
-
-このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
-"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
-
-デフォルトの入力サイズは224x224．
 
 ```python
 keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
 ```
 
+ImageNetで事前学習した重みを利用可能なResNet50モデル．
+
+このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
+"channels_first" データフォーマット (channels, height, width) か "channels_last" データフォーマット (height, width, channels)の両方で構築可能です．
+
+デフォルトの入力サイズは224x224．
+
 ### Arguments
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
 ### Returns
 
@@ -312,7 +331,7 @@ Kerasのモデルインスタンス．
 
 ### License
 
-These weights are ported from the ones [released by Kaiming He](https://github.com/KaimingHe/deep-residual-networks) under the [MIT license](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE).
+この重みは[Kaiming He](https://github.com/KaimingHe/deep-residual-networks)により[MITライセンス](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE)の下で公開されたものを移植しています．
 
 -----
 
@@ -322,7 +341,7 @@ These weights are ported from the ones [released by Kaiming He](https://github.c
 ImageNetで事前学習した重みを利用可能なInception V3モデル．
 
 このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
-"th" dim ordering (channels, width, height) と "tf" dim ordering (width, height, channels)の両方で構築可能．
+"channels_first" データフォーマット (channels, height, width) か "channels_last" データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは299x299．
 
@@ -334,8 +353,13 @@ keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet'
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- input_shape: オプショナルなshapeのタプル，include_topがFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`tf`のとき) か `(3, 299, 299)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`channels_last`データフォーマットのとき) か `(3, 299, 299)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
 ### Returns
 
@@ -347,67 +371,4 @@ Kerasのモデルインスタンス．
 
 ### License
 
-These weights are trained by ourselves and are released under the MIT license.
-
-## MusicTaggerCRNN
-
-```
-keras.applications.music_tagger_crnn.MusicTaggerCRNN(weights='msd', input_tensor=None, include_top=True)
-```
-
-ベクトルで表現された楽曲のメルスペクトログラムを入力とし，そのジャンルを出力するconvolutional-recurrentモデル．
-`keras.applications.music_tagger_crnn.preprocess_input`
-を使うことで音楽ファイルをベクトル化したスペクトログラムに変換可能．
-これには[Librosa](http://librosa.github.io/librosa/)をインストールする必要があります．
-[使用例](https://keras.io/applications/#music-tagging-and-feature-extraction-with-musictaggercrnn)を見てください．
-
-### Arguments
-
-- weights: `None` (ランダム初期化) か "msd" ([Million Song Dataset](http://labrosa.ee.columbia.edu/millionsong/)で学習した重み) の一方．
-- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (すなわち，`layers.Input()`の出力)
-- include_top: ネットワークの出力層側にある1つの全結合層を含むかどうか．Falseならネットワークの出力は32次元の特徴量．
-
-### Returns
-
-Kerasのモデルインスタンス．
-
-### References
-
-- [Convolutional Recurrent Neural Networks for Music Classification](https://arxiv.org/abs/1609.04243)
-
-### License
-
-
-この重みは，[MIT license](https://github.com/keunwoochoi/music-auto_tagging-keras/blob/master/LICENSE.md)のもとで[Keunwoo Choi](https://github.com/keunwoochoi/music-auto_tagging-keras)による実装から移植されました．
-
-### Examples: music tagging and audio feature extraction
-
-```
-from keras.applications.music_tagger_crnn import MusicTaggerCRNN
-from keras.applications.music_tagger_crnn import preprocess_input, decode_predictions
-import numpy as np
-
-# 1. Tagging
-model = MusicTaggerCRNN(weights='msd')
-
-audio_path = 'audio_file.mp3'
-melgram = preprocess_input(audio_path)
-melgrams = np.expand_dims(melgram, axis=0)
-
-preds = model.predict(melgrams)
-print('Predicted:')
-print(decode_predictions(preds))
-# print: ('Predicted:', [[('rock', 0.097071797), ('pop', 0.042456303), ('alternative', 0.032439161), ('indie', 0.024491295), ('female vocalists', 0.016455274)]])
-
-#. 2. Feature extraction
-model = MusicTaggerCRNN(weights='msd', include_top=False)
-
-audio_path = 'audio_file.mp3'
-melgram = preprocess_input(audio_path)
-melgrams = np.expand_dims(melgram, axis=0)
-
-feats = model.predict(melgrams)
-print('Features:')
-print(feats[0, :10])
-# print: ('Features:', [-0.19160545 0.94259131 -0.9991011 0.47644514 -0.19089699 0.99033844 0.1103896 -0.00340496 0.14823607 0.59856361])
-```
+この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．
