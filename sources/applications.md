@@ -196,8 +196,8 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効な値です．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
-    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
-    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
@@ -235,8 +235,8 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
-    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
-    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
@@ -275,8 +275,8 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
-    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
-    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
@@ -316,8 +316,8 @@ ImageNetで事前学習した重みを利用可能なResNet50モデル．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
-    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
-    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
@@ -356,8 +356,8 @@ keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet'
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`channels_last`データフォーマットのとき) か `(3, 299, 299)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
-    - `None`：モデルの出力が，最後のconvolutional layerの4Dテンソルであることを意味しています．
-    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2Dテンソルになることを意味しています．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 

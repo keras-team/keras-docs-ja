@@ -34,7 +34,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __width_shift_range__: 浮動小数点数（横幅に対する割合）．ランダムに水平シフトする範囲．
     - __height_shift_range__: 浮動小数点数（縦幅に対する割合）．ランダムに垂直シフトする範囲．
     - __shear_range__: 浮動小数点数．シアー強度（反時計回りのシアー角度（ラジアン））．
-    - __zoom_range__: 浮動小数点数または[lower，upper]．ランダムにズームする範囲．浮動小数点数が与えられた場合，`[lower, upper] = [1-zoom_range, 1+zoom_range]`となります．
+    - __zoom_range__: 浮動小数点数または[lower，upper]．ランダムにズームする範囲．浮動小数点数が与えられた場合，`[lower, upper] = [1-zoom_range, 1+zoom_range]`です．
     - __channel_shift_range__: 浮動小数点数．ランダムにチャンネルをシフトする範囲．
     - __fill_mode__: {"constant", "nearest", "reflect", "wrap"}のいずれか．指定されたモードに応じて，入力画像の境界周りを埋めます．
     - __cval__: 浮動小数点数または整数．`fill_mode = "constant"`のときに利用される値．
@@ -46,34 +46,34 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
 
 - __Methods__:
     - __fit(x)__: 与えられたサンプルデータに基づいて，データに依存する統計量を計算します．
-    featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要になります．
+    featurewise_center，featurewise_std_normalization，または，zca_whiteningが指定されたときに必要です．
         - __引数__:
             - __x__: サンプルデータ．
             - __augment__: 真理値（デフォルト: False）．ランダムにサンプルを拡張するかどうか．
             - __rounds__: 整数（デフォルト: 1）．augumentが与えられたときに，利用するデータに対して何回データ拡張を行うか．
-            - __seed__: 整数 (デフォルト: None). ランダムシード.
-    - __flow(x, y)__: numpyデータとラベルのarrayを受け取り，拡張/正規化したデータのバッチを生成する．無限ループ内で，無限にバッチを生成します．
+            - __seed__: 整数（デフォルト: None）．乱数シード．
+    - __flow(x, y)__: numpyデータとラベルのarrayを受け取り，拡張/正規化したデータのバッチを生成します．無限ループ内で，無限にバッチを生成します．
         - __引数__:
-            - __x__: データ．4次元データである必要があります．RGBではチャネルを3に, グレースケールではチャネルを1にしてください．
+            - __x__: データ．4次元データである必要があります．RGBではチャネルを3に，グレースケールではチャネルを1にしてください．
             - __y__: ラベル．
             - __batch_size__: 整数（デフォルト: 32）．
             - __shuffle__: 真理値（デフォルト: False）．
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
-            - __save_prefix__: 文字列（デフォルト`''`）．画像を保存する際にファイル名に付けるプレフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
+            - __save_prefix__: 文字列（デフォルト`''`）．画像を保存する際にファイル名に付けるプリフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
             - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
-        - __yields__: `(x, y)`からなるタプルで`x`は画像データのnumpy配列で`y`はラベルのnumpy配列．ジェネレーターは無限ループする．
+        - __yields__: `(x, y)`からなるタプルで`x`は画像データのnumpy配列で`y`はラベルのnumpy配列．ジェネレーターは無限ループします．
     - __flow_from_directory(directory)__: ディレクトリへのパスを受け取り，拡張/正規化したデータのバッチを生成する．データを無限にループするので，無限にバッチを生成します．
         - __引数__:
-            - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPG形式の画像を含まなければならない．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を．
-            - __target_size__: 整数のタプル．デフォルトは`(256, 256)`．この値に全画像はリサイズされる．
+            - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPG形式の画像を含まなければいけません．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を見てください．
+            - __target_size__: 整数のタプル．デフォルトは`(256, 256)`．この値に全画像はリサイズされます．
             - __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
-            - __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論される（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになる）．
-            - __class_mode__: "categorical"か"binary"か"sparse"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定する: "categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル．Noneであれば，ラベルを返さない (ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用)．
+            - __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．
+            - __class_mode__: "categorical"か"binary"か"sparse"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定します："categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル．Noneであれば，ラベルを返しません（ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用）．
             - __batch_size__: 整数（デフォルト: 32）．
             - __shuffle__: 真理値（デフォルト: True）．
-            - __seed__: shuffleのための乱数seed
+            - __seed__: shuffleのための乱数シード．
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
-            - __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプレフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
+            - __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプリフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
             - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
             - __follow_links__: サブディレクトリ内のシンボリックリンクに従うかどうか．デフォルトはFalse．
 

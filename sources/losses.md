@@ -70,6 +70,22 @@ hinge(y_true, y_pred)
 
 ---
 
+### categorical_hinge
+
+```python
+categorical_hinge(y_true, y_pred)
+```
+
+---
+
+### logcosh
+
+```python
+logcosh(y_true, y_pred)
+```
+
+---
+
 ### categorical_crossentropy
 
 ```python

@@ -1,6 +1,6 @@
 ## コールバックの使い方
 
-コールバックは学習手順の段階で適用される関数集合です．学習中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
+コールバックは訓練中で適用される関数集合です．訓練中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
 
 ---
 
@@ -28,16 +28,16 @@ keras.callbacks.Callback()
 
 __プロパティ__
 
-- __params__: 辞書型．訓練のパラメータ（例: 冗長性，バッチサイズ，エポック数...）．
+- __params__: 辞書．訓練のパラメータ（例: 冗長性，バッチサイズ，エポック数...）．
 - __model__: `keras.models.Model`のインスタンス．学習されたモデルへの参照．
 
-コールバック関数が引数としてとる辞書型の`logs`は，現在のバッチ数かエポック数に関連したデータのキーを含みます．
+コールバック関数が引数としてとる辞書の`logs`は，現在のバッチ数かエポック数に関連したデータのキーを含みます．
 
 現在，`Sequential`モデルクラスの`.fit()`メソッドは，そのコールバックに渡す`logs`に以下のデータが含まれます．
 
-- __on_epoch_end__: ログは`acc`と`loss`を含み，オプションとして(`fit`内のバリデーションが有効になっている場合は)`val_loss`，(バリデーションと精度の監視が有効になっている場合は)`val_acc`を含みます．
+- __on_epoch_end__: ログは`acc`と`loss`を含み，オプションとして（`fit`内のバリデーションが有効になっている場合は）`val_loss`，（バリデーションと精度の監視が有効になっている場合は）`val_acc`を含みます．
 - __on_batch_begin__: ログは現在のバッチのサンプル数`size`を含みます．
-- __on_batch_end__: ログは`loss`と(精度の監視が有効になっている場合は)オプションとして`acc`を含みます．
+- __on_batch_end__: ログは`loss`と（精度の監視が有効になっている場合は）オプションとして`acc`を含みます．
 
 ----
 
@@ -82,7 +82,7 @@ keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_be
 
 各エポック終了後にモデルを保存します．
 
-`filepath`は，(`on_epoch_end`で渡された)`epoch`の値と`logs`のキーで埋められた書式設定オプションを含むことができます．
+`filepath`は，（`on_epoch_end`で渡された）`epoch`の値と`logs`のキーで埋められた書式設定オプションを含むことができます．
 
 例えば，`filepath`が`weights.{epoch:02d}-{val_loss:.2f}.hdf5`の場合，複数のファイルがエポック数とバリデーションロスの値を付与して保存されます．
 
@@ -105,15 +105,15 @@ __引数__
 keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto')
 ```
 
-監視する値の変化が停止した時に学習を終了します．
+監視する値の変化が停止した時に訓練を終了します．
 
 __引数__
 
 - __monitor__: 監視する値．
 - __min_delta__: 監視する値について改善として判定される最小変化値．つまり，min_deltaよりも絶対値の変化が小さければ改善していないとみなします．
-- __patience__: 学習が停止し，値が改善しなくなってからのエポック数．
+- __patience__: 訓練が停止し，値が改善しなくなってからのエポック数．
 - __verbose__: 冗長モード．
-- __mode__: {auto, min, max}の内，一つが選択されます．`min`モードでは，監視する値の減少が停止した際に，学習を終了します．また，`max`モードでは，監視する値の増加が停止した際に，学習を終了します．`auto`モードでは，この傾向は自動的に監視されている値から推定します．
+- __mode__: {auto, min, max}の内，一つが選択されます．`min`モードでは，監視する値の減少が停止した際に，訓練を終了します．また，`max`モードでは，監視する値の増加が停止した際に，訓練を終了します．`auto`モードでは，この傾向は自動的に監視されている値から推定します．
 
 ----
 
@@ -127,14 +127,14 @@ keras.callbacks.RemoteMonitor(root='http://localhost:9000', path='/publish/epoch
 このコールバックはサーバーにイベントをストリームするときに使用されます．
 
 `requests`ライブラリが必要です．イベントはデフォルトで`root + '/publish/epoch/end/'`に送信されます．
-コールすることによって，イベントデータをJSONエンコードした辞書型の`data`引数をHTTP POSTされます．
+コールすることによって，イベントデータをJSONエンコードした辞書の`data`引数をHTTP POSTされます．
 
 __引数__
 
 - __root__: 文字列；対象サーバのルートURL．
 - __path__: 文字列；イベントを送るサーバへの相対的な`path`．
 - __field__: 文字列；データを保存するJSONのフィールド．
-- __headers__: 辞書型; オプションでカスタムできるHTTPヘッダー．デフォルト:
+- __headers__: 辞書; オプションでカスタムできるHTTPヘッダー．デフォルト:
     - `{'Accept': 'application/json', 'Content-Type': 'application/json'}`
 
 
@@ -164,7 +164,7 @@ keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True
 
 Tensorboardによる基本的な可視化．
 
-このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，トレーニングとテストの評価値を動的にグラフ化し，可視化できます．
+このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，訓練とテストの評価値を動的にグラフ化し，可視化できます．
 
 TensorBoardはTensorFlowによって提供されている可視化ツールです．
 
@@ -202,7 +202,7 @@ keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, v
 
 評価値の改善が止まった時に学習率を減らします．
 
-モデルは学習が停滞した時に学習率を2〜10で割ることで恩恵を受けることがあります．
+モデルは訓練が停滞した時に学習率を2〜10で割ることで恩恵を受けることがあります．
 このコールバックは評価値を監視し，patienceで指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
 
 __例__
@@ -251,7 +251,7 @@ __引数__
 
 - __filename__: csvファイル名．例えば'run/log.csv'．
 - __separator__: csvファイルで各要素を区切るために用いられる文字．
-- __append__: True: ファイルが存在する場合，追記します．（学習を続ける場合に便利です）
+- __append__: True: ファイルが存在する場合，追記します．（訓練を続ける場合に便利です）
     False: 既存のファイルを上書きします．
 
 ----
@@ -306,8 +306,8 @@ cleanup_callback = LambdaCallback(
 
 model.fit(...,
       callbacks=[batch_print_callback,
-         json_logging_callback,
-         cleanup_callback])
+                 json_logging_callback,
+                 cleanup_callback])
 ```
 
 ---

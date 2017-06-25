@@ -2,7 +2,7 @@
 
 functional APIは，複数の出力があるモデルや有向非巡回グラフ，共有レイヤーを持ったモデルなどの複雑なモデルを定義するためのインターフェースです．
 
-ここでは`Sequential` modelについて既に知識があることを前提として説明します．
+ここでは`Sequential`モデルについて既に知識があることを前提として説明します．
 
 シンプルな例から見てきましょう．
 
@@ -10,10 +10,10 @@ functional APIは，複数の出力があるモデルや有向非巡回グラフ
 
 ## First example: fully connected network
 
-下記のネットワークは`Sequential` modelによっても定義可能ですが，
+下記のネットワークは`Sequential`モデルによっても定義可能ですが，
 functional APIを使ったシンプルな例を見てきましょう．
 
-- layerのインスタンスは関数呼び出し可能で，戻り値としてテンソルを返します
+- レイヤーのインスタンスは関数呼び出し可能で，戻り値としてテンソルを返します
 - `Model`を定義することで入力と出力のテンソルは接続されます
 - 上記で定義したモデルは`Sequential`と同様に利用可能です
 
@@ -42,7 +42,7 @@ model.fit(data, labels)  # starts training
 
 ## All models are callable, just like layers
 
-functional APIを利用することで，訓練済みモデルの再利用が簡単になります：全てのモデルを，テンソルを引数としたlayerのように扱うことができます．これにより，モデルのアーキテクチャだけでなく，モデルの重みも再利用できます．
+functional APIを利用することで，訓練済みモデルの再利用が簡単になります：全てのモデルを，テンソルを引数としたlayerのように扱うことができます．これにより，モデル構造だけでなく，モデルの重みも再利用できます．
 
 ```python
 x = Input(shape=(784,))
@@ -50,7 +50,7 @@ x = Input(shape=(784,))
 y = model(x)
 ```
 
-一連のシーケンスを処理するモデルを簡単に設計することが可能となります．
+一連のシーケンスを処理するモデルを簡単に設計できます．
 例えば画像識別モデルをたった1行で動画識別モデルに応用できます．
 
 ```python
@@ -68,7 +68,7 @@ processed_sequences = TimeDistributed(model)(input_sequences)
 
 -----
 
-## Multi-input and multi-output models
+## 多入力他出力モデル
 
 functional APIは複数の入出力を持ったモデルに最適です．
 複数の複雑なデータストリームを簡単に扱うことができます．
@@ -110,7 +110,7 @@ lstm_out = LSTM(32)(x)
 auxiliary_output = Dense(1, activation='sigmoid', name='aux_output')(lstm_out)
 ```
 
-この時点で，補助入力データをLSTM出力と連結してモデルに入力します．
+この時点で，auxiliary_inputをLSTM出力と連結してモデルに入力します．
 
 ```python
 auxiliary_input = Input(shape=(5,), name='aux_input')
@@ -163,12 +163,12 @@ model.fit({'main_input': headline_data, 'aux_input': additional_data},
 
 -----
 
-## Shared layers
+## 共有レイヤー
 
 その他のfunctional APIの利用例として，共有レイヤーがあります．
 共有レイヤーについて考えてみましょう．
 
-ツイートのデータセットの例を考えてみましょう．2つのツイートが同じ人物からつぶやかれたかどうかを判定するモデルを作りたいとします．（例えばこれによりユーザーの類似度を比較することができます）
+ツイートのデータセットの例を考えてみましょう．2つのツイートが同じ人物からつぶやかれたかどうかを判定するモデルを作りたいとします．（例えばこれによりユーザーの類似度を比較できます）
 
 これを実現する一つの方法として，2つのツイートを2つのベクトルにエンコードし，それらをマージした後，ロジスティクス回帰を行うことで，その2つのツイートが同じ人物から投稿されたかどうかの確率を出力できます．
 このモデルはポジティブなツイートのペアとネガティブなツイートのペアを用いて訓練できます．
@@ -189,7 +189,7 @@ tweet_a = Input(shape=(140, 256))
 tweet_b = Input(shape=(140, 256))
 ```
 
-それぞれのインプット間でレイヤーを共有するために，1つのレイヤーを生成し，そのレイヤーを用いて複数の入力を処理します．
+それぞれの入力間でレイヤーを共有するために，1つのレイヤーを生成し，そのレイヤーを用いて複数の入力を処理します．
 
 ```python
 # This layer can take as input a matrix
@@ -232,7 +232,7 @@ model.fit([data_a, data_b], labels, epochs=10)
 もちろん現在のバージョンでもこれらは利用可能です(`get_output()`は`output`というプロパティーに変更されました）．
 しかし複数の入力が接続されているレイヤーはどうしたらよいでしょうか？
 
-1つのレイヤーに1つの入力しかない場合は問題はなく`.output`がレイヤー唯一の出力を返してくれるでしょう．
+1つのレイヤーに1つの入力しかない場合は問題はなく`.output`がレイヤーが単一の出力を返すでしょう．
 
 ```python
 a = Input(shape=(140, 256))
@@ -271,7 +271,7 @@ assert lstm.get_output_at(1) == encoded_b
 シンプルですね．
 
 `input_shape`と`output_shape`についても同じことが言えます．
-レイヤーが1つのノードしか持っていない，もしくは全てのノードが同じ入出力のshapeであれば，レイヤーの入出力のshapeが一意に定まり，`layer.output_shape`/`layer.input_shape`によって1つのshapeを返します．しかしながら，1つの`Conv2D`レイヤーに`(3, 32, 32)`の入力と`(3, 64, 64)`の入力を行った場合，そのレイヤーは複数のinput/output shapeを持つことになるため，それぞれのshapeはノードのインデックスを指定することで取得することができます．
+レイヤーが1つのノードしか持っていない，もしくは全てのノードが同じ入出力のshapeであれば，レイヤーの入出力のshapeが一意に定まり，`layer.output_shape`/`layer.input_shape`によって1つのshapeを返します．しかしながら，1つの`Conv2D`レイヤーに`(3, 32, 32)`の入力と`(3, 64, 64)`の入力を行った場合，そのレイヤーは複数のinput/output shapeを持つことになるため，それぞれのshapeはノードのインデックスを指定することで取得できます．
 
 ```python
 a = Input(shape=(3, 32, 32))
@@ -319,7 +319,7 @@ output = keras.layers.concatenate([tower_1, tower_2, tower_3], axis=1)
 
 ### Residual connection on a convolution layer
 
-Residual networksモデルについての詳細は[Deep Residual Learning for Image Recognition](http://arxiv.org/abs/1512.03385)を参照．
+Residual networksモデルについての詳細は[Deep Residual Learning for Image Recognition](http://arxiv.org/abs/1512.03385)を参照してください．
 
 ```python
 from keras.layers import Conv2D, Input
@@ -365,7 +365,7 @@ classification_model = Model([digit_a, digit_b], out)
 
 ### Visual question answering model
 
-このモデルは写真に対する自然言語の質問に対して1単語の解答を選択する事ができます．
+このモデルは写真に対する自然言語の質問に対して1単語の解答を選択できます．
 
 質問と画像をそれぞれベクトルにエンコードし，それらを1つに結合して，解答となる語彙を正解データとしたロジスティック回帰を訓練させることで実現できます．
 

@@ -2,7 +2,7 @@
 
 ```python
 keras.preprocessing.sequence.pad_sequences(sequences, maxlen=None, dtype='int32',
-    padding='pre', truncating='pre', value=0.)
+                                           padding='pre', truncating='pre', value=0.)
 ```
 
 `num_samples` シーケンスから構成されるリスト（スカラのリスト）をshapeが`(num_samples, num_timesteps)`の2次元のNumpy 配列に変換します．`num_timesteps`は`maxlen`引数が与えられれば，`maxlen`か最大のシーケンス長になります．
@@ -26,8 +26,8 @@ keras.preprocessing.sequence.pad_sequences(sequences, maxlen=None, dtype='int32'
 
 ```python
 keras.preprocessing.sequence.skipgrams(sequence, vocabulary_size,
-    window_size=4, negative_samples=1., shuffle=True,
-    categorical=False, sampling_table=None)
+                                       window_size=4, negative_samples=1., shuffle=True,
+                                       categorical=False, sampling_table=None)
 ```
 
 単語インデックスのシーケンス（整数のリスト）を以下の2つの形式に変換します:
