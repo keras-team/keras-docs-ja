@@ -40,9 +40,9 @@ This is the repository for the translated `.md` sources files of [keras.io](http
 | int | 整数
 | layer | レイヤー
 | loss function | 損失関数
-| metrics | 評価値
+| metrics | 評価関数(値)
 | nD tensor | n階テンソル
-| Numpy Array | Numpy配列
+| Numpy Array | Numpy 配列
 | objective | 目的関数
 | optimizer | 最適化（アルゴリズム）
 | output shape | 出力のshape
@@ -55,5 +55,5 @@ This is the repository for the translated `.md` sources files of [keras.io](http
 | str | 文字列
 | target | ターゲット
 | testing | テスト
-| training | 学習
+| training | 訓練
 | 1--9 | 1--9
