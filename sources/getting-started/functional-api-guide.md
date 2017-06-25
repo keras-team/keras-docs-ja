@@ -13,9 +13,9 @@ functional APIは，複数の出力があるモデルや有向非巡回グラフ
 下記のネットワークは`Sequential` modelによっても定義可能ですが，
 functional APIを使ったシンプルな例を見てきましょう．
 
-- layerのインスタンスは関数呼び出し可能で，戻り値としてtensorを返します．
-- `Model`を定義することで入力と出力のtensorは接続されます．
-- 上記で定義したモデルは`Sequential`と同様に利用可能です．
+- layerのインスタンスは関数呼び出し可能で，戻り値としてテンソルを返します
+- `Model`を定義することで入力と出力のテンソルは接続されます
+- 上記で定義したモデルは`Sequential`と同様に利用可能です
 
 ```python
 from keras.layers import Input, Dense
@@ -42,7 +42,7 @@ model.fit(data, labels)  # starts training
 
 ## All models are callable, just like layers
 
-functional APIを利用することで，学習済みモデルの再利用が簡単になります: 全てのモデルを，tensorを引数としたlayerのように扱うことができます．これにより，モデルのアーキテクチャだけでなく，モデルの重みも再利用することができます．
+functional APIを利用することで，学習済みモデルの再利用が簡単になります: 全てのモデルを，テンソルを引数としたlayerのように扱うことができます．これにより，モデルのアーキテクチャだけでなく，モデルの重みも再利用することができます．
 
 ```python
 x = Input(shape=(784,))
@@ -74,7 +74,7 @@ functional APIは複数の入出力を持ったモデルに最適です．
 複数の複雑なデータストリームを簡単に扱うことが出来ます．
 
 Twitterの新しいニュースヘッドラインを受信した際，そのツイートのリツイートやライクの回数を予測する例を考えます．主な入力はヘッドラインの単語のシーケンスですが，スパイスとして，ヘッドラインの投稿時間などのデータを入力として追加します．
-このモデルは2つの損失関数によって学習されます．
+このモデルは2つの損失関数によって学習されます．モデルにおける初期の主損失関数を使うことは，深い層を持つモデルにとっては良い正則化の構造です．
 
 以下がモデルの図になります．
 
@@ -82,7 +82,7 @@ Twitterの新しいニュースヘッドラインを受信した際，そのツ�
 
 functional APIを利用してこのネットワークを実装してみましょう．
 
-main inputはヘッドラインを整数のシーケンス(それぞれの整数は単語をエンコードしたしたもの)として受け取ります．
+main inputはヘッドラインを整数のシーケンス（それぞれの整数は単語をエンコードしたしたもの）として受け取ります．
 整数の範囲は1から10000となり（単語数は10000語)，各シーケンスは長さ100単語で構成されます．
 
 
@@ -103,14 +103,14 @@ x = Embedding(output_dim=512, input_dim=10000, input_length=100)(main_input)
 lstm_out = LSTM(32)(x)
 ```
 
-ここでは補助損失を挿入し、LSTMとEmbeddedingレイヤーをスムーズにトレーニングできるようにしますが、モデルでは主損失がはるかに高くなります。
+ここでは補助損失を追加し，LSTMとEmbeddedingレイヤーをスムーズに学習できるようにしますが，モデルでは主損失がはるかに高くなります．
 
 
 ```python
 auxiliary_output = Dense(1, activation='sigmoid', name='aux_output')(lstm_out)
 ```
 
-この時点で、補助入力データをLSTM出力と連結してモデルに入力します。
+この時点で，補助入力データをLSTM出力と連結してモデルに入力します．
 
 ```python
 auxiliary_input = Input(shape=(5,), name='aux_input')
@@ -148,7 +148,7 @@ model.fit([headline_data, additional_data], [labels, labels],
           epochs=50, batch_size=32)
 ```
 
-入力と出力に名前付けを行っていれば(引数"name"を利用)，下記のような方法でモデルをコンパイルできます．
+入力と出力に名前付けを行っていれば（引数"name"を利用），下記のような方法でモデルをコンパイルできます．
 
 ```python
 model.compile(optimizer='rmsprop',
@@ -178,7 +178,7 @@ model.fit({'main_input': headline_data, 'aux_input': additional_data},
 
 functional APIでこのモデルを作成してみましょう．
 入力として`(140, 256)`のバイナリー行列をとります．
-サイズが256の140個のシーケンスで，256次元のベクトルの各次元は文字(アルファベット以外も含めた256文字の出現頻度の高いもの）の有無を表します．
+サイズが256の140個のシーケンスで，256次元のベクトルの各次元は文字（アルファベット以外も含めた256文字の出現頻度の高いもの）の有無を表します．
 
 ```python
 import keras
@@ -225,7 +225,7 @@ model.fit([data_a, data_b], labels, epochs=10)
 
 ## The concept of layer "node"
 
-ある入力を用いてレイヤーを関数呼び出しするときは常に新しいtensor(レイヤーの出力)を生成しており，レイヤーにノードを追加すると入力のテンソルと出力のテンソルはリンクされます．
+ある入力を用いてレイヤーを関数呼び出しするときは常に新しいテンソル（レイヤーの出力）を生成しており，レイヤーにノードを追加すると入力のテンソルと出力のテンソルはリンクされます．
 同じレイヤーを複数回呼び出す際，そのレイヤーは0, 1, 2...とインデックスされた複数のノードを所有することになります．
 
 以前のバージョンのKerasでは，`layer.get_output()`によって出力のテンソルを取得でき，`layer.output_shape`によって形を取得できました．
@@ -378,7 +378,7 @@ from keras.models import Model, Sequential
 # First, let's define a vision model using a Sequential model.
 # This model will encode an image into a vector.
 vision_model = Sequential()
-vision_model.add(Conv2D(64, (3, 3) activation='relu', padding='same', input_shape=(3, 224, 224)))
+vision_model.add(Conv2D(64, (3, 3), activation='relu', padding='same', input_shape=(3, 224, 224)))
 vision_model.add(Conv2D(64, (3, 3), activation='relu'))
 vision_model.add(MaxPooling2D((2, 2)))
 vision_model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
@@ -416,7 +416,7 @@ vqa_model = Model(inputs=[image_input, question_input], outputs=output)
 ### Video question answering model
 
 画像のQAモデルを学習したので，そのモデルを応用して動画のQA modelを作成してみましょう．
-適切な学習を行うことで，短い動画や(100フレームの人物行動)や動画を用いた自然言語のQAへ応用することができます．
+適切な学習を行うことで，短い動画や（例えば，100フレームの人物行動）や動画を用いた自然言語のQAへ応用することができます（例えば，「その少年は何のスポーツをしていますか？」「サッカーです」）．
 
 ```python
 from keras.layers import TimeDistributed
