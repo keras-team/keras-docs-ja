@@ -4,16 +4,16 @@
 - [KerasをGPUで動かすには？](#kerasgpu)
 - ["sample","batch"，"epoch" の意味は？](#samplebatchepoch)
 - [Keras modelを保存するには？](#keras-model)
-- [training lossがtesting lossよりもはるかに大きいのはなぜ？](#training-losstesting-loss)
-- [中間層の出力を得るには？](#_1)
+- [ttraining lossがtesting lossよりもはるかに大きいのはなぜ？？](#training-losstesting-loss)
+- [中間レイヤーの出力を得るには？](#_1)
 - [メモリに載らない大きさのデータを扱うには？](#_2)
 - [validation lossが減らなくなったときに学習を中断するには？](#validation-loss)
 - [validation splitはどのように実行されますか？](#validation-split)
 - [訓練時にデータはシャッフルされますか？](#_3)
 - [各epochのtraining/validationのlossやaccuracyを記録するには？](#epochtrainingvalidationlossaccuracy)
-- [層を "freeze" するには？](#freeze)
+- [レイヤーを "freeze" するには？](#freeze)
 - [stateful RNNを利用するには？](#stateful-rnn)
-- [Sequentialモデルから層を取り除くには？](#sequential)
+- [Sequentialモデルからレイヤーを取り除くには？](#sequential)
 - [Kerasで事前学習したモデルを使うには？](#keras_1)
 - [KerasでHDF5ファイルを入力に使うには？](#kerashdf5)
 - [Kerasの設定ファイルの保存場所は？](#keras_2)
@@ -58,7 +58,7 @@ theano.config.floatX = 'float32'
 
 ---
 
-### "sample","batch"，"epoch" の意味は？
+### "sample"，"batch"，"epoch" の意味は？
 
 Kerasを正しく使うためには，以下の定義を知り，理解しておく必要があります：
 
@@ -138,7 +138,7 @@ model.save_weights('my_model_weights.h5')
 model.load_weights('my_model_weights.h5')
 ```
 
-例えば，ファインチューニングや転移学習のために， *異なる* アーキテクチャのモデル（ただし幾つか共通の層を保持）へweightsパラメータをロードする必要がある場合， *層の名前* を指定することでweightsパラメータをロードできます：
+例えば，ファインチューニングや転移学習のために， *異なる* アーキテクチャのモデル（ただしいくつか共通のレイヤーを保持）へweightsパラメータをロードする必要がある場合， *レイヤーの名前* を指定することでweightsパラメータをロードできます：
 
 
 ```python
@@ -168,17 +168,17 @@ model.load_weights(fname, by_name=True)
 
 ---
 
-### training lossがtesting lossよりもはるかに大きいのはなぜ？
+### training lossがtesting lossよりもはるかに大きいのはなぜ？？
 
 Kerasモデルにはtrainingとtestingという2つのモードがあります．DropoutやL1/L2正則化のような，正則化手法はtestingの際には機能しません．
 
-さらに，training lossは訓練データの各バッチのlossの平均です．モデルは変化していくため，各epochの最初のバッチのlossは最後のバッチのlossよりもかなり大きくなります．一方，testing lossは各epochの最後の状態のモデルを使って計算されるため，lossが小さくなります．
+さらに，training lossは訓練データの各バッチのlossの平均です．モデルは変化していくため，各epochの最初のバッチの誤差は最後のバッチの誤差よりもかなり大きくなります．一方，testing lossは各epochの最後の状態のモデルを使って計算されるため，誤差が小さくなります．
 
 ---
 
-### 中間層の出力を得るには？
+### 中間レイヤーの出力を得るには？
 
-シンプルな方法は，着目している層の出力を行うための新しい `Model` を作成することです：
+シンプルな方法は，着目しているレイヤーの出力を行うための新しい `Model` を作成することです：
 
 ```python
 from keras.models import Model
@@ -191,7 +191,7 @@ intermediate_layer_model = Model(inputs=model.input,
 intermediate_output = intermediate_layer_model.predict(data)
 ```
 
-別の方法として，ある入力が与えられたときにに，ある層の出力を返すKeras functionを以下のように記述することでも可能です：
+別の方法として，ある入力が与えられたときにに，あるレイヤーの出力を返すKeras functionを以下のように記述することでも可能です：
 
 ```python
 from keras import backend as K
@@ -271,18 +271,18 @@ print(hist.history)
 
 ---
 
-### 層を "freeze" するには？
+### レイヤーを "freeze" するには？
 
-層を "freeze" することは学習からその層を除外することを意味します，その場合，その層の重みは更新されなくなります．
+レイヤーを "freeze" することは学習からそのレイヤーを除外することを意味します，その場合，そのレイヤーの重みは更新されなくなります．
 このことはモデルのファインチューニングやテキスト入力のための固定されたembeddingsを使用する際に有用です．
 
-層のコンストラクタの `trainable` 引数に真理値を渡すことで，層を訓練しないようにできます．
+レイヤーのコンストラクタの `trainable` 引数に真理値を渡すことで，レイヤーを訓練しないようにできます．
 
 ```python
 frozen_layer = Dense(32, trainable=False)
 ```
 
-加えて，インスタンス化後に層の `trainable` propertyに `True` か `False` を設定することができます．設定の有効化のためには， `trainable` propertyの変更後のモデルで `compile()` を呼ぶ必要があります．以下にその例を示します:
+加えて，インスタンス化後にレイヤーの `trainable` propertyに `True` か `False` を設定することができます．設定の有効化のためには， `trainable` propertyの変更後のモデルで `compile()` を呼ぶ必要があります．以下にその例を示します:
 
 ```python
 x = Input(shape=(32,))
@@ -317,14 +317,14 @@ stateful RNNが使われるときには以下のような状態となってい�
 
 実際にstateful RNNを利用するには，以下を行う必要があります:
 
-- `batch_size` 引数をモデルの最初の層に渡して，バッチサイズを明示的に指定してください． 例えば，サンプル数が32，タイムステップが10，特徴量の次元が16の場合には，`batch_size=32` としてください．
-- RNN層で`stateful=True`を指定してください．
+- `batch_size` 引数をモデルの最初のレイヤーに渡して，バッチサイズを明示的に指定してください． 例えば，サンプル数が32，タイムステップが10，特徴量の次元が16の場合には，`batch_size=32` としてください．
+- RNNレイヤーで`stateful=True`を指定してください．
 - fit() を呼ぶときには `shuffle=False` を指定してください．
 
 蓄積された状態をリセットするには:
 
-- モデルの全ての層の状態をリセットするには，`model.reset_states()`を利用してください
-- 特定のstateful RNN層の状態をリセットするには，`layer.reset_states()`を利用してください
+- モデルの全てのレイヤーの状態をリセットするには，`model.reset_states()`を利用してください
+- 特定のstateful RNNレイヤーの状態をリセットするには，`layer.reset_states()`を利用してください
 
 例:
 
@@ -353,13 +353,13 @@ model.reset_states()
 model.layers[0].reset_states()
 ```
 
-`predict`, `fit`, `train_on_batch`, `predict_classes` などの関数は *いずれも* stateful層の状態を更新することに注意してください．そのため，statefulな訓練だけでなく，statefulな予測も可能となります．
+`predict`, `fit`, `train_on_batch`, `predict_classes` などの関数は *いずれも* statefulレイヤーの状態を更新することに注意してください．そのため，statefulな訓練だけでなく，statefulな予測も可能となります．
 
 ---
 
-### Sequentialモデルから層を取り除くには？
+### Sequentialモデルからレイヤーを取り除くには？
 
-`.pop()`を使うことで，Sequentialモデルへ最後に追加した層を削除できます：
+`.pop()`を使うことで，Sequentialモデルへ最後に追加したレイヤーを削除できます：
 
 ```python
 model = Sequential()
@@ -419,7 +419,7 @@ model = VGG16(weights='imagenet', include_top=True)
 ```python
 import h5py
 with h5py.File('input/file.hdf5', 'r') as f:
-    X_data = f['x_data']
+    x_data = f['x_data']
     model.predict(x_data)
 ```
 
@@ -450,7 +450,7 @@ Kerasの設定ファイルはJSON形式で `$HOME/.keras/keras.json` に格納�
 
 この設定ファイルは次のような項目を含んでいます：
 
-- The image data format： デフォルトでは画像処理の層やユーティリティで使われます（`channels_last` もしくは `channels_first` です）.
+- The image data format： デフォルトでは画像処理のレイヤーやユーティリティで使われます（`channels_last` もしくは `channels_first` です）.
 - `epsilon`： 数値演算におけるゼロ除算を防ぐために使われる，数値の微小量です．
 - デフォルトのfloatのデータ種類．
 - デフォルトのバックエンド．[backendに関するドキュメント](/backend)を確認してください．

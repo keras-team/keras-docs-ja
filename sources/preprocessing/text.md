@@ -9,7 +9,7 @@ keras.preprocessing.text.text_to_word_sequence(text,
 
 文章を単語のリストに分割します．
 
-- __戻り値__: 単語 (str) のリスト．
+- __戻り値__: 単語（文字列）のリスト．
 
 - __引数__:
     - __text__: 文字列．
@@ -36,7 +36,7 @@ keras.preprocessing.text.one_hot(text,
 - __戻り値__: [1, n]の整数から構成されるリスト．各整数は単語をエンコードします（単一性は保証されません）．
 
 - __引数__:
-    - __text__: str.
+    - __text__: 文字列．
     - __n__: 整数．語彙数．
     - __filters__: 句読点などフィルタする文字を含むリスト（あるいはコレクション）．デフォルトは基本的な句読点，タブ，改行を含む'!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'です．
     - __lower__: 真理値．テキストを小文字にするかどうか．
@@ -102,7 +102,7 @@ keras.preprocessing.text.Tokenizer(num_words=None,
         - __戻り値__: 入力文章ごとに1つのシーケンス．
 
     - __texts_to_matrix(texts)__:
-        - __戻り値__: `(len(texts), num_words)` の形であるNumpy 配列．
+        - __戻り値__: `(len(texts), num_words)` のshapeをもつNumpy 配列．
         - __引数__:
             - __texts__: ベクトル化する文章のリスト．
             - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．
@@ -112,7 +112,7 @@ keras.preprocessing.text.Tokenizer(num_words=None,
             - __sequences__: 学習に使うシーケンスのリスト．
 
     - __sequences_to_matrix(sequences)__:
-        - __戻り値__: `(len(sequences), num_words)` の形であるNumpy 配列．
+        - __戻り値__: `(len(sequences), num_words)` のshapeをもつNumpy 配列．
         - __引数__:
             - __sequences__: ベクトル化するシーケンスのリスト．
             - __mode__: "binary", "count", "tfidf", "freq" のいずれか（デフォルト: "binary"）．

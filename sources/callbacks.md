@@ -1,6 +1,6 @@
 ## コールバックの使い方
 
-コールバックは学習手順の段階で適用される関数集合です．学習中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
+コールバックは訓練中で適用される関数集合です．訓練中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
 
 ---
 
@@ -28,16 +28,16 @@ keras.callbacks.Callback()
 
 __プロパティ__
 
-- __params__: 辞書型．訓練のパラメータ（例: 冗長性，バッチサイズ，エポック数...）．
+- __params__: 辞書．訓練のパラメータ（例: 冗長性，バッチサイズ，エポック数...）．
 - __model__: `keras.models.Model`のインスタンス．学習されたモデルへの参照．
 
 コールバック関数が引数としてとる辞書型の`logs`は，現在のバッチ数かエポック数に関連したデータのキーを含みます．
 
 現在，`Sequential`モデルクラスの`.fit()`メソッドは，そのコールバックに渡す`logs`に以下のデータが含まれます．
 
-- __on_epoch_end__: ログは`acc`と`loss`を含み，オプションとして(`fit`内のバリデーションが有効になっている場合は)`val_loss`，(バリデーションと精度の監視が有効になっている場合は)`val_acc`を含みます．
+- __on_epoch_end__: ログは`acc`と`loss`を含み，オプションとして（`fit`内のバリデーションが有効になっている場合は）`val_loss`，（バリデーションと精度の監視が有効になっている場合は）`val_acc`を含みます．
 - __on_batch_begin__: ログは現在のバッチのサンプル数`size`を含みます．
-- __on_batch_end__: ログは`loss`と(精度の監視が有効になっている場合は)オプションとして`acc`を含みます．
+- __on_batch_end__: ログは`loss`と（精度の監視が有効になっている場合は）オプションとして`acc`を含みます．
 
 ----
 
@@ -82,7 +82,7 @@ keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_be
 
 各エポック終了後にモデルを保存します．
 
-`filepath`は，(`on_epoch_end`で渡された)`epoch`の値と`logs`のキーで埋められた書式設定オプションを含むことができます．
+`filepath`は，（`on_epoch_end`で渡された）`epoch`の値と`logs`のキーで埋められた書式設定オプションを含むことができます．
 
 例えば，`filepath`が`weights.{epoch:02d}-{val_loss:.2f}.hdf5`の場合，複数のファイルがエポック数とバリデーションロスの値を付与して保存されます．
 
@@ -164,7 +164,7 @@ keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True
 
 Tensorboardによる基本的な可視化．
 
-このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，トレーニングとテストの評価値を動的にグラフ化し，可視化できます．
+このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，訓練とテストの評価値を動的にグラフ化し，可視化できます．
 
 TensorBoardはTensorFlowによって提供されている可視化ツールです．
 
@@ -306,8 +306,8 @@ cleanup_callback = LambdaCallback(
 
 model.fit(...,
       callbacks=[batch_print_callback,
-         json_logging_callback,
-         cleanup_callback])
+                 json_logging_callback,
+                 cleanup_callback])
 ```
 
 ---
