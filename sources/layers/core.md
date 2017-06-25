@@ -7,10 +7,10 @@ keras.layers.core.Dense(units, activation=None, use_bias=True, kernel_initialize
 
 通常の全結合ニューラルネットワークレイヤー．
 
-`Dense`が実行する操作：`output = activation(dot(input, kernel) + bias)`ただし，`activation`は`activation`引数として渡される要素単位の活性化関数で，`kernel`はレイヤーによって作成された重み行列であり，`bias`はレイヤーによって作成されたバイアスベクトルです.（`use_bias`が`True`の場合にのみ適用されます）.
+`Dense`が実行する操作：`output = activation(dot(input, kernel) + bias)`ただし，`activation`は`activation`引数として渡される要素単位の活性化関数で，`kernel`はレイヤーによって作成された重み行列であり，`bias`はレイヤーによって作成されたバイアスベクトルです.（`use_bias`が`True`の場合にのみ適用されます）．
 
 
-- Note：レイヤーへの入力のランクが2より大きい場合は，`kernel`を使用した最初のドット積の前に平坦化されます.
+- Note：レイヤーへの入力のランクが2より大きい場合は，`kernel`を使用した最初のドット積の前に平坦化されます．
 
 
 
@@ -37,24 +37,24 @@ __引数__
 	もしあなたが何も指定しなければ，活性化は適用されない．
 	(すなわち，"線形"活性化： `a(x) = x`)．
 - __use_bias__： レイヤーがバイアスベクトルを使用するかどうか．
-- __kernel_initializer__： `kernel`重み行列の初期化([initializations](../initializers.md)を参照)
-- __bias_initializer__： バイアスベクトルの初期化([initializations](../initializers.md)を参照)
-- __kernel_regularizer__： `kernel`重み行列に適用される正則化関数([regularizers](../regularizers.md)を参照)
-- __bias_regularizer__： バイアスベクトルに適用される正則化関数([regularizers](../regularizers.md)を参照)
-- __activity_regularizer__： レイヤーの出力に適用される正則化関数(activation)([regularizers](../regularizers.md)を参照)
-- __kernel_constraint__： `kernel`重み行列に適用される制約関数([constraints](../constraints.md)を参照)
-- __bias_constraint__： バイアスベクトルに適用される制約関数([constraints](../constraints.md)を参照)
+- __kernel_initializer__： `kernel`重み行列の初期化（[initializations](../initializers.md)を参照）
+- __bias_initializer__： バイアスベクトルの初期化（[initializations](../initializers.md)を参照）
+- __kernel_regularizer__： `kernel`重み行列に適用される正則化関数（[regularizers](../regularizers.md)を参照）
+- __bias_regularizer__： バイアスベクトルに適用される正則化関数（[regularizers](../regularizers.md)を参照）
+- __activity_regularizer__： レイヤーの出力に適用される正則化関数（"activation"）（[regularizers](../regularizers.md)を参照）
+- __kernel_constraint__： `kernel`重み行列に適用される制約関数（[constraints](../constraints.md)を参照）
+- __bias_constraint__： バイアスベクトルに適用される制約関数（[constraints](../constraints.md)を参照）
 
 
-__入力の型__
+__入力のshape__
 
-n次元テンソルの型： `(batch_size, ..., input_dim)`．
-最も一般的なのは2次元テンソルの型： `(batch_size, input_dim)`．
+以下のshapeを持つn次元テンソル： `(batch_size, ..., input_dim)`．
+最も一般的なのは以下のshapeを持つ2次元テンソル： `(batch_size, input_dim)`．
 
-__出力の型__
+__出力のshape__
 
-n次元テンソルの型： `(batch_size, ..., units)`．
-例えば入力を2次元テンソルの型 `(batch_size, input_dim)`で，アウトプットは `(batch_size, units)`．
+以下のshapeを持つn次元テンソル： `(batch_size, ..., units)`．
+例えば，以下のshapeを持つ2次元テンソル `(batch_size, input_dim)`の入力に対して，アウトプットは以下のshapwを持つ`(batch_size, units)`．
 
 ----
 
@@ -73,11 +73,11 @@ __引数__
 	([activations](../activations.md)を参照)，
 	もしくは，TheanoかTensorFlowオペレーション．
 
-__入力の型__
+__入力のshape__
 
 任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸（axis）を含まない．)を使う．
 
-__出力の型__
+__出力のshape__
 
 入力と同じ型．
 
@@ -95,7 +95,7 @@ keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
 __引数__
 
 - __rate__： 0と1の間の浮動小数点数．入力ユニットをドロップする割合．
-- __noise_shape__： 入力と乗算されるバイナリドロップアウトマスクの型は1次元の整数テンソルで表す．例えば入力の型を`(batch_size, timesteps, features)`とし，ドロップアウトマスクをすべてのタイムステップで同じにしたい場合，`noise_shape=(batch_size, 1, features)`を使うことができる.
+- __noise_shape__： 入力と乗算されるバイナリドロップアウトマスクのshapeは1次元の整数テンソルで表す．例えば入力のshapeを`(batch_size, timesteps, features)`とし，ドロップアウトマスクをすべてのタイムステップで同じにしたい場合，`noise_shape=(batch_size, 1, features)`を使うことができる.
 - __seed__： random seedとして使うPythonの整数．
 
 __参考文献__
@@ -111,7 +111,7 @@ __参考文献__
 keras.layers.core.Flatten()
 ```
 
-入力を平坦化する．バッチサイズに影響されない．
+入力を平滑化する．バッチサイズに影響されない．
 
 __例__
 
@@ -138,15 +138,15 @@ keras.layers.core.Reshape(target_shape)
 
 __引数__
 
-- __target_shape__： ターゲットの型．整数のタプル，サンプルの次元を含まない（バッチサイズ）．
+- __target_shape__： ターゲットのshape．整数のタプル，サンプルの次元を含まない（バッチサイズ）．
 
-__入力の型__
+__入力のshape__
 
-入力の型のすべての次元は固定されなければならないが，任意．
+入力のshapeのすべての次元は固定されなければならないが，任意．
 モデルの最初のレイヤーとしてこのレイヤーを使うとき，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
 
 
-__出力の型__
+__出力のshape__
 
 `(batch_size,) + target_shape`
 
@@ -196,13 +196,13 @@ __引数__
 
 - __dims__： 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる．例えば，`(2, 1)`は入力の1番目と2番目の次元を計算する．
 
-__入力の型__
+__入力のshape__
 
-任意. モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸を含まない．)を使う．
+任意. モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`（整数のタプルはサンプルの軸を含まない）を使う．
 
-__出力の型__
+__出力のshape__
 
-入力の型と同じだが，特定のパターンにより並べ替えられた次元を持つ．
+入力のshapeと同じだが，特定のパターンにより並べ替えられた次元を持つ．
 
 ----
 
@@ -232,13 +232,13 @@ __引数__
 
 - __n__： 整数，繰返し因数．
 
-__入力の型__
+__入力のshape__
 
-`(num_samples, features)`の型の2次元テンソル．
+`(num_samples, features)`のshapeを持つ2次元テンソル．
 
 __出力の型__
 
-`(num_samples, n, features)`の型の3次元テンソル．
+`(num_samples, n, features)`のshapeを持つ3次元テンソル．
 
 ----
 
@@ -249,7 +249,7 @@ __出力の型__
 keras.layers.core.Lambda(function, output_shape=None, mask=None, arguments=None)
 ```
 
-レイヤーオブジェクトのように，任意の式をラップする.
+レイヤーオブジェクトのように，任意の式をラップする．
 
 __例__
 
@@ -283,7 +283,7 @@ model.add(Lambda(antirectifier,
 __引数__
 
 - __function__： 評価される関数．第1引数として入力テンソルを取る
-- __output_shape__： 関数からの期待される出力の型．Theanoを使用する場合のみ関連します．タプルもしくは関数．
+- __output_shape__： 関数からの期待される出力のshape．Theanoを使用する場合のみ関連します．タプルもしくは関数．
 	タプルなら，入力に近いほうの次元だけを指定する，データサンプルの次元は入力と同じ：
 	`output_shape = (input_shape[0], ) + output_shape`
 	か入力が `None` でかつサンプル次元も`None`：
@@ -292,13 +292,13 @@ __引数__
   関数なら，入力型の関数として型全体を指定する： `output_shape = f(input_shape)`
 - __arguments__： 関数に通されるキーワード引数の追加辞書
 
-__入力の型__
+__入力のshape__
 
-任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプル，サンプルの軸（axis）を含まない)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`（整数のタプル，サンプルの軸（axis）を含まない）を使う．
 
-__出力の型__
+__出力のshape__
 
-`output_shape`引数によって特定される．(TensorFlowを使用していると自動推論される)
+`output_shape`引数によって特定される（TensorFlowを使用していると自動推論される）．
 
 ----
 
@@ -313,14 +313,14 @@ keras.layers.core.ActivityRegularization(l1=0.0, l2=0.0)
 
 __引数__
 
-- __l1__： L1正則化因子 (正の浮動小数点数)．
-- __l2__： L2正則化因子 (正の浮動小数点数)．
+- __l1__： L1正則化因子（正の浮動小数点数）．
+- __l2__： L2正則化因子（正の浮動小数点数）．
 
-__入力の型__
+__入力のshape__
 
-任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプル，サンプルの軸（axis）を含まない)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`（整数のタプル，サンプルの軸（axis）を含まない）を使う．
 
-__出力の型__
+__出力のshape__
 
 入力と同じ型．
 
@@ -343,11 +343,11 @@ keras.layers.core.Masking(mask_value=0.0)
 
 __例__
 
-LSTMレイヤーに与えるための`(samples, timesteps, features)`の型のNumpy配列`x`を検討する．
-あなたが#3と#5のタイムステップに関してデータを欠損しているので，これらのタイムステップをマスクしたい場合，あなたは以下のようにできる：
+LSTMレイヤーに与えるための`(samples, timesteps, features)`のshapeを持つのNumpy配列`x`を考えてみましょう．
+あなたが#3と#5のタイムステップに関してデータを欠損しているので，これらのタイムステップをマスクしたい場合，あなたは以下のようにできます：
 
 - `x[:, 3, :] = 0.` と `x[:, 5, :] = 0.`をセットする．
-- LSTMレイヤーの前に`mask_value=0.`の`Masking`レイヤーを追加する．：
+- LSTMレイヤーの前に`mask_value=0.`の`Masking`レイヤーを追加する：
 
 ```python
 model = Sequential()
