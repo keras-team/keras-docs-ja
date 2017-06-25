@@ -31,7 +31,7 @@ __引数__
     "temporal" と設定してください．
     "None" の場合，サンプルへの（1次元）重み付けをデフォルトとしています．
 - __kwargs__: Theano がバックエンドの場合， これらは K.function に渡されます．
-    Tensorflow がバックエンドの場合は無視されます．
+    Tensorflowバックエンドの場合は`tf.Session.run`に渡されます．
 
 __例__
 
@@ -40,8 +40,8 @@ model = Sequential()
 model.add(Dense(32, input_shape=(500,)))
 model.add(Dense(10, activation='softmax'))
 model.compile(optimizer='rmsprop',
-    loss='categorical_crossentropy',
-    metrics=['accuracy'])
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
 ```
 
 ----

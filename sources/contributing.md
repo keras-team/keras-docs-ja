@@ -48,7 +48,7 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
     - 内容を記入します．サンプルコードを含める必要があることに気をつけてください．コードを挿入するために，[CodePretty](https://chrome.google.com/webstore/detail/code-pretty/igjbncgfgnfpbnifnnlcmjfbnidkndnh?hl=en)のようなGoogle docの拡張機能を使ってください（いくつかこのような拡張機能が利用可能です）
     - 共有設定を"everyone with the link is allowed to comment"にしてください．
     - 私たちが気づくように（全部大文字の）`[API DESIGN REVIEW]`からはじまるタイトルをつけたこの文書を`keras-users@googlegroups.com`に投稿してください．
-    - コメントを待ち，コメントがきたら答えてくださいい．必要に応じて文書を編集してください．
+    - コメントを待ち，コメントがきたら答えてください．必要に応じて文書を編集してください．
     - 提案書は最終的に承認か拒否をされます．承認されたら，あなたがPull Requestを送るかPull Requestを書くように依頼してください．
 
 2. コードを書きましょう．ここが辛いパートです！
@@ -76,6 +76,8 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 9. ドキュメントを更新してください．新機能追加の場合，新機能の使用方法に関するコードスニペットを含めてください．
 
 10. PRを送ってください．もしあなたの変更が以前の議論で承認されており，完全で（通過する）ユニットテストと適切なdocstring/ドキュメントが含まれていれば，PRはすぐにマージされるでしょう．そうでない場合は．．．
+
+----
 
 ## 新しいサンプルコードの追加
 

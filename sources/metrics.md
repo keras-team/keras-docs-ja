@@ -17,7 +17,7 @@ model.compile(loss='mean_squared_error',
               metrics=[metrics.mae, metrics.categorical_accuracy])
 ```
 
-評価関数は [損失関数](/losses) とよく似ていますが，評価結果の値が訓練に直接使われることはありません．
+評価関数は[損失関数](/losses)とよく似ていますが，評価結果の値が訓練に直接使われることはありません．
 
 渡す `metrics` パラメータには既存の評価関数の名前を引数に与えるか，
 自分で作った評価関数を渡す事ができます（[カスタマイズ](#_3) を参照してください）．

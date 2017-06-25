@@ -45,10 +45,10 @@ normalizer関数（やラムダ式）を渡せます． normalizer関数は取�
 
 __引数__
 
-- __datapath__: string, HDF5ファイルへのパス
-- __dataset__: string, datapathで指定されたファイル中におけるHDF5 datasetの名前
-- __start__: int, 指定されたdatasetのスライスの開始index
-- __end__: int, 指定されたdatasetのスライスの終了index
+- __datapath__: 文字列，HDF5ファイルへのパス
+- __dataset__: 文字列，datapathで指定されたファイル中におけるHDF5 datasetの名前
+- __start__: 整数，指定されたdatasetのスライスの開始インデックス
+- __end__: 整数，指定されたdatasetのスライスの終了インデックス
 - __normalizer__: 読み込まれた時にデータに対して適用する関数
 
 __戻り値__
@@ -82,20 +82,20 @@ __Here, `x_set` is list of path to the images__
 # and `y_set` are the associated classes.
 
 class CIFAR10Sequence(Sequence):
-def __init__(self, x_set, y_set, batch_size):
-    self.X,self.y = x_set,y_set
-    self.batch_size = batch_size
+    def __init__(self, x_set, y_set, batch_size):
+        self.X,self.y = x_set,y_set
+        self.batch_size = batch_size
 
-def __len__(self):
-    return len(self.X) // self.batch_size
+    def __len__(self):
+        return len(self.X) // self.batch_size
 
-def __getitem__(self,idx):
-    batch_x = self.X[idx*self.batch_size:(idx+1)*self.batch_size]
-    batch_y = self.y[idx*self.batch_size:(idx+1)*self.batch_size]
+    def __getitem__(self,idx):
+        batch_x = self.X[idx*self.batch_size:(idx+1)*self.batch_size]
+        batch_y = self.y[idx*self.batch_size:(idx+1)*self.batch_size]
 
-    return np.array([
-    resize(imread(file_name), (200,200))
-       for file_name in batch_x]), np.array(batch_y)
+        return np.array([
+            resize(imread(file_name), (200,200))
+               for file_name in batch_x]), np.array(batch_y)
 ```
 
 ---
@@ -106,13 +106,13 @@ def __getitem__(self,idx):
 ```python
 to_categorical(y, num_classes=None)
 ```
-整数値のクラスベクトルから2値クラスの行列への変換．
+整数のクラスベクトルから2値クラスの行列への変換します．
 
 例えば，`categorical_crossentropy`のために使います．
 
 __引数__
 
-- __y__: 行列に変換されるクラスベクトル（0から`num_classes`までの整数値）
+- __y__: 行列に変換されるクラスベクトル（0から`num_classes`までの整数）
 - __num_classes__: 総クラス数
 
 __戻り値__
