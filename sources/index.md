@@ -34,9 +34,9 @@ Kerasは**Python 2.7-3.5**に対応しています．
 
 ## 30秒でKerasに入門しましょう．
 
-Kerasの中心的なデータ構造は__model__で，層を構成する方法です．
-主なモデルは[`Sequential`](http://keras.io/getting-started/sequential-model-guide)モデルで，層の線形スタックです．
-更に複雑なアーキテクチャの場合は，[Keras functional API](http://keras.io/getting-started/functional-api-guide)を使用する必要があります．これで層のなす任意のグラフが構築可能になります．
+Kerasの中心的なデータ構造は__model__で，レイヤーを構成する方法です．
+主なモデルは[`Sequential`](http://keras.io/getting-started/sequential-model-guide)モデルで，レイヤーの線形スタックです．
+更に複雑なアーキテクチャの場合は，[Keras functional API](http://keras.io/getting-started/functional-api-guide)を使用する必要があります．これでレイヤーのなす任意のグラフが構築可能になります．
 
 `Sequential` モデルの一例を見てみましょう．
 
@@ -46,7 +46,7 @@ from keras.models import Sequential
 model = Sequential()
 ```
 
-`.add()`で簡単に層を積み重ねることができます:
+`.add()`で簡単にレイヤーを積み重ねることができます:
 
 ```python
 from keras.layers import Dense, Activation
@@ -57,7 +57,7 @@ model.add(Dense(units=10))
 model.add(Activation('softmax'))
 ```
 
-実装したモデルがよさそうなら`.compile()`で学習プロセスを設定しましょう．
+実装したモデルがよさそうなら`.compile()`で訓練プロセスを設定しましょう．
 
 ```python
 model.compile(loss='categorical_crossentropy',
@@ -85,13 +85,13 @@ model.fit(x_train, y_train, epochs=5, batch_size=32)
 model.train_on_batch(x_batch, y_batch)
 ```
 
-また，1行でモデルの評価．
+1行でモデルの評価ができます．
 
 ```python
 loss_and_metrics = model.evaluate(x_test, y_test, batch_size=128)
 ```
 
-また，新しいデータに対して予測:
+また，新しいデータに対して予測もできます:
 
 ```python
 classes = model.predict(x_test, batch_size=128)
@@ -104,8 +104,8 @@ Kerasについてのより詳細なチュートリアルについては，以下
 - [Getting started with the Sequential model](http://keras.io/getting-started/sequential-model-guide)
 - [Getting started with the functional API](http://keras.io/getting-started/functional-api-guide)
 
-レポジトリの[examples folder](https://github.com/fchollet/keras/tree/master/examples)にはさらに高度なモデルがあります．
-メモリーネットワークを用いた質問応答システムや積層LSTMを用いた文章生成などです．
+リポジトリの[examples folder](https://github.com/fchollet/keras/tree/master/examples)にはさらに高度なモデルがあります．
+メモリネットワークを用いた質問応答システムや積層LSTMを用いた文章生成などです．
 
 
 ------------------
@@ -117,7 +117,7 @@ Kerasは以下のライブラリに依存しています．
 
 - numpy, scipy
 - yaml
-- HDF5 h5py (モデルの保存や読み込み関数を使う場合のみ)
+- HDF5とh5py （モデルの保存や読み込み関数を使う場合のみ）
 - cuDNN: オプションですが，CNNを使用する場合は推奨
 
 
@@ -129,7 +129,7 @@ Kerasは以下のライブラリに依存しています．
 *CNTKをバックエンドで使用する場合:*
 
 - CNTK
-    - [CNTK](https://github.com/Microsoft/cntk)
+    - [See installation instructions](https://github.com/Microsoft/cntk)
 
 *Theanoをバックエンドで使用する場合:*
 
@@ -162,7 +162,7 @@ sudo pip install keras
 
 ## サポート
 
-質問をしたり，開発に関するディスカッションに参加することができます:
+質問をしたり，開発に関するディスカッションに参加できます:
 
 - [Keras Google group](https://groups.google.com/forum/#!forum/keras-users)上で
 - [Keras Slack channel](https://kerasteam.slack.com)上で．チャンネルへのリクエストするには[このリンク](https://keras-slack-autojoin.herokuapp.com/)を使ってください．

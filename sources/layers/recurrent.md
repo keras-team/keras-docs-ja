@@ -109,18 +109,18 @@ keras.layers.recurrent.SimpleRNN(units, activation='tanh', use_bias=True, kernel
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を見て下さい）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
+- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
-- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を見て下さい）．
-- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を見て下さい）．
-- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を見て下さい）．
-- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
 - __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
 - __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
 
@@ -142,19 +142,19 @@ keras.layers.recurrent.GRU(units, activation='tanh', recurrent_activation='hard_
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を見て下さい）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
-- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を見て下さい）．
+- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
+- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を参照）．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
-- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を見て下さい）．
-- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を見て下さい）．
-- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を見て下さい）．
-- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
 - __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
 - __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
 
@@ -181,20 +181,20 @@ keras.layers.recurrent.LSTM(units, activation='tanh', recurrent_activation='hard
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を見て下さい）．`None`を渡すと活性化関数は適用されません（"linear" activation: `a(x) = x`)）．
-- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を見て下さい）．
+- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません（"linear" activation: `a(x) = x`)）．
+- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を参照）．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
-- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を見て下さい）．
-- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を見て下さい）．
-- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を見て下さい）．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
 - __unit_forget_bias__: 真理値．Trueなら，初期化時に忘却ゲートのbiasに1加算．また，trueの場合は強制的に`bias_initializer="zeros"`になります．これは[Jozefowicz et al.](http://proceedings.mlr.press/v37/jozefowicz15.pdf)で推奨されています．
-- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __activity_regularizer__: 出力（そのactivation）に適用するRegularizer関数（[regularizer](../regularizers.md)を見て下さい）．
-- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
-- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を見て下さい）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力（そのactivation）に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
 - __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
 - __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
 
