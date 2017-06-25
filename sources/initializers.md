@@ -269,7 +269,7 @@ He et al., http://arxiv.org/abs/1502.01852
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L352)
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L374)
 ### lecun_normal
 
 ```python
@@ -296,7 +296,7 @@ __参考文献__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L374)
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L397)
 ### he_uniform
 
 ```python

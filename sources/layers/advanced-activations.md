@@ -1,5 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/advanced_activations.py#L13)
-</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/advanced_activations.py#L13)</span>
 ### LeakyReLU
 
 ```python

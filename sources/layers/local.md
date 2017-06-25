@@ -51,7 +51,7 @@ __出力のshape__
 `steps`値はパディングやストライドにより変わることがあります．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/local.py#L190)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/local.py#L179)</span>
 ### LocallyConnected2D
 
 ```python

@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/embeddings.py#L8)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/embeddings.py#L11)</span>
 ### Embedding
 
 ```python

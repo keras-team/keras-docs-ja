@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/normalization.py#L6)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/normalization.py#L12)</span>
 ### BatchNormalization
 
 ```python

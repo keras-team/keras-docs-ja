@@ -40,7 +40,7 @@ shapeが`(batch_size, new_steps, nb_filter)`の3階テンソル．
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L340)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L343)</span>
 ### Conv2D
 
 ```python
@@ -90,7 +90,7 @@ data_format='channels_last'の場合，
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L806)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L809)</span>
 ### SeparableConv2D
 
 ```python
@@ -141,7 +141,7 @@ data_format='channels_last'の場合，
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L589)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L592)</span>
 ### Conv2DTranspose
 
 ```python
@@ -196,7 +196,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L464)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L467)</span>
 ### Conv3D
 
 ```python
@@ -247,7 +247,7 @@ data_format='channels_last'の場合，
 `(samples, conv_dim1, conv_dim2, conv_dim3, channels)`の5階テンソルになります．`conv_dim1`，`conv_dim2`，`conv_dim3`の値はパディングにより変わっている可能性があります．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1480)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1483)</span>
 ### Cropping1D
 
 ```python
@@ -270,7 +270,7 @@ __出力のShape__
 `(batch, cropped_axis, features)`の3階テンソル．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1525)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1528)</span>
 ### Cropping2D
 
 ```python
@@ -304,7 +304,7 @@ __出力のShape__
 `"channels_first"`の場合，`(batch, channels, cropped_rows, cropped_cols)`の4階テンソル．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1668)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1671)</span>
 ### Cropping3D
 
 ```python
@@ -334,7 +334,7 @@ __出力のShape__
 `data_format`が`"channels_last"`の場合，`(batch, first_axis_to_crop, second_axis_to_crop, third_axis_to_crop, depth)`． `"channels_first"`の場合，`(batch, depth, first_axis_to_crop, second_axis_to_crop, third_axis_to_crop)`の5階テンソル．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1032)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1035)</span>
 ### UpSampling1D
 
 ```python
@@ -357,7 +357,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1067)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1070)</span>
 ### UpSampling2D
 
 ```python
@@ -386,7 +386,7 @@ data_format='channels_last'の場合，
 `(batch, upsampled_rows, upsampled_cols, channels)`の4階テンソルになります．
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1136)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1139)</span>
 ### UpSampling3D
 
 ```python
@@ -417,7 +417,7 @@ data_format='channels_first'の場合，
 `(batch, channels, upsampled_dim1, upsampled_dim2, upsampled_dim3)`の5階テンソルになります．
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1210)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1213)</span>
 ### ZeroPadding1D
 
 ```python
@@ -444,7 +444,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1252)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1255)</span>
 ### ZeroPadding2D
 
 ```python
@@ -478,7 +478,7 @@ __出力のShape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1362)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/convolutional.py#L1365)</span>
 ### ZeroPadding3D
 
 ```python

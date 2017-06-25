@@ -11,7 +11,7 @@ keras.layers.merge.Add()
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L184)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L199)</span>
 ### Multiply
 
 ```python
@@ -24,7 +24,7 @@ keras.layers.merge.Multiply()
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L184)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L214)</span>
 ### Average
 
 ```python
@@ -37,7 +37,7 @@ keras.layers.merge.Average()
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L184)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L229)</span>
 ### Maximum
 
 ```python
@@ -50,7 +50,7 @@ keras.layers.merge.Maximum()
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L184)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L244)</span>
 ### Concatenate
 
 ```python
@@ -68,7 +68,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L184)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/merge.py#L335)</span>
 ### Dot
 
 ```python

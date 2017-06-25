@@ -42,7 +42,7 @@ sgd = SGD(lr=0.01, clipvalue=0.5)
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L113)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L128)</span>
 ### SGD
 
 ```python
@@ -60,7 +60,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L172)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L190)</span>
 ### RMSprop
 
 ```python
@@ -81,7 +81,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L232)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L253)</span>
 ### Adagrad
 
 ```python
@@ -102,7 +102,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L284)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L307)</span>
 ### Adadelta
 
 ```python
@@ -125,7 +125,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L350)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L376)</span>
 ### Adam
 
 ```python
@@ -148,7 +148,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L416)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L445)</span>
 ### Adamax
 
 ```python
@@ -173,7 +173,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L486)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L517)</span>
 ### Nadam
 
 ```python
@@ -198,7 +198,7 @@ __参考文献__
 - [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L566)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L599)</span>
 ### TFOptimizer
 
 ```python

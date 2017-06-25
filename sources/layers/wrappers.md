@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/wrappers.py#L43)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/wrappers.py#L92)</span>
 ### TimeDistributed
 
 ```python
@@ -43,7 +43,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/wrappers.py#L134)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/wrappers.py#L206)</span>
 ### Bidirectional
 
 ```python

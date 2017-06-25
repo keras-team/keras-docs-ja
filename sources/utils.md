@@ -23,7 +23,7 @@ with CustomObjectScope({'MyObject':MyObject}):
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/utils/generic_utils.py#L16)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/utils/generic_utils.py#L15)</span>
 ### HDF5Matrix
 
 ```python
@@ -57,7 +57,7 @@ array-likeなHDF5 dataset．
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/utils/generic_utils.py#L16)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/utils/generic_utils.py#L300)</span>
 ### Sequence
 
 ```python

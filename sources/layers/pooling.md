@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L54)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L53)</span>
 ### MaxPooling1D
 
 ```python
@@ -25,7 +25,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L174)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L166)</span>
 ### MaxPooling2D
 
 ```python
@@ -58,7 +58,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L323)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L335)</span>
 ### MaxPooling3D
 
 ```python
@@ -93,7 +93,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L84)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L83)</span>
 ### AveragePooling1D
 
 ```python
@@ -119,7 +119,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L216)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L221)</span>
 ### AveragePooling2D
 
 ```python
@@ -152,7 +152,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L363)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L385)</span>
 ### AveragePooling3D
 
 ```python
@@ -188,7 +188,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L430)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L466)</span>
 ### GlobalMaxPooling1D
 
 ```python
@@ -208,7 +208,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L416)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L451)</span>
 ### GlobalAveragePooling1D
 
 ```python
@@ -228,7 +228,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L497)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L541)</span>
 ### GlobalMaxPooling2D
 
 ```python
@@ -253,7 +253,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L469)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/pooling.py#L506)</span>
 ### GlobalAveragePooling2D
 
 ```python

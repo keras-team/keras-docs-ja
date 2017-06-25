@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L7)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L11)</span>
 ### GaussianNoise
 
 ```python
@@ -27,7 +27,7 @@ __出力のshape__
 入力と同じ．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L7)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L96)</span>
 ### AlphaDropout
 
 ```python
@@ -60,7 +60,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L45)</span>
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L52)</span>
 ### GaussianDropout
 
 ```python
