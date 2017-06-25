@@ -41,11 +41,11 @@ __引数__
   - __input_length__: 入力の系列長（定数）．
     この引数はこのレイヤーの後に`Flatten`から`Dense`レイヤーへ接続する際に必要です (これがないと，denseの出力のshapeを計算できません)．
 
-__Input shape__
+__入力のshape__
 
 shapeが`(batch_size, sequence_length)`の2階テンソル．
 
-__Output shape__
+__出力のshape__
 
 shapeが`(batch_size, sequence_length, output_dim)`の3階テンソル．
 

@@ -189,7 +189,7 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
 
 デフォルトの入力サイズは299x299．
 
-### Arguments
+### 引数
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
@@ -201,15 +201,15 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
-### Returns
+### 戻り値
 
 Kerasのモデルインスタンス．
 
-### References
+### 参考文献
 
 - [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/abs/1610.02357)
 
-### License
+### ライセンス
 
 この重みは私達自身が学習したもので，MITライセンスの下で公開されています．
 
@@ -228,7 +228,7 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
 
 デフォルトの入力サイズは224x224．
 
-### Arguments
+### 引数
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
 - weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
@@ -240,15 +240,15 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
-### Returns
+### 戻り値
 
 Kerasのモデルインスタンス．
 
-### References
+### 参考文献
 
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556): please cite this paper if you use the VGG models in your work.
 
-### License
+### ライセンス
 
 この重みは[Oxford大学のVGG](http://www.robots.ox.ac.uk/~vgg/research/very_deep/)により[Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/)の下で公開されたものを移植しています．
 
@@ -280,16 +280,16 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
-### Returns
+### 戻り値
 
 Kerasのモデルインスタンス．
 
 
-### References
+### 参考文献
 
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556)
 
-### License
+### ライセンス
 
 この重みは[Oxford大学のVGG](http://www.robots.ox.ac.uk/~vgg/research/very_deep/)により[Creative Commons Attribution License](https://creativecommons.org/licenses/by/4.0/)の下で公開されたものを移植しています．
 
@@ -321,15 +321,15 @@ ImageNetで事前学習した重みを利用可能なResNet50モデル．
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
-### Returns
+### 戻り値
 
 Kerasのモデルインスタンス．
 
-### References
+### 参考文献
 
 - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 
-### License
+### ライセンス
 
 この重みは[Kaiming He](https://github.com/KaimingHe/deep-residual-networks)により[MITライセンス](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE)の下で公開されたものを移植しています．
 
@@ -361,14 +361,14 @@ keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet'
     - `max`：global max poolingが適用されることを意味します．
 - classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
 
-### Returns
+### 戻り値
 
 Kerasのモデルインスタンス．
 
-### References
+### 参考文献
 
 - [Rethinking the Inception Architecture for Computer Vision](http://arxiv.org/abs/1512.00567)
 
-### License
+### ライセンス
 
 この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．

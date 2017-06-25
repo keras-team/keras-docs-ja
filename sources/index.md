@@ -8,7 +8,7 @@ Kerasは，迅速な実験を可能にすることに重点を置いて開発さ
 
 次のような場合で深層学習ライブラリが必要なら，Kerasを使用してください:
 
-- 容易に素早くプロトタイプの作成が可能 (ユーザーフレンドリー，モジュール性，および拡張性による)
+- 容易に素早くプロトタイプの作成が可能（ユーザーフレンドリー，モジュール性，および拡張性による）
 - CNNとRNNの両方，およびこれらの2つの組み合わせをサポート
 - CPUとGPU上でシームレスな動作
 
@@ -32,7 +32,7 @@ Kerasは**Python 2.7-3.5**に対応しています．
 ------------------
 
 
-## 30秒でkerasに入門しましょう．
+## 30秒でKerasに入門しましょう．
 
 Kerasの中心的なデータ構造は__model__で，層を構成する方法です．
 主なモデルは[`Sequential`](http://keras.io/getting-started/sequential-model-guide)モデルで，層の線形スタックです．
@@ -65,14 +65,14 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 ```
 
-必要に応じて，最適化アルゴリズムも設定できます．Kerasの中心的な設計思想は，ユーザーが必要なときに完全にコントロール (ソースコードの容易な拡張性を実現する究極のコントロール) できる一方で，適度に単純にすることです．
+必要に応じて，最適化アルゴリズムも設定できます．Kerasの中心的な設計思想は，ユーザーが必要なときに完全にコントロール（ソースコードの容易な拡張性を実現する究極のコントロール）できる一方で，適度に単純にすることです．
 
 ```python
 model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True))
 ```
 
-学習データをミニバッチで繰り返し処理できます．
+訓練データをミニバッチで繰り返し処理できます．
 
 ```python
 # x_train and y_train are Numpy arrays --just like in the Scikit-Learn API.
@@ -165,7 +165,7 @@ sudo pip install keras
 質問をしたり，開発に関するディスカッションに参加することができます:
 
 - [Keras Google group](https://groups.google.com/forum/#!forum/keras-users)上で
-- [Keras Slack channel](https://kerasteam.slack.com)上で．チャンネルへのリクエストするには[このリンク](https://keras-slack-autojoin.herokuapp.com/)を使って下さい．
+- [Keras Slack channel](https://kerasteam.slack.com)上で．チャンネルへのリクエストするには[このリンク](https://keras-slack-autojoin.herokuapp.com/)を使ってください．
 
  [Githubのissues](https://github.com/fchollet/keras/issues)に**バグレポートや機能リクエスト**を投稿できます．まず[ガイドライン](https://github.com/fchollet/keras/blob/master/CONTRIBUTING.md)を必ず読んでください．
 
@@ -174,7 +174,7 @@ sudo pip install keras
 
 ## どうしてこのライブラリにKerasという名前を付けたのですか？
 
-Keras (κέρας) はギリシア語で**角**を意味します．古代ギリシア文学およびラテン文学における文学上の想像がこの名前の由来です．最初にこの想像が見つかったのは_Odyssey_で，夢の神 (_Oneiroi_，単数形 _Oneiros_)は，象牙の門を通って地上に訪れて偽りのビジョンで人々を騙す神と， 角の門を通って地上に訪れて起こるはずの未来を知らせる神とに分かれているそうです．これは κέρας (角) / κραίνω (遂行)と ἐλέφας (象牙) / ἐλεφαίρομαι (欺瞞) の似た響きを楽しむ言葉遊びです．
+Keras (κέρας) はギリシア語で**角**を意味します．古代ギリシア文学およびラテン文学における文学上の想像がこの名前の由来です．最初にこの想像が見つかったのは_Odyssey_で，夢の神（_Oneiroi_，単数形 _Oneiros_）は，象牙の門を通って地上に訪れて偽りのビジョンで人々を騙す神と， 角の門を通って地上に訪れて起こるはずの未来を知らせる神とに分かれているそうです．これは κέρας （角）/ κραίνω （遂行）と ἐλέφας （象牙）/ ἐλεφαίρομαι （欺瞞）の似た響きを楽しむ言葉遊びです．
 
 Kerasは当初プロジェクトONEIROS (Open-ended Neuro-Electronic Intelligent Robot Operating System) の研究の一環として開発されました．
 

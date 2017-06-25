@@ -51,12 +51,12 @@ keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)
 
 モーメンタム，学習率減衰，Nesterov momentumをサポートした確率的勾配降下法．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __momentum__: float >= 0. モーメンタム．
-- __decay__: float >= 0. 各更新の学習率減衰．
-- __nesterov__: boolean. Nesterov momentumを適用するかどうか．
+- __lr__: 0以上の浮動小数点数．学習率．
+- __momentum__: 0以上の浮動小数点数．モーメンタム．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
+- __nesterov__: 真理値. Nesterov momentumを適用するかどうか．
 
 ----
 
@@ -72,12 +72,12 @@ keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
 
 RMSPropはリカレントニューラルネットワークに対して良い選択となるでしょう．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __rho__: float >= 0.
-- __epsilon__: float >= 0. Fuzz factor.
-- __decay__: float >= 0. 各更新の学習率減衰．
+- __lr__: 0以上の浮動小数点数．学習率．
+- __rho__: 0以上の浮動小数点数．
+- __epsilon__: 0以上の浮動小数点数．微小量．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
 
 ----
 
@@ -90,13 +90,13 @@ keras.optimizers.Adagrad(lr=0.01, epsilon=1e-08, decay=0.0)
 
 デフォルトパラメータのまま利用することを推奨します．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __epsilon__: float >= 0.
-- __decay__: float >= 0. 各更新の学習率減衰．
+- __lr__: 0以上の浮動小数点数．学習率．
+- __epsilon__: 0以上の浮動小数点数．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
 
-__References__
+__参考文献__
 
 - [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)
 
@@ -111,15 +111,15 @@ keras.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.0)
 
 デフォルトパラメータのまま利用することを推奨します．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-	デフォルト値を推奨します．
-- __rho__: float >= 0.
-- __epsilon__: float >= 0. Fuzz factor.
-- __decay__: float >= 0. 各更新の学習率減衰．
+- __lr__: 0以上の浮動小数点数．学習率．
+    デフォルト値を推奨します．
+- __rho__: 0以上の浮動小数点数．
+- __epsilon__: 0以上の浮動小数点数．微小量．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
 
-__References__
+__参考文献__
 
 - [Adadelta - an adaptive learning rate method](http://arxiv.org/abs/1212.5701)
 
@@ -134,15 +134,15 @@ keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0
 
 デフォルトパラメータは提案論文に従います．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値です．
-- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
-- __epsilon__: float >= 0. Fuzz factor.
-- __decay__: float >= 0. 各更新の学習率減衰．
+- __lr__: 0以上の浮動小数点数．学習率．
+- __beta_1__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_2__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値です．
+- __epsilon__: 0以上の浮動小数点数．微小量．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
 
-__References__
+__参考文献__
 
 - [Adam - A Method for Stochastic Optimization](http://arxiv.org/abs/1412.6980v8)
 
@@ -154,20 +154,20 @@ __References__
 ```python
 keras.optimizers.Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 ```
- 
+
 Adamaxは，Adamの提案論文の7節で提案された，無限ノルムに基づくAdamの拡張です．
 
 デフォルトパラメータは提案論文に従います．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値です．
-- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値です．
-- __epsilon__: float >= 0. Fuzz factor.
-- __decay__: float >= 0. 各更新の学習率減衰．
+- __lr__: 0以上の浮動小数点数．学習率．
+- __beta_1__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値です．
+- __beta_2__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値です．
+- __epsilon__: 0以上の浮動小数点数．微小量．
+- __decay__: 0以上の浮動小数点数．各更新の学習率減衰．
 
-__References__
+__参考文献__
 
 - [Adam - A Method for Stochastic Optimization](http://arxiv.org/abs/1412.6980v8)
 
@@ -185,14 +185,14 @@ Nesterov Adam optimizer: Much like Adam is essentially RMSprop with momentum, Na
 デフォルトパラメータは提案論文に従います．
 デフォルトパラメータのまま利用することを推奨します．
 
-__Arguments__
+__引数__
 
-- __lr__: float >= 0. 学習率．
-- __beta_1__: floats, 0 < beta < 1. 一般的に1に近い値．
-- __beta_2__: floats, 0 < beta < 1. 一般的に1に近い値．
-- __epsilon__: float >= 0. Fuzz factor.
+- __lr__: 0以上の浮動小数点数．学習率．
+- __beta_1__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値．
+- __beta_2__: 浮動小数点数, 0 < beta < 1. 一般的に1に近い値．
+- __epsilon__: 0以上の浮動小数点数．微小量．
 
-__References__
+__参考文献__
 
 - [Nadam report](http://cs229.stanford.edu/proj2015/054_report.pdf)
 - [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)

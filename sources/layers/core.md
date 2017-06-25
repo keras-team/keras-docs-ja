@@ -33,9 +33,9 @@ __引数__
 
 - __units__：正の整数，出力空間の次元数
 - __activation__： 使用する活性化関数名
-	([activations](../activations.md)を参照)
-	もしあなたが何も指定しなければ，活性化は適用されない．
-	(すなわち，"線形"活性化： `a(x) = x`)．
+    （[activations](../activations.md)を参照）
+    もしあなたが何も指定しなければ，活性化は適用されない．
+    （すなわち，"線形"活性化： `a(x) = x`）．
 - __use_bias__： レイヤーがバイアスベクトルを使用するかどうか．
 - __kernel_initializer__： `kernel`重み行列の初期化（[initializations](../initializers.md)を参照）
 - __bias_initializer__： バイアスベクトルの初期化（[initializations](../initializers.md)を参照）
@@ -48,13 +48,13 @@ __引数__
 
 __入力のshape__
 
-以下のshapeを持つn次元テンソル： `(batch_size, ..., input_dim)`．
-最も一般的なのは以下のshapeを持つ2次元テンソル： `(batch_size, input_dim)`．
+以下のshapeを持つn階テンソル： `(batch_size, ..., input_dim)`．
+最も一般的なのは以下のshapeを持つ2階テンソル： `(batch_size, input_dim)`．
 
 __出力のshape__
 
-以下のshapeを持つn次元テンソル： `(batch_size, ..., units)`．
-例えば，以下のshapeを持つ2次元テンソル `(batch_size, input_dim)`の入力に対して，アウトプットは以下のshapwを持つ`(batch_size, units)`．
+以下のshapeを持つn階テンソル： `(batch_size, ..., units)`．
+例えば，以下のshapeを持つ2階テンソル `(batch_size, input_dim)`の入力に対して，アウトプットは以下のshapwを持つ`(batch_size, units)`．
 
 ----
 
@@ -70,16 +70,16 @@ keras.layers.core.Activation(activation)
 __引数__
 
 - __activation__： 使用する活性化関数名
-	([activations](../activations.md)を参照)，
-	もしくは，TheanoかTensorFlowオペレーション．
+    ([activations](../activations.md)を参照)，
+    もしくは，TheanoかTensorFlowオペレーション．
 
 __入力のshape__
 
-任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`(整数のタプルはサンプルの軸（axis）を含まない．)を使う．
+任意．モデルの最初のレイヤーとしてこのレイヤーを使う時，キーワード引数`input_shape`（整数のタプルはサンプルの軸（axis）を含まない．）を使う．
 
 __出力のshape__
 
-入力と同じ型．
+入力と同じshape．
 
 ----
 
@@ -95,7 +95,7 @@ keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
 __引数__
 
 - __rate__： 0と1の間の浮動小数点数．入力ユニットをドロップする割合．
-- __noise_shape__： 入力と乗算されるバイナリドロップアウトマスクのshapeは1次元の整数テンソルで表す．例えば入力のshapeを`(batch_size, timesteps, features)`とし，ドロップアウトマスクをすべてのタイムステップで同じにしたい場合，`noise_shape=(batch_size, 1, features)`を使うことができる.
+- __noise_shape__： 入力と乗算されるバイナリドロップアウトマスクのshapeは1階の整数テンソルで表す．例えば入力のshapeを`(batch_size, timesteps, features)`とし，ドロップアウトマスクをすべてのタイムステップで同じにしたい場合，`noise_shape=(batch_size, 1, features)`を使うことができる.
 - __seed__： random seedとして使うPythonの整数．
 
 __参考文献__
@@ -134,7 +134,7 @@ model.add(Flatten())
 keras.layers.core.Reshape(target_shape)
 ```
 
-ある型に出力を変形する．
+あるshapeに出力を変形する．
 
 __引数__
 
@@ -178,7 +178,7 @@ model.add(Reshape((-1, 2, 2)))
 keras.layers.core.Permute(dims)
 ```
 
-与えられたパターンにより入力の次元を変更する．
+与えられたパターンにより入力の次元を入れ替える．
 
 例えば，RNNsやconvnetsの連結に対して役立ちます．
 
@@ -194,7 +194,7 @@ model.add(Permute((2, 1), input_shape=(10, 64)))
 
 __引数__
 
-- __dims__： 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる．例えば，`(2, 1)`は入力の1番目と2番目の次元を計算する．
+- __dims__： 整数のタプル．配列パターン，サンプルの次元を含まない．添字は1で始まる．例えば，`(2, 1)`は入力の1番目と2番目の次元を入れ替える．
 
 __入力のshape__
 
@@ -230,15 +230,15 @@ model.add(RepeatVector(3))
 
 __引数__
 
-- __n__： 整数，繰返し因数．
+- __n__： 整数，繰り返し因数．
 
 __入力のshape__
 
-`(num_samples, features)`のshapeを持つ2次元テンソル．
+`(num_samples, features)`のshapeを持つ2階テンソル．
 
-__出力の型__
+__出力のshape__
 
-`(num_samples, n, features)`のshapeを持つ3次元テンソル．
+`(num_samples, n, features)`のshapeを持つ3階テンソル．
 
 ----
 
@@ -277,19 +277,19 @@ def antirectifier_output_shape(input_shape):
     return tuple(shape)
 
 model.add(Lambda(antirectifier,
-         output_shape=antirectifier_output_shape))
+                 output_shape=antirectifier_output_shape))
 ```
 
 __引数__
 
 - __function__： 評価される関数．第1引数として入力テンソルを取る
 - __output_shape__： 関数からの期待される出力のshape．Theanoを使用する場合のみ関連します．タプルもしくは関数．
-	タプルなら，入力に近いほうの次元だけを指定する，データサンプルの次元は入力と同じ：
-	`output_shape = (input_shape[0], ) + output_shape`
-	か入力が `None` でかつサンプル次元も`None`：
-	`output_shape = (None, ) + output_shape`
-	のどちらかが推測される．
-  関数なら，入力型の関数として型全体を指定する： `output_shape = f(input_shape)`
+    タプルなら，入力に近いほうの次元だけを指定する，データサンプルの次元は入力と同じ：
+    `output_shape = (input_shape[0], ) + output_shape`
+    か入力が `None` でかつサンプル次元も`None`：
+    `output_shape = (None, ) + output_shape`
+    のどちらかが推測される．
+  関数なら，入力のshapeの関数としてshape全体を指定する： `output_shape = f(input_shape)`
 - __arguments__： 関数に通されるキーワード引数の追加辞書
 
 __入力のshape__
@@ -313,8 +313,8 @@ keras.layers.core.ActivityRegularization(l1=0.0, l2=0.0)
 
 __引数__
 
-- __l1__： L1正則化因子（正の浮動小数点数）．
-- __l2__： L2正則化因子（正の浮動小数点数）．
+- __l1__： L1正則化係数（正の浮動小数点数）．
+- __l2__： L2正則化係数（正の浮動小数点数）．
 
 __入力のshape__
 
@@ -322,7 +322,7 @@ __入力のshape__
 
 __出力のshape__
 
-入力と同じ型．
+入力と同じshape．
 
 ----
 
@@ -343,7 +343,7 @@ keras.layers.core.Masking(mask_value=0.0)
 
 __例__
 
-LSTMレイヤーに与えるための`(samples, timesteps, features)`のshapeを持つのNumpy配列`x`を考えてみましょう．
+LSTMレイヤーに与えるための`(samples, timesteps, features)`のshapeを持つのNumpy 配列`x`を考えてみましょう．
 あなたが#3と#5のタイムステップに関してデータを欠損しているので，これらのタイムステップをマスクしたい場合，あなたは以下のようにできます：
 
 - `x[:, 3, :] = 0.` と `x[:, 5, :] = 0.`をセットする．
@@ -354,4 +354,3 @@ model = Sequential()
 model.add(Masking(mask_value=0., input_shape=(timesteps, features)))
 model.add(LSTM(32))
 ```
-

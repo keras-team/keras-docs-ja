@@ -34,10 +34,10 @@ model.add(TimeDistributed(Dense(32)))
 ```python
 model = Sequential()
 model.add(TimeDistributed(Conv2D(64, (3, 3)),
-              input_shape=(10, 299, 299, 3)))
+                                 input_shape=(10, 299, 299, 3)))
 ```
 
-__Arguments__
+__引数__
 
 - __layer__: レイヤーインスタンス．
 
@@ -52,7 +52,7 @@ keras.layers.wrappers.Bidirectional(layer, merge_mode='concat', weights=None)
 
 RNNのBidirectionalなラッパー．
 
-__Arguments__
+__引数__
 
 - __layer__: `Recurrent`のインスタンス．
 - __merge_mode__: RNNのforwardとbackwardの出力同士を組み合わせる際のモード．{'sum', 'mul', 'concat', 'ave', None}のいずれか．Noneの場合，出力はリストになります．
@@ -61,7 +61,7 @@ __Raises__
 
 - __ValueError__: `merge_mode`引数が不正な場合．
 
-__Examples__
+__例__
 
 ```python
 model = Sequential()

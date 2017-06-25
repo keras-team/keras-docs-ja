@@ -12,9 +12,9 @@ Batch normalization layer (Ioffe and Szegedy, 2014)．
 
 __Arguments__
 
-- __axis__: 整数．正規化する軸 (典型的には，特徴量の軸)．例えば，`data_format="channels_first"`の`Conv2D`の後では，`axis=1`にします．
+- __axis__: 整数．正規化する軸（典型的には，特徴量の軸）．例えば，`data_format="channels_first"`の`Conv2D`の後では，`axis=1`にします．
 - __momentum__: 移動平均のためのMomentum．
-- __epsilon__: 0除算を避けるために分散加算する小さなfloat値．
+- __epsilon__: 0除算を避けるために分散加算する微小量．
 - __center__: Trueなら，正規化されたテンソルに`beta`のオフセットを加算します．Falseなら, `beta`は無視します．
 - _scale_: Trueなら, `gamma`をかけます．Falseなら, `gamma`は使われません．次のレイヤーがlinear (例えば `nn.relu` も)ならば，次のレイヤーによってスケーリングされるので無効にできます．
 - __beta_initializer__: betaの重みのためのInitializer．
@@ -26,14 +26,14 @@ __Arguments__
 - __beta_constraint__: betaの重みのためのオプショナルなConstraint．
 - __gamma_constraint__: gammaの重みのためのオプショナルなConstraint．
 
-__Input shape__
+__入力のshape__
 
 任意．
 このレイヤーがモデルの最初のレイヤーとなる場合は，`input_shape`引数（サンプル軸を含まない整数のタプル）を与える必要があります．
 
-__Output shape__
+__出力のshape__
 
-Input shapeと同じです．
+入力と同じです．
 
 __参考文献__
 

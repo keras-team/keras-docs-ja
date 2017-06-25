@@ -1,4 +1,3 @@
-
 ## モデルの可視化
 
 `keras.utils.vis_util`モジュールは（graphvizを用いて）Kerasモデルの可視化するためのユーティリティ関数を提供します．

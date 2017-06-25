@@ -19,8 +19,7 @@
 
 1. 関数
 2. __call__ メソッドを実装したクラスのインスタンス
-3. None．これは`KerasClassifier`または`KerasRegressor`を継承したクラスを意味します．この __call__ メソッドはbuild_fnのデフォルト
-として扱われます．
+3. None．これは`KerasClassifier`または`KerasRegressor`を継承したクラスを意味します．この __call__ メソッドはbuild_fnのデフォルトとして扱われます．
 
 `sk_params`はモデルパラメータとfittingパラメータの両方を取ります．
 モデルパラメータは`build_fn`の引数です．`sk_params`に何も与えなくとも予測器が作れるように，

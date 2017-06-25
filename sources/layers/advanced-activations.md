@@ -10,14 +10,14 @@ keras.layers.advanced_activations.LeakyReLU(alpha=0.3)
 `f(x) = alpha * x for x < 0`,
 `f(x) = x for x >= 0`.
 
-__入力shape__
+__入力のshape__
 
 任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
 `input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
 
-__出力shape__
+__出力のshape__
 
-入力shapeと同じ．
+入力のshapeと同じ．
 
 __引数__
 
@@ -41,14 +41,14 @@ Parametric Rectified Linear Unit：
 `f(x) = x for x >= 0`,
 `alphas`はxと同じshapeを持つ学習対象の配列です．
 
-__入力shape__
+__入力のshape__
 
 任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
 `input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
 
-__出力shape__
+__出力のshape__
 
-入力shapeと同じ．
+入力のshapeと同じ．
 
 __引数__
 
@@ -56,7 +56,7 @@ __引数__
 - __alpha_regularizer__：重みを正則化する関数．
 - __alpha_constraint__：重みに対する制約．
 - __shared_axes__：活性化関数で共有する学習パラメータの軸．
-	例えば，incoming feature mapsが，出力shapeとして`(batch, height, width, channels)`を持つ，2Dコンボリューションからなるもので，空間全体で各フィルターごとに一組しかパラメータを持たないたない場合にそのパラメータを共有したければ，`shared_axes=[1, 2]`とセットして下さい．
+    例えば，incoming feature mapsが，出力shapeとして`(batch, height, width, channels)`を持つ，2Dコンボリューションからなるもので，空間全体で各フィルターごとに一組しかパラメータを持たないたない場合にそのパラメータを共有したければ，`shared_axes=[1, 2]`とセットして下さい．
 
 __参考文献__
 
@@ -75,14 +75,14 @@ Exponential Linear Unit:
 `f(x) =  alpha * (exp(x) - 1.) for x < 0`,
 `f(x) = x for x >= 0`.
 
-__入力shape__
+__入力のshape__
 
 任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
 `input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
 
-__出力shape__
+__出力のshape__
 
-入力shapeと同じ．
+入力のshapeと同じ．
 
 __引数__
 
@@ -105,14 +105,14 @@ Thresholded Rectified Linear Unit:
 `f(x) = x for x > theta`
 `f(x) = 0 otherwise`.
 
-__入力shape__
+__入力のshape__
 
 任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
 `input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
 
-__出力shape__
+__出力のshape__
 
-入力shapeと同じ．
+入力のshapeと同じ．
 
 __引数__
 

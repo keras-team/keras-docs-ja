@@ -1,6 +1,6 @@
 # SequentialモデルでKerasを始めてみよう
 
-`Sequential` (系列) モデルは層を積み重ねたものです．
+`Sequential` （系列）モデルは層を積み重ねたものです．
 
 `Sequential` モデルはコンストラクタに層のインスタンスのリストを与えることで作れます:
 
@@ -17,7 +17,7 @@ model = Sequential([
 ```
 
 
-`.add()` メソッドを用いることで簡単に層を追加することができます．
+`.add()` メソッドで簡単に層を追加することができます．
 
 ```python
 model = Sequential()
@@ -30,11 +30,11 @@ model.add(Activation('relu'))
 ## 入力の形を指定する
 
 モデルはどのような入力の形を想定しているのかを知る必要があります．
-このため， `Sequential` モデルの最初の層に入力のshapeについての情報を与える必要があります （最初の層以外は入力のshapeを推定することができるため，指定する必要はありません）．
+このため， `Sequential` モデルの最初の層に入力のshapeについての情報を与える必要があります（最初の層以外は入力のshapeを推定することができるため，指定する必要はありません）．
 入力のshapeを指定する方法はいくつかあります:
 
-- 最初の層の `input_shape`引数を指定する．この引数にはshapeを示すタプルを与えます (このタプルの要素は整数か `None`を取ります．`None`は任意の正の整数を期待することを意味します)．
-- `Dense` のような二次元の層では `input_dim`引数を指定することで入力のshapeを指定するできます．同様に，三次元の層では `input_dim`引数と `input_length`引数を指定することで入力のshapeを指定できます．
+- 最初の層の `input_shape`引数を指定する．この引数にはshapeを示すタプルを与えます（このタプルの要素は整数か `None`を取ります．`None`は任意の正の整数を期待することを意味します）．
+- `Dense` のような2次元の層では `input_dim`引数を指定することで入力のshapeを指定できます．同様に，3次元の層では `input_dim`引数と `input_length`引数を指定することで入力のshapeを指定できます．
 - （stateful reccurent networkなどで）バッチサイズを指定したい場合， `batch_size`引数を指定することができます．もし， `batch_size=32`と `input_shape=(6, 8)`を同時に指定した場合，想定されるバッチごとの入力のshapeは `(32, 6, 8)`となります．
 
 
@@ -55,25 +55,25 @@ model.add(Dense(32, input_dim=784))
 モデルの学習を始める前に，`compile`メソッドを用いどのような学習処理を行なうかを設定する必要があります．`compile`メソッドは3つの引数を取ります:
 
 - 最適化手法: 引数として，定義されている最適化手法の識別子を文字列として与える（`rmsprop`や`adagrad`など），もしくは `Optimizer`クラスのインスタンスを与えることができます． 参考: [optimizers](/optimizers)
-- 損失関数: モデルが最小化しようとする目的関数です．引数として，定義されている損失関数の識別子を文字列として与える（`categorical_crossentropy`や`mse`など），もしくは目的関数を関数として与えることができます． 参考: [losses](/losses)
-- 評価指標のリスト: 分類問題では精度として`metrics=['accuracy']`を指定したくなるでしょう．引数として，定義されている評価指標の識別子を文字列として与える，もしくは自分で定義した関数を関数として与えることができます．
+- 損失関数: モデルが最小化しようとする目的関数です．引数として，定義されている損失関数の識別子を文字列として与える（`categorical_crossentropy`や`mse`など），もしくは目的関数を関数として与えることができます． 参考：[losses](/losses)
+- 評価関数のリスト: 分類問題では精度として`metrics=['accuracy']`を指定したくなるでしょう．引数として，定義されている評価関数の識別子を文字列として与える，もしくは自分で定義した関数を関数として与えることができます．
 
 ```python
-# マルチクラス分類問題においては
+# マルチクラス分類問題の場合
 model.compile(optimizer='rmsprop',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-# 二値分類問題においては
+# 2値分類問題の場合
 model.compile(optimizer='rmsprop',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-# 平均二乗誤差を最小化する回帰問題においては
+# 平均二乗誤差を最小化する回帰問題の場合
 model.compile(optimizer='rmsprop',
               loss='mse')
 
-# 独自定義の評価指標を定義するには
+# 独自定義の評価関数を定義
 import keras.backend as K
 
 def mean_pred(y_true, y_pred):
@@ -86,9 +86,9 @@ model.compile(optimizer='rmsprop',
 
 ----
 
-## 学習
+## 訓練
 
-KerasのモデルはNumpyの配列として入力データとラベルデータから学習を行います．モデルを訓練するときは，一般に`fit`関数を使います．[ドキュメントはこちら](/models/sequential).
+KerasのモデルはNumpy 配列として入力データとラベルデータから学習を行います．モデルを訓練するときは，一般に`fit`関数を使います．[ドキュメントはこちら](/models/sequential).
 
 ```python
 # 一つの入力から2クラス分類をするモデルにおいては
@@ -140,10 +140,10 @@ model.fit(data, one_hot_labels, epochs=10, batch_size=32)
 
 [examples folder](https://github.com/fchollet/keras/tree/master/examples)フォルダにはリアルデータセットを利用したモデルがあります．
 
-- CIFAR10 小規模な画像分類: リアルタイムなdata augmentationを用いたConvolutional Neural Network (CNN)
-- IMDB 映画レビューのセンチメント分類: 単語単位のLSTM
-- Reuters 記事のトピック分類: 多層パーセプトロン (MLP)
-- MNIST 手書き文字認識: MLPとCNN
+- CIFAR10 小規模な画像分類：リアルタイムなdata augmentationを用いたConvolutional Neural Network (CNN)
+- IMDB 映画レビューのセンチメント分類：単語単位のLSTM
+- Reuters 記事のトピック分類：多層パーセプトロン (MLP)
+- MNIST 手書き文字認識：MLPとCNN
 - LSTMを用いた文字単位の文章生成
 
 ...など

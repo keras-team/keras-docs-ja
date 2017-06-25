@@ -7,22 +7,22 @@ keras.layers.noise.GaussianNoise(stddev)
 
 平均値0，ガウシアンノイズを加えます．
 
-これはオーバーフィッティングの軽減に有効です (random data augmentationの一種)．
+これはオーバーフィッティングの軽減に有効です（random data augmentationの一種）．
 ガウシアンノイズ (GS) は実数値の入力におけるノイズ付与として一般的です．
 
 regularization layerは訓練時のみ有効です．
 
 __引数__
 
-- __stddev__: float，ノイズ分布の標準偏差値．
+- __stddev__: 浮動小数点数，ノイズ分布の標準偏差値．
 
-__Input shape__
+__入力のshape__
 
 任意．
 モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
-(整数のタプル(サンプルのaxisは含まない))
+（整数のタプル（サンプルのaxisは含まない））
 
-__Output shape__
+__出力のshape__
 
 入力と同じ．
 
@@ -41,16 +41,16 @@ Alpha Dropoutは，活性化値にランダムに負の飽和値をセットす�
 
 __引数__
 
-- __rate__: float，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
+- __rate__: 浮動小数点数，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
 - __seed__: 整数．乱数のシードに使います．
 
-__Input shape__
+__入力のshape__
 
 任意．
 モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
-(整数のタプル(サンプルのaxisは含まない))
+（整数のタプル（サンプルのaxisは含まない））
 
-__Output shape__
+__出力のshape__
 
 入力と同じ．
 
@@ -73,18 +73,18 @@ regularization layerは訓練時のみ有効です．
 
 __引数__
 
-- __rate__: float，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
+- __rate__: 浮動小数点数，drop probability（`Dropout`同様）．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
 
-__Input shape__
+__入力のshape__
 
 任意．
 モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
-(整数のタプル(サンプルのaxisは含まない))
+（整数のタプル（サンプルのaxisは含まない））
 
-__Output shape__
+__出力のshape__
 
 入力と同じ．
 
-__References__
+__参考文献__
 
 - [Dropout: A Simple Way to Prevent Neural Networks from Overfitting Srivastava, Hinton, et al. 2014](http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf)

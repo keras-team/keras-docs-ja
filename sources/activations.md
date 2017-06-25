@@ -42,7 +42,7 @@ __引数__
 - __x__: テンソル．
 - __axis__: 整数．どの軸にsoftmaxの正規化をするか．
 
-__返り値__
+__戻り値__
 
 テンソル．softmax変換の出力．
 
@@ -108,7 +108,7 @@ relu(x, alpha=0.0, max_value=None)
 tanh(x)
 ```
 
---- 
+---
 
 ### sigmoid
 
@@ -116,15 +116,15 @@ tanh(x)
 sigmoid(x)
 ```
 
---- 
+---
 
-###hard_sigmoid
+### hard_sigmoid
 
 ```python
 hard_sigmoid(x)
 ```
 
---- 
+---
 ### linear
 
 ```python

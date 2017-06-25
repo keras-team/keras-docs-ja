@@ -1,6 +1,6 @@
 ## コールバックの使い方
 
-コールバックは学習手順の段階で適用される関数集合です．学習中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，学習の各段階で呼び出されます．
+コールバックは学習手順の段階で適用される関数集合です．学習中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
 
 ---
 
@@ -11,7 +11,7 @@
 keras.callbacks.BaseLogger()
 ```
 
-監視されているメトリクスのエポック平均を蓄積するコールバックです．
+監視されている評価値のエポック平均を蓄積するコールバックです．
 
 このコールバックは全Kerasモデルに自動的に適用されます．
 
@@ -28,7 +28,7 @@ keras.callbacks.Callback()
 
 __プロパティ__
 
-- __params__: 辞書型．学習のパラメータ(例: 冗長性，バッチサイズ，エポック数...)．
+- __params__: 辞書型．訓練のパラメータ（例: 冗長性，バッチサイズ，エポック数...）．
 - __model__: `keras.models.Model`のインスタンス．学習されたモデルへの参照．
 
 コールバック関数が引数としてとる辞書型の`logs`は，現在のバッチ数かエポック数に関連したデータのキーを含みます．
@@ -41,8 +41,6 @@ __プロパティ__
 
 ----
 
-
-
 <span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/callbacks.py#L160)</span>
 ### ProgbarLogger
 
@@ -50,7 +48,7 @@ __プロパティ__
 keras.callbacks.ProgbarLogger(count_mode='samples')
 ```
 
-標準出力にメトリクスを出力するコールバックです．
+標準出力に評価値を出力するコールバックです．
 
 __引数__
 
@@ -71,7 +69,7 @@ keras.callbacks.History()
 
 `History`オブジェクトにイベントを記録するコールバックです．
 
-このコールバックは全Kersモデルに自動的に適用されます．`History`オブジェクトはモデルの`fit`メソッドの返り値として取得します．
+このコールバックは全Kersモデルに自動的に適用されます．`History`オブジェクトはモデルの`fit`メソッドの戻り値として取得します．
 
 ----
 
@@ -95,8 +93,8 @@ __引数__
 - __verbose__: 冗長モード, 0 または 1．
 - __save_best_only__: `save_best_only=True`の場合，監視しているデータによって最新の最良モデルが上書きされません．
 - __mode__: {auto, min, max}の内の一つが選択されます．`save_best_only=True`ならば，現在保存されているファイルを上書きするかは，監視されている値の最大化か最小化によって決定されます．`val_acc`の場合，この引数は`max`となり，`val_loss`の場合は`min`になります．`auto`モードでは，この傾向は自動的に監視されている値から推定します．
-- __save_weights_only__: Trueなら，モデルの重みが保存されます (`model.save_weights(filepath)`)，そうでないなら，モデルの全体が保存されます(`model.save(filepath)`)．
-- __period__: チェックポイント間の間隔(エポック数)．
+- __save_weights_only__: Trueなら，モデルの重みが保存されます (`model.save_weights(filepath)`)，そうでないなら，モデルの全体が保存されます (`model.save(filepath)`)．
+- __period__: チェックポイント間の間隔（エポック数）．
 
 ----
 
@@ -136,7 +134,7 @@ __引数__
 - __root__: 文字列；対象サーバのルートURL．
 - __path__: 文字列；イベントを送るサーバへの相対的な`path`．
 - __field__: 文字列；データを保存するJSONのフィールド．
-- __headers__: 辞書型; オプションでカスタムできるHTTPヘッダー．デフォルト: 
+- __headers__: 辞書型; オプションでカスタムできるHTTPヘッダー．デフォルト:
     - `{'Accept': 'application/json', 'Content-Type': 'application/json'}`
 
 
@@ -153,7 +151,7 @@ keras.callbacks.LearningRateScheduler(schedule)
 
 __引数__
 
-- __schedule__: この関数はエポックのインデックス(整数型, 0から始まるインデックス)を入力とし，新しい学習率(float)を返します．
+- __schedule__: この関数はエポックのインデックス（整数, 0から始まるインデックス）を入力とし，新しい学習率（浮動小数点数）を返します．
 
 ----
 
@@ -166,7 +164,7 @@ keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True
 
 Tensorboardによる基本的な可視化．
 
-このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，トレーニングとテストのメトリクスを動的にグラフ化し，可視化できます．
+このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，トレーニングとテストの評価値を動的にグラフ化し，可視化できます．
 
 TensorBoardはTensorFlowによって提供されている可視化ツールです．
 
@@ -181,14 +179,14 @@ TensorBoardに関する詳細な情報は[ここ](https://www.tensorflow.org/get
 __引数__
 
 - __log_dir__: TensorfBoardによって解析されたログファイルを保存するディレクトリのパス
-- __histogram_freq__: モデルの層の活性化ヒストグラムを計算する(エポック中の)頻度．この値を0に設定するとヒストグラムが計算されません．
+- __histogram_freq__: モデルの層の活性化ヒストグラムを計算する（エポック中の）頻度．この値を0に設定するとヒストグラムが計算されません．
 - __write_graph__: TensorBoardのグラフを可視化するか．`write_graph`がTrueの場合，ログファイルが非常に大きくなることがあります．
 - __write_grads__: TensorBoardに勾配のヒストグラフを可視化するかどうか．`histogram_freq`は0より大きくしなければなりません．
 - __write_images__: TensorfBoardで可視化するモデルの重みを画像として書き出すかどうか．
-- __embeddings_freq__: 選択したembeddingsレイヤーを保存する(エポックに対する)頻度．
-- __embeddings_layer_names__: 
+- __embeddings_freq__: 選択したembeddingsレイヤーを保存する（エポックに対する）頻度．
+- __embeddings_layer_names__:
 観察するレイヤー名のリスト．もしNoneか空リストなら全embeddingsレイヤーを観察します．
-- __embeddings_metadata__: 
+- __embeddings_metadata__:
 レイヤー名からembeddingsレイヤーに関するメタデータの保存ファイル名へマップする辞書．
 メタデータのファイルフォーマットの[詳細](https://www.tensorflow.org/get_started/embedding_viz#metadata_optional)．
 全embeddingsレイヤーに対して同じメタデータファイルを使う場合は文字列を渡します．
@@ -202,10 +200,10 @@ __引数__
 keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, verbose=0, mode='auto', epsilon=0.0001, cooldown=0, min_lr=0)
 ```
 
-メトリクスの改善が止まった時に学習率を減らします．
+評価値の改善が止まった時に学習率を減らします．
 
 モデルは学習が停滞した時に学習率を2〜10で割ることで恩恵を受けることがあります．
-このコールバックはメトリクスを監視し，patienceで指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
+このコールバックは評価値を監視し，patienceで指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
 
 __例__
 
@@ -251,7 +249,7 @@ model.fit(x_train, y_train, callbacks=[csv_logger])
 
 __引数__
 
-- __filename__: csvファイルの名前．例えば'run/log.csv'．
+- __filename__: csvファイル名．例えば'run/log.csv'．
 - __separator__: csvファイルで各要素を区切るために用いられる文字．
 - __append__: True: ファイルが存在する場合，追記します．（学習を続ける場合に便利です）
     False: 既存のファイルを上書きします．
@@ -280,8 +278,8 @@ __引数__
 - __on_epoch_end__: すべてのエポックの終了時に呼ばれます．
 - __on_batch_begin__: すべてのバッチの開始時に呼ばれます．
 - __on_batch_end__: すべてのバッチの終了時に呼ばれます．
-- __on_train_begin__: 学習の開始時に呼ばれます．
-- __on_train_end__: 学習の終了時に呼ばれます．
+- __on_train_begin__: 訓練の開始時に呼ばれます．
+- __on_train_end__: 訓練の終了時に呼ばれます．
 
 __例__
 
@@ -300,7 +298,7 @@ json_logging_callback = LambdaCallback(
     on_train_end=lambda logs: json_log.close()
 )
 
-# 学習の終了時にいくつかのプロセスを終了
+# 訓練終了時にいくつかのプロセスを終了
 processes = ...
 cleanup_callback = LambdaCallback(
     on_train_end=lambda logs: [
@@ -320,7 +318,7 @@ model.fit(...,
 基底クラスの`keras.callbacks.Callback`を拡張することで，カスタムコールバックを作成できます．
 コールバックは，`self.model`プロパティによって，関連したモデルにアクセスできます．
 
-トレーニング中の各バッチの損失のリストを保存する簡単な例は，以下のようになります．
+訓練中の各バッチの損失のリストを保存する簡単な例は，以下のようになります．
 ```python
 class LossHistory(keras.callbacks.Callback):
     def on_train_begin(self, logs={}):

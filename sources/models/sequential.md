@@ -1,6 +1,6 @@
 # SequentialモデルAPI
 
-はじめに，[KerasのSequentialモデルのガイド](/getting-started/sequential-model-guide) をご覧下さい．
+はじめに，[KerasのSequentialモデルのガイド](/getting-started/sequential-model-guide) を参照してください．
 
 ## モデルの有用な属性
 
@@ -17,22 +17,21 @@
 compile(self, optimizer, loss, metrics=None, sample_weight_mode=None)
 ```
 
-
-学習過程の設定．
+訓練過程の設定．
 
 __引数__
 
-- __optimizer__: 文字列型 (optimizer 名) あるいは optimizer のオブジェクト．
-	[optimizers](/optimizers) をご覧下さい．
-- __loss__: 文字列型 (objective 関数名) あるいは objective 関数．
-	[losses](/losses) をご覧下さい．
-- __metrics__: 訓練やテストの際にモデルを評価するためのメトリックのリスト．
-	典型的には `metrics=['accuracy']`を使用するでしょう．[metrics](/metrics) をご覧下さい．
-- __sample_weight_mode__: もし時間ごとのサンプルの重み付け (2次元の重み) を行う必要があれば
-	"temporal" と設定して下さい．
-	"None" の場合，サンプルへの (1次元) 重み付けをデフォルトとしています．
+- __optimizer__: 文字列（optimizer名）あるいは optimizer のオブジェクト．
+    [optimizers](/optimizers) を参照してください．
+- __loss__: 文字列（目的関数名）あるいは目的関数．
+    [losses](/losses) を参照してください．
+- __metrics__: 訓練やテストの際にモデルを評価するための評価関数のリスト．
+    典型的には `metrics=['accuracy']`を使用するでしょう．[評価関数](/metrics) を参照してください．
+- __sample_weight_mode__: もし時間ごとのサンプルの重み付け（2次元の重み）を行う必要があれば
+    "temporal" と設定してください．
+    "None" の場合，サンプルへの（1次元）重み付けをデフォルトとしています．
 - __kwargs__: Theano がバックエンドの場合， これらは K.function に渡されます．
-	Tensorflow がバックエンドの場合は無視されます．
+    Tensorflow がバックエンドの場合は無視されます．
 
 __例__
 
@@ -54,42 +53,41 @@ model.compile(optimizer='rmsprop',
 fit(self, x, y, batch_size=32, epochs=10, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0)
 ```
 
-
-固定のエポック数でモデルを学習する．
+固定のエポック数でモデルを訓練する．
 
 __引数__
 
 - __x__: 入力データ，Numpy 配列，あるいは Numpy 配列のリスト
-	(モデルに複数の入力がある場合)．
+    （モデルに複数の入力がある場合）．
 - __y__: ラベル，Numpy 配列．
-- __batch_size__: 整数値．設定したサンプル数ごとに勾配の更新を行います．
-- __epochs__: 整数値で，モデルを学習するエポック数．
-- __verbose__: 0 とすると標準出力にログを出力しません．
-	1 の場合はログをプログレスバーで標準出力，2 の場合はエポックごとに 1 行のログを出力します．
+- __batch_size__: 整数．設定したサンプル数ごとに勾配の更新を行います．
+- __epochs__: 整数で，モデルを訓練するエポック数．
+- __verbose__: 0とすると標準出力にログを出力しません．
+    1の場合はログをプログレスバーで標準出力，2 の場合はエポックごとに1行のログを出力します．
 - __callbacks__: `keras.callbacks.Callback` にあるインスタンスのリスト．
-	トレーニングの間 callbacks のリストを適用します．
-	[callbacks](/callbacks)をご覧下さい．
-- __validation_split__: float (0. < x < 1) で，
-	ホールドアウト検証のデータとして使うデータの割合．
+    訓練中にcallbacksのリストを適用します．
+    [callbacks](/callbacks)を参照してください．
+- __validation_split__: 浮動小数点数 (0. < x < 1) で，
+    ホールドアウト検証のデータとして使うデータの割合．
 - __validation_data__: ホールドアウト検証用データとして使うデータのタプル (x_val, y_val) か (x_val, y_val, val_sample_weights)．
-	設定すると validation_split を無視します．
-- __shuffle__: boolean か str (for 'batch')．
-	各エポックにおいてサンプルをシャッフルするかどうか．
-	'batch' は HDF5 データだけに使える特別なオプションです．バッチサイズのチャンクの中においてシャッフルします．
-- __class_weight__: dictionary で，クラス毎の重みを格納します．
-	(学習の間だけ) 損失関数をスケーリングするために使います．
-- __sample_weight__: 入力サンプルと同じ長さの1次元の Numpy 配列で，学習のサンプルに対する重みを格納します．
-	これは損失関数をスケーリングするために (学習の間だけ) 使用します．
-	- (重みとサンプルの間における1:1 の写像),
-	あるいは系列データの場合において，2次元配列の (samples, sequence_length) という形式で，
-	すべてのサンプルの各時間において異なる重みを適用できます．
-	この場合，compile() の中で sample_weight_mode="temporal" と確実に明記すべきです．
-- __initial_epoch__: 学習開始時のepoch (前の学習から再開する際に便利です)．
+    設定すると validation_split を無視します．
+- __shuffle__: 真理値か文字列 (for 'batch')．
+    各エポックにおいてサンプルをシャッフルするかどうか．
+    'batch' は HDF5 データだけに使える特別なオプションです．バッチサイズのチャンクの中においてシャッフルします．
+- __class_weight__: 辞書で，クラス毎の重みを格納します．
+    （訓練の間だけ）損失関数をスケーリングするために使います．
+- __sample_weight__: 入力サンプルと同じ長さの1次元のNumpy 配列で，訓練のサンプルに対する重みを格納します．
+    これは損失関数をスケーリングするために（訓練の間だけ）使用します．
+    - （重みとサンプルの間における1:1 の写像）,
+    あるいは系列データの場合において，2次元配列の (samples, sequence_length) という形式で，
+    すべてのサンプルの各時間において異なる重みを適用できます．
+    この場合，`compile()` の中で sample_weight_mode="temporal" と確実に明記すべきです．
+- __initial_epoch__: 訓練開始時のepoch（前の学習から再開する際に便利です）．
 
-__返り値__
+__戻り値__
 
 `History` オブジェクト． `History.history` 属性は
-実行に成功したエポックにおける学習の損失値とメトリックの値の記録と，(適用可能ならば) 検証における損失値とメトリックの値も記録しています．
+実行に成功したエポックにおける訓練の損失値と評価関数値の記録と，（適用可能ならば）検証における損失値と評価関数値も記録しています．
 
 __Raises__
 
@@ -108,17 +106,17 @@ evaluate(self, x, y, batch_size=32, verbose=1, sample_weight=None)
 __引数__
 
 - __x__: 入力データ，Numpy 配列あるいは Numpy 配列のリスト
-	(モデルに複数の入力がある場合)．
+    （モデルに複数の入力がある場合）．
 - __y__: ラベル，Numpy 配列．
-- __batch_size__: 整数値で，指定したサンプル数で勾配の更新を行います．
-- __verbose__: 進行状況メッセージ出力モードで，0 か 1．
+- __batch_size__: 整数で，指定したサンプル数で勾配の更新を行います．
+- __verbose__: 進行状況メッセージ出力モードで，0か1．
 - __sample_weight__: サンプルの重み，Numpy 配列．
 
-__返り値__
+__戻り値__
 
-スカラーで，テストデータの損失値 (モデルのメトリックを設定していない場合)
-あるいはスカラーのリスト (モデルが他のメトリックを計算している場合) ．
-属性 `model.metrics_names` により，スカラーの出力でラベルを表示します．
+スカラーで，テストデータの損失値（モデルの評価関数を設定していない場合）
+あるいはスカラーのリスト（モデルが他の評価関数を計算している場合）．
+`model.metrics_names`属性により，スカラーの出力でラベルを表示します．
 
 __Raises__
 
@@ -140,10 +138,10 @@ predict(self, x, batch_size=32, verbose=0)
 __引数__
 
 - __x__: 入力データで，Numpy 配列の形式．
-- __batch_size__: 整数値．
-- __verbose__: 進行状況メッセージ出力モード，0 または 1．
+- __batch_size__: 整数．
+- __verbose__: 進行状況メッセージ出力モード，0または1．
 
-__返り値__
+__戻り値__
 
 予測値を格納した Numpy 配列．
 
@@ -162,11 +160,11 @@ predict_classes(self, x, batch_size=32, verbose=1)
 
 __引数__
 
-- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト (モデルに複数の入力がある場合)．
-- __batch_size__: 整数値．
-- __verbose__: 進行状況メッセージ出力モード，0 または 1．
+- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト（モデルに複数の入力がある場合）．
+- __batch_size__: 整数．
+- __verbose__: 進行状況メッセージ出力モード，0または1．
 
-__返り値__
+__戻り値__
 
 属するクラスの予測を格納した Numpy 配列．
 
@@ -186,11 +184,11 @@ predict_proba(self, x, batch_size=32, verbose=1)
 
 __引数__
 
-- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト (モデルに複数の入力がある場合)．
-- __batch_size__: 整数値．
-- __verbose__: 進行状況メッセージ出力モード，0 または 1．
+- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト（モデルに複数の入力がある場合）．
+- __batch_size__: 整数．
+- __verbose__: 進行状況メッセージ出力モード，0または1．
 
-__返り値__
+__戻り値__
 
 確率の予測値を格納した Numpy 配列．
 
@@ -207,16 +205,16 @@ train_on_batch(self, x, y, class_weight=None, sample_weight=None)
 
 __引数__
 
-- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト (モデルに複数の入力がある場合)．
+- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト（モデルに複数の入力がある場合）．
 - __y__: ラベル，Numpy 配列．
-- __class_weight__: dictionary 型で，クラス毎の重みを格納します．
-	(学習の間だけ) 損失関数をスケーリングするために使います．
+- __class_weight__: 辞書で，クラス毎の重みを格納します．
+    （訓練の間だけ）損失関数をスケーリングするために使います．
 - __sample_weight__: サンプルの重み，Numpy 配列．
 
-__返り値__
+__戻り値__
 
-スカラーでトレーニングの損失値 (モデルにメトリックが設定されていない場合)
-あるいはスカラーのリスト (モデルが他のメトリックを計算している場合)．
+スカラーでトレーニングの損失値（モデルに評価関数が設定されていない場合）
+あるいはスカラーのリスト（モデルが他の評価関数を計算している場合）．
 `model.metrics_names` 属性により，スカラーの出力でラベルを表示する．
 
 __Raises__
@@ -236,14 +234,14 @@ test_on_batch(self, x, y, sample_weight=None)
 
 __引数__
 
-- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト (モデルに複数の入力がある場合)．
+- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト（モデルに複数の入力がある場合）．
 - __y__: ラベル，Numpy 配列の形式．
 - __sample_weight__: サンプルの重み，Numpy 配列の形式．
 
-__返り値__
+__戻り値__
 
-スカラーで，テストの損失値 (モデルにメトリックが設定されていない場合)
-あるいはスカラーのリスト (モデルが他のメトリックを計算している場合)．
+スカラーで，テストの損失値（モデルに評価関数が設定されていない場合）
+あるいはスカラーのリスト（モデルが他の評価関数を計算している場合）．
 `model.metrics_names` 属性により，スカラーの出力でラベルを表示する．
 
 __Raises__
@@ -263,9 +261,9 @@ predict_on_batch(self, x)
 
 __引数__
 
-- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト (モデルに複数の入力がある場合)．
+- __x__: 入力データ，Numpy 配列または Numpy 配列のリスト（モデルに複数の入力がある場合）．
 
-__返り値__
+__戻り値__
 
 予測値を格納した Numpy 配列．
 
@@ -293,23 +291,23 @@ __引数__
     `samples_per_epoch` 数のサンプルが，モデルによって確認されたときにエポックが終了します．
 - __steps_per_epoch__: 1エポックを宣言してから次のエポックの開始前までに`generator`から生成されるサンプル (サンプルのバッチ) の総数．
 典型的には，データにおけるユニークなサンプル数をバッチサイズで割った値です．
-- __epochs__: 整数値で，イテレーションの総数．
+- __epochs__: 整数で，イテレーションの総数．
 - __verbose__: 進行状況メッセージ出力モードで，0，1，あるいは 2．
-- __callbacks__: callbacks のリストで，学習の際に呼び出されます．
+- __callbacks__: callbacks のリストで，訓練の際に呼び出されます．
 - __validation_data__: 以下のいずれかです．
     - 検証用データのジェネレータ
     - タプル (inputs, targets)
     - タプル (inputs, targets, sample_weights)．
 - __validation_steps__: `validation_data` がジェネレータである場合だけ関係があります．
     各エポックの終わりに検証用ジェネレータから使用するステップ数です．典型的には，検証用データにおけるユニークなサンプル数をバッチサイズで割った値です．
-- __class_weight__: dictionary 型で，クラス毎の重みを格納します．
-    (学習の間だけ) 損失関数をスケーリングするために使います．
+- __class_weight__: 辞書で，クラス毎の重みを格納します．
+    （訓練の間だけ）損失関数をスケーリングするために使います．
 - __max_queue_size__: ジェネレータのキューの最大サイズ．
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数
 - __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
-- __initial_epoch__: 学習開始時のepoch (前の学習から再開する際に便利です)．
+- __initial_epoch__: 訓練開始時のepoch（前の学習から再開する際に便利です）．
 
-__返り値__
+__戻り値__
 
 `History` オブジェクト．
 
@@ -331,7 +329,7 @@ def generate_arrays_from_file(path):
         f.close()
 
 model.fit_generator(generate_arrays_from_file('/my_file.txt'),
-        samples_per_epoch=10000, epochs=10)
+                    samples_per_epoch=10000, epochs=10)
 ```
 
 ----
@@ -352,16 +350,16 @@ __引数__
 - __generator__:
     (inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
 - __steps__:
-    `generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
+    `generator`が停止するまでに生成するサンプル（サンプルのバッチ）の総数
 - __max_queue_size__: ジェネレータのキューの最大サイズ
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数
 - __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 
-__返り値__
+__戻り値__
 
-スカラーで，テストの損失値 (モデルにメトリックが設定されていない場合)
-あるいはスカラーのリスト (モデルが他のメトリックを計算している場合)．
-`model.metrics_names` 属性により，スカラーの出力でラベルを表示する．
+スカラーで，テストの損失値（モデルに評価関数が設定されていない場合）
+あるいはスカラーのリスト（モデルが他の評価関数を計算している場合）．
+`model.metrics_names`属性により，スカラーの出力でラベルを表示する．
 
 __Raises__
 
@@ -378,19 +376,19 @@ predict_generator(self, generator, steps, max_queue_size=10, workers=1, use_mult
 
 ジェネレータから生成されたデータに対して予測します．
 
-ジェネレータは `predict_on_batch` が受け取るデータと同じ種類のデータを返すべきです．
+ジェネレータは`predict_on_batch`が受け取るデータと同じ種類のデータを返すべきです．
 
 __引数__
 
 - __generator__:
     入力サンプルのバッチを生成するジェネレータ．
 - __steps__:
-    `generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
+    `generator`が停止するまでに生成するサンプル（サンプルのバッチ）の総数
 - __max_queue_size__: ジェネレータのキューの最大サイズ
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数
 - __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
-- __verbose__: 進行状況メッセージ出力モード，0 または 1．
+- __verbose__: 進行状況メッセージ出力モード，0または1．
 
-__返り値__
+__戻り値__
 
 予測値の Numpy 配列．

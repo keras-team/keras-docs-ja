@@ -45,7 +45,7 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 
 1. もしPRによって機能的な変更が生じる場合，変更すべきかどうか，どのようにそれを対処するか議論するために設計書を書いてKerasのメーリングリストに投稿してください．これによって，あなたのPRが閉じられることを防ぐでしょう！もちろん，PRが単純なバグ修正なら，必要ありません．設計書の作成と投稿手順は以下の通りです：
     - [Google Doc template](https://docs.google.com/document/d/1ZXNfce77LDW9tFAj6U5ctaJmI5mT7CQXOFMEAZo-mAA/edit#)を開き，これを新しいGoogle docにコピーします．
-    - 内容を記入します．サンプルコードを含める必要があることに気をつけてください．コードを挿入するために，[CodePretty](https://chrome.google.com/webstore/detail/code-pretty/igjbncgfgnfpbnifnnlcmjfbnidkndnh?hl=en)のようなGoogle docの拡張機能を使って下さい（いくつかこのような拡張機能が利用可能です）
+    - 内容を記入します．サンプルコードを含める必要があることに気をつけてください．コードを挿入するために，[CodePretty](https://chrome.google.com/webstore/detail/code-pretty/igjbncgfgnfpbnifnnlcmjfbnidkndnh?hl=en)のようなGoogle docの拡張機能を使ってください（いくつかこのような拡張機能が利用可能です）
     - 共有設定を"everyone with the link is allowed to comment"にしてください．
     - 私たちが気づくように（全部大文字の）`[API DESIGN REVIEW]`からはじまるタイトルをつけたこの文書を`keras-users@googlegroups.com`に投稿してください．
     - コメントを待ち，コメントがきたら答えてくださいい．必要に応じて文書を編集してください．

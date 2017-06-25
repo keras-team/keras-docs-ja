@@ -11,7 +11,7 @@ keras.utils.generic_utils.CustomObjectScope()
 グローバルなcustomオブジェクトへの変更は`with`で囲まれた中でのみ持続し，
 `wuth`から抜けると，グローバルなcustomオブジェクトは`with`の最初の状態に戻ります．
 
-__Example__
+__例__
 
 `MyObject`というcustomオブジェクトの例です．
 
@@ -30,9 +30,9 @@ with CustomObjectScope({'MyObject':MyObject}):
 keras.utils.io_utils.HDF5Matrix(datapath, dataset, start=0, end=None, normalizer=None)
 ```
 
-Numpyの配列の代わりに使えるHDF5 datasetの表現です．
+Numpy 配列の代わりに使えるHDF5 datasetの表現です．
 
-### Example
+### 例
 
 ```python
 x_data = HDF5Matrix('input/file.hdf5', 'data')
@@ -43,7 +43,7 @@ model.predict(x_data)
 
 normalizer関数（やラムダ式）を渡せます． normalizer関数は取得されたすべてのスライスに適用されます．
 
-__Arguments__
+__引数__
 
 - __datapath__: string, HDF5ファイルへのパス
 - __dataset__: string, datapathで指定されたファイル中におけるHDF5 datasetの名前
@@ -51,11 +51,55 @@ __Arguments__
 - __end__: int, 指定されたdatasetのスライスの終了index
 - __normalizer__: 読み込まれた時にデータに対して適用する関数
 
-__Returns__
+__戻り値__
 
 array-likeなHDF5 dataset．
 
---- 
+---
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/utils/generic_utils.py#L16)</span>
+### Sequence
+
+```python
+keras.utils.data_utils.Sequence()
+```
+
+
+datasetのようなデータの系列にfittingのためのベースオブジェクト．
+
+Sequenceは`__getitem__`と`__len__`メソッドを実装します．
+
+
+### 例
+
+``` python
+from skimage.io import imread
+from skimage.transform import resize
+import numpy as np
+
+__Here, `x_set` is list of path to the images__
+
+# and `y_set` are the associated classes.
+
+class CIFAR10Sequence(Sequence):
+def __init__(self, x_set, y_set, batch_size):
+    self.X,self.y = x_set,y_set
+    self.batch_size = batch_size
+
+def __len__(self):
+    return len(self.X) // self.batch_size
+
+def __getitem__(self,idx):
+    batch_x = self.X[idx*self.batch_size:(idx+1)*self.batch_size]
+    batch_y = self.y[idx*self.batch_size:(idx+1)*self.batch_size]
+
+    return np.array([
+    resize(imread(file_name), (200,200))
+       for file_name in batch_x]), np.array(batch_y)
+```
+
+---
+
 
 ### to_categorical
 
@@ -66,12 +110,12 @@ to_categorical(y, num_classes=None)
 
 例えば，`categorical_crossentropy`のために使います．
 
-__Arguments__
+__引数__
 
-- __y__: 行列に変換されるクラスベクトル (0から`num_classes`までの整数値)
+- __y__: 行列に変換されるクラスベクトル（0から`num_classes`までの整数値）
 - __num_classes__: 総クラス数
 
-__Returns__
+__戻り値__
 
 入力のバイナリ行列表現
 
@@ -85,15 +129,15 @@ normalize(x, axis=-1, order=2)
 
 Numpy配列の正規化
 
-__Arguments__
+__引数__
 
-- __x__: 正規化するNumpy配列．
+- __x__: 正規化するNumpy 配列．
 - __axis__: 正規化する軸．
-- __order__: 正規化するorder (例: L2ノルムには2)．
+- __order__: 正規化するorder（例: L2ノルムでは2）．
 
-__Returns__
+__戻り値__
 
-numpy配列の正規化されたコピー．
+Numpy 配列の正規化されたコピー．
 
 ---
 
@@ -107,7 +151,7 @@ convert_all_kernels_in_model(model)
 
 TensorFlowからTheanoへの変換も可能です．
 
-__Arguments__
+__引数__
 
 - __model__: 変換対象となるモデル．
 
@@ -119,9 +163,9 @@ __Arguments__
 plot_model(model, to_file='model.png', show_shapes=False, show_layer_names=True, rankdir='TB')
 ```
 
-Converts a Keras model to dot format and save to a file.
+Kerasモデルをdotフォーマットに変換しファイルに保存します．
 
-__Arguments__
+__引数__
 
 - __model__: Kerasのモデルインスタンス
 - __to_file__: 保存するファイル名
@@ -143,7 +187,7 @@ custom_object_scope()
 グローバルなcustomオブジェクトへの変更は`with`で囲まれた中でのみ持続し，
 `wuth`から抜けると，グローバルなcustomオブジェクトは`with`の最初の状態に戻ります．
 
-__Example__
+__例__
 
 MyObjectというcustomオブジェクトの例です．
 
@@ -153,11 +197,11 @@ with custom_object_scope({'MyObject':MyObject}):
     # save, load, etc. will recognize custom object by name
 ```
 
-__Arguments__
+__引数__
 
 - __*args__: customオブジェクトに追加する名前とクラスのペアを格納した辞書の可変長リスト．
 
-__Returns__
+__戻り値__
 
 `CustomObjectScope`型のオブジェクト．
 
@@ -174,14 +218,14 @@ customオブジェクトのグローバル辞書への参照を返します．
 custumオブジェクトの更新や削除は`custom_object_scope`の使用が好まれますが，
 `_GLOBAL_CUSTOM_OBJECTS`への直接的なアクセスに`get_custom_objects`も利用可能です．
 
-__Example__
+__例__
 
 ```python
 get_custom_objects().clear()
 get_custom_objects()['MyObject'] = MyObject
 ```
 
-__Returns__
+__戻り値__
 
 クラス名へのグローバルな辞書 (`_GLOBAL_CUSTOM_OBJECTS`) ．
 
@@ -212,17 +256,17 @@ get_file(fname, origin, untar=False, md5_hash=None, cache_subdir='datasets', fil
 既にキャッシュされていないならURLからファイルをダウンロードします．
 
 デフォルトでは，`original`のURLからダウンロードされたファイルは，
-キャシュディレクトリ`~/.keras`下の，そのサブディレクトリ`datasets`下の，`fname`で保存します． 
+キャシュディレクトリ`~/.keras`下の，そのサブディレクトリ`datasets`下の，`fname`で保存します．
 したがって最終的な`example.txt`の保存位置は，`~/.keras/datasets/example.txt`です．
 
 tar，tar.gz，tar.bz，zipファイルは展開可能です．ダウンロード後にファイルのハッシュ値を渡すことでハッシュ値を検証します．
 ハッシュ計算はshasumとsha256sumのコマンドラインプログラムです．
 
-__Arguments__
+__引数__
 
 - __fname__: ファイル名．もし絶対パス`/path/to/file.txt`が指定されたファイルは，その位置に保存します．
 - __origin__: ファイルの置かれているURL．
-- __untar__: 'extract'により非推奨．boolean，ファイルを展開するかどうか．
+- __untar__: 'extract'により非推奨．真理値，ファイルを展開するかどうか．
 - __md5_hash__: 'file_hash'により非推奨．ファイル検証に使うmd5ハッシュ．
 - __file_hash__: ダウンロード後のハッシュ文字列．sha256とmd5をサポート．
 - __cache_subdir__: ファイルを保存するKerasのキャシュディレクトリ下のサブディレクトリ．絶対パス`/path/to/folder`が指定された場合は，そこに保存します．
@@ -231,6 +275,6 @@ __Arguments__
 - __archive_format__: 展開するアーカイブフォーマット．オプションは，'auto'，'tar'，'zip'，None．'tar'はtar，tar.gz，tar.bzファイルを含みます．デフォルト値の'auto'は['tar', 'zip']です．Noneか空リストでは何も該当しません．
 - __cache_dir__: キャシュファイルの保存位置，Noneでは[Keras Directory](https://keras.io/ja/getting-started/faq/#where-is-the-keras-configuration-filed-stored)のデフォルト.
 
-__Returns__
+__戻り値__
 
 ダウンロードされたファイルへのパス．

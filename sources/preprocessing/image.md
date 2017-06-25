@@ -42,7 +42,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __vertical_flip__: 真理値．垂直方向に入力をランダムに反転します．
     - __rescale__: rescale factor. デフォルトはNone．Noneか0ならば，適用しない．それ以外であれば，(他の変換を行う前に) 与えられた値をデータに積算する．
     - __preprocessing_function__: 各入力に適用される関数です．この関数は他の変更が行われる前に実行されます．この関数は三次元のnumpyテンソルを引数にとり，同じshapeのテンソルを出力するように定義する必要があります．
-    - __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します. `"channels_last"`の場合，入力の型は`(samples, height, width, channels)`となり，"channels_first"の場合は`(samples, channels, height, width)`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
+    - __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します. `"channels_last"`の場合，入力のshapeは`(samples, height, width, channels)`となり，"channels_first"の場合は`(samples, channels, height, width)`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 - __Methods__:
     - __fit(x)__: 与えられたサンプルデータに基づいて，データに依存する統計量を計算します．
@@ -68,7 +68,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __target_size__: 整数のタプル．デフォルトは`(256, 256)`．この値に全画像はリサイズされる．
             - __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
             - __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論される（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになる）．
-            - __class_mode__: "categorical"か"binary"か"sparse"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列の型を決定する: "categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル．Noneであれば，ラベルを返さない (ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用)．
+            - __class_mode__: "categorical"か"binary"か"sparse"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定する: "categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル．Noneであれば，ラベルを返さない (ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用)．
             - __batch_size__: 整数（デフォルト: 32）．
             - __shuffle__: 真理値（デフォルト: True）．
             - __seed__: shuffleのための乱数seed
@@ -77,7 +77,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
             - __follow_links__: サブディレクトリ内のシンボリックリンクに従うかどうか．デフォルトはFalse．
 
-- __Examples__:
+- __例__:
 
 `.flow(x, y)`の使用例:
 

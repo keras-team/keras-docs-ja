@@ -16,6 +16,6 @@ model.add(Dense(64, kernel_constraint=max_norm(2.)))
 
 ## 利用可能な制約
 
-- __maxnorm__(max_value=2, axis=0): 最大値ノルム制約
-- __non_neg__(): 非負値制約
-- __unit_norm__(): ノルム正規化制約，行列の最後のaxisのノルムで正規化
+- __maxnorm(max_value=2, axis=0)__: 最大値ノルム制約
+- __non_neg()__: 非負値制約
+- __unit_norm()__: ノルム正規化制約，行列の最後のaxisのノルムで正規化

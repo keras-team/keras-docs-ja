@@ -5,7 +5,7 @@
 keras.layers.merge.Add()
 ```
 
-入力のリスト同士を足し合わせるLayer．
+入力のリスト同士を足し合わせるレイヤー．
 
 入力はすべて同じshapeをもったテンソルのリストで，1つのテンソルを返す（shapeは同じ）．
 
@@ -18,7 +18,7 @@ keras.layers.merge.Add()
 keras.layers.merge.Multiply()
 ```
 
-入力のリストの要素同士の積のLayer．
+入力のリストの要素同士の積のレイヤー．
 
 入力はすべて同じshapeをもったテンソルのリストで，1つのテンソルを返す（shapeは同じ）．
 
@@ -31,7 +31,7 @@ keras.layers.merge.Multiply()
 keras.layers.merge.Average()
 ```
 
-入力のリストを平均するLayer．
+入力のリストを平均するレイヤー．
 
 入力はすべて同じshapeをもったテンソルのリストで，1つのテンソルを返す（shapeは同じ）．
 
@@ -44,7 +44,7 @@ keras.layers.merge.Average()
 keras.layers.merge.Maximum()
 ```
 
-入力のリストの要素間の最大値を求めるLayer．
+入力のリストの要素間の最大値を求めるレイヤー．
 
 入力はすべて同じshapeをもったテンソルのリストで，1つのテンソルを返す（shapeは同じ）．
 
@@ -57,14 +57,14 @@ keras.layers.merge.Maximum()
 keras.layers.merge.Concatenate(axis=-1)
 ```
 
-入力のリストをconcatenateするLayer．
+入力のリストをconcatenateするレイヤー．
 
 入力はすべて同じshapeをもったテンソルのリストで，全入力をconcatenateした1つのテンソルを返す．
 
-__Arguments__
+__引数__
 
 - __axis__: concatenateする際のaxis．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
 ----
 
@@ -75,16 +75,16 @@ __Arguments__
 keras.layers.merge.Dot(axes, normalize=False)
 ```
 
-2つのテンソルのサンプル間でdot積を計算するLayer．
+2つのテンソルのサンプル間でdot積を計算するレイヤー．
 
 例．もしshapeが`batch_size, n`の2つのテンソル`a`と`b`に適用する場合，出力されるテンソルのshapeは，`(batch_size, 1)`，出力の要素 `i` は，`a[i]`と`b[i]`のdot積．
 
-__Arguments__
+__引数__
 
-- __axes__: intかintのタプル．dot積をとる際にaxisかaxesのどちらを使うか．
+- __axes__: 整数か整数のタプル．dot積をとる際にaxisかaxesのどちらを使うか．
 - __normalize__: dot積をとる前にdot積のaxisでサンプルをL2正規化するかどうか．
 Trueなら，dot積の出力は，2つのサンプルのcosine．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
 ----
 
@@ -94,14 +94,14 @@ Trueなら，dot積の出力は，2つのサンプルのcosine．
 add(inputs)
 ```
 
-`Add`Layerの関数インターフェース．
+`Add`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力の総和のテンソル．
 
@@ -113,14 +113,14 @@ __Returns__:
 multiply(inputs)
 ```
 
-`Multiply`Layerの関数インターフェース．
+`Multiply`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力の要素同士の積のテンソル．
 
@@ -132,14 +132,14 @@ __Returns__:
 average(inputs)
 ```
 
-`Average`Layerの関数インターフェース．
+`Average`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力の平均のテンソル．
 
@@ -151,14 +151,14 @@ __Returns__:
 maximum(inputs)
 ```
 
-`Maximum`Layerの関数インターフェース．
+`Maximum`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力の要素間の最大値のテンソル．
 
@@ -169,15 +169,15 @@ __Returns__:
 ```python
 concatenate(inputs, axis=-1)
 ```
-`Concatenate`Layerの関数インターフェース．
+`Concatenate`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
 - __axis__: Concatenation axis．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力を`axis`の方向でconcateしたテンソル．
 
@@ -188,15 +188,15 @@ __Returns__:
 ```python
 dot(inputs, axes, normalize=False)
 ```
-`Dot`Layerの関数インターフェース．
+`Dot`レイヤーの関数インターフェース．
 
-__Arguments__
+__引数__
 
-- __inputs__: 入力テンソルのリスト(最低2つ)．
-- __axes__: intかintのタプル．dot積をとる際にaxisかaxesのどちらを使うか．
+- __inputs__: 入力テンソルのリスト（最低2つ）．
+- __axes__: 整数か整数のタプル．dot積をとる際にaxisかaxesのどちらを使うか．
 - __normalize__: dot積をとる前にdot積のaxisでサンプルをL2正規化するかどうか． Trueなら，dot積の出力は，2つのサンプルのcosine．
-- __**kwargs__: 標準的なLayerのキーワード引数．
+- __**kwargs__: 標準的なレイヤーのキーワード引数．
 
-__Returns__:
+__戻り値__
 
 入力のdot積をとったテンソル．

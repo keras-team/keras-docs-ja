@@ -3,7 +3,7 @@
 全てのKerasレイヤーは次のいくつかの共通したメソッドを持っています．
 
 - `layer.get_weights()`: レイヤーの重みをNumpy 配列のリストとして返す．
-- `layer.set_weights(weights)`: Numpy 配列(`get_weights`で得られる重みと同じshapeをもつ)のリストでレイヤーの重みをセットする．
+- `layer.set_weights(weights)`: Numpy 配列（`get_weights`で得られる重みと同じshapeをもつ）のリストでレイヤーの重みをセットする．
 - `layer.get_config()`: レイヤーの設定をもつ辞書を返す．レイヤーは次のように，それ自身の設定から再インスタンス化できます:
 
 ```python
@@ -29,7 +29,7 @@ layer = layers.deserialize({'class_name': layer.__class__.__name__,
 - `layer.input_shape`
 - `layer.output_shape`
 
-もし，レイヤーが複数ノードを持つなら，(see: [the concept of layer node and shared layers](/getting-started/functional-api-guide/#the-concept-of-layer-node))，次のメソッドが使えます．
+もし，レイヤーが複数ノードを持つなら，（[the concept of layer node and shared layers](/getting-started/functional-api-guide/#the-concept-of-layer-node)をみてください），以下のメソッドが使えます．
 
 - `layer.get_input_at(node_index)`
 - `layer.get_output_at(node_index)`
