@@ -275,7 +275,7 @@ __返り値__
 
 
 ```python
-fit_generator(self, generator, steps_per_epoch, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_q_size=10, workers=1, pickle_safe=False, initial_epoch=0)
+fit_generator(self, generator, steps_per_epoch, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_queue_size=10, workers=1, use_multiprocessing=False, initial_epoch=0)
 ```
 
 Python のジェネレータにより，バッチごとに生成されるデータでモデルを学習させます．
@@ -286,27 +286,27 @@ Python のジェネレータにより，バッチごとに生成されるデー�
 __引数__
 
 - __generator__: ジェネレータ．
-	ジェネレータの出力は以下のいずれかでなければならず，どの配列も同数のサンプルを含まなければなりません．
-	- タプル (inputs, targets)
-	- タプル (inputs, targets, sample_weights)．
-	ジェネレータは永遠にそのデータを繰り返すことを期待されています．
-	`samples_per_epoch` 数のサンプルが，モデルによって確認されたときにエポックが終了します．
+    ジェネレータの出力は以下のいずれかでなければならず，どの配列も同数のサンプルを含まなければなりません．
+    - タプル (inputs, targets)
+    - タプル (inputs, targets, sample_weights)．
+    ジェネレータは永遠にそのデータを繰り返すことを期待されています．
+    `samples_per_epoch` 数のサンプルが，モデルによって確認されたときにエポックが終了します．
 - __steps_per_epoch__: 1エポックを宣言してから次のエポックの開始前までに`generator`から生成されるサンプル (サンプルのバッチ) の総数．
 典型的には，データにおけるユニークなサンプル数をバッチサイズで割った値です．
 - __epochs__: 整数値で，イテレーションの総数．
 - __verbose__: 進行状況メッセージ出力モードで，0，1，あるいは 2．
 - __callbacks__: callbacks のリストで，学習の際に呼び出されます．
 - __validation_data__: 以下のいずれかです．
-	- 検証用データのジェネレータ
-	- タプル (inputs, targets)
-	- タプル (inputs, targets, sample_weights)．
+    - 検証用データのジェネレータ
+    - タプル (inputs, targets)
+    - タプル (inputs, targets, sample_weights)．
 - __validation_steps__: `validation_data` がジェネレータである場合だけ関係があります．
-	各エポックの終わりに検証用ジェネレータから使用するステップ数です．典型的には，検証用データにおけるユニークなサンプル数をバッチサイズで割った値です．
+    各エポックの終わりに検証用ジェネレータから使用するステップ数です．典型的には，検証用データにおけるユニークなサンプル数をバッチサイズで割った値です．
 - __class_weight__: dictionary 型で，クラス毎の重みを格納します．
-	(学習の間だけ) 損失関数をスケーリングするために使います．
-- __max_q_size__: ジェネレータのキューの最大サイズ．
+    (学習の間だけ) 損失関数をスケーリングするために使います．
+- __max_queue_size__: ジェネレータのキューの最大サイズ．
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 - __initial_epoch__: 学習開始時のepoch (前の学習から再開する際に便利です)．
 
 __返り値__
@@ -340,7 +340,7 @@ model.fit_generator(generate_arrays_from_file('/my_file.txt'),
 
 
 ```python
-evaluate_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe=False)
+evaluate_generator(self, generator, steps, max_queue_size=10, workers=1, use_multiprocessing=False)
 ```
 
 ジェネレータのデータによってモデルを評価します．
@@ -350,12 +350,12 @@ evaluate_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe
 __引数__
 
 - __generator__:
-	(inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
+    (inputs, targets)あるいは(inputs, targets, sample_weights)のタプルを生成するジェネレーター．
 - __steps__:
-	`generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
-- __max_q_size__: ジェネレータのキューの最大サイズ
-- __nb_worker__: スレッドベースのプロセス使用時の最大プロセス数
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+    `generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
+- __max_queue_size__: ジェネレータのキューの最大サイズ
+- __workers__: スレッドベースのプロセス使用時の最大プロセス数
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 
 __返り値__
 
@@ -373,7 +373,7 @@ __Raises__
 
 
 ```python
-predict_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe=False, verbose=0)
+predict_generator(self, generator, steps, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0)
 ```
 
 ジェネレータから生成されたデータに対して予測します．
@@ -383,12 +383,12 @@ predict_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe=
 __引数__
 
 - __generator__:
-	入力サンプルのバッチを生成するジェネレータ．
-- __steps__: 
-	`generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
-- __max_q_size__: ジェネレータのキューの最大サイズ
+    入力サンプルのバッチを生成するジェネレータ．
+- __steps__:
+    `generator`が停止するまでに生成するサンプル (サンプルのバッチ) の総数
+- __max_queue_size__: ジェネレータのキューの最大サイズ
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 - __verbose__: 進行状況メッセージ出力モード，0 または 1．
 
 __返り値__

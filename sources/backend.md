@@ -2,12 +2,15 @@
 
 ## "バックエンド"とは?
 
-Kerasはモデルレベルのライブラリーで，深層学習モデルを開発するための高水準な構成要素を提供します．テンソル積，畳み込みなどのような低水準の操作をKeras自身で扱うことはありません．その代わりに，Kerasの"バックエンドエンジン"としての役割を果たし，そのような操作を行うために特化し，また最適化されたテンソルを取り扱うライブラリに依存しています．唯一のテンソルのライブラリを選び，そのライブラリに束縛されたKerasの実装を行うのではなく，Kerasはモジュール方式でこの問題を扱い，いくつかの異なるバックエンドエンジンをKerasにシームレスに接続できます．
+Kerasはモデルレベルのライブラリで，深層学習モデルを開発するための高水準な構成要素を提供します．テンソル積，畳み込みなどのような低水準の操作をKeras自身で扱うことはありません．その代わりに，Kerasの"バックエンドエンジン"としての役割を果たし，そのような操作を行うために特化し，また最適化されたテンソルを取り扱うライブラリに依存しています．唯一のテンソルのライブラリを選び，そのライブラリに束縛されたKerasの実装を行うのではなく，Kerasはモジュール方式でこの問題を扱い，いくつかの異なるバックエンドエンジンをKerasにシームレスに接続できます．
 
-現在は，Kerasは二つのバックエンドが利用可能で，それは**TensorFlow**バックエンドと**Theano**バックエンドです．
+現在は，Kerasは3つのバックエンドが利用可能で，それは**TensorFlow**バックエンドと**Theano**バックエンド，そして**CNTK**バックエンドです．
 
 - [TensorFlow](http://www.tensorflow.org/) はGoogle, Inc.により開発されたオープンソースで，テンソルをシンボリックに操作ができるフレームワークです．
 - [Theano](http://deeplearning.net/software/theano/) はモントリオール大学のLISA/MILA Labにより開発されたオープンソースで，テンソルをシンボリックに操作ができるフレームワークです．
+- [CNTK](https://www.microsoft.com/en-us/cognitive-toolkit/) はMicrosoftによって開発された深層学習のためのcommercial-grade toolkitというオープンソースです．
+
+将来的に，さらにバックエンドを追加する予定です．
 
 ----
 
@@ -32,7 +35,7 @@ Kerasはモデルレベルのライブラリーで，深層学習モデルを開
 }
 ```
 
-単にフィールド`backend`を`"theano"`もしくは`"tensorflow"`に変えると，次回あなたが任意のKerasコードを実行するときに新しい設定を利用します．
+`backend`フィールドを`"theano"`か`"tensorflow"`，`"cntk"`に変えるだけで，次回の実行時から新しい設定を利用します．
 
 環境変数`KERAS_BACKEND`も定義することができて，かつあなたの設定ファイルで定義されているものを上書きします:
 
@@ -62,7 +65,7 @@ Using TensorFlow backend.
 * 3次元データに対しては， `"channels_last"` は `(conv_dim1, conv_dim2, conv_dim3, channels)` とみなし， `"channels_first"` は `(channels, conv_dim1, conv_dim2, conv_dim3)` とみなします．
 * `epsilon`: float，いくつかの操作で0除算を避けるために使う微小値定数．
 * `floatx`: 文字列，`"float16"`，`"float32"`，か `"float64"`．デフォルトの浮動小数点精度．
-* `backend`: 文字列，`"tensorflow"` か `"theano"`．
+* `backend`: 文字列，`"tensorflow"` か `"theano"` か `"cntk"`．
 
 ----
 
@@ -3062,7 +3065,7 @@ __返り値__
 
 __Raises__
 
-- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合． 
+- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合．
 
 ----
 
@@ -3090,7 +3093,7 @@ __返り値__
 
 __Raises__
 
-- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合． 
+- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合．
 
 ----
 
@@ -3117,7 +3120,7 @@ __返り値__
 
 __Raises__
 
-- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合． 
+- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合．
 - __ValueError__: `pool_mode`が`max`，または`avg`ではない場合．
 
 ----
@@ -3146,7 +3149,7 @@ __返り値__
 
 __Raises__
 
-- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合． 
+- __ValueError__: `data_format`が`channels_last`，または`channels_first`ではない場合．
 - __ValueError__: `pool_mode`が`max`，または`avg`ではない場合．
 
 ----
@@ -3171,7 +3174,9 @@ __返り値__
 
 __Raises__
 
-- __ValueError__: 無効な`data_format`が与えられた場合．
+- __ValueError__: 以下の2つの場合の一方：
+    1. 不正な`data_format`が与えられた場合．
+    2. 不正なbiasのshape．biasはベクトルかndim(x) - 1のテンソルにすべきです．
 
 ----
 
@@ -3390,3 +3395,58 @@ __引数__
 __返り値__
 
 `initializer`の同じ型とshapeを持つテンソル．
+
+----
+
+### local_conv1d
+
+``` python
+local_conv1d(inputs, kernel, kernel_size, strides, data_format=None)
+```
+
+重みを共有しない1次元畳み込みの適用．
+
+
+__引数__
+
+- __inputs__: (batch_size, steps, input_dim)のshapeをもつ3階テンソル
+- __kernel__: (output_length, feature_dim, filters)のshapeをもつ畳み込みのため共有なしの重み
+- __kernel_size__: 1次元の畳み込みにおけるwondowの長さを指定する整数1つをもつタプル
+- __strides__: 畳み込みのstrideの長さを指定する整数1つをもつタプル
+- __data_format__: channels_first か channels_last のデータフォーマット
+
+__返り値__
+
+重みを共有しない1次元の畳み込みを適用した (batch_size, output_lenght, filters) のshapeをもつテンソル
+
+__Raises__
+
+- __ValueError__: `data_format`が`channels_last`か`channels_first`でないとき．
+
+---
+
+### local_conv2d
+
+``` python
+local_conv2d(inputs, kernel, kernel_size, strides, output_shape, data_format=None)
+```
+
+重みを共有しない2次元畳み込みの適用．
+
+
+__引数__
+
+- __inputs__: 4階テンソル: data_format='channels_first'なら (batch_size, filters, new_rows, new_cols)，data_format='channels_last'なら (batch_size, new_rows, new_cols, filters)
+- __kernel__: (output_items, feature_dim, filters)のshapeをもつ畳み込みのため共有なしの重み
+- __kernel_size__: 2次元の畳み込みにおけるwondowの幅と高さを指定する整数2つをもつタプル
+- __strides__: 幅と高さにそった畳み込みのstrideを指定する整数2つをもつタプル
+- __output_shape__: (output_row, output_col) のタプル
+- __data_format__: channels_first か channels_last のデータフォーマット
+
+__返り値__
+
+4階テンソル: data_format='channels_first'なら(batch_size, filters, new_rows, new_cols)のshapeの4階テンソル，data_format='channels_last'なら(batch_size, new_rows, new_cols, filters)のshapeの4階テンソル．
+
+__Raises__
+
+- __ValueError__: `data_format`が`channels_last`か`channels_first`でないとき．

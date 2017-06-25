@@ -1,10 +1,10 @@
-# Keras: TensorFlowとTheanoのための深層学習ライブラリ
+# Keras: Pythonの深層学習ライブラリ
 
 ## Kerasとは
 
-Kerasは，Pythonで書かれた，[TensorFlow](https://github.com/tensorflow/tensorflow)または[Theano](https://github.com/Theano/Theano)上で実行可能な高水準のニューラルネットワークライブラリです．
+Kerasは，Pythonで書かれた，[TensorFlow](https://github.com/tensorflow/tensorflow)または[CNTK](https://github.com/Microsoft/cntk)，[Theano](https://github.com/Theano/Theano)上で実行可能な高水準のニューラルネットワークライブラリです．
 Kerasは，迅速な実験を可能にすることに重点を置いて開発されました．
-*アイデアから結果に到達するまでのリードタイムをできるだけ小さくすることが，良い研究をするための鍵になります．* 
+*アイデアから結果に到達するまでのリードタイムをできるだけ小さくすることが，良い研究をするための鍵になります．*
 
 次のような場合で深層学習ライブラリが必要なら，Kerasを使用してください:
 
@@ -46,7 +46,7 @@ from keras.models import Sequential
 model = Sequential()
 ```
 
-`.add()`で簡単に層を積み重ねることができます: 
+`.add()`で簡単に層を積み重ねることができます:
 
 ```python
 from keras.layers import Dense, Activation
@@ -126,6 +126,11 @@ Kerasは以下のライブラリに依存しています．
 - TensorFlow
     - [See installation instructions](https://github.com/tensorflow/tensorflow#download-and-setup).
 
+*CNTKをバックエンドで使用する場合:*
+
+- CNTK
+    - [CNTK](https://github.com/Microsoft/cntk)
+
 *Theanoをバックエンドで使用する場合:*
 
 - Theano
@@ -147,7 +152,7 @@ sudo pip install keras
 ------------------
 
 
-## TensorFlowからTheanoへの変更
+## TensorFlowからCNTKやTheanoへの変更
 
 デフォルトでは，KerasはTensorFlowをテンソル計算ライブラリとしています．Kerasのバックエンドを設定するには，[この手順](http://keras.io/backend/)に従ってください．
 

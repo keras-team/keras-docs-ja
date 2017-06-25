@@ -39,11 +39,17 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 **pull requestをどこに送るべきですか？**
 
 1. **Kerasの改善とバグ修正**は[Keras `master` branch](https://github.com/fchollet/keras/tree/master)に送ってください．
-2. **新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/fchollet/keras/projects/1)にある新機能以外です．
+2. **試験的な新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/fchollet/keras/projects/1)にある新機能以外です．もしコア機能だと思う場合は，追加する機能の説明するための設計書を送ることで，主張できます（以下の説明を見てください）．
 
 ここでは，あなたの改善したコードを送るためのクイックガイドを示します:
 
-1. もしPRによって機能的な変更が生じる場合，変更すべきかどうか，どのようにそれを対処するか議論するためにissueを作るところから始めてください．これによって，あなたのPRが閉じられることを防ぐでしょう！もちろん，PRが単純なバグ修正なら，必要ありません．
+1. もしPRによって機能的な変更が生じる場合，変更すべきかどうか，どのようにそれを対処するか議論するために設計書を書いてKerasのメーリングリストに投稿してください．これによって，あなたのPRが閉じられることを防ぐでしょう！もちろん，PRが単純なバグ修正なら，必要ありません．設計書の作成と投稿手順は以下の通りです：
+    - [Google Doc template](https://docs.google.com/document/d/1ZXNfce77LDW9tFAj6U5ctaJmI5mT7CQXOFMEAZo-mAA/edit#)を開き，これを新しいGoogle docにコピーします．
+    - 内容を記入します．サンプルコードを含める必要があることに気をつけてください．コードを挿入するために，[CodePretty](https://chrome.google.com/webstore/detail/code-pretty/igjbncgfgnfpbnifnnlcmjfbnidkndnh?hl=en)のようなGoogle docの拡張機能を使って下さい（いくつかこのような拡張機能が利用可能です）
+    - 共有設定を"everyone with the link is allowed to comment"にしてください．
+    - 私たちが気づくように（全部大文字の）`[API DESIGN REVIEW]`からはじまるタイトルをつけたこの文書を`keras-users@googlegroups.com`に投稿してください．
+    - コメントを待ち，コメントがきたら答えてくださいい．必要に応じて文書を編集してください．
+    - 提案書は最終的に承認か拒否をされます．承認されたら，あなたがPull Requestを送るかPull Requestを書くように依頼してください．
 
 2. コードを書きましょう．ここが辛いパートです！
 

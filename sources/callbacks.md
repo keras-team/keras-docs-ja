@@ -290,12 +290,15 @@ __例__
 batch_print_callback = LambdaCallback(
     on_batch_begin=lambda batch,logs: print(batch))
 
-# すべてのエポックの終了時に損失値をプロット
-import numpy as np
-import matplotlib.pyplot as plt
-plot_loss_callback = LambdaCallback(
-    on_epoch_end=lambda epoch, logs: plt.plot(np.arange(epoch),
-                      logs['loss']))
+# Stream the epoch loss to a file in JSON format. The file content
+# is not well-formed JSON but rather has a JSON object per line.
+import json
+json_log = open('loss_log.json', mode='wt', buffering=1)
+json_logging_callback = LambdaCallback(
+    on_epoch_end=lambda epoch, logs: json_log.write(
+    json.dumps({'epoch': epoch, 'loss': logs['loss']}) + '\n'),
+    on_train_end=lambda logs: json_log.close()
+)
 
 # 学習の終了時にいくつかのプロセスを終了
 processes = ...
@@ -305,7 +308,7 @@ cleanup_callback = LambdaCallback(
 
 model.fit(...,
       callbacks=[batch_print_callback,
-         plot_loss_callback,
+         json_logging_callback,
          cleanup_callback])
 ```
 

@@ -223,7 +223,7 @@ __返り値__
 
 
 ```python
-fit_generator(self, generator, steps_per_epoch, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_q_size=10, workers=1, pickle_safe=False, initial_epoch=0)
+fit_generator(self, generator, steps_per_epoch, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_queue_size=10, workers=1, use_multiprocessing=False, initial_epoch=0)
 ```
 
 
@@ -231,24 +231,26 @@ Pythonジェネレータによりバッチ毎に生成されたデータでモ�
 
 本ジェネレータは効率性のためモデルに並列して実行されます．例えば，モデルをGPUで学習させながらCPU上で画像のリアルタイムデータ拡張を行うことができるようになります．
 
+`use_multiprocessing=True`のときに，`keras.utils.Sequence`を使うことで順序とエポックごとに全入力を1度だけ使用することを保証します．
+
 __引数__
 
-- __generator__: ジェネレータ．本ジェネレータの出力は，以下のいずれかです．
-	- (inputs, targets)のタプル．
-	- (inputs, targets, sample_weights)のタプル．すべての配列は同じ数のサンプルを含む必要があります．本ジェネレータは無期限にそのデータをループさせるようになっています．`steps_per_epoch`数のサンプルがモデルに与えられると1度の試行が終了します．
+- __generator__: ジェネレータかマルチプロセッシング時にデータの重複を防ぐためのSequence（keras.utils.Sequence）オブジェクトのインスタンス．本ジェネレータの出力は，以下のいずれかです．
+    - (inputs, targets)のタプル．
+    - (inputs, targets, sample_weights)のタプル．すべての配列は同じ数のサンプルを含む必要があります．本ジェネレータは無期限にそのデータをループさせるようになっています．`steps_per_epoch`数のサンプルがモデルに与えられると1度の試行が終了します．
 - __steps_per_epoch__: ある一つのエポックが終了し，次のエポックが始まる前に`generator`から使用する総ステップ数（サンプルのバッチ数）．もし，データサイズをバッチサイズで割った時，通常ユニークなサンプル数に等しくなります．
 - __epochs__: データの反復回数の合計を示す整数．
 - __verbose__: 冗長モードで，0，1，または2．
 - __callbacks__: 学習時に呼ばれるコールバックのリスト．
 - __validation_data__: これは以下のいずれかです．
-	- バリデーションデータ用のジェネレータ．
-	- (inputs, targets)のタプル．
-	- (inputs, targets, sample_weights)のタプル．
+    - バリデーションデータ用のジェネレータ．
+    - (inputs, targets)のタプル．
+    - (inputs, targets, sample_weights)のタプル．
 - __validation_steps__: `validation_data`がジェネレータの場合にのみ関係します．終了する前に`generator`から使用する総ステップ数（サンプルのバッチ数）．
 - __class_weight__: クラスインデックスと各クラスの重みをマップする辞書です．
-- __max_q_size__: ジェネレータのキューの最大サイズです．
+- __max_queue_size__: ジェネレータのキューの最大サイズです．
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数．
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 - __initial_epoch__: 学習を開始するエポック（前回の学習を再開するのに便利です）．
 
 __返り値__
@@ -261,16 +263,16 @@ __例__
 ```python
 def generate_arrays_from_file(path):
     while 1:
-    f = open(path)
-    for line in f:
-        # create numpy arrays of input data
-        # and labels, from each line in the file
-        x1, x2, y = process_line(line)
-        yield ({'input_1': x1, 'input_2': x2}, {'output': y})
-    f.close()
+        f = open(path)
+        for line in f:
+            # create numpy arrays of input data
+            # and labels, from each line in the file
+            x1, x2, y = process_line(line)
+            yield ({'input_1': x1, 'input_2': x2}, {'output': y})
+        f.close()
 
 model.fit_generator(generate_arrays_from_file('/my_file.txt'),
-        steps_per_epoch=10000, epochs=10)
+                    steps_per_epoch=10000, epochs=10)
 ```
 
 __Raises__
@@ -283,7 +285,7 @@ __Raises__
 
 
 ```python
-evaluate_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe=False)
+evaluate_generator(self, generator, steps, max_queue_size=10, workers=1, use_multiprocessing=False)
 ```
 
 
@@ -292,11 +294,11 @@ evaluate_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe
 ジェネレータは`test_on_batch`で受け取られたのと同じ種類のデータを返します．
 
 __引数__:
-- __generator__: ジェネレータは(inputs, targets)もしくは(inputs, targets, sample_weights)のタプルを使用します．
+- __generator__: ジェネレータは(inputs, targets)タプルもしくは(inputs, targets, sample_weights)タプルかマルチプロセッシング時にデータの重複を防ぐためのSequence（keras.utils.Sequence）オブジェクトのインスタンスを使用します．
 - __steps__: 終了する前に`generator`から使用する総ステップ数（サンプルのバッチ数）．
-- __max_q_size__: ジェネレータのキューのための最大サイズ．
+- __max_queue_size__: ジェネレータのキューのための最大サイズ．
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数．
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 
 __返り値__
 
@@ -315,16 +317,16 @@ __Raises__
 ジェネレータは `predict_on_batch` が受け取るデータと同じ種類のデータを返します．
 
 ```python
-predict_generator(self, generator, steps, max_q_size=10, workers=1, pickle_safe=False, verbose=0)
+predict_generator(self, generator, steps, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0)
 ```
 
 __引数__
 
 - __generator__: ジェネレータは入力サンプルのバッチ数を使用します．
 - __steps__: 終了する前に`generator`から使用する総ステップ数（サンプルのバッチ数）．
-- __max_q_size__: ジェネレータのキューの最大サイズ．
+- __max_queue_size__: ジェネレータのキューの最大サイズ．
 - __workers__: スレッドベースのプロセス使用時の最大プロセス数．
-- __pickle_safe__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
+- __use_multiprocessing__: Trueならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をgeneratorに渡すべきではないことに注意してください．
 - __verbose__: 冗長モードで，0または1．
 
 __返り値__

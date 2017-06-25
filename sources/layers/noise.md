@@ -12,7 +12,7 @@ keras.layers.noise.GaussianNoise(stddev)
 
 regularization layerは訓練時のみ有効です．
 
-__Arguments__
+__引数__
 
 - __stddev__: float，ノイズ分布の標準偏差値．
 
@@ -27,6 +27,38 @@ __Output shape__
 入力と同じ．
 
 ----
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L7)</span>
+### AlphaDropout
+
+```python
+keras.layers.noise.AlphaDropout(rate, noise_shape=None, seed=None)
+```
+
+入力にAlpha Dropoutを適用します．
+
+Alpha Dropoutは，dropoutの適用後でもself-normalizingの性質を担保するために入力のもともとの値の平均と分散を保持しつつ、`Dropout`を行います．
+Alpha Dropoutは，活性化値にランダムに負の飽和値をセットするために、Scaled Exponential Linear Unitsと相性が良いです．
+
+__引数__
+
+- __rate__: float，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
+- __seed__: 整数．乱数のシードに使います．
+
+__Input shape__
+
+任意．
+モデルの最初のレイヤーで使う場合は，`input_shape`キーワードで指定してください．
+(整数のタプル(サンプルのaxisは含まない))
+
+__Output shape__
+
+入力と同じ．
+
+__参考文献__
+
+- [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
+
+----
 
 <span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/noise.py#L45)</span>
 ### GaussianDropout
@@ -39,7 +71,7 @@ keras.layers.noise.GaussianDropout(rate)
 
 regularization layerは訓練時のみ有効です．
 
-__Arguments__
+__引数__
 
 - __rate__: float，drop probability (`Dropout`同様)．平均1，標準偏差値`sqrt(rate / (1 - rate))`のノイズを乗じます．
 

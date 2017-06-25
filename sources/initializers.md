@@ -57,7 +57,7 @@ keras.initializers.Constant(value=0)
 
 全て重みを定数で初期化します．
 
-__Arguments__
+__引数__
 
 - __value__: float またはテンソルです
 
@@ -72,7 +72,7 @@ keras.initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None)
 
 正規分布に従って重みを初期化します．
 
-__Arguments__
+__引数__
 
 - __mean__: float またはスカラテンソルであって分布の平均です
 - __stddev__: float またはスカラテンソルであって分布の標準偏差です
@@ -89,7 +89,7 @@ keras.initializers.RandomUniform(minval=-0.05, maxval=0.05, seed=None)
 
 一様分布に従って重みを初期化します．
 
-__Arguments__
+__引数__
 
 - __minval__: float またはスカラテンソル．乱数を発生する範囲の下限です
 - __maxval__: float またはスカラテンソル．乱数を発生する範囲の上限です
@@ -108,7 +108,7 @@ keras.initializers.TruncatedNormal(mean=0.0, stddev=0.05, seed=None)
 
 これは正規分布と似ていますが，平均より標準偏差の分以上離れた値は切り捨てらます．これはニューラルネットワークの重みの初期化方法として推奨されます．
 
-__Arguments__
+__引数__
 
 - __mean__: float またはスカラテンソルであって分布の平均です
 - __stddev__: float またはスカラテンソルであって分布の標準偏差です
@@ -141,7 +141,7 @@ keras.initializers.VarianceScaling(scale=1.0, mode='fan_in', distribution='norma
 [-limit, limit] を範囲とする一様分布が用いられます．
 ここで `limit = sqrt(3 * scale / n)` です．
 
-__Arguments__
+__引数__
 
 - __scale__: スケーリング値（正の実数）
 - __mode__: "fan_in"，"fan_out"，"fan_avg" のいずれか
@@ -159,12 +159,12 @@ keras.initializers.Orthogonal(gain=1.0, seed=None)
 
 重みテンソルが直交行列となるように初期化されます．
 
-__Arguments__
+__引数__
 
 - __gain__: 最後に直交行列に乗ずる係数です
 - __seed__: 整数値．乱数生成に使われます
 
-__References__
+__参考文献__
 
 Saxe et al., http://arxiv.org/abs/1312.6120
 
@@ -180,7 +180,7 @@ keras.initializers.Identity(gain=1.0)
 単位行列で初期化されます．
 これは重みテンソルが2次正方行列の場合のみ使えます．
 
-__Arguments__
+__引数__
 
 - __gain__: 最後に単位行列に乗ずる係数です
 
@@ -200,15 +200,15 @@ Glorot の正規分布（Xavier の正規分布とも呼ばれます）による
 とする切断正規分布と同じです．
 ここで `fan_in` は入力ユニット数，`fant_out` は出力ユニット数です．
 
-__Arguments__
+__引数__
 
 - __seed__: 整数値．乱数生成に使われます
 
-__Returns__
+__返り値__
 
-初期化クラスが返ります
+初期化インスタンス
 
-__References__
+__参考文献__
 
 Glorot & Bengio, AISTATS 2010 -
 http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf
@@ -228,15 +228,15 @@ Glorot の一様分布（Xavier の一様分布とも呼ばれます）による
 としたとき [limit, -limit] を範囲とする一様分布と同じです．
 ここで `fan_in` は入力ユニット数，`fant_out` は出力ユニット数です．
 
-__Arguments__
+__引数__
 
 - __seed__: 整数値．乱数生成に使われます
 
-__Returns__
+__返り値__
 
-初期化クラスが返ります
+初期化インスタンス
 
-__References__
+__参考文献__
 
 Glorot & Bengio, AISTATS 2010 -
 http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf
@@ -256,17 +256,44 @@ He の正規分布による初期化を返します．
 とする切断正規分布です．
 ここで `fan_in` は入力ユニット数です．
 
-__Arguments__
+__引数__
 
 - __seed__: 整数値．乱数生成に使われます
 
-__Returns__
+__返り値__
 
-初期化クラスが返ります
+初期化インスタンス
 
-__References__
+__参考文献__
 
 He et al., http://arxiv.org/abs/1502.01852
+
+---
+
+<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L352)
+### lecun_normal
+
+```python
+lecun_normal(seed=None)
+```
+
+LeCunの正規分布による初期化．
+
+平均を 0 ，標準偏差を`stddev = sqrt(1 / fan_in)`とする切断正規分布からサンプルします．
+ここで `fan_in` は入力ユニット数です．
+
+__引数__
+
+- __seed__: 整数値．乱数生成に使われます
+
+__返り値__
+
+初期化インスタンス
+
+__参考文献__
+
+- [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
+- [Efficient Backprop](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf)
 
 ---
 
@@ -283,15 +310,15 @@ He の一様分布による初期化を返します．
 としたとき [limit, -limit] を範囲とする一様分布を用います．
 ここで `fan_in` は入力ユニット数です．
 
-__Arguments__
+__引数__
 
 - __seed__: 整数値．乱数生成に使われます
 
-__Returns__
+__返り値__
 
-初期化クラスが返ります
+初期化インスタンス
 
-__References__
+__参考文献__
 
 He et al., http://arxiv.org/abs/1502.01852
 
@@ -312,17 +339,17 @@ LeCun の一様分布による初期化を返します．
 を範囲とする一様分布を用います．
 ここで `fan_in` は入力ユニット数です．
 
-__Arguments__
+__引数__
 
 - __seed__: 整数値．乱数生成に使われます
 
-__Returns__
+__返り値__
 
-初期化クラスが返ります
+初期化インスタンス
 
-__References__
+__参考文献__
 
-LeCun 98, Efficient Backprop, - http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
+LeCun 98, Efficient Backprop - http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
 
 ---
 

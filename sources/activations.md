@@ -37,12 +37,12 @@ softmax(x, axis=-1)
 
 Softmax関数
 
-__Arguments__
+__引数__
 
 - __x__: テンソル．
 - __axis__: 整数．どの軸にsoftmaxの正規化をするか．
 
-__Returns__
+__返り値__
 
 テンソル．softmax変換の出力．
 
@@ -57,6 +57,24 @@ __Raises__
 ```python
 elu(x, alpha=1.0)
 ```
+
+---
+
+### selu
+
+```python
+selu(x)
+```
+
+Scaled Exponential Linear Unit. (Klambauer et al., 2017)
+
+__引数__
+
+- __x__: 活性化関数を適用するテンソルか変数．
+
+__参考文献__
+
+- [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
 
 ---
 

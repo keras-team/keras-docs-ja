@@ -7,7 +7,7 @@ keras.layers.convolutional.Conv1D(filters, kernel_size, strides=1, padding='vali
 
 1次元入力の近傍をフィルターする畳み込み層．
 
-`use_bias`をTrueにすると，バイアスベクトルが出力に加えられます．`activation`が`None`でない場合，指定した活性化関数が出力に適用されます．
+`use_bias`をTrueにすると，バイアスベクトルが出力に加えられます．`activation`が`None`でない場合，指定した活性化関数が出力に適用されます．
 
 このレイヤーを第一層に使う場合，キーワード引数として`input_shape`(整数のタプルか`None`．例えば10個の128次元ベクトルの場合ならば`(10, 128)`，任意個数の128次元ベクトルの場合は`(None, 128)`)を指定してください．
 
@@ -16,10 +16,7 @@ __Arguments__
 - __filters__: 使用するカーネルの数(出力の次元)．
 - __kernel_size__: それぞれのフィルターの(空間もしくは時間的な)長さ．
 - __strides__: カーネルのストライドを指定します.
-- __padding__: `"valid"`，`"same"`，`casual`のいずれか．
-- __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
-	もしくは要素ごとのTheano関数．
-	もしなにも指定しなければ活性化は一切適用されません(つまり"線形"活性a(x) = x)．
+- __padding__: `"valid"`，`"same"`，`casual`のいずれか（大文字小文字の区別はしない）．`"valid"`はパディングを行いません．`"same"`は元の入力と同じ長さを出力がもつように入力にパディングします．`"causal"`はcausal（dilated）畳み込み．例えば，output[t]はinput[t+1]に依存しません．時間的順序を無視すべきでない時系列データをモデリングする際に有効です．[WaveNet: A Generative Model for Raw Audio, section 2.1](https://arxiv.org/abs/1609.03499)を参照して下さい.
 - __dilation_rate__: 膨張率．整数か単一の整数からなるタプル/リストを指定します．現在，`dilation_rate` value != 1 とすると，strides value != 1を指定することはできません．
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
   何も指定しなければ，活性化は一切適用されません(つまり"線形"活性a(x) = x)．
@@ -50,7 +47,7 @@ __Output shape__
 keras.layers.convolutional.Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
 ```
 
-2次元入力をフィルターする畳み込み層．  
+2次元入力をフィルターする畳み込み層．
 
 `use_bias`をTrueにすると，バイアスベクトルが出力に加えられます．`activation`が`None`でない場合，指定した活性化関数が出力に適用されます．
 
@@ -193,7 +190,7 @@ data_format='channels_last'の場合，
 
 __References__
 
-[1] [A guide to convolution arithmetic for deep learning](https://arxiv.org/abs/1603.07285 "arXiv:1603.07285v1 [stat.ML]")  
+[1] [A guide to convolution arithmetic for deep learning](https://arxiv.org/abs/1603.07285 "arXiv:1603.07285v1 [stat.ML]")
 [2] [Deconvolutional Networks](http://www.matthewzeiler.com/pubs/cvpr2010/cvpr2010.pdf)
 
 ----
@@ -205,7 +202,7 @@ __References__
 keras.layers.convolutional.Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
 ```
 
-3次元入力をフィルターする畳み込み演算．  
+3次元入力をフィルターする畳み込み演算．
 
 
 このレイヤーをモデルの第一層に使うときはキーワード引数`input_shape`
@@ -218,9 +215,9 @@ __Arguments__
 - __kernel_size__: 畳み込みカーネルの幅と高さを指定します. タプル/リストで長方形のカーネルを指定でき，一つの整数の場合は正方形のカーネルになります．
 - __strides__: カーネルのストライドを指定します. 二つの整数からなるタプル/リストで縦と横のストライドを独立に指定でき，一つの整数の場合は縦横で同様のストライドになります．
 - __padding__: `"valid"`か`"same"`のどちらかを指定します．
-- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
-`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．  
-`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．  
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．
+`"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．
+`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．
 デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 - __dilation_rate__: 膨張率．整数か三つの整数からなるタプル/リストを指定します．単一の整数の場合，それぞれの次元に同一の値が適用されます．現在，`dilation_rate` value != 1 とすると，strides value != 1を指定することはできません．
 - __activation__: 使用する活性化関数の名前([activations](../activations.md)参照)，
@@ -256,7 +253,7 @@ data_format='channels_last'の場合，
 keras.layers.convolutional.Cropping1D(cropping=(1, 1))
 ```
 
-一次元の入力をクロップする(切り落とす)層．  
+一次元の入力をクロップする(切り落とす)層．
 クロップは時間軸に沿って実行されます(axis 1)．
 
 __Arguments__
@@ -279,25 +276,25 @@ __Output Shape__
 keras.layers.convolutional.Cropping2D(cropping=((0, 0), (0, 0)), data_format=None)
 ```
 
-二次元の入力をクロップする(切り落とす)層．  
+二次元の入力をクロップする(切り落とす)層．
 クロップは幅と高さに対して実行されます．
 
 __Arguments__
 
 - __cropping__: 整数, タプル(二つの整数), タプル(二つの整数)のタプルのいずれか．
-	- 整数: 幅と高さに対称なクロップが実行されます．
-	- タプル(二つの整数): 幅と高さでそれぞれ対称なクロップが実行されます．  
-	`(symmetric_height_crop, symmetric_width_crop)`
-	- タプルのタプル: 四辺それぞれにクロップが実行されます．  
-	`(top_crop, bottom_crop), (left_crop, right_crop))`
-- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.   
-`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．  
-`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．  
+    - 整数: 幅と高さに対称なクロップが実行されます．
+    - タプル(二つの整数): 幅と高さでそれぞれ対称なクロップが実行されます．
+    `(symmetric_height_crop, symmetric_width_crop)`
+    - タプルのタプル: 四辺それぞれにクロップが実行されます．
+    `(top_crop, bottom_crop), (left_crop, right_crop))`
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.
+`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．
+`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．
 デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
 
-`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．  
+`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．
 `"channels_first"`の場合，`(batch, channels, rows, cols)`の四次元テンソル．
 
 __Output Shape__
@@ -313,17 +310,17 @@ __Output Shape__
 keras.layers.convolutional.Cropping3D(cropping=((1, 1), (1, 1), (1, 1)), data_format=None)
 ```
 
-三次元の入力をクロップする(切り落とす)層．  
+三次元の入力をクロップする(切り落とす)層．
 
 __Arguments__
 
 - __cropping__: 整数, タプル(二つの整数)，タプル(二つの整数)のタプル，のいずれか．
-	- 整数: 三つの軸に対して対称なクロップが実行されます．
-	- タプル(三つの整数): 三つの軸に対して，それぞれ対称なクロップが実行されます．  
-	`(symmetric_dim1_crop, symmetric_dim2_crop, symmetric_dim3_crop)`
-	- タプルのタプル: 六面それぞれにクロップが実行されます．  
-	`((left_dim1_crop, right_dim1_crop), (left_dim2_crop, right_dim2_crop), (left_dim3_crop, right_dim3_crop))`
-- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
+    - 整数: 三つの軸に対して対称なクロップが実行されます．
+    - タプル(三つの整数): 三つの軸に対して，それぞれ対称なクロップが実行されます．
+    `(symmetric_dim1_crop, symmetric_dim2_crop, symmetric_dim3_crop)`
+    - タプルのタプル: 六面それぞれにクロップが実行されます．
+    `((left_dim1_crop, right_dim1_crop), (left_dim2_crop, right_dim2_crop), (left_dim3_crop, right_dim3_crop))`
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．
 `"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
@@ -431,9 +428,9 @@ keras.layers.convolutional.ZeroPadding1D(padding=1)
 __Arguments__
 
 - __padding__: 整数，タプル(二つの整数)のいずれか．
-	- 整数: パディング次元(axis 1)の始めと終わりにいくつのゼロを加えるか．
-	- タプル: 始めと終わりにそれぞれいくつのゼロを加えるか．  
-	`(left_pad, right_pad)`
+    - 整数: パディング次元(axis 1)の始めと終わりにいくつのゼロを加えるか．
+    - タプル: 始めと終わりにそれぞれいくつのゼロを加えるか．
+    `(left_pad, right_pad)`
 
 
 __Input shape__
@@ -458,19 +455,19 @@ keras.layers.convolutional.ZeroPadding2D(padding=(1, 1), data_format=None)
 __Arguments__
 
 - __padding__: 整数，タプル(二つの整数)，タプル(二つの整数)のタプル．
-	- 整数: 幅と高さにたいして対称なパディングを実行する．
-	- タプル: 幅と高さ，それぞれに対して対称なパディングを実行する．  
-	`(symmetric_height_pad, symmetric_width_pad)`
-	- タプルのタプル: 四辺それぞれにパディング．  
-	`((top_pad, bottom_pad), (left_pad, right_pad))`
-- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.   
-`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．  
-`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．  
+    - 整数: 幅と高さにたいして対称なパディングを実行する．
+    - タプル: 幅と高さ，それぞれに対して対称なパディングを実行する．
+    `(symmetric_height_pad, symmetric_width_pad)`
+    - タプルのタプル: 四辺それぞれにパディング．
+    `((top_pad, bottom_pad), (left_pad, right_pad))`
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します.
+`"channels_last"`の場合，入力は`"(batch, height, width, channels)"`．
+`"channels_first"`の場合は`"(batch, channels, height, width)"`となります．
 デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
 
-`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．  
+`data_format`が`"channels_last"`の場合，`(batch, rows, cols, channels)`．
 `"channels_first"`の場合，`(batch, channels, rows, cols)`の四次元テンソル．
 
 __Output Shape__
@@ -492,12 +489,12 @@ keras.layers.convolutional.ZeroPadding3D(padding=(1, 1, 1), data_format=None)
 __Arguments__
 
 - __cropping__: 整数, タプル(二つの整数)，タプル(二つの整数)のタプル，のいずれか．
-	- 整数: 三つの軸に対して対称なパディングが実行されます．
-	- タプル(三つの整数): 三つの軸に対して，それぞれ対称なパディングが実行されます．  
-	`(symmetric_dim1_pad, symmetric_dim2_pad, symmetric_dim3_pad)`
-	- タプルのタプル: 六面それぞれにパディングが実行されます．
-	`((left_dim1_pad, right_dim1_pad), (left_dim2_pad, right_dim2_pad), (left_dim3_pad, right_dim3_pad))`
-- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．   
+    - 整数: 三つの軸に対して対称なパディングが実行されます．
+    - タプル(三つの整数): 三つの軸に対して，それぞれ対称なパディングが実行されます．
+    `(symmetric_dim1_pad, symmetric_dim2_pad, symmetric_dim3_pad)`
+    - タプルのタプル: 六面それぞれにパディングが実行されます．
+    `((left_dim1_pad, right_dim1_pad), (left_dim2_pad, right_dim2_pad), (left_dim3_pad, right_dim3_pad))`
+- __data_format__: `"channels_last"`(デフォルト)か`"channels_first"`を指定します．
 `"channels_last"`の場合，入力は`"(batch, spatial_dim1, spatial_dim2, spatial_dim3, channels)"`．`"channels_first"`の場合は`"(batch, channels, spatial_dim1, spatial_dim2, spatial_dim3)"`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 
 __Input Shape__
