@@ -26,3 +26,35 @@ contributeいただける方は，[this TODO spreadsheet](https://docs.google.co
 1. 表記ゆれのために語彙を決める (see also: [termification](https://github.com/fchollet/keras-docs-ja/issues/40))
    - 検索性のために，英語にできるだけ従うべきだと思っています
 1. masterブランチのソースコードへのリンクを更新するスクリプト作成 (作りかけがあります)
+
+# 翻訳ガイドライン
+- 翻訳対象は本文とコード中のコメントとする．
+- 本文は敬体（です・ます調）とする．
+- 句読点は「，．」を用いる．
+- 引用符（'，"）は基本的にそのままとする．強調の意味で使用されている場合のみ「」に変換する．（bckend.md3行目）
+- 記号「，．（）？！：；」は全角とする．
+- 文中のシンタックスハイライト（syntax highlight）の前後に空白は入れない． 
+- 用語の訳は対訳表に従う．
+
+※ 翻訳は英語から日本語へのただの変換作業ではなく，英文の意味を読み取り，日本語として表現する創作作業です．
+英語の言い回しに引きずられることなく自然な日本語で表現しましょう．
+
+# 対訳表
+- 構文キーワードなどはそのまま英語表記とする．
+- 検索性のため，python/numpy/keras特有の単語はそのまま英語表記とする．
+
+| English | 日本語
+|:---|:---
+| arguments | 引数
+| data augumentation | データ拡張
+| layer | レイヤー
+| loss function | 損失関数
+| return | 戻り値
+| recurrent  | recurrent
+| shape | shape
+| target | ターゲット
+| testing | テスト
+| training | 学習
+
+※ 見つけやすいようにアルファベット順で列挙しています．
+必要に応じて追記してください．
