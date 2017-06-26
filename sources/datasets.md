@@ -9,13 +9,13 @@
 ```python
 from keras.datasets import cifar10
 
-(X_train, y_train), (X_test, y_test) = cifar10.load_data()
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
 ```
 
-- __返り値:__
+- __戻り値__:
     - 2つのタプル:
-        - __X_train, X_test__: shape (nb_samples, 3, 32, 32)のRGB画像データのuint8配列．
-        - __y_train, y_test__: shape (nb_samples,)のカテゴリラベル(0-9の範囲のinteger)のuint8配列．
+        - __x_train, x_test__: shape (num_samples, 3, 32, 32) のRGB画像データのuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9の範囲のinteger)のuint8配列．
 
 ---
 
@@ -28,32 +28,32 @@ from keras.datasets import cifar10
 ```python
 from keras.datasets import cifar100
 
-(X_train, y_train), (X_test, y_test) = cifar100.load_data(label_mode='fine')
+(x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
 ```
 
-- __返り値:__
+- __戻り値__:
     - 2つのタプル:
-        - __X_train, X_test__: shape (nb_samples, 3, 32, 32)のRGB画像データのuint8配列．
-        - __y_train, y_test__:shape (nb_samples,)のカテゴリラベルのuint8配列．
+        - __x_train, x_test__: shape (num_samples, 3, 32, 32) のRGB画像データのuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のカテゴリラベルのuint8配列．
 
-- __引数:__
+- __引数__:
 
-    - __label_mode__: "fine" または "coarse".
+    - __label_mode__: "fine" または "coarse"．
 
 ---
 
 ## IMDB映画レビュー感情分類
 
-感情(肯定/否定)のラベル付けをされた，25,000のIMDB映画レビューのデータセット．レビューは前処理済みで，各レビューは単語のインデックス(整数値)の[シーケンス](preprocessing/sequence.md)としてエンコードされている．便宜上，単語はデータセットにおいての出現頻度によってインデックスされている．そのため例えば，整数値"3"はデータの中で3番目に頻度が多い単語にエンコードされる．これによって"上位20個の頻出語を除いた，上位10,000個の頻出語についてのみ考える"というようなフィルタリング作業を高速に行うことができる．
+感情 (肯定/否定) のラベル付けをされた，25,000のIMDB映画レビューのデータセット．レビューは前処理済みで，各レビューは単語のインデックス（整数）の[シーケンス](preprocessing/sequence.md)としてエンコードされています．便宜上，単語はデータセットにおいての出現頻度によってインデックスされています．そのため例えば，整数"3"はデータの中で3番目に頻度が多い単語にエンコードされます．これによって"上位20個の頻出語を除いた，上位10,000個の頻出語についてのみ考える"というようなフィルタリング作業を高速に行うことができます．
 
-慣例として，"0"は特定の単語を表すのではなく，代わりに未知の単語にエンコードされることになっている．
+慣例として，"0"は特定の単語を表さずに，未知語にエンコードされます．
 
 ### 使い方:
 
 ```python
 from keras.datasets import imdb
 
-(X_train, y_train), (X_test, y_test) = imdb.load_data(path="imdb_full.pkl",
+(x_train, y_train), (x_test, y_test) = imdb.load_data(path="imdb.npz",
                                                       num_words=None,
                                                       skip_top=0,
                                                       maxlen=None,
@@ -62,33 +62,33 @@ from keras.datasets import imdb
                                                       oov_char=2,
                                                       index_from=3)
 ```
-- __返り値:__
+- __戻り値__:
     - 2つのタプル:
-        - __X_train, X_test__: シーケンスのリスト，リストはインデックス(整数値)．引数num_wordsに具体的な整数値が与えられた場合，取り得るインデックスの最大値はnum_words-1となる．引数maxlenに具体的な数値が与えられた場合，シーケンスの最大長はmaxlenとなる．
-        - __y_train, y_test__: integer型ラベル(1または0)のリスト． 
+        - __x_train, x_test__: シーケンスのリスト，リストはインデックス（整数）．引数num_wordsに具体的な整数が与えられた場合，取り得るインデックスの最大値はnum_words-1となる．引数maxlenに具体的な数値が与えられた場合，シーケンスの最大長はmaxlenとなる．
+        - __y_train, y_test__: 整数ラベル（1または0）のリスト．
 
-- __引数:__
-    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)，cPickleフォーマットではこの位置にダウンロードされる． 
-    - __num_words__: integer型 または None． 指定された数値だけ上位の頻出語が対象となる．指定された数値より下位の頻出語はシーケンスデータにおいて0と表される．
-    - __skip_top__: integer型．指定された数値だけ上位の頻出語が無視される(シーケンスデータにおいて0と表される)．
-    - __maxlen__: int型．シーケンスの最大長．最大長より長いシーケンスは切り捨てられる．
-    - __seed__: int型．再現可能なデータシャッフルのためのシード．
-    - __start_char__: この文字が系列の開始記号として扱われる．
+- __引数__:
+    - __path__: データをローカルに持っている場合 (`'~/.keras/datasets/' + path`)，cPickleフォーマットではこの位置にダウンロードされます．
+    - __num_words__: 整数 または None． 指定された数値だけ上位の頻出語が対象となります．指定された数値より下位の頻出語はシーケンスデータにおいて`oov_char`の値で表現します．
+    - __skip_top__: 整数．指定された数値だけ上位の頻出語が無視されます（シーケンスデータにおいて`oov_char`の値で表現します）．
+    - __maxlen__: 整数．シーケンスの最大長．最大長より長いシーケンスは切り捨てられます．
+    - __seed__: 整数．再現可能なデータシャッフルのためのシード．
+    - __start_char__: この文字が系列の開始記号として扱われます．
         0は通常パディング用の文字であるため，1以上からセットしてください．
-    - __oov_char__: `num_words`か`skip_top`によって削除された単語を置換します．
+    - __oov_char__: 整数．`num_words`か`skip_top`によって削除された単語をこの値で置換します．
     - __index_from__: 単語のインデックスはこのインデックス以上の数値が与えられます．
 
 ---
 
-## ロイターのニュースワイヤー トピックス分類 
-46のトピックにラベル付けされた，11,228個のロイターのニュースワイヤーのデータセット．IMDBデータセットと同様，各ワイヤーが一連の単語インデックスとしてエンコードされる(同じ慣例に基づく)．
+## ロイターのニュースワイヤー トピックス分類
+46のトピックにラベル付けされた，11228個のロイターのニュースワイヤーのデータセット．IMDBデータセットと同様，各ワイヤーが一連の単語インデックスとしてエンコードされます（同じ慣例に基づく）．
 
 ### 使い方:
 
 ```python
 from keras.datasets import reuters
 
-(X_train, y_train), (X_test, y_test) = reuters.load_data(path="reuters.pkl",
+(x_train, y_train), (x_test, y_test) = reuters.load_data(path="reuters.npz",
                                                          num_words=None,
                                                          skip_top=0,
                                                          maxlen=None,
@@ -99,22 +99,24 @@ from keras.datasets import reuters
                                                          index_from=3)
 ```
 
-仕様はIMDBデータセットと同様のものに次のパラメータが追加される:
+仕様はIMDBデータセットのものに加えて，次のパラメータが追加されます:
 
-- __test_split__: float．テストデータとして使用するデータセットの割合．
+- __test_split__: 浮動小数点数．テストデータとして使用するデータセットの割合．
 
-このデータセットはシーケンスをエンコードするのに使われる単語インデックスとしても利用できる．
+このデータセットはシーケンスをエンコードに使われている単語インデックスを利用できます．
 
 ```python
-word_index = reuters.get_word_index(path="reuters_word_index.pkl")
+word_index = reuters.get_word_index(path="reuters_word_index.npz")
 ```
 
-- __返り値:__ キーが単語(str型)，値がインデックス(integer型)の辞書．例，`word_index["giraffe"]`は`1234`が返る． 
+- __戻り値__: キーが単語（文字列），値がインデックス（整数）の辞書．例，`word_index["giraffe"]`は`1234`が返ります．
 
-- __引数:__
+- __引数__:
 
-    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)，cPickleフォーマットではこの位置にダウンロードされる．
-    
+    - __path__: データをローカルに持っていない場合 (`'~/.keras/datasets/' + path`) ，この位置にダウンロードされます．
+
+---
+
 ## MNIST 手書き数字データベース
 
 60,000枚の28x28，10個の数字の白黒画像と10,000枚のテスト用画像データセット．
@@ -124,13 +126,37 @@ word_index = reuters.get_word_index(path="reuters_word_index.pkl")
 ```python
 from keras.datasets import mnist
 
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
 ```
 
-- __返り値:__
+- __戻り値__:
     - 2つのタプル:
-        - __X_train, X_test__: shape (nb_samples, 28, 28)の白黒画像データのuint8配列．
-        - __y_train, y_test__: shape (nb_samples,)のカテゴリラベル(0-9の範囲のinteger)のuint8配列．
+        - __x_train, x_test__: shape (num_samples, 28, 28) の白黒画像データのuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9のinteger)のuint8配列．
 
-- __引数:__
-    - __path__: データをローカルに持っている場合(`'~/.keras/datasets/' + path`)，cPickleフォーマットではこの位置にダウンロードされる．
+- __引数__:
+    - __path__: データをローカルに持っていない場合 (`'~/.keras/datasets/' + path`) ，この位置にダウンロードされます．
+
+---
+
+## ボストンの住宅価格回帰データセット
+
+Carnegie Mellon大学のStatLib ライブラリのデータセット．
+
+サンプルは，1970年代後半におけるボストン近郊の異なる地域の住宅に関する13の属性値を含みます．
+予測値は，その地域での住宅価格の中央値（単位はk$）です．
+
+### 使い方:
+
+```python
+from keras.datasets import boston_housing
+
+(x_train, y_train), (x_test, y_test) = boston_housing.load_data()
+```
+
+- __引数__:
+    - __path__: ローカルに保存するパス (~/.keras/datasets)．
+    - __seed__: テストデータに分ける前にデータをシャッフルするためのシード．
+    - __test_split__: テストデータとして使用するデータセットの割合．
+
+- __返り値__: Numpy 配列のタプル: `(x_train, y_train), (x_test, y_test)`．
