@@ -44,14 +44,14 @@ binary_accuracy(y_true, y_pred)
 
 ### categorical_accuracy
 ```python
-categorical_accurac(y_true, y_pred)
+categorical_accuracy(y_true, y_pred)
 ```
 
 ---
 
 ### sparse_categorical_accuracy
 ```python
-sparse_categorical_accurac(y_true, y_pred)
+sparse_categorical_accuracy(y_true, y_pred)
 ```
 
 ---
@@ -59,7 +59,7 @@ sparse_categorical_accurac(y_true, y_pred)
 ### top_k_categorical_accuracy
 
 ```python
-top_k_categorical_accurac(y_true, y_pred, k=5)
+top_k_categorical_accuracy(y_true, y_pred, k=5)
 ```
 
 ## カスタマイズ
