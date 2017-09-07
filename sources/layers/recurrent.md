@@ -109,7 +109,7 @@ keras.layers.recurrent.SimpleRNN(units, activation='tanh', use_bias=True, kernel
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
 - __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
 - __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
@@ -142,8 +142,8 @@ keras.layers.recurrent.GRU(units, activation='tanh', recurrent_activation='hard_
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
-- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を参照）．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません (例．"linear" activation: `a(x) = x`)．
+- __recurrent_activation__: 再帰計算時に使う活性化関数（[activations](../activations.md)を参照）．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
 - __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
 - __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
@@ -181,8 +181,8 @@ keras.layers.recurrent.LSTM(units, activation='tanh', recurrent_activation='hard
 __引数__
 
 - __units__: 正の整数値，出力の次元数．
-- __activation__: 活性化関（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません（"linear" activation: `a(x) = x`)）．
-- __recurrent_activation__: 再帰計算時に使う活性化関（[activations](../activations.md)を参照）．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．`None`を渡すと活性化関数は適用されません（"linear" activation: `a(x) = x`)）．
+- __recurrent_activation__: 再帰計算時に使う活性化関数（[activations](../activations.md)を参照）．
 - __use_bias__: 真理値，biasベクトルを使うかどうか．
 - __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
 - __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
