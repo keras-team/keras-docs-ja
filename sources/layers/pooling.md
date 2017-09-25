@@ -195,7 +195,7 @@ __出力のshape__
 keras.layers.pooling.GlobalMaxPooling1D()
 ```
 
-時系列データのためのグルーバルなマックスプーリング演算．  
+時系列データのためのグローバルなマックスプーリング演算．  
 グローバルとは"特徴マップ全てに対して"という意味です．
 
 __入力のshape__
@@ -215,7 +215,7 @@ __出力のshape__
 keras.layers.pooling.GlobalAveragePooling1D()
 ```
 
-時系列データのためのグルーバルな平均プーリング演算．  
+時系列データのためのグローバルな平均プーリング演算．  
 グローバルとは"特徴マップ全てに対して"という意味です．
 
 __入力のshape__
@@ -235,7 +235,7 @@ __出力のshape__
 keras.layers.pooling.GlobalMaxPooling2D(data_format=None)
 ```
 
-空間データのグルーバルなマックスプーリング演算．  
+空間データのグローバルなマックスプーリング演算．  
 グローバルとは"特徴マップ全てに対して"という意味です．
 
 __引数__
@@ -260,7 +260,7 @@ __出力のshape__
 keras.layers.pooling.GlobalAveragePooling2D(data_format=None)
 ```
 
-空間データのグルーバルな平均プーリング演算．  
+空間データのグローバルな平均プーリング演算．  
 グローバルとは"特徴マップ全てに対して"という意味です．
 
 __引数__
