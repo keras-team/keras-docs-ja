@@ -18,12 +18,12 @@
 1つをbuild_fnに渡すことができます:
 
 1. 関数
-2. __call__ メソッドを実装したクラスのインスタンス
-3. None．これは`KerasClassifier`または`KerasRegressor`を継承したクラスを意味します．この __call__ メソッドはbuild_fnのデフォルトとして扱われます．
+2. `__call__` メソッドを実装したクラスのインスタンス
+3. None．これは`KerasClassifier`または`KerasRegressor`を継承したクラスを意味します．この `__call__` メソッドはbuild_fnのデフォルトとして扱われます．
 
 `sk_params`はモデルパラメータとfittingパラメータの両方を取ります．
-モデルパラメータは`build_fn`の引数です．`sk_params`に何も与えなくとも予測器が作れるように，
-scikit-learnの他の予測器と同様に，`build_fn`はその引数にデフォルトパラメータを取ります．
+モデルパラメータは`build_fn`の引数です．
+scikit-learnの他の予測器と同様，`sk_params`に何も与えなくとも予測器が作れるように，`build_fn`の引数にはデフォルト値を与える必要があります．
 
 また，`sk_params`は`fit`，`predict`，`predict_proba`，および，`score`メソッドを
 呼ぶためのパラメータも取ります（例えば，`epochs`, `batch_size`）．
