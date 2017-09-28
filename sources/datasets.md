@@ -139,6 +139,38 @@ from keras.datasets import mnist
 
 ---
 
+## Fashion-MNIST ファッション記事データベース
+
+60,000枚の28x28，10個のファッションカテゴリの白黒画像と10,000枚のテスト用画像データセット．このデータセットはMNISTの完全な互換品として使えます．クラスラベルは次の通りです：
+
+| ラベル | 説明 |
+| --- | --- |
+| 0 | Tシャツ/トップス |
+| 1 | ズボン |
+| 2 | プルオーバー |
+| 3 | ドレス |
+| 4 | コート |
+| 5 | サンダル |
+| 6 | シャツ |
+| 7 | スニーカー |
+| 8 | バッグ |
+| 9 | アンクルブーツ |
+
+### 使い方：
+
+```python
+from keras.datasets import fashion_mnist
+
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+```
+
+- __戻り値__:
+    - 2つのタプル:
+        - __x_train, x_test__: shape (num_samples, 28, 28) の白黒画像データのuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のラベル(0-9のinteger)のuint8配列．
+
+---
+
 ## ボストンの住宅価格回帰データセット
 
 Carnegie Mellon大学のStatLib ライブラリのデータセット．
