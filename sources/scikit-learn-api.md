@@ -4,9 +4,9 @@
 
 2つのラッパーが利用可能です:
 
-`keras.wrappers.sk_learn.KerasClassifier(build_fn=None, **sk_params)`, これはScikit-Learnのclassifierインターフェースを実装します．
+`keras.wrappers.scikit_learn.KerasClassifier(build_fn=None, **sk_params)`, これはScikit-Learnのclassifierインターフェースを実装します．
 
-`keras.wrappers.sk_learn.KerasRegressor(build_fn=None, **sk_params)`, これはScikit-Learnのregressorインターフェースを実装します．
+`keras.wrappers.scikit_learn.KerasRegressor(build_fn=None, **sk_params)`, これはScikit-Learnのregressorインターフェースを実装します．
 
 ### 引数
 
