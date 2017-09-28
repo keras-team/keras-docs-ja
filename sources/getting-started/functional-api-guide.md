@@ -68,7 +68,7 @@ processed_sequences = TimeDistributed(model)(input_sequences)
 
 -----
 
-## 多入力他出力モデル
+## 多入力多出力モデル
 
 functional APIは複数の入出力を持ったモデルに最適です．
 複数の複雑なデータストリームを簡単に扱うことができます．

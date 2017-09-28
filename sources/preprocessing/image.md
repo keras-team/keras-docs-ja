@@ -57,7 +57,7 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
             - __x__: データ．4次元データである必要があります．RGBではチャネルを3に，グレースケールではチャネルを1にしてください．
             - __y__: ラベル．
             - __batch_size__: 整数（デフォルト: 32）．
-            - __shuffle__: 真理値（デフォルト: False）．
+            - __shuffle__: 真理値（デフォルト: True）．
             - __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
             - __save_prefix__: 文字列（デフォルト`''`）．画像を保存する際にファイル名に付けるプリフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
             - __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．

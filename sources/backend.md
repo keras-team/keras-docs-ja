@@ -2094,7 +2094,7 @@ __戻り値__
 ### mean
 
 ```python
-var(x, axis=None, keepdims=False)
+mean(x, axis=None, keepdims=False)
 ```
 
 指定した軸に沿ったテンソルの平均を計算します．
