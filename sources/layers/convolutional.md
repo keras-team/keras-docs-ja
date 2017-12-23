@@ -16,7 +16,7 @@ __引数__
 - __filters__: 使用するカーネルの数（出力の次元）．
 - __kernel_size__: それぞれのフィルターの（空間もしくは時間的な）長さ．
 - __strides__: カーネルのストライドを指定します.
-- __padding__: `"valid"`，`"same"`，`casual`のいずれか（大文字小文字の区別はしない）．`"valid"`はパディングを行いません．`"same"`は元の入力と同じ長さを出力がもつように入力にパディングします．`"causal"`はcausal（dilated）畳み込み．例えば，output[t]はinput[t+1]に依存しません．時間的順序を無視すべきでない時系列データをモデリングする際に有効です．[WaveNet: A Generative Model for Raw Audio, section 2.1](https://arxiv.org/abs/1609.03499)を参照して下さい.
+- __padding__: `"valid"`，`"same"`，`causal`のいずれか（大文字小文字の区別はしない）．`"valid"`はパディングを行いません．`"same"`は元の入力と同じ長さを出力がもつように入力にパディングします．`"causal"`はcausal（dilated）畳み込み．例えば，output[t]はinput[t+1]に依存しません．時間的順序を無視すべきでない時系列データをモデリングする際に有効です．[WaveNet: A Generative Model for Raw Audio, section 2.1](https://arxiv.org/abs/1609.03499)を参照して下さい.
 - __dilation_rate__: 膨張率．整数か単一の整数からなるタプル/リストを指定します．現在，`dilation_rate` value != 1 とすると，strides value != 1を指定することはできません．
 - __activation__: 使用する活性化関数の名前（[activations](../activations.md)を参照），
   何も指定しなければ，活性化は一切適用されません（つまり"線形"活性a(x) = x）．
