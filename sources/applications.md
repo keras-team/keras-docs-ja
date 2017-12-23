@@ -14,11 +14,14 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [VGG19](#vgg19)
 - [ResNet50](#resnet50)
 - [InceptionV3](#inceptionv3)
+- [InceptionResNetV2](#inceptionresnetv2)
+- [MobileNet](#mobilenet)
 
-（Xceptionを除く）これらすべてのアーキテクチャは，TensorFlowとTheanoの両方に対応しており，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
+（XceptionとMobileNetを除く）これらすべてのアーキテクチャは，TensorFlowとTheanoの両方に対応しており，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
 例えば，`image_dim_ordering=channels_last`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Width-Height-Depth"にしたがって構築されます．
 
 `SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能です．
+`DepthwiseConvolution`を用いているため，MobileNetモデルはTensorFlowでのみ使用可能です．
 
 -----
 
@@ -164,11 +167,18 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 
 # Documentation for individual models
 
-- [Xception](#xception)
-- [VGG16](#vgg16)
-- [VGG19](#vgg19)
-- [ResNet50](#resnet50)
-- [InceptionV3](#inceptionv3)
+| Model | Size | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth |
+| ----- | ----: | --------------: | --------------: | ----------: | -----: |
+| [Xception](#xception) | 88 MB | 0.790 | 0.945| 22,910,480 | 126 |
+| [VGG16](#vgg16) | 528 MB| 0.715 | 0.901 | 138,357,544 | 23
+| [VGG19](#vgg19) | 549 MB | 0.727 | 0.910 | 143,667,240 | 26
+| [ResNet50](#resnet50) | 99 MB | 0.759 | 0.929 | 25,636,712 | 168
+| [InceptionV3](#inceptionv3) | 92 MB | 0.788 | 0.944 | 23,851,784 | 159 |
+| [InceptionResNetV2](#inceptionresnetv2) | 215 MB | 0.804 | 0.953 | 55,873,736 | 572 |
+| [MobileNet](#mobilenet) | 17 MB | 0.665 | 0.871 | 4,253,864 | 88
+
+
+トップ1とトップ5の精度はImageNetの検証データセットを参照しています．
 
 -----
 
@@ -177,7 +187,7 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 
 
 ```python
-keras.applications.xception.Xception(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
+keras.applications.xception.Xception(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
 ImageNetで事前学習した重みを利用可能なXception V1モデル．
@@ -192,14 +202,14 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
 ### 引数
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) のどちらか一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)`)．正確に3つの入力チャンネルをもつ必要があり，width と height は71以上にする必要があります．例えば`(150, 150, 3)`は有効な値です．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
     - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
     - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
-- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
 
 ### 戻り値
 
@@ -218,7 +228,7 @@ Kerasのモデルインスタンス．
 ## VGG16
 
 ```python
-keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
+keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
 ImageNetで事前学習した重みを利用可能なVGG16モデル．
@@ -231,14 +241,14 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
 ### 引数
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) のどちらか一方．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) のどちらか一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`tf`のとき) か `(3, 224, 224)` (`th`のとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
     - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
     - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
-- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
 
 ### 戻り値
 
@@ -258,7 +268,7 @@ Kerasのモデルインスタンス．
 
 
 ```python
-keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
+keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
 ImageNetで事前学習した重みを利用可能なVGG19モデル．
@@ -271,14 +281,14 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
 ### Arguments
 
 - include_top: ネットワークの出力層側にある3つの全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は48以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
     - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
     - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
-- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
 
 ### 戻り値
 
@@ -299,7 +309,7 @@ Kerasのモデルインスタンス．
 
 
 ```python
-keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input_tensor=None, input_shape=None)
+keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
 ImageNetで事前学習した重みを利用可能なResNet50モデル．
@@ -312,14 +322,14 @@ ImageNetで事前学習した重みを利用可能なResNet50モデル．
 ### Arguments
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は197以上にする必要があります．例えば`(200, 200, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
     - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
     - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
-- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
 
 ### 戻り値
 
@@ -338,6 +348,10 @@ Kerasのモデルインスタンス．
 ## InceptionV3
 
 
+```python
+keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+```
+
 ImageNetで事前学習した重みを利用可能なInception V3モデル．
 
 このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
@@ -345,21 +359,18 @@ ImageNetで事前学習した重みを利用可能なInception V3モデル．
 
 デフォルトの入力サイズは299x299．
 
-```python
-keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None)
-```
 
 ### Arguments
 
 - include_top: ネットワークの出力層側にある全結合層を含むかどうか．
-- weights: `None` (ランダム初期化) か "imagenet" (ImageNetで学習した重み) の一方．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) の一方．
 - input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
 - input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`channels_last`データフォーマットのとき) か `(3, 299, 299)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
 - pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
     - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
     - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
     - `max`：global max poolingが適用されることを意味します．
-- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
 
 ### 戻り値
 
@@ -368,6 +379,103 @@ Kerasのモデルインスタンス．
 ### 参考文献
 
 - [Rethinking the Inception Architecture for Computer Vision](http://arxiv.org/abs/1512.00567)
+
+### ライセンス
+
+この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．
+
+-----
+
+## InceptionResNetV2
+
+
+```python
+keras.applications.inception_resnet_v2.InceptionResNetV2(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+```
+
+ImageNetで事前学習したInception-ResNet V2モデル．
+
+このモデルは，TheanoとTensorFlow，CNTKのいずれのbackendで利用でき，
+"channels_first" データフォーマット (channels, height, width) か "channels_last" データフォーマット (height, width, channels)の両方で構築可能です．
+
+デフォルトの入力サイズは299x299．
+
+
+### Arguments
+
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) の一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(299, 299, 3)` (`channels_last`データフォーマットのとき) か `(3, 299, 299)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は139以上にする必要があります．例えば`(150, 150, 3)`は有効値．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
+
+### 戻り値
+
+Kerasのモデルインスタンス．
+
+### 参考文献
+
+- [Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning](https://arxiv.org/abs/1602.07261)
+
+### ライセンス
+
+この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．
+
+-----
+
+## MobileNet
+
+
+```python
+keras.applications.mobilenet.MobileNet(input_shape=None, alpha=1.0, depth_multiplier=1, dropout=1e-3, include_top=True, weights='imagenet', input_tensor=None, pooling=None, classes=1000)
+```
+
+ImageNetで事前学習したMobileNetモデル．
+
+現在TensorFlowでしかサポートされていないことに注意してください．
+このため， `~/.keras/keras.json` にあるKerasの設定でデータフォーマットが `image_data_format='channels_last'` の時のみ動作します．
+`load_model` からMobileNetモデルをロードするには，カスタムオブジェクトの `relu6` と `DepthwiseConv2D` をインポートし，  `custom_objects` パラメータに渡してください．
+
+例
+
+```python
+model = load_model('mobilenet.h5', custom_objects={
+                   'relu6': mobilenet.relu6,
+                   'DepthwiseConv2D': mobilenet.DepthwiseConv2D})
+```
+
+
+デフォルトの入力サイズは224x224．
+
+### Arguments
+
+- input_shape: オプショナルなshapeのタプル，`include_top`がFalseの場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`channels_last`データフォーマットのとき) か `(3, 224, 224)` (`channels_first`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があり，width と height は32以上にする必要があります．例えば`(200, 200, 3)`は有効値．
+- alpha: ネットワークの幅の制御．
+    - `alpha` < 1.0の場合，各レイヤーのフィルタ数を比例して減少させます．
+    - `alpha` > 1.0の場合，各レイヤーのフィルタ層を比例して増加させます．
+    - `alpha` = 1の場合，論文のデフォルトのフィルタ数が各レイヤーで使われます．
+- depth_multiplier: 深さ方向の畳み込みための深さ乗数（resolution multiplierとも呼ばれます）
+- dropout: ドロップアウト率
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
+- weights: `None` (ランダム初期化) か `'imagenet'` (ImageNetで学習した重み) の一方．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `avg`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
+    - `max`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
+
+### 戻り値
+
+Kerasのモデルインスタンス．
+
+### 参考文献
+
+- [MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications](https://arxiv.org/pdf/1704.04861.pdf)
 
 ### ライセンス
 
