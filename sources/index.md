@@ -14,7 +14,7 @@ Kerasは，迅速な実験を可能にすることに重点を置いて開発さ
 
 [Keras.io](https://keras.io)のドキュメントを読んでください．
 
-Kerasは**Python 2.7-3.5**に対応しています．
+Kerasは**Python 2.7-3.6**に対応しています．
 
 
 ------------------
@@ -49,12 +49,10 @@ model = Sequential()
 `.add()`で簡単にレイヤーを積み重ねることができます:
 
 ```python
-from keras.layers import Dense, Activation
+from keras.layers import Dense
 
-model.add(Dense(units=64, input_dim=100))
-model.add(Activation('relu'))
-model.add(Dense(units=10))
-model.add(Activation('softmax'))
+model.add(Dense(units=64, activation='relu', input_dim=100))
+model.add(Dense(units=10, activation='softmax'))
 ```
 
 実装したモデルがよさそうなら`.compile()`で訓練プロセスを設定しましょう．
