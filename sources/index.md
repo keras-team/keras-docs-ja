@@ -14,7 +14,7 @@ Kerasは，迅速な実験を可能にすることに重点を置いて開発さ
 
 [Keras.io](https://keras.io)のドキュメントを読んでください．
 
-Kerasは**Python 2.7-3.5**に対応しています．
+Kerasは**Python 2.7-3.6**に対応しています．
 
 
 ------------------
@@ -49,12 +49,10 @@ model = Sequential()
 `.add()`で簡単にレイヤーを積み重ねることができます:
 
 ```python
-from keras.layers import Dense, Activation
+from keras.layers import Dense
 
-model.add(Dense(units=64, input_dim=100))
-model.add(Activation('relu'))
-model.add(Dense(units=10))
-model.add(Activation('softmax'))
+model.add(Dense(units=64, activation='relu', input_dim=100))
+model.add(Dense(units=10, activation='softmax'))
 ```
 
 実装したモデルがよさそうなら`.compile()`で訓練プロセスを設定しましょう．
@@ -113,41 +111,46 @@ Kerasについてのより詳細なチュートリアルについては，以下
 
 ## インストール
 
-Kerasは以下のライブラリに依存しています．
+Kerasをインストールする前にKerasのバックエンドをインストールしてください：TensorFlowやTheano，CNTKがあります．
+TensorFlowを推奨しています．
 
-- numpy, scipy
-- yaml
-- HDF5とh5py （モデルの保存や読み込み関数を使う場合のみ）
-- cuDNN: オプションですが，CNNを使用する場合は推奨
+- [TensorFlow installation instructions](https://www.tensorflow.org/install/).
+- [Theano installation instructions](http://deeplearning.net/software/theano/install.html#install).
+- [CNTK installation instructions](https://docs.microsoft.com/en-us/cognitive-toolkit/setup-cntk-on-your-machine).
 
+次のような**オプショナルな依存**のインストールも考慮してもいいかもしれません．
 
-*Tensorflowをバックエンドで使用する場合:*
+- cuDNN （KerasをGPUで動かす場合は推奨）．
+- HDF5とh5py （Kerasのモデルをディスクに保存する場合は必須）．
+- graphvizとpydot （[可視化](https://keras.io/visualization/)でモデルのグラフ描画に利用）．
 
-- TensorFlow
-    - [See installation instructions](https://github.com/tensorflow/tensorflow#download-and-setup).
+これでKerasをインストールできるようになりました．Kerasをインストールするには2つの方法があります：
 
-*CNTKをバックエンドで使用する場合:*
-
-- CNTK
-    - [See installation instructions](https://github.com/Microsoft/cntk)
-
-*Theanoをバックエンドで使用する場合:*
-
-- Theano
-    - [See installation instructions](http://deeplearning.net/software/theano/install.html#install).
-
-Kerasをインストールするには，まず，ターミナル上で`cd`コマンドでkerasのフォルダに移動してから以下のインストールコマンドを実行してください．
-
-```sh
-sudo python setup.py install
-```
-
-PyPIからもインストールできます．
+- **PyPIからKerasをインストール（推奨）：**
 
 ```sh
 sudo pip install keras
 ```
 
+virtualenvを利用している場合，sudoを回避できます：
+
+```sh
+pip install keras
+```
+
+- **代替方法：GithubソースからKerasをインストール：**
+
+まず，`git`でKerasをクローンします：
+
+```sh
+git clone https://github.com/keras-team/keras.git
+```
+
+そして，Kerasのフォルダに`cd`してインストールコマンドを実行します．
+```sh
+cd keras
+sudo python setup.py install
+```
 
 ------------------
 
