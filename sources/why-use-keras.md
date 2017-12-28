@@ -14,8 +14,7 @@
 ## Kerasは事業と研究コミュニティの両方で幅広く使用されています
 2017年11月現在，Kerasは20万以上の個人ユーザーがおり，TensorFlow自体を除いて，他の深層学習フレームワークよりも事業と研究コミュニティの両方で多く採用されています（KerasはTensorFlowとの組み合わせでよく使用されます）．
 
-あなたはすでにKerasで構築された機能を日常で使用しています -- Netflix，Uber，Yelp，Instacart，Zocdoc，Squareなど多くの企業がKerasを使用しています．特に，自社製品の核となる部分を深層学習で用いているようなスタートアップ企業で人気があります．
-
+あなたはすでにKerasで構築された機能を日常で使用しています -- Netflix，Uber，Yelp，Instacart，Zocdoc，Squareなど多くの企業がKerasを使用しています．特に，自社製品の核となる部分で深層学習を用いているようなスタートアップ企業で人気があります．
 また，Kerasは，深層学習研究者の間でも人気があり，プレプリント・サーバ[arXiv.org](https://arxiv.org/archive/cs)にアップロードされた，科学技術論文で言及されているフレームワークの中で二番目に使用されています。
 
 <img src='https://keras.io/img/arxiv-mentions.png' style='width:500px; display: block; margin: 0 auto;'/>
