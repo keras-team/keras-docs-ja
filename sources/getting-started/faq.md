@@ -413,10 +413,12 @@ print(len(model.layers))  # "1"
 以下の画像分類のためのモデルのコードと事前学習した重みが利用可能です：
 
 - Xception
-- VGG-16
-- VGG-19
+- VGG16
+- VGG19
 - ResNet50
 - Inception v3
+- Inception-ResNet v2
+- MobileNet v1
 
 これらのモデルは `keras.applications` からインポートできます：
 
