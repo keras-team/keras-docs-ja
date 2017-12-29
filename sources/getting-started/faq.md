@@ -18,6 +18,7 @@
 - [Kerasで事前学習したモデルを使うには？](#keras_1)
 - [KerasでHDF5ファイルを入力に使うには？](#kerashdf5)
 - [Kerasの設定ファイルの保存場所は？](#keras_2)
+- [開発中にKerasを用いて再現可能な結果を得るには？](#how-can-i-obtain-reproducible-results-using-keras-during-development)
 
 ---
 
@@ -549,3 +550,54 @@ Kerasの設定ファイルはJSON形式で `$HOME/.keras/keras.json` に格納�
 - デフォルトのバックエンド．[backendに関するドキュメント](/backend)を確認してください．
 
 同様に，[`get_file()`](/utils/#get_file)でダウンロードされた，キャッシュ済のデータセットのファイルは，デフォルトでは `$HOME/.keras/datasets/` に格納されます．
+
+---
+
+### 開発中にKerasを用いて再現可能な結果を得るには？
+
+モデルの開発中に，パフォーマンスの変化が実際のモデルやデータの変更によるものなのか，単に新しいランダムサンプルの結果によるものなのかを判断するために，実行毎に再現性のある結果を得られると便利な場合があります．以下のコードスニペットは，再現可能な結果を取得する方法の例を示しています．これは，Python 3環境のTensorFlowバックエンド向けです．
+
+```python
+import numpy as np
+import tensorflow as tf
+import random as rn
+
+# The below is necessary in Python 3.2.3 onwards to
+# have reproducible behavior for certain hash-based operations.
+# See these references for further details:
+# https://docs.python.org/3.4/using/cmdline.html#envvar-PYTHONHASHSEED
+# https://github.com/keras-team/keras/issues/2280#issuecomment-306959926
+
+import os
+os.environ['PYTHONHASHSEED'] = '0'
+
+# The below is necessary for starting Numpy generated random numbers
+# in a well-defined initial state.
+
+np.random.seed(42)
+
+# The below is necessary for starting core Python generated random numbers
+# in a well-defined state.
+
+rn.seed(12345)
+
+# Force TensorFlow to use single thread.
+# Multiple threads are a potential source of
+# non-reproducible results.
+# For further details, see: https://stackoverflow.com/questions/42022950/which-seeds-have-to-be-set-where-to-realize-100-reproducibility-of-training-res
+
+session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+
+from keras import backend as K
+
+# The below tf.set_random_seed() will make random number generation
+# in the TensorFlow backend have a well-defined initial state.
+# For further details, see: https://www.tensorflow.org/api_docs/python/tf/set_random_seed
+
+tf.set_random_seed(1234)
+
+sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
+K.set_session(sess)
+
+# Rest of code follows ...
+```
