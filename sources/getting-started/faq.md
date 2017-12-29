@@ -2,6 +2,7 @@
 
 - [Kerasを引用するには？](#keras)
 - [KerasをGPUで動かすには？](#kerasgpu)
+- [KerasをマルチGPUで動かすには？](#how-can-i-run-a-keras-model-on-multiple-gpus)
 - ["sample","batch"，"epoch" の意味は？](#samplebatchepoch)
 - [Keras modelを保存するには？](#keras-model)
 - [training lossがtesting lossよりもはるかに大きいのはなぜ？](#training-losstesting-loss)
@@ -34,6 +35,8 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
 }
 ```
 
+---
+
 ### KerasをGPUで動かすには？
 
 バックエンドでTensorFlowかCNTKを使っている場合，利用可能なGPUがあれば自動的にGPUが使われます．
@@ -54,6 +57,60 @@ THEANO_FLAGS=device=gpu,floatX=float32 python my_keras_script.py
 import theano
 theano.config.device = 'gpu'
 theano.config.floatX = 'float32'
+```
+
+---
+
+### KerasをマルチGPUで動かすには？
+
+**TensorFlow**バックエンドの使用を推奨します．複数のGPUで1つのモデルを実行するには**データ並列化**と**デバイス並列化**の2つの方法があります．
+
+多くの場合，必要となるのはデータ並列化でしょう．
+
+#### データ並列化
+
+データ並列化は，ターゲットのモデルをデバイス毎に1つずつ複製することと，それぞれのレプリカを入力データ内の異なる部分の処理に用いることから成ります．Kerasには組み込みのユーティリティとして`keras.utils.multi_gpu_model`があり，どんなモデルに対してもデータ並列化バージョンを作成できて，最大8個のGPUで準線形の高速化を達成しています．
+
+より詳細な情報は[マルチGPUモデル](/utils/#multi_gpu_model)を参照してください．簡単な例は次の通りです：
+
+```python
+from keras.utils import multi_gpu_model
+
+# Replicates `model` on 8 GPUs.
+# This assumes that your machine has 8 available GPUs.
+parallel_model = multi_gpu_model(model, gpus=8)
+parallel_model.compile(loss='categorical_crossentropy',
+                       optimizer='rmsprop')
+
+# This `fit` call will be distributed on 8 GPUs.
+# Since the batch size is 256, each GPU will process 32 samples.
+parallel_model.fit(x, y, epochs=20, batch_size=256)
+```
+
+#### デバイス並列化
+
+デバイス並列化は同じモデルを異なるデバイスで実行することから成っています．並列アーキテクチャを持つモデルには最適でしょう．例としては2つのブランチを持つようなモデルがあります．
+
+これはTensorFlowのデバイススコープを使用することで実現できます．簡単な例は次の通りです：
+
+```python
+# Model where a shared LSTM is used to encode two different sequences in parallel
+input_a = keras.Input(shape=(140, 256))
+input_b = keras.Input(shape=(140, 256))
+
+shared_lstm = keras.layers.LSTM(64)
+
+# Process the first sequence on one GPU
+with tf.device_scope('/gpu:0'):
+    encoded_a = shared_lstm(tweet_a)
+# Process the next sequence on another GPU
+with tf.device_scope('/gpu:1'):
+    encoded_b = shared_lstm(tweet_b)
+
+# Concatenate results on CPU
+with tf.device_scope('/cpu:0'):
+    merged_vector = keras.layers.concatenate([encoded_a, encoded_b],
+                                             axis=-1)
 ```
 
 ---
