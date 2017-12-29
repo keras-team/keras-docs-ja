@@ -75,6 +75,8 @@ Kerasを正しく使うためには，以下の定義を知り，理解してお
 
 ### Keras modelを保存するには？
 
+#### モデル全体の保存/読み込み（アーキテクチャ + 重み + オプティマイザの状態）
+
 *Kerasのモデルを保存するのに，pickleやcPickleを使うことは推奨されません．*
 
 `model.save(filepath)`を使うことで，単一のHDF5ファイルにKerasのモデルを保存できます．このHDF5ファイルは以下を含みます．
@@ -100,6 +102,8 @@ del model  # deletes the existing model
 model = load_model('my_model.h5')
 ```
 
+#### モデルのアーキテクチャのみの保存/読み込み
+
 **モデルのアーキテクチャ**（weightパラメータや学習時の設定は含まない）のみを保存する場合は，以下のように行ってください:
 
 ```python
@@ -123,6 +127,8 @@ model = model_from_json(json_string)
 from keras.models import model_from_yaml
 model = model_from_yaml(yaml_string)
 ```
+
+#### モデルの重みのみのセーブ/ロード
 
 **モデルの重み** を保存する必要がある場合，以下のコードのようにHDF5を利用できます．
 
@@ -149,7 +155,7 @@ model.load_weights('my_model_weights.h5', by_name=True)
 
 ```python
 """
-Assume original model looks like this:
+Assuming the original model looks like this:
     model = Sequential()
     model.add(Dense(2, input_dim=3, name='dense_1'))
     model.add(Dense(3, name='dense_2'))
@@ -164,6 +170,34 @@ model.add(Dense(10, name='new_dense'))  # will not be loaded
 
 # load weights from first model; will only affect the first layer, dense_1.
 model.load_weights(fname, by_name=True)
+```
+
+#### 保存済みモデルでのカスタムレイヤ（またはその他カスタムオブジェクト）の取り扱い
+
+If the model you want to load includes custom layers or other custom classes or functions, 
+you can pass them to the loading mechanism via the `custom_objects` argument: 
+読み込もうとしているモデルにカスタムレイヤーやその他カスタムされたクラスや関数が含まれている場合，`custom_objects`引数を使ってロード機構にそのカスタムレイヤーなどを渡すことができます．
+
+```python
+from keras.models import load_model
+# Assuming your model includes instance of an "AttentionLayer" class
+model = load_model('my_model.h5', custom_objects={'AttentionLayer': AttentionLayer})
+```
+
+あるいは [custom object scope](https://keras.io/utils/#customobjectscope)を使うことも出来ます：
+
+```python
+from keras.utils import CustomObjectScope
+
+with CustomObjectScope({'AttentionLayer': AttentionLayer}):
+    model = load_model('my_model.h5')
+```
+
+Custom objects handling works the same way for `load_model`, `model_from_json`, `model_from_yaml`:
+
+```python
+from keras.models import model_from_json
+model = model_from_json(json_string, custom_objects={'AttentionLayer': AttentionLayer})
 ```
 
 ---
