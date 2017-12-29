@@ -18,7 +18,8 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     horizontal_flip=False,
     vertical_flip=False,
     rescale=None,
-    dim_ordering=K.image_data_format())
+    preprocessing_function=None,
+    data_format=K.image_data_format())
 ```
 
 リアルタイムにデータ拡張しながら，テンソル画像データのバッチを生成します．また，このジェネレータは，データを無限にループするので，無限にバッチを生成します．
@@ -28,8 +29,8 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __samplewise_center__: 真理値． 各サンプルの平均を0にします．
     - __featurewise_std_normalization__: 真理値． 入力をデータセットの標準偏差で正規化します．
     - __samplewise_std_normalization__: 真理値．各入力をその標準偏差で正規化します．
-    - __zca_whitening__: 真理値．ZCA白色化を適用します．
     - __zca_epsilon__: ZCA白色化のイプシロン．デフォルトは1e-6．
+    - __zca_whitening__: 真理値．ZCA白色化を適用します．
     - __rotation_range__: 整数．画像をランダムに回転する回転範囲（0-180）．
     - __width_shift_range__: 浮動小数点数（横幅に対する割合）．ランダムに水平シフトする範囲．
     - __height_shift_range__: 浮動小数点数（縦幅に対する割合）．ランダムに垂直シフトする範囲．
@@ -37,6 +38,10 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
     - __zoom_range__: 浮動小数点数または[lower，upper]．ランダムにズームする範囲．浮動小数点数が与えられた場合，`[lower, upper] = [1-zoom_range, 1+zoom_range]`です．
     - __channel_shift_range__: 浮動小数点数．ランダムにチャンネルをシフトする範囲．
     - __fill_mode__: {"constant", "nearest", "reflect", "wrap"}のいずれか．指定されたモードに応じて，入力画像の境界周りを埋めます．
+        * "constant": `kkkkkkkk|abcd|kkkkkkkk` (`cval=k`)
+        * "nearest":  `aaaaaaaa|abcd|dddddddd`
+        * "reflect":  `abcddcba|abcd|dcbaabcd`
+        * "wrap":     `abcdabcd|abcd|abcdabcd`
     - __cval__: 浮動小数点数または整数．`fill_mode = "constant"`のときに利用される値．
     - __horizontal_flip__: 真理値．水平方向に入力をランダムに反転します．
     - __vertical_flip__: 真理値．垂直方向に入力をランダムに反転します．
@@ -64,11 +69,11 @@ keras.preprocessing.image.ImageDataGenerator(featurewise_center=False,
         - __yields__: `(x, y)`からなるタプルで`x`は画像データのnumpy配列で`y`はラベルのnumpy配列．ジェネレーターは無限ループします．
     - __flow_from_directory(directory)__: ディレクトリへのパスを受け取り，拡張/正規化したデータのバッチを生成する．データを無限にループするので，無限にバッチを生成します．
         - __引数__:
-            - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPG形式の画像を含まなければいけません．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を見てください．
-            - __target_size__: 整数のタプル．デフォルトは`(256, 256)`．この値に全画像はリサイズされます．
+            - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPGかBMPかPPM形式の画像を含まなければいけません．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を見てください．
+            - __target_size__: 整数のタプル`(height, width)`．デフォルトは`(256, 256)`．この値に全画像はリサイズされます．
             - __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
-            - __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．
-            - __class_mode__: "categorical"か"binary"か"sparse"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定します："categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル．Noneであれば，ラベルを返しません（ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用）．
+            - __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．クラス名からクラスインデックスへのマッピングを含む辞書は`class_indeces`属性を用いて取得できます．
+            - __class_mode__: "categorical"か"binary"か"sparse"か"input"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定します："categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル，"input"は入力画像と同じ画像になります（主にオートエンコーダで用いられます）．Noneであれば，ラベルを返しません（ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用）．class_modeがNoneの場合，正常に動作させるためには`directory`のサブディレクトリにデータが存在する必要があることに注意してください．
             - __batch_size__: 整数（デフォルト: 32）．
             - __shuffle__: 真理値（デフォルト: True）．
             - __seed__: shuffleのための乱数シード．
@@ -100,14 +105,14 @@ datagen.fit(x_train)
 
 # fits the model on batches with real-time data augmentation:
 model.fit_generator(datagen.flow(x_train, y_train, batch_size=32),
-                    steps_per_epoch=len(x_train), epochs=epochs)
+                    steps_per_epoch=len(x_train) / 32, epochs=epochs)
 
 # here's a more "manual" example
 for e in range(epochs):
     print('Epoch', e)
     batches = 0
     for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=32):
-        model.train(x_batch, y_batch)
+        model.fit(x_batch, y_batch)
         batches += 1
         if batches >= len(x_train) / 32:
             # we need to break the loop by hand because
@@ -140,10 +145,10 @@ validation_generator = test_datagen.flow_from_directory(
 
 model.fit_generator(
         train_generator,
-        samples_per_epoch=2000,
+        steps_per_epoch=2000,
         epochs=50,
         validation_data=validation_generator,
-        nb_val_samples=800)
+        validation_steps=800)
 ```
 
 画像とマスクに対して，同時に変更を加える例．
