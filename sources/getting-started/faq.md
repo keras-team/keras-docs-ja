@@ -2,6 +2,7 @@
 
 - [Kerasを引用するには？](#keras)
 - [KerasをGPUで動かすには？](#kerasgpu)
+- [KerasをマルチGPUで動かすには？](#how-can-i-run-a-keras-model-on-multiple-gpus)
 - ["sample","batch"，"epoch" の意味は？](#samplebatchepoch)
 - [Keras modelを保存するには？](#keras-model)
 - [training lossがtesting lossよりもはるかに大きいのはなぜ？](#training-losstesting-loss)
@@ -17,6 +18,7 @@
 - [Kerasで事前学習したモデルを使うには？](#keras_1)
 - [KerasでHDF5ファイルを入力に使うには？](#kerashdf5)
 - [Kerasの設定ファイルの保存場所は？](#keras_2)
+- [開発中にKerasを用いて再現可能な結果を得るには？](#how-can-i-obtain-reproducible-results-using-keras-during-development)
 
 ---
 
@@ -33,6 +35,8 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
   howpublished={\url{https://github.com/fchollet/keras}},
 }
 ```
+
+---
 
 ### KerasをGPUで動かすには？
 
@@ -58,6 +62,60 @@ theano.config.floatX = 'float32'
 
 ---
 
+### KerasをマルチGPUで動かすには？
+
+**TensorFlow**バックエンドの使用を推奨します．複数のGPUで1つのモデルを実行するには**データ並列化**と**デバイス並列化**の2つの方法があります．
+
+多くの場合，必要となるのはデータ並列化でしょう．
+
+#### データ並列化
+
+データ並列化は，ターゲットのモデルをデバイス毎に1つずつ複製することと，それぞれのレプリカを入力データ内の異なる部分の処理に用いることから成ります．Kerasには組み込みのユーティリティとして`keras.utils.multi_gpu_model`があり，どんなモデルに対してもデータ並列化バージョンを作成できて，最大8個のGPUで準線形の高速化を達成しています．
+
+より詳細な情報は[マルチGPUモデル](/utils/#multi_gpu_model)を参照してください．簡単な例は次の通りです：
+
+```python
+from keras.utils import multi_gpu_model
+
+# Replicates `model` on 8 GPUs.
+# This assumes that your machine has 8 available GPUs.
+parallel_model = multi_gpu_model(model, gpus=8)
+parallel_model.compile(loss='categorical_crossentropy',
+                       optimizer='rmsprop')
+
+# This `fit` call will be distributed on 8 GPUs.
+# Since the batch size is 256, each GPU will process 32 samples.
+parallel_model.fit(x, y, epochs=20, batch_size=256)
+```
+
+#### デバイス並列化
+
+デバイス並列化は同じモデルを異なるデバイスで実行することから成っています．並列アーキテクチャを持つモデルには最適でしょう．例としては2つのブランチを持つようなモデルがあります．
+
+これはTensorFlowのデバイススコープを使用することで実現できます．簡単な例は次の通りです：
+
+```python
+# Model where a shared LSTM is used to encode two different sequences in parallel
+input_a = keras.Input(shape=(140, 256))
+input_b = keras.Input(shape=(140, 256))
+
+shared_lstm = keras.layers.LSTM(64)
+
+# Process the first sequence on one GPU
+with tf.device_scope('/gpu:0'):
+    encoded_a = shared_lstm(tweet_a)
+# Process the next sequence on another GPU
+with tf.device_scope('/gpu:1'):
+    encoded_b = shared_lstm(tweet_b)
+
+# Concatenate results on CPU
+with tf.device_scope('/cpu:0'):
+    merged_vector = keras.layers.concatenate([encoded_a, encoded_b],
+                                             axis=-1)
+```
+
+---
+
 ### "sample"，"batch"，"epoch" の意味は？
 
 Kerasを正しく使うためには，以下の定義を知り，理解しておく必要があります：
@@ -74,6 +132,8 @@ Kerasを正しく使うためには，以下の定義を知り，理解してお
 ---
 
 ### Keras modelを保存するには？
+
+#### モデル全体の保存/読み込み（アーキテクチャ + 重み + オプティマイザの状態）
 
 *Kerasのモデルを保存するのに，pickleやcPickleを使うことは推奨されません．*
 
@@ -100,6 +160,8 @@ del model  # deletes the existing model
 model = load_model('my_model.h5')
 ```
 
+#### モデルのアーキテクチャのみの保存/読み込み
+
 **モデルのアーキテクチャ**（weightパラメータや学習時の設定は含まない）のみを保存する場合は，以下のように行ってください:
 
 ```python
@@ -123,6 +185,8 @@ model = model_from_json(json_string)
 from keras.models import model_from_yaml
 model = model_from_yaml(yaml_string)
 ```
+
+#### モデルの重みのみのセーブ/ロード
 
 **モデルの重み** を保存する必要がある場合，以下のコードのようにHDF5を利用できます．
 
@@ -149,7 +213,7 @@ model.load_weights('my_model_weights.h5', by_name=True)
 
 ```python
 """
-Assume original model looks like this:
+Assuming the original model looks like this:
     model = Sequential()
     model.add(Dense(2, input_dim=3, name='dense_1'))
     model.add(Dense(3, name='dense_2'))
@@ -164,6 +228,34 @@ model.add(Dense(10, name='new_dense'))  # will not be loaded
 
 # load weights from first model; will only affect the first layer, dense_1.
 model.load_weights(fname, by_name=True)
+```
+
+#### 保存済みモデルでのカスタムレイヤ（またはその他カスタムオブジェクト）の取り扱い
+
+If the model you want to load includes custom layers or other custom classes or functions, 
+you can pass them to the loading mechanism via the `custom_objects` argument: 
+読み込もうとしているモデルにカスタムレイヤーやその他カスタムされたクラスや関数が含まれている場合，`custom_objects`引数を使ってロード機構にそのカスタムレイヤーなどを渡すことができます．
+
+```python
+from keras.models import load_model
+# Assuming your model includes instance of an "AttentionLayer" class
+model = load_model('my_model.h5', custom_objects={'AttentionLayer': AttentionLayer})
+```
+
+あるいは [custom object scope](https://keras.io/utils/#customobjectscope)を使うことも出来ます：
+
+```python
+from keras.utils import CustomObjectScope
+
+with CustomObjectScope({'AttentionLayer': AttentionLayer}):
+    model = load_model('my_model.h5')
+```
+
+Custom objects handling works the same way for `load_model`, `model_from_json`, `model_from_yaml`:
+
+```python
+from keras.models import model_from_json
+model = model_from_json(json_string, custom_objects={'AttentionLayer': AttentionLayer})
 ```
 
 ---
@@ -379,10 +471,12 @@ print(len(model.layers))  # "1"
 以下の画像分類のためのモデルのコードと事前学習した重みが利用可能です：
 
 - Xception
-- VGG-16
-- VGG-19
+- VGG16
+- VGG19
 - ResNet50
 - Inception v3
+- Inception-ResNet v2
+- MobileNet v1
 
 これらのモデルは `keras.applications` からインポートできます：
 
@@ -456,3 +550,54 @@ Kerasの設定ファイルはJSON形式で `$HOME/.keras/keras.json` に格納�
 - デフォルトのバックエンド．[backendに関するドキュメント](/backend)を確認してください．
 
 同様に，[`get_file()`](/utils/#get_file)でダウンロードされた，キャッシュ済のデータセットのファイルは，デフォルトでは `$HOME/.keras/datasets/` に格納されます．
+
+---
+
+### 開発中にKerasを用いて再現可能な結果を得るには？
+
+モデルの開発中に，パフォーマンスの変化が実際のモデルやデータの変更によるものなのか，単に新しいランダムサンプルの結果によるものなのかを判断するために，実行毎に再現性のある結果を得られると便利な場合があります．以下のコードスニペットは，再現可能な結果を取得する方法の例を示しています．これは，Python 3環境のTensorFlowバックエンド向けです．
+
+```python
+import numpy as np
+import tensorflow as tf
+import random as rn
+
+# The below is necessary in Python 3.2.3 onwards to
+# have reproducible behavior for certain hash-based operations.
+# See these references for further details:
+# https://docs.python.org/3.4/using/cmdline.html#envvar-PYTHONHASHSEED
+# https://github.com/keras-team/keras/issues/2280#issuecomment-306959926
+
+import os
+os.environ['PYTHONHASHSEED'] = '0'
+
+# The below is necessary for starting Numpy generated random numbers
+# in a well-defined initial state.
+
+np.random.seed(42)
+
+# The below is necessary for starting core Python generated random numbers
+# in a well-defined state.
+
+rn.seed(12345)
+
+# Force TensorFlow to use single thread.
+# Multiple threads are a potential source of
+# non-reproducible results.
+# For further details, see: https://stackoverflow.com/questions/42022950/which-seeds-have-to-be-set-where-to-realize-100-reproducibility-of-training-res
+
+session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+
+from keras import backend as K
+
+# The below tf.set_random_seed() will make random number generation
+# in the TensorFlow backend have a well-defined initial state.
+# For further details, see: https://www.tensorflow.org/api_docs/python/tf/set_random_seed
+
+tf.set_random_seed(1234)
+
+sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
+K.set_session(sess)
+
+# Rest of code follows ...
+```
