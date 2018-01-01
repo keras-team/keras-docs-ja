@@ -15,7 +15,7 @@ model.add(Activation('tanh'))
 model.add(Dense(64, activation='tanh'))
 ```
 
-要素ごとに適用できるTensorFlow/Theano関数を活性化関数に渡すこともできます:
+要素ごとに適用できるTensorFlow/Theano/CNTK関数を活性化関数に渡すこともできます:
 
 ```python
 from keras import backend as K
@@ -135,5 +135,5 @@ linear
 
 ## より高度な活性化関数
 
-単純なTensorFlow/Theano関数よりも高度な活性化関数 (例: 状態を持てるlearnable activations) は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です．
+単純なTensorFlow/Theano/CNTK関数よりも高度な活性化関数 (例: 状態を持てるlearnable activations) は，[Advanced Activation layers](layers/advanced-activations.md)として利用可能です．
 これらは，`keras.layers.advanced_activations`モジュールにあり，`PReLU`や`LeakyReLU`が含まれます．

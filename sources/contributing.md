@@ -6,7 +6,7 @@
 
 作成したコードが動作せず，Kerasに問題があると思ったら？バグ報告のために以下の手順を踏んでください．
 
-1. 既にバグは修正されているかもしれません．Kerasの現在のmaster branchと最新のTheano/TensorFlowのmaster branchに更新してください．
+1. 既にバグは修正されているかもしれません．Kerasの現在のmaster branchと最新のTheano/TensorFlow/CNTKのmaster branchに更新してください．
 Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano.git --upgrade`
 
 2. 類似したissueを検索してください．解決済みのissueも検索するために，`is:open`を消して検索してください．他の方が既にバグを見つけているかもしれません．また，Kerasの[FAQ](http://keras.io/faq/)を確認してください．まだ，問題が解決されなかったら？Githubのissueで報告してください．
@@ -64,6 +64,7 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 6. 全テストが通ることを確かめてください．
     - Python 2.7とPython 3.5のTheanoバックエンド．Theanoの開発バージョンであることを確かめてください．
     - Python 2.7とPython 3.5のTensorFlowバックエンド．TensorFlowの開発バージョンであることを確かめてください．
+    - Python 2.7とPython 3.5のCNTKバックエンド．CNTKの開発バージョンであることを確かめてください．
 
 7. PEP8の構文規則に従っていますが，1行の長さに関しては教義的でありません．
 ただし，合理的だと考える長さを維持してください．楽をするために，PEP8 linterの実行を推奨します：
