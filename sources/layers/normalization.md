@@ -10,13 +10,13 @@ Batch normalization layer (Ioffe and Szegedy, 2014)．
 各バッチ毎に前の層の出力（このレイヤーへの入力）を正規化します．
 つまり，平均を0，標準偏差値を1に近づける変換を適用します．
 
-__Arguments__
+__引数__
 
 - __axis__: 整数．正規化する軸（典型的には，特徴量の軸）．例えば，`data_format="channels_first"`の`Conv2D`の後では，`axis=1`にします．
 - __momentum__: 移動平均のためのMomentum．
 - __epsilon__: 0除算を避けるために分散加算する微小量．
 - __center__: Trueなら，正規化されたテンソルに`beta`のオフセットを加算します．Falseなら, `beta`は無視します．
-- _scale_: Trueなら, `gamma`をかけます．Falseなら, `gamma`は使われません．次のレイヤーがlinear (例えば `nn.relu` も)ならば，次のレイヤーによってスケーリングされるので無効にできます．
+- __scale__: Trueなら, `gamma`をかけます．Falseなら, `gamma`は使われません．次のレイヤーがlinear (例えば `nn.relu` も)ならば，次のレイヤーによってスケーリングされるので無効にできます．
 - __beta_initializer__: betaの重みのためのInitializer．
 - __gamma_initializer__: gammaの重みのためのInitializer．
 - __moving_mean_initializer__: 移動平均のためのInitializer．
