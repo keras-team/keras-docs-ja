@@ -138,7 +138,7 @@ model.fit(data, one_hot_labels, epochs=10, batch_size=32)
 
 いますぐKerasを始められるようにいくつか例を用意しました！
 
-[examples folder](https://github.com/fchollet/keras/tree/master/examples)フォルダにはリアルデータセットを利用したモデルがあります．
+[examples folder](https://github.com/keras-team/keras/tree/master/examples)フォルダにはリアルデータセットを利用したモデルがあります．
 
 - CIFAR10 小規模な画像分類：リアルタイムなdata augmentationを用いたConvolutional Neural Network (CNN)
 - IMDB 映画レビューのセンチメント分類：単語単位のLSTM

@@ -102,7 +102,7 @@ Kerasについてのより詳細なチュートリアルについては，以下
 - [Getting started with the Sequential model](http://keras.io/getting-started/sequential-model-guide)
 - [Getting started with the functional API](http://keras.io/getting-started/functional-api-guide)
 
-リポジトリの[examples folder](https://github.com/fchollet/keras/tree/master/examples)にはさらに高度なモデルがあります．
+リポジトリの[examples folder](https://github.com/keras-team/keras/tree/master/examples)にはさらに高度なモデルがあります．
 メモリネットワークを用いた質問応答システムや積層LSTMを用いた文章生成などです．
 
 
@@ -170,7 +170,7 @@ sudo python setup.py install
 - [Keras Google group](https://groups.google.com/forum/#!forum/keras-users)上で
 - [Keras Slack channel](https://kerasteam.slack.com)上で．チャンネルへのリクエストするには[このリンク](https://keras-slack-autojoin.herokuapp.com/)を使ってください．
 
- [Githubのissues](https://github.com/fchollet/keras/issues)に**バグレポートや機能リクエスト**を投稿できます．まず[ガイドライン](https://github.com/fchollet/keras/blob/master/CONTRIBUTING.md)を必ず読んでください．
+ [Githubのissues](https://github.com/keras-team/keras/issues)に**バグレポートや機能リクエスト**を投稿できます．まず[ガイドライン](https://github.com/keras-team/keras/blob/master/CONTRIBUTING.md)を必ず読んでください．
 
 ------------------
 

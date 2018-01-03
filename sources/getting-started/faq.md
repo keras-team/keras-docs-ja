@@ -32,7 +32,7 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
   author={Chollet, Fran\c{c}ois and others},
   year={2015},
   publisher={GitHub},
-  howpublished={\url{https://github.com/fchollet/keras}},
+  howpublished={\url{https://github.com/keras-team/keras}},
 }
 ```
 
@@ -317,7 +317,7 @@ layer_output = get_3rd_layer_output([x, 1])[0]
 
 代わりに，訓練データのバッチを生成するジェネレータを記述して， `model.fit_generator(data_generator, samples_per_epoch, epochs)` の関数を使うこともできます．
 
-実際のバッチ学習の方法については，[CIFAR10 example](https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py)を見てください．
+実際のバッチ学習の方法については，[CIFAR10 example](https://github.com/keras-team/keras/blob/master/examples/cifar10_cnn.py)を見てください．
 
 ---
 
@@ -497,9 +497,9 @@ model = VGG16(weights='imagenet', include_top=True)
 
 また，VGG16はいくつかのKerasのサンプルスクリプトの基礎になっています．
 
-- [Style transfer](https://github.com/fchollet/keras/blob/master/examples/neural_style_transfer.py)
-- [Feature visualization](https://github.com/fchollet/keras/blob/master/examples/conv_filter_visualization.py)
-- [Deep dream](https://github.com/fchollet/keras/blob/master/examples/deep_dream.py)
+- [Style transfer](https://github.com/keras-team/keras/blob/master/examples/neural_style_transfer.py)
+- [Feature visualization](https://github.com/keras-team/keras/blob/master/examples/conv_filter_visualization.py)
+- [Deep dream](https://github.com/keras-team/keras/blob/master/examples/deep_dream.py)
 
 ---
 

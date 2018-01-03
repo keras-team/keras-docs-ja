@@ -14,7 +14,7 @@ model.add(Dense(64,
 
 以下の初期化方法は全て `keras.initializers` モジュールとして定義されています．
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L9)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L9)
 ### Initializer
 
 ```python
@@ -25,7 +25,7 @@ keras.initializers.Initializer()
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L24)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L24)
 ### Zeros
 
 ```python
@@ -36,7 +36,7 @@ keras.initializers.Zeros()
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L32)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L32)
 ### Ones
 
 ```python
@@ -47,7 +47,7 @@ keras.initializers.Ones()
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L40)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L40)
 ### Constant
 
 ```python
@@ -62,7 +62,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L57)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L57)
 ### RandomNormal
 
 ```python
@@ -79,7 +79,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L85)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L85)
 ### RandomUniform
 
 ```python
@@ -96,7 +96,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L113)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L113)
 ### TruncatedNormal
 
 ```python
@@ -115,7 +115,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L146)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L146)
 ### VarianceScaling
 
 ```python
@@ -149,7 +149,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L219)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L219)
 ### Orthogonal
 
 ```python
@@ -169,7 +169,7 @@ Saxe et al., http://arxiv.org/abs/1312.6120
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L256)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L256)
 ### Identity
 
 ```python
@@ -185,7 +185,7 @@ __引数__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L304)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L304)
 ### glorot_normal
 
 ```python
@@ -214,7 +214,7 @@ http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L328)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L328)
 ### glorot_uniform
 
 ```python
@@ -242,7 +242,7 @@ http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L352)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L352)
 ### he_normal
 
 ```python
@@ -269,7 +269,7 @@ He et al., http://arxiv.org/abs/1502.01852
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L374)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L374)
 ### lecun_normal
 
 ```python
@@ -296,7 +296,7 @@ __参考文献__
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L397)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L397)
 ### he_uniform
 
 ```python
@@ -323,7 +323,7 @@ He et al., http://arxiv.org/abs/1502.01852
 
 ---
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/initializers.py#L281)
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/initializers.py#L281)
 ### lecun_uniform
 
 ```python

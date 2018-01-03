@@ -32,14 +32,14 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 
 ## 貢献するためのリクエスト
 
-[ボード](https://github.com/fchollet/keras/projects/1)に未解決のissueや追加すべき機能に関するリストがあります．もし，Kerasへの貢献を始めたいなら，ここから始められます．
+[ボード](https://github.com/keras-team/keras/projects/1)に未解決のissueや追加すべき機能に関するリストがあります．もし，Kerasへの貢献を始めたいなら，ここから始められます．
 
 ## Pull Requests
 
 **pull requestをどこに送るべきですか？**
 
-1. **Kerasの改善とバグ修正**は[Keras `master` branch](https://github.com/fchollet/keras/tree/master)に送ってください．
-2. **試験的な新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/fchollet/keras/projects/1)にある新機能以外です．もしコア機能だと思う場合は，追加する機能の説明するための設計書を送ることで，主張できます（以下の説明を見てください）．
+1. **Kerasの改善とバグ修正**は[Keras `master` branch](https://github.com/keras-team/keras/tree/master)に送ってください．
+2. **試験的な新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/keras-team/keras/projects/1)にある新機能以外です．もしコア機能だと思う場合は，追加する機能の説明するための設計書を送ることで，主張できます（以下の説明を見てください）．
 
 ここでは，あなたの改善したコードを送るためのクイックガイドを示します:
 
@@ -82,4 +82,4 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 
 ## 新しいサンプルコードの追加
 
-たとえKerasのソースコードへ貢献しなくても，Kerasを使った簡潔で強力な応用例を持っていましたら，examplesのコレクションへの追加を考えてみてください．[既にあるexamples](https://github.com/fchollet/keras/tree/master/examples) は慣用的なKerasコードです：あなたのスクリプトも同じように作成してください．
+たとえKerasのソースコードへ貢献しなくても，Kerasを使った簡潔で強力な応用例を持っていましたら，examplesのコレクションへの追加を考えてみてください．[既にあるexamples](https://github.com/keras-team/keras/tree/master/examples) は慣用的なKerasコードです：あなたのスクリプトも同じように作成してください．
