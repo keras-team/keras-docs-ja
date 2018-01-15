@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/local.py#L15)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/local.py#L15)</span>
 ### LocallyConnected1D
 
 ```python
@@ -51,7 +51,7 @@ __出力のshape__
 `steps`値はパディングやストライドにより変わることがあります．
 
 ----
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/local.py#L179)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/local.py#L179)</span>
 ### LocallyConnected2D
 
 ```python

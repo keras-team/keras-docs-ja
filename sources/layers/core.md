@@ -1,4 +1,4 @@
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L726)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L726)</span>
 ### Dense
 
 ```python
@@ -58,7 +58,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L263)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L263)</span>
 ### Activation
 
 ```python
@@ -83,7 +83,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L72)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L72)</span>
 ### Dropout
 
 ```python
@@ -104,7 +104,7 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L452)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L452)</span>
 ### Flatten
 
 ```python
@@ -127,7 +127,7 @@ model.add(Flatten())
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L294)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L294)</span>
 ### Reshape
 
 ```python
@@ -171,7 +171,7 @@ model.add(Reshape((-1, 2, 2)))
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L400)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L400)</span>
 ### Permute
 
 ```python
@@ -206,7 +206,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L487)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L487)</span>
 ### RepeatVector
 
 ```python
@@ -242,7 +242,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L529)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L529)</span>
 ### Lambda
 
 ```python
@@ -302,7 +302,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L869)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L869)</span>
 ### ActivityRegularization
 
 ```python
@@ -326,7 +326,7 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/fchollet/keras/blob/master/keras/layers/core.py#L25)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L25)</span>
 ### Masking
 
 ```python

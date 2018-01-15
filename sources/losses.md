@@ -19,7 +19,7 @@ model.compile(loss=losses.mean_squared_error, optimizer='sgd')
 
 実際に最適化される目的関数値は全データ点における出力の平均です．
 
-このような関数の実装例に関しては，[losses source](https://github.com/fchollet/keras/blob/master/keras/losses.py)を参照してください．
+このような関数の実装例に関しては，[losses source](https://github.com/keras-team/keras/blob/master/keras/losses.py)を参照してください．
 
 ## 利用可能な目的関数
 

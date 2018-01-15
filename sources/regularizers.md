@@ -42,4 +42,4 @@ model.add(Dense(64, input_dim=64,
                 kernel_regularizer=l1_reg)
 ```
 
-また，オブジェクト指向的に正則化を定義できます．[keras/regularizers.py](https://github.com/fchollet/keras/blob/master/keras/regularizers.py)モジュールの例を見てください．
+また，オブジェクト指向的に正則化を定義できます．[keras/regularizers.py](https://github.com/keras-team/keras/blob/master/keras/regularizers.py)モジュールの例を見てください．
