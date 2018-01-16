@@ -32,7 +32,7 @@ keras.utils.HDF5Matrix(datapath, dataset, start=0, end=None, normalizer=None)
 
 Numpy 配列の代わりに使えるHDF5 datasetの表現です．
 
-### 例
+__例__
 
 ```python
 x_data = HDF5Matrix('input/file.hdf5', 'data')
@@ -68,7 +68,7 @@ datasetのようなデータの系列にfittingのためのベースオブジェ
 
 Sequenceは`__getitem__`と`__len__`メソッドを実装しなければなりません．エポックの間にデータセットを変更したい場合には`on_epoch_end`を実装すべきです．`__getitem__`メソッドは完全なバッチを返すべきです．
 
-### 例
+__例__
 
 ``` python
 from skimage.io import imread
