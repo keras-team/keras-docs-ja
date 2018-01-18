@@ -8,7 +8,7 @@
 
 - `build(input_shape)`: これは重みを定義するメソッドです．このメソッドは，`self.built = True`をセットしなければいけません，これは`super([Layer], self).build()`を呼び出しでできます．
 - `call(x)`: ここではレイヤーのロジックを記述します．オリジナルのレイヤーでマスキングをサポートしない限り，第1引数である入力テンソルが`call`に渡されることに気を付けてください．
-- `get_output_shape_for(input_shape)`: 作成したレイヤーの内部で入力のshapeを変更する場合には，ここでshape変換のロジックを指定する必要があります．こうすることでKerasが自動的にshapeを推定します．
+- `compute_output_shape(input_shape)`: 作成したレイヤーの内部で入力のshapeを変更する場合には，ここでshape変換のロジックを指定する必要があります．こうすることでKerasが自動的にshapeを推定します．
 
 ```python
 from keras import backend as K
