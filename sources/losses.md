@@ -12,7 +12,7 @@ from keras import losses
 model.compile(loss=losses.mean_squared_error, optimizer='sgd')
 ```
 
-既存の目的関数の名前を引数に与えるか，各データ点に対してスカラを返し，以下の2つの引数を取るTensorFlow/Theanoのシンボリック関数を与えることができます:
+既存の損失関数の名前を引数に与えるか，各データ点に対してスカラを返し，以下の2つの引数を取るTensorFlow/Theanoのシンボリック関数を与えることができます:
 
 - __y_true__: 正解ラベル．TensorFlow/Theano テンソル
 - __y_pred__: 予測値．y_trueと同じshapeのTensorFlow/Theano テンソル
@@ -21,7 +21,7 @@ model.compile(loss=losses.mean_squared_error, optimizer='sgd')
 
 このような関数の実装例に関しては，[losses source](https://github.com/keras-team/keras/blob/master/keras/losses.py)を参照してください．
 
-## 利用可能な目的関数
+## 利用可能な損失関数
 
 ### mean_squared_error
 
@@ -64,6 +64,7 @@ squared_hinge(y_true, y_pred)
 ---
 
 ### hinge
+
 ```python
 hinge(y_true, y_pred)
 ```
@@ -83,6 +84,10 @@ categorical_hinge(y_true, y_pred)
 ```python
 logcosh(y_true, y_pred)
 ```
+
+予測誤差のハイパボリックコサインの対数．
+
+`log(cosh(x))`は`x`が小さければ`(x ** 2) / 2`とほぼ等しくなり，`x`が大きければ`abs(x) - log(2)`とほぼ等しくなります．つまり'logcosh'は平均二乗誤差とほぼ同じように働きます．しかし，時折ある乱雑な誤った予測にそれほど強く影響されません．
 
 ---
 
