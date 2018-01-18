@@ -6,8 +6,7 @@
 
 これらのレイヤーは3つの引数を取ります:
 
-- `kernel_regularizer`:
-- `W_regularizer`: `keras.regularizers.Regularizer` のインスタンス
+- `kernel_regularizer`: `keras.regularizers.Regularizer` のインスタンス
 - `bias_regularizer`: `keras.regularizers.Regularizer` のインスタンス
 - `activity_regularizer`: `keras.regularizers.Regularizer` のインスタンス
 
@@ -39,7 +38,7 @@ def l1_reg(weight_matrix):
     return 0.01 * K.sum(K.abs(weight_matrix))
 
 model.add(Dense(64, input_dim=64,
-                kernel_regularizer=l1_reg)
+                kernel_regularizer=l1_reg))
 ```
 
 また，オブジェクト指向的に正則化を定義できます．[keras/regularizers.py](https://github.com/keras-team/keras/blob/master/keras/regularizers.py)モジュールの例を見てください．
