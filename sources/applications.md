@@ -16,6 +16,7 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [InceptionV3](#inceptionv3)
 - [InceptionResNetV2](#inceptionresnetv2)
 - [MobileNet](#mobilenet)
+- [DenseNet](#densenet)
 - [NASNet](#nasnet)
 
 （XceptionとMobileNetを除く）これらすべてのアーキテクチャは，TensorFlowとTheanoの両方に対応しており，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
@@ -177,6 +178,9 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 | [InceptionV3](#inceptionv3) | 92 MB | 0.788 | 0.944 | 23,851,784 | 159 |
 | [InceptionResNetV2](#inceptionresnetv2) | 215 MB | 0.804 | 0.953 | 55,873,736 | 572 |
 | [MobileNet](#mobilenet) | 17 MB | 0.665 | 0.871 | 4,253,864 | 88
+| [DenseNet121](#densenet) | 33 MB | 0.745 | 0.918 | 8,062,504 | 121
+| [DenseNet169](#densenet) | 57 MB | 0.759 | 0.928 | 14,307,880 | 169
+| [DenseNet201](#densenet) | 80 MB | 0.770 | 0.933 | 20,242,984 | 201
 
 
 トップ1とトップ5の精度はImageNetの検証データセットを参照しています．
@@ -470,6 +474,48 @@ Kerasのモデルインスタンス．
 ### ライセンス
 
 この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．
+
+-----
+
+## DenseNet
+
+
+```python
+keras.applications.densenet.DenseNet121(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+keras.applications.densenet.DenseNet169(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+keras.applications.densenet.DenseNet201(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+```
+
+必要に応じてImageNetで事前学習した重みをロードできます．
+TensorFlowを使う場合は最高のパフォーマンスを得るために~/.keras/keras.jsonのKeras設定で`image_data_format='channels_last'`と設定すべきことに注意してください．
+
+モデルと重みはTensorFlowやTheano，CNTKで互換性があります．
+モデルで使われるデータフォーマットの規約はKerasの設定ファイルで一意に決まります．
+
+### 引数
+
+- blocks: 4つのdenseレイヤーために構築するブロックの個数．
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
+- weights: `None`（ランダム初期化），'imagenet'（ImageNetでの事前学習），ロードする重みのファイルへのパスのいずれか．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル（つまり，`layers.Input()`の出力）
+- input_shape: オプショナルなshapeのタプル，`include_top`が`False`の場合のみ指定可能 (そうでないときは入力のshapeは`(224, 224, 3)` (`'channels_last'`データフォーマットのとき) か `(3, 224, 224)` (`'channels_first'`データフォーマットのとき) )．正確に3つの入力チャンネルをもつ必要があります．
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `'avg'`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
+    - `'max'`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`が`True`かつ`weights`が指定されていない場合のみ指定可能．
+
+### 戻り値
+
+Kerasのモデルインスタンス．
+
+### 参考文献
+
+- [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993) (CVPR 2017 Best Paper Award)
+
+### ライセンス
+
+この重みは[三条項BSDライセンス ](https://github.com/liuzhuang13/DenseNet/blob/master/LICENSE)の下で公開されています．
 
 -----
 
