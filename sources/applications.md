@@ -515,7 +515,7 @@ Kerasのモデルインスタンス．
 
 ### ライセンス
 
-この重みは[三条項BSDライセンス ](https://github.com/liuzhuang13/DenseNet/blob/master/LICENSE)の下で公開されています．
+この重みは[三条項BSDライセンス](https://github.com/liuzhuang13/DenseNet/blob/master/LICENSE)の下で公開されています．
 
 -----
 
