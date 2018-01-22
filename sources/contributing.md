@@ -41,7 +41,7 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 1. **Kerasの改善とバグ修正**は[Keras `master` branch](https://github.com/keras-team/keras/tree/master)に送ってください．
 2. **試験的な新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/keras-team/keras/projects/1)にある新機能以外です．もしコア機能だと思う場合は，追加する機能の説明するための設計書を送ることで，主張できます（以下の説明を見てください）．
 
-バグ修正やドキュメントの向上，新しい機能の追加とは対象的に，**コーディングタイル**を主としたPRsはほぼ拒否されることに注意してください．
+バグ修正やドキュメントの向上，新しい機能の追加とは対照的に，**コーディングタイル**を主としたPRsはほぼ拒否されることに注意してください．
 
 ここでは，あなたの改善したコードを送るためのクイックガイドを示します:
 
