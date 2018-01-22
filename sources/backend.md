@@ -48,6 +48,7 @@ Using TensorFlow backend.
 
 ## keras.json の詳細
 
+`keras.json`構成ファイルは次の設定を含みます：
 
 ```
 {
@@ -106,47 +107,28 @@ var = K.ones(shape=(3, 4, 5))
 あなたが必要とするであろう大抵のテンソルの操作はTensorFlowやTheanoにおいて行うように実行できます:
 
 ```python
-b = K.random_uniform_variable(shape=(3, 4)). # 一様分布
-c = K.random_normal_variable(shape=(3, 4)). # ガウス分布
-d = K.random_normal_variable(shape=(3, 4)).
-# テンソルの計算
+# Initializing Tensors with Random Numbers
+b = K.random_uniform_variable(shape=(3, 4), low=0, high=1) # Uniform distribution
+c = K.random_normal_variable(shape=(3, 4), mean=0, scale=1) # Gaussian distribution
+d = K.random_normal_variable(shape=(3, 4), mean=0, scale=1)
+
+# Tensor Arithmetic
 a = b + c * K.abs(d)
 c = K.dot(a, K.transpose(b))
 a = K.sum(b, axis=1)
 a = K.softmax(b)
 a = K.concatenate([b, c], axis=-1)
-# などなど...
+# etc...
 ```
 
 ----
 
 ## バックエンド関数
 
-### backend
-
-```python
-backend()
-```
-
-現在のバックエンドを決定するためのアクセス可能なメソッド．
-
-__戻り値__
-
-文字列，現在利用しているKerasバックエンドの名前．
-
-__例__
-
-```pyhton
->>> keras.backend.backend()
-'tensorflow'
-```
-
-----
-
 ### epsilon
 
 ```python
-epsilon()
+keras.backend.epsilon()
 ```
 
 数値演算で使われる微小量を返します．
@@ -159,7 +141,7 @@ __例__
 
 ```python
 >>> keras.backend.epsilon()
-1e-08
+1e-07
 ```
 
 ----
@@ -167,21 +149,21 @@ __例__
 ### set_epsilon
 
 ```python
-set_epsilon(e)
+keras.backend.set_epsilon(e)
 ```
 
 数値演算で使われる微小量をセットします．
 
 __引数__
 
-- e: 浮動小数点数，新たな微小量（epsilon）．
+- __e__: 浮動小数点数，新たな微小量（epsilon）．
 
 __例__
 
 ```python
 >>> from keras import backend as K
 >>> K.epsilon()
-1e-08
+1e-07
 >>> K.set_epsilon(1e-05)
 >>> K.epsilon()
 1e-05
@@ -192,7 +174,7 @@ __例__
 ### floatx
 
 ```python
-floatx()
+keras.backend.floatx()
 ```
 
 デフォルトのfloat型を文字列で返します（e.g. 'float16', 'float32', 'float64'）．
@@ -213,7 +195,7 @@ __例__
 ### set_floatx
 
 ```python
-set_floatx(floatx)
+keras.backend.set_floatx(floatx)
 ```
 
 デフォルトのfloat型をセットします．
@@ -238,10 +220,10 @@ __例__
 ### cast_to_floatx
 
 ```python
-cast_to_floatx(x)
+keras.backend.cast_to_floatx(x)
 ```
 
-Numpy 配列をKerasのfloat型にキャストします．
+Numpy配列をデフォルトのKerasのfloat型にキャストします．
 
 __引数__
 
@@ -262,7 +244,7 @@ __例__
 dtype('float64')
 >>> new_arr = K.cast_to_floatx(arr)
 >>> new_arr
-array([ 1., 2], dtype=float32)
+array([ 1.,  2.], dtype=float32)
 >>> new_arr.dtype
 dtype('float32')
 ```
@@ -272,7 +254,7 @@ dtype('float32')
 ### image_data_format
 
 ```python
-image_data_format()
+keras.backend.image_data_format()
 ```
 
 画像におけるデフォルトのフォーマット規則（'channels_first' か 'channels_last'）を返します．
@@ -293,7 +275,7 @@ __例__
 ### set_image_data_format
 
 ```python
-set_image_data_format(data_format)
+keras.backend.set_image_data_format(data_format)
 ```
 
 デフォルトのフォーマット規則をセットします．
@@ -309,92 +291,16 @@ __例__
 >>> K.image_data_format()
 'channels_first'
 >>> K.set_image_data_format('channels_last')
->>> K,image_data_format()
-'channels_last'
-```
-
-----
-
-### is_keras_tensor
-
-```python
-is_keras_tensor(x)
-```
-
-`x`がKerasのテンソルかどうかを返します．
-
-__引数__
-
-- __x__: 潜在的なテンソル．
-
-__戻り値__
-
-真理値: 引数がKerasのテンソルかどうか．
-
-__例__
-
-```python
->>> from keras import backend as K
->>> np_var = numpy.array([1, 2])
->>> K.is_keras_tensor(np_var)
-False
->>> keras_var = K.variable(np_var)
->>> K.is_keras_tensor(keras_var) # variable はテンソルではない．
-False
->>> keras_placeholder = K.placeholder(shape=(2, 4, 5))
->>> K.is_keras_tensor(keras_placeholder) # placeholder はテンソル．
-True
-```
-
-----
-
-### set_image_dim_ordering
-
-```python
-set_image_dim_ordering(dim_ordering)
-```
-
-`image_data_format` に対するレガシーなセッター．
-
-__引数__
-
-- __dim_ordering__: `tf`，または`th`の文字列．
-
-__例__
-
-```python
->>> from keras import backend as K
->>> K.image_data_format()
-'channels_first'
->>> K.set_image_data_format('channels_last')
 >>> K.image_data_format()
 'channels_last'
 ```
-
-__Raises__
-
-- __ValueError__: 無効な`dim_ordering`が与えられた場合．
-
-----
-
-### image_dim_ordering
-
-```python
-image_dim_ordering()
-```
-
-`image_data_format` に対するレガシーなゲッター．
-
-__戻り値__
-
-`'th'`，または`'tf'`のどちらかの文字列．
 
 ----
 
 ### get_uid
 
 ```python
-get_uid(prefix='')
+keras.backend.get_uid(prefix='')
 ```
 
 デフォルトのグラフにおけるuidを取得します．
@@ -412,17 +318,174 @@ __戻り値__
 ### reset_uids
 
 ```python
-reset_uids()
+keras.backend.reset_uids()
 ```
 
 グラフの識別子をリセットします．
+----
+
+### clear_session
+
+```python
+keras.backend.clear_session()
+```
+
+現在のTFグラフを壊し，新たなものを作成します．
+
+古いモデル/レイヤが散らかってしまうを避けるのに役立ちます．
+
+----
+
+### manual_variable_initialization
+
+```python
+keras.backend.manual_variable_initialization(value)
+```
+
+手動で変数を初期化するかのフラグがセットされます．
+
+この真理値が変数がインスタンス化することで初期化すべきか（デフォルト），利用者側で初期化を制御すべきか（例えば，`tf.initialize_all_variables()` を通じて）を決定します．
+
+__引数__
+
+- __value__: 真理値．
+
+----
+
+### learning_phase
+
+```python
+keras.backend.learning_phase()
+```
+
+学習フェーズのフラグを返します．
+
+学習フェーズのフラグは学習期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される真理値のテンソル (0 = test, 1 = train) です．
+
+__戻り値__
+
+学習フェーズ（テンソルのスカラーにおける整数か，Pythonの整数）．
+
+----
+
+### set_learning_phase
+
+```python
+keras.backend.set_learning_phase(value)
+```
+
+値を固定化するための学習フェーズをセットします．
+
+__引数__
+
+- __value__: 学習フェーズの値．0，または1の整数．
+
+__Raises__
+
+- __ValueError__: もし`value`が`0`，または`1`ではなかった場合．
+
+----
+
+### is_sparse
+
+```python
+keras.backend.is_sparse(tensor)
+```
+
+テンソルがスパースかどうかを返します．
+
+__引数__
+
+- __tensor__: テンソルのインスタンス．
+
+__戻り値__
+
+真理値．
+
+__例__
+
+```python
+>>> from keras import backend as K
+>>> a = K.placeholder((2, 2), sparse=False)
+>>> print(K.is_sparse(a))
+False
+>>> b = K.placeholder((2, 2), sparse=True)
+>>> print(K.is_sparse(b))
+True
+```
+
+----
+
+### to_dense
+
+```python
+keras.backend.to_dense(tensor)
+```
+
+スパースなテンソルを密なテンソルに変換し，それを返します．
+
+__引数__
+
+- __tensor__: テンソルのインスタンス（潜在的にスパースであること）．
+
+__戻り値__
+
+密なテンソル．
+
+__例__
+
+```python
+>>> from keras import backend as K
+>>> b = K.placeholder((2, 2), sparse=True)
+>>> print(K.is_sparse(b))
+True
+>>> c = K.to_dense(b)
+>>> print(K.is_sparse(c))
+False
+```
+
+----
+
+### variable
+
+```python
+keras.backend.variable(value, dtype=None, name=None, constraint=None)
+```
+
+テンソルのインスタンス化し，それを返します．
+
+__引数__
+
+- __value__: テンソルの初期値が含まれたNumpy 配列．
+- __dtype__: テンソルの型．
+- __name__: テンソルに対する任意の名前を表す文字列．
+- __constraint__: オプティマイザの更新後に変数に適用するオプションの射影関数。
+
+__戻り値__
+
+変数のインスタンス（Kerasのメタ情報が含まれています）．
+
+__例__
+
+```python
+>>> from keras import backend as K
+>>> val = np.array([[1, 2], [3, 4]])
+>>> kvar = K.variable(value=val, dtype='float64', name='example_var')
+>>> K.dtype(kvar)
+'float64'
+>>> print(kvar)
+example_var
+>>> K.eval(kvar)
+array([[ 1.,  2.],
+       [ 3.,  4.]])
+```
 
 ----
 
 ### constant
 
 ```python
-constant(value, dtype=None, shape=None, name=None)
+keras.backend.constant(value, dtype=None, shape=None, name=None)
 ```
 
 __引数__
@@ -438,10 +501,59 @@ __戻り値__
 
 ----
 
+### is_keras_tensor
+
+```python
+keras.backend.is_keras_tensor(x)
+```
+
+`x`がKerasのテンソルかどうかを返します．
+
+「Kerasのテンソル」とはKerasのレイヤー（`Layer`クラス）や`Input`から返されたテンソルです。
+
+__引数__
+
+- __x__: 潜在的なテンソル．
+
+__戻り値__
+
+真理値: 引数がKerasのテンソルかどうか．
+
+__Raises__
+
+- __ValueError__: `x`がシンボリックなテンソルでない場合。
+
+__例__
+
+```python
+>>> from keras import backend as K
+>>> from keras.layers import Input, Dense
+>>> np_var = numpy.array([1, 2])
+>>> K.is_keras_tensor(np_var) # A numpy array is not a symbolic tensor.
+ValueError
+>>> k_var = tf.placeholder('float32', shape=(1,1))
+>>> K.is_keras_tensor(k_var) # A variable indirectly created outside of keras is not a Keras tensor.
+False
+>>> keras_var = K.variable(np_var)
+>>> K.is_keras_tensor(keras_var)  # A variable created with the keras backend is not a Keras tensor.
+False
+>>> keras_placeholder = K.placeholder(shape=(2, 4, 5))
+>>> K.is_keras_tensor(keras_placeholder)  # A placeholder is not a Keras tensor.
+False
+>>> keras_input = Input([10])
+>>> K.is_keras_tensor(keras_input) # An Input is a Keras tensor.
+True
+>>> keras_layer_output = Dense(10)(keras_input)
+>>> K.is_keras_tensor(keras_layer_output) # Any Keras layer output is a Keras tensor.
+True
+```
+
+----
+
 ### placeholder
 
 ```python
-placeholder(shape=None, ndim=None, dtype=None, sparse=False, name=None)
+keras.backend.placeholder(shape=None, ndim=None, dtype=None, sparse=False, name=None)
 ```
 
 プレースホルダーのテンソルをインスタンス化し，それを返します．
@@ -471,10 +583,28 @@ __例__
 
 ----
 
+### is_placeholder
+
+```python
+keras.backend.is_placeholder(x)
+```
+
+`x`がプレースホルダか否かを返します。
+
+__引数__
+
+- __x__: プレースホルダの候補
+
+__戻り値__
+
+真理値。
+
+----
+
 ### shape
 
 ```python
-shape(x)
+keras.backend.shape(x)
 ```
 
 テンソル，または変数のshapeを返します．
@@ -490,24 +620,21 @@ __戻り値__
 __例__
 
 ```python
-__Tensorflow example__
-
+# TensorFlow example
 >>> from keras import backend as K
 >>> tf_session = K.get_session()
 >>> val = np.array([[1, 2], [3, 4]])
 >>> kvar = K.variable(value=val)
->>> input = keras.backend.placeholder(shape=(2, 4, 5))
+>>> inputs = keras.backend.placeholder(shape=(2, 4, 5))
 >>> K.shape(kvar)
 <tf.Tensor 'Shape_8:0' shape=(2,) dtype=int32>
->>> K.shape(input)
+>>> K.shape(inputs)
 <tf.Tensor 'Shape_9:0' shape=(3,) dtype=int32>
-__To get integer shape (Instead, you can use K.int_shape(x))__
-
+# To get integer shape (Instead, you can use K.int_shape(x))
 >>> K.shape(kvar).eval(session=tf_session)
 array([2, 2], dtype=int32)
->>> K.shape(input).eval(session=tf_session)
+>>> K.shape(inputs).eval(session=tf_session)
 array([2, 4, 5], dtype=int32)
-
 ```
 
 ----
@@ -515,7 +642,7 @@ array([2, 4, 5], dtype=int32)
 ### int_shape
 
 ```python
-int_shape(x)
+keras.backend.int_shape(x)
 ```
 
 整数，またはNoneからなるタプルとしての変数，またはテンソルのshapeを返します．
@@ -532,8 +659,8 @@ __例__
 
 ```python
 >>> from keras import backend as K
->>> input = K.placeholder(shape=(2, 4, 5))
->>> K.int_shape(input)
+>>> inputs = K.placeholder(shape=(2, 4, 5))
+>>> K.int_shape(inputs)
 (2, 4, 5)
 >>> val = np.array([[1, 2], [3, 4]])
 >>> kvar = K.variable(value=val)
@@ -546,7 +673,7 @@ __例__
 ### ndim
 
 ```python
-ndim(x)
+keras.backend.ndim(x)
 ```
 
 テンソルの軸の数を整数で返します．
@@ -563,10 +690,10 @@ __例__
 
 ```python
 >>> from keras import backend as K
->>> input = K.placeholder(shape=(2, 4, 5))
+>>> inputs = K.placeholder(shape=(2, 4, 5))
 >>> val = np.array([[1, 2], [3, 4]])
 >>> kvar = K.variable(value=val)
->>> K.ndim(input)
+>>> K.ndim(inputs)
 3
 >>> K.ndim(kvar)
 2
@@ -577,7 +704,7 @@ __例__
 ### dtype
 
 ```python
-dtype(x)
+keras.backend.dtype(x)
 ```
 
 Kerasのテンソル，または変数のdtypeを文字列で返します．
@@ -600,8 +727,7 @@ __例__
 'float32'
 >>> K.dtype(K.placeholder(shape=(2,4,5), dtype='float64'))
 'float64'
-__Keras variable__
-
+# Keras variable
 >>> kvar = K.variable(np.array([[1, 2], [3, 4]]))
 >>> K.dtype(kvar)
 'float32_ref'
@@ -615,7 +741,7 @@ __Keras variable__
 ### eval
 
 ```python
-eval(x)
+keras.backend.eval(x)
 ```
 
 テンソルの変数値を評価します．
@@ -635,7 +761,7 @@ __例__
 >>> kvar = K.variable(np.array([[1, 2], [3, 4]]), dtype='float32')
 >>> K.eval(kvar)
 array([[ 1.,  2.],
-   [ 3.,  4.]], dtype=float32)
+       [ 3.,  4.]], dtype=float32)
 ```
 
 ----
@@ -643,7 +769,7 @@ array([[ 1.,  2.],
 ### zeros
 
 ```python
-zeros(shape, dtype=None, name=None)
+keras.backend.zeros(shape, dtype=None, name=None)
 ```
 
 全要素が0の変数をインスタンス化し，それを返します．
@@ -656,7 +782,7 @@ __引数__
 
 __戻り値__
 
-`0.0`で埋まった変数（Kerasのメタ情報が含まれています）．
+`0.0`で埋まった変数（Kerasのメタ情報が含まれています）．`shape`シンボリックだった場合、変数を返せず、その代わりに動的な形のテンソルを返すことに注意してください。
 
 __例__
 
@@ -665,8 +791,8 @@ __例__
 >>> kvar = K.zeros((3,4))
 >>> K.eval(kvar)
 array([[ 0.,  0.,  0.,  0.],
-   [ 0.,  0.,  0.,  0.],
-   [ 0.,  0.,  0.,  0.]], dtype=float32)
+       [ 0.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  0.]], dtype=float32)
 ```
 
 ----
@@ -674,7 +800,7 @@ array([[ 0.,  0.,  0.,  0.],
 ### ones
 
 ```python
-ones(shape, dtype=None, name=None)
+keras.backend.ones(shape, dtype=None, name=None)
 ```
 
 全要素が1の変数をインスタンス化し，それを返します．
@@ -687,7 +813,7 @@ __引数__
 
 __戻り値__
 
-`1.0`で埋まった変数．
+`1.0`で埋まった変数．`shape`シンボリックだった場合、変数を返せず、その代わりに動的な形のテンソルを返すことに注意してください。
 
 __例__
 
@@ -696,8 +822,8 @@ __例__
 >>> kvar = K.ones((3,4))
 >>> K.eval(kvar)
 array([[ 1.,  1.,  1.,  1.],
-   [ 1.,  1.,  1.,  1.],
-   [ 1.,  1.,  1.,  1.]], dtype=float32)
+       [ 1.,  1.,  1.,  1.],
+       [ 1.,  1.,  1.,  1.]], dtype=float32)
 ```
 
 ----
@@ -705,7 +831,7 @@ array([[ 1.,  1.,  1.,  1.],
 ### eye
 
 ```python
-eye(size, dtype=None, name=None)
+keras.backend.eye(size, dtype=None, name=None)
 ```
 
 単位行列をインスタンス化し，それを返します．
@@ -727,8 +853,8 @@ __例__
 >>> kvar = K.eye(3)
 >>> K.eval(kvar)
 array([[ 1.,  0.,  0.],
-   [ 0.,  1.,  0.],
-   [ 0.,  0.,  1.]], dtype=float32)
+       [ 0.,  1.,  0.],
+       [ 0.,  0.,  1.]], dtype=float32)
 ```
 
 ----
@@ -736,7 +862,7 @@ array([[ 1.,  0.,  0.],
 ### zeros_like
 
 ```python
-zeros_like(x, dtype=None, name=None)
+keras.backend.zeros_like(x, dtype=None, name=None)
 ```
 
 別のテンソルと同じshapeを持つ全要素が0の変数のインスタンスを作成します．
@@ -759,7 +885,7 @@ __例__
 >>> kvar_zeros = K.zeros_like(kvar)
 >>> K.eval(kvar_zeros)
 array([[ 0.,  0.,  0.],
-   [ 0.,  0.,  0.]], dtype=float32)
+       [ 0.,  0.,  0.]], dtype=float32)
 ```
 
 ----
@@ -767,7 +893,7 @@ array([[ 0.,  0.,  0.],
 ### ones_like
 
 ```python
-ones_like(x, dtype=None, name=None)
+keras.backend.ones_like(x, dtype=None, name=None)
 ```
 
 別のテンソルと同じshapeを持つ全要素が1の変数のインスタンスを作成します．
@@ -790,7 +916,7 @@ __例__
 >>> kvar_ones = K.ones_like(kvar)
 >>> K.eval(kvar_ones)
 array([[ 1.,  1.,  1.],
-   [ 1.,  1.,  1.]], dtype=float32)
+       [ 1.,  1.,  1.]], dtype=float32)
 ```
 
 ----
@@ -798,14 +924,15 @@ array([[ 1.,  1.,  1.],
 ### identity
 
 ```python
-identity(x)
+keras.backend.identity(x, name=None)
 ```
 
 入力されたテンソルと同じ内容を持つテンソルを返します．
 
 __引数__
 
-- __x__: テンソル．
+- __x__: 入力テンソル．
+- __name__: 文字列、作る変数の名前。
 
 __戻り値__
 
@@ -816,7 +943,7 @@ __戻り値__
 ### random_uniform_variable
 
 ```python
-random_uniform_variable(shape, low, high, dtype=None, name=None, seed=None)
+keras.backend.random_uniform_variable(shape, low, high, dtype=None, name=None, seed=None)
 ```
 
 一様分布からサンプリングされた値を持つ変数のインスタンスを作成します．
@@ -837,14 +964,13 @@ __戻り値__
 __例__
 
 ```python
-__TensorFlow example__
-
+# TensorFlow example
 >>> kvar = K.random_uniform_variable((2,3), 0, 1)
 >>> kvar
 <tensorflow.python.ops.variables.Variable object at 0x10ab40b10>
 >>> K.eval(kvar)
 array([[ 0.10940075,  0.10047495,  0.476143  ],
-   [ 0.66137183,  0.00869417,  0.89220798]], dtype=float32)
+       [ 0.66137183,  0.00869417,  0.89220798]], dtype=float32)
 ```
 
 ----
@@ -852,7 +978,7 @@ array([[ 0.10940075,  0.10047495,  0.476143  ],
 ### random_normal_variable
 
 ```python
-random_normal_variable(shape, mean, scale, dtype=None, name=None, seed=None)
+keras.backend.random_normal_variable(shape, mean, scale, dtype=None, name=None, seed=None)
 ```
 
 ガウス分布からサンプリングされた値を持つ変数のインスタンスを作成します．
@@ -873,14 +999,13 @@ __戻り値__
 __例__
 
 ```python
-__TensorFlow example__
-
+# TensorFlow example
 >>> kvar = K.random_normal_variable((2,3), 0, 1)
 >>> kvar
 <tensorflow.python.ops.variables.Variable object at 0x10ab12dd0>
 >>> K.eval(kvar)
 array([[ 1.19591331,  0.68685907, -0.63814116],
-   [ 0.92629528,  0.28055015,  1.70484698]], dtype=float32)
+       [ 0.92629528,  0.28055015,  1.70484698]], dtype=float32)
 ```
 
 ----
@@ -888,7 +1013,7 @@ array([[ 1.19591331,  0.68685907, -0.63814116],
 ### count_params
 
 ```python
-count_params(x)
+keras.backend.count_params(x)
 ```
 
 Kerasの変数におけるスカラーの数を返します．
@@ -909,7 +1034,7 @@ __例__
 6
 >>> K.eval(kvar)
 array([[ 0.,  0.,  0.],
-   [ 0.,  0.,  0.]], dtype=float32)
+       [ 0.,  0.,  0.]], dtype=float32)
 ```
 
 ----
@@ -917,7 +1042,7 @@ array([[ 0.,  0.,  0.],
 ### cast
 
 ```python
-cast(x, dtype)
+keras.backend.cast(x, dtype)
 ```
 
 テンソルを異なる型にキャストします．
@@ -931,7 +1056,7 @@ __引数__
 
 __戻り値__
 
-dtypeを持つKerasのテンソル．
+`dtype`を持つKerasのテンソル．
 
 __例__
 
@@ -940,14 +1065,12 @@ __例__
 >>> input = K.placeholder((2, 3), dtype='float32')
 >>> input
 <tf.Tensor 'Placeholder_2:0' shape=(2, 3) dtype=float32>
-__It doesn't work in-place as below.__
-
+# It doesn't work in-place as below.
 >>> K.cast(input, dtype='float16')
 <tf.Tensor 'Cast_1:0' shape=(2, 3) dtype=float16>
 >>> input
 <tf.Tensor 'Placeholder_2:0' shape=(2, 3) dtype=float32>
-__you need to assign it.__
-
+# you need to assign it.
 >>> input = K.cast(input, dtype='float16')
 >>> input
 <tf.Tensor 'Cast_2:0' shape=(2, 3) dtype=float16>
@@ -958,7 +1081,7 @@ __you need to assign it.__
 ### update
 
 ```python
-update(x, new_x)
+keras.backend.update(x, new_x)
 ```
 
 `x`の値を`new_x`のものに更新する．
@@ -977,7 +1100,7 @@ __戻り値__
 ### update_add
 
 ```python
-update_add(x, increment)
+keras.backend.update_add(x, increment)
 ```
 
 `x`の値を`increment`で加算することで更新する．
@@ -996,10 +1119,10 @@ __戻り値__
 ### update_sub
 
 ```python
-update_sub(x, decrement)
+keras.backend.update_sub(x, decrement)
 ```
 
-`x`の値を`decrement`で加算することで更新する．
+`x`の値を`decrement`で減算することで更新する．
 
 __引数__
 
@@ -1015,15 +1138,15 @@ __戻り値__
 ### moving_average_update
 
 ```python
-moving_average_update(x, value, momentum)
+keras.backend.moving_average_update(x, value, momentum)
 ```
 
 変数における移動平均を計算します．
 
 __引数__
 
-- __x__: 変数．
-- __value__: `variable`と同じshapeを持つテンソル．
+- __x__: `Variable`
+- __value__: `x`と同じshapeを持つテンソル．
 - __momentum__: 移動平均のモーメンタム．
 
 __戻り値__
@@ -1035,17 +1158,17 @@ __戻り値__
 ### dot
 
 ```python
-dot(x, y)
+keras.backend.dot(x, y)
 ```
 
 2つのテンソル（かつ/または変数）を掛け合わせ，テンソルを返します．
 
-n階テンソルにn次元のを掛ける場合，Theanoの振る舞いを再現します（e.g. (2, 3).(4, 3, 5) = (2, 4, 5)）．
+n階テンソルにn次元のを掛ける場合，Theanoの振る舞いを再現します（例`(2, 3) * (4, 3, 5) -> (2, 4, 5)`）．
 
 __引数__
 
-- x: テンソル，または変数．
-- y: テンソル，または変数．
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
 
 __戻り値__
 
@@ -1054,8 +1177,7 @@ __戻り値__
 __例__
 
 ```python
-__dot product between tensors__
-
+# dot product between tensors
 >>> x = K.placeholder(shape=(2, 3))
 >>> y = K.placeholder(shape=(3, 4))
 >>> xy = K.dot(x, y)
@@ -1064,8 +1186,7 @@ __dot product between tensors__
 ```
 
 ```python
-__dot product between tensors__
-
+# dot product between tensors
 >>> x = K.placeholder(shape=(32, 28, 3))
 >>> y = K.placeholder(shape=(3, 4))
 >>> xy = K.dot(x, y)
@@ -1074,8 +1195,7 @@ __dot product between tensors__
 ```
 
 ```python
-__Theano-like behavior example__
-
+# Theano-like behavior example
 >>> x = K.random_uniform_variable(shape=(2, 3), low=0, high=1)
 >>> y = K.ones((4, 3, 5))
 >>> xy = K.dot(x, y)
@@ -1088,7 +1208,7 @@ __Theano-like behavior example__
 ### batch_dot
 
 ```python
-batch_dot(x, y, axes=None)
+keras.backend.batch_dot(x, y, axes=None)
 ```
 
 バッチ式のドット積．
@@ -1130,7 +1250,7 @@ shapeの推定: `x`と`y`のshapeがそれぞれ`(100, 20)`，`(100, 30, 20)`と
 ### transpose
 
 ```python
-transpose(x)
+keras.backend.transpose(x)
 ```
 
 行列を転置します．
@@ -1149,19 +1269,19 @@ __例__
 >>> var = K.variable([[1, 2, 3], [4, 5, 6]])
 >>> K.eval(var)
 array([[ 1.,  2.,  3.],
-   [ 4.,  5.,  6.]], dtype=float32)
+       [ 4.,  5.,  6.]], dtype=float32)
 >>> var_transposed = K.transpose(var)
 >>> K.eval(var_transposed)
 array([[ 1.,  4.],
-   [ 2.,  5.],
-   [ 3.,  6.]], dtype=float32)
+       [ 2.,  5.],
+       [ 3.,  6.]], dtype=float32)
 ```
 
 ```python
->>> input = K.placeholder((2, 3))
->>> input
+>>> inputs = K.placeholder((2, 3))
+>>> inputs
 <tf.Tensor 'Placeholder_11:0' shape=(2, 3) dtype=float32>
->>> input_transposed = K.transpose(input)
+>>> input_transposed = K.transpose(inputs)
 >>> input_transposed
 <tf.Tensor 'transpose_4:0' shape=(3, 2) dtype=float32>
 ```
@@ -1171,7 +1291,7 @@ array([[ 1.,  4.],
 ### gather
 
 ```python
-gather(reference, indices)
+keras.backend.gather(reference, indices)
 ```
 
 テンソルの`reference`における添字の要素`indices`を探索します．
@@ -1190,7 +1310,7 @@ __戻り値__
 ### max
 
 ```python
-max(x, axis=None, keepdims=False)
+keras.backend.max(x, axis=None, keepdims=False)
 ```
 
 テンソル内の最大値．
@@ -1210,7 +1330,7 @@ __戻り値__
 ### min
 
 ```python
-min(x, axis=None, keepdims=False)
+keras.backend.min(x, axis=None, keepdims=False)
 ```
 
 テンソル内の最大値．
@@ -1227,167 +1347,567 @@ __戻り値__
 
 ----
 
-### clear_session
+### sum
 
 ```python
-clear_session()
+keras.backend.sum(x, axis=None, keepdims=False)
 ```
 
-現在のTFグラフを壊し，新たなものを作成します．
-
-古いモデル/レイヤが散らかってしまうを避けるのに役立ちます．
-
-----
-
-### manual_variable_initialization
-
-```python
-manual_variable_initialization(value)
-```
-
-手動で変数を初期化するかのフラグがセットされます．
-
-この真理値が変数がインスタンス化することで初期化すべきか（デフォルト），利用者側で初期化を制御すべきか（例えば，`tf.initialize_all_variables()` を通じて）を決定します．
+テンソルに対して，指定した軸に沿って和を計算します．
 
 __引数__
 
-- __value__: 真理値．
-
-----
-
-### learning_phase
-
-```python
-learning_phase()
-```
-
-学習フェーズのフラグを返します．
-
-学習フェーズのフラグは学習期間とテスト期間で異なる振る舞いをする任意のKeras関数への入力として渡される真理値のテンソル (0 = test, 1 = train) です．
+- __x__: テンソル，または変数．
+- __axis__: 整数．和を計算する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
 
 __戻り値__
 
-学習フェーズ（テンソルのスカラーにおける整数か，Pythonの整数）．
+`x`の和をとったテンソル．
 
 ----
 
-### set_learning_phase
+### prod
 
 ```python
-set_learning_phase(value)
+keras.backend.prod(x, axis=None, keepdims=False)
 ```
 
-値を固定化するための学習フェーズをセットします．
+テンソルに対して，指定した軸に沿って積を計算します．
 
 __引数__
 
-- __value__: 学習フェーズの値．0，または1の整数．
-
-__Raises__
-
-- __ValueError__: もし`value`が`0`，または`1`ではなかった場合．
-
-----
-
-### is_sparse
-
-```python
-is_sparse(tensor)
-```
-
-テンソルがスパースかどうかを返します．
-
-__引数__
-
-- __tensor__: テンソルのインスタンス．
+- __x__: テンソル，または変数．
+- __axis__: 整数．積を計算する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
 
 __戻り値__
 
-真理値．
-
-__例__
-
-```python
->>> from keras import backend as K
->>> a = K.placeholder((2, 2), sparse=False)
->>> print(K.is_sparse(a))
-False
->>> b = K.placeholder((2, 2), sparse=True)
->>> print(K.is_sparse(b))
-True
-```
+`x`の積をとったテンソル．
 
 ----
 
-### to_dense
+### cumsum
 
 ```python
-to_dense(tensor)
+keras.backend.cumsum(x, axis=0)
 ```
 
-スパースなテンソルを密なテンソルに変換し，それを返します．
+テンソルに対して，指定した軸に沿って累積和を計算します．
 
 __引数__
 
-- __tensor__: テンソルのインスタンス（潜在的にスパースであること）．
+- __x__: テンソル，または変数．
+- __axis__: 整数．和を計算する軸方向．
 
 __戻り値__
 
-密なテンソル．
-
-__例__
-
-```python
->>> from keras import backend as K
->>> b = K.placeholder((2, 2), sparse=True)
->>> print(K.is_sparse(b))
-True
->>> c = K.to_dense(b)
->>> print(K.is_sparse(c))
-False
-```
+`x`を`axis`に沿って累積和をとったテンソル．
 
 ----
 
-### variable
+### cumprod
 
 ```python
-variable(value, dtype=None, name=None)
+keras.backend.cumprod(x, axis=0)
 ```
 
-テンソルのインスタンス化し，それを返します．
+テンソルに対して，指定した軸に沿って累積積を計算します．
 
 __引数__
 
-- __value__: テンソルの初期値が含まれたNumpy 配列．
-- __dtype__: テンソルの型．
-- __name__: テンソルに対する任意の名前を表す文字列．
+- __x__: テンソル，または変数．
+- __axis__: 整数．積を計算する軸方向．
 
 __戻り値__
 
-変数のインスタンス（Kerasのメタ情報が含まれています）．
+`x`を`axis`に沿って累積積をとったテンソル．
 
-__例__
+----
+
+### var
 
 ```python
->>> from keras import backend as K
->>> val = np.array([[1, 2], [3, 4]])
->>> kvar = K.variable(value=val, dtype='float64', name='example_var')
->>> K.dtype(kvar)
-'float64'
->>> print(kvar)
-example_var
->>> kvar.eval()
-array([[ 1.,  2.],
-   [ 3.,  4.]])
+keras.backend.var(x, axis=None, keepdims=False)
 ```
+
+指定した軸に沿ったテンソルの分散を計算します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．分散を計算する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+`x`の要素の分散を持つテンソル．
+
+----
+
+### std
+
+```python
+std(x, axis=None, keepdims=False)
+```
+
+指定した軸に沿ったテンソルの標準偏差を計算します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．標準偏差を計算する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+`x`の要素の標準偏差を持つテンソル．
+
+----
+
+### mean
+
+```python
+keras.backend.mean(x, axis=None, keepdims=False)
+```
+
+指定した軸に沿ったテンソルの平均を計算します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．平均を計算する軸方向．
+- __keepdims: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+`x`の要素の平均を持つテンソル．
+
+----
+
+### any
+
+```python
+keras.backend.any(x, axis=None, keepdims=False)
+```
+
+ビット単位の縮約（論理OR）．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．縮約する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+uint8のテンソル．
+
+----
+
+### all
+
+```python
+keras.backend.all(x, axis=None, keepdims=False)
+```
+
+ビット単位の縮約（論理AND）．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．縮約する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+uint8のテンソル．
+
+----
+
+### argmax
+
+```python
+keras.backend.argmax(x, axis=-1)
+```
+
+テンソルの軸に沿った最大値の添字を返します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．縮約する軸方向．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### argmin
+
+```python
+keras.backend.argmin(x, axis=-1)
+```
+
+テンソルの軸に沿った最小値の添字を返します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．縮約する軸方向．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### square
+
+```python
+keras.backend.square(x)
+```
+
+要素ごとの二乗．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### abs
+
+```python
+keras.backend.abs(x)
+```
+
+要素ごとの絶対値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### sqrt
+
+```python
+keras.backend.sqrt(x)
+```
+
+要素ごとの平方根．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### exp
+
+```python
+keras.backend.exp(x)
+```
+
+要素ごとの指数関数値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### log
+
+```python
+keras.backend.log(x)
+```
+
+要素ごとの対数．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### logsumexp
+
+```python
+keras.backend.logsumexp(x, axis=None, keepdims=False)
+```
+
+log(sum(exp(テンソルの次元を横断した要素)))を計算します．
+
+この関数はlog(sum(exp(x)))よりも計算上安定します．小さい入力に対して対数をとることで発生するアンダーフローと，大きな入力に対して指数関数にかけることで発生するオーバーフローを回避します．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __axis__: 整数．縮約する軸方向．
+- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
+
+__戻り値__
+
+縮約されたテンソル．
+
+----
+
+### round
+
+```python
+keras.backend.round(x)
+```
+
+要素ごとの最も近い整数への丸め．
+
+同点であれば偶数よりに丸め込まれます。
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### sign
+
+```python
+keras.backend.sign(x)
+```
+
+要素ごとの符号．
+
+__引数__
+
+- __x__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### pow
+
+```python
+keras.backend.pow(x, a)
+```
+
+要素ごとの指数乗．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __a__: Pythonの整数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### clip
+
+```python
+keras.backend.clip(x, min_value, max_value)
+```
+
+要素ごとのクリッピング．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __min_value__: Pythonの浮動小数点数，または整数．
+- __max_value__: Pythonの浮動小数点数，または整数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### equal
+
+```python
+keras.backend.equal(x, y)
+```
+
+2つのテンソル間の要素ごとの等値性．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### not_equal
+
+```python
+keras.backend.not_equal(x, y)
+```
+
+2つのテンソル間の要素ごとの不等性．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### greater
+
+```python
+keras.backend.greater(x, y)
+```
+
+要素ごとの(x > y)の真理値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### greater_equal
+
+```python
+keras.backend.greater_equal(x, y)
+```
+
+要素ごとの(x >= y)の真理値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### less
+
+```python
+keras.backend.less(x, y)
+```
+
+要素ごとの(x < y)の真理値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### less_equal
+
+```python
+keras.backend.less_equal(x, y)
+```
+
+要素ごとの(x <= y)の真理値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+真理値からなるテンソル．
+
+----
+
+### maximum
+
+```python
+keras.backend.maximum(x, y)
+```
+
+2つのテンソルの要素ごとの最大値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
+
+----
+
+### minimum
+
+```python
+keras.backend.minimum(x, y)
+```
+
+2つのテンソルの要素ごとの最小値．
+
+__引数__
+
+- __x__: テンソル，または変数．
+- __y__: テンソル，または変数．
+
+__戻り値__
+
+テンソル．
 
 ----
 
 ### sin
 
 ```python
-sin(x)
+keras.backend.sin(x)
 ```
 
 要素ごとにxのsinを計算します．
@@ -1405,7 +1925,7 @@ __戻り値__
 ### cos
 
 ```python
-cos(x)
+keras.backend.cos(x)
 ```
 
 要素ごとにxのcosを計算します．
@@ -1423,7 +1943,7 @@ __戻り値__
 ### normalize_batch_in_training
 
 ```python
-normalize_batch_in_training(x, gamma, beta, reduction_axes, epsilon=0.001)
+keras.backend.normalize_batch_in_training(x, gamma, beta, reduction_axes, epsilon=0.001)
 ```
 
 平均と標準偏差を計算したのちに，バッチとしてbatch_normalizationを適用します．
@@ -1445,7 +1965,7 @@ __戻り値__
 ### batch_normalization
 
 ```python
-batch_normalization(x, mean, var, beta, gamma, epsilon=0.0001)
+keras.backend.batch_normalization(x, mean, var, beta, gamma, epsilon=0.001)
 ```
 
 与えられたmean，var，beta，gammaを使ってxにbatch normalizationを適用します．
@@ -1471,7 +1991,7 @@ __戻り値__
 ### concatenate
 
 ```python
-concatenate(tensors, axis=-1)
+keras.backend.concatenate(tensors, axis=-1)
 ```
 
 指定した軸に沿ってテンソルのリストを連結します．
@@ -1490,7 +2010,7 @@ __戻り値__
 ### reshape
 
 ```python
-reshape(x, shape)
+keras.backend.reshape(x, shape)
 ```
 
 指定したshapeにテンソルを整形します．
@@ -1509,7 +2029,7 @@ __戻り値__
 ### permute_dimensions
 
 ```python
-permute_dimensions(x, pattern)
+keras.backend.permute_dimensions(x, pattern)
 ```
 
 テンソルにおける軸の順序を変更します．
@@ -1528,7 +2048,7 @@ __戻り値__
 ### resize_images
 
 ```python
-resize_images(x, height_factor, width_factor, data_format)
+keras.backend.resize_images(x, height_factor, width_factor, data_format)
 ```
 
 4階テンソルに含まれる画像をリサイズします．
@@ -1553,7 +2073,7 @@ __Raises__
 ### resize_volumes
 
 ```python
-resize_volumes(X, depth_factor, height_factor, width_factor, data_format)
+keras.backend.resize_volumes(x, depth_factor, height_factor, width_factor, data_format)
 ```
 
 5階テンソルに含まれるvolumeをリサイズします．
@@ -1579,7 +2099,7 @@ __Raises__
 ### repeat_elements
 
 ```python
-repeat_elements(x, rep, axis)
+keras.backend.repeat_elements(x, rep, axis)
 ```
 
 `np.repeat`のように，軸に沿ってテンソルの要素を繰り返します．
@@ -1605,12 +2125,12 @@ __戻り値__
 ### repeat
 
 ```python
-repeat(x, n)
+keras.backend.repeat(x, n)
 ```
 
 2階テンソルを繰り返します．
 
-`x`がshape (samples, dim)を持ち`n`=`2`であれば，この出力はshape`(samples, 2, dim)`を持ちます．
+`x`がshape (samples, dim)を持ち`n`が`2`であれば，この出力はshape`(samples, 2, dim)`を持ちます．
 
 __引数__
 
@@ -1626,7 +2146,7 @@ __戻り値__
 ### arange
 
 ```python
-arange(start, stop=None, step=1, dtype='int32')
+keras.backend.arange(start, stop=None, step=1, dtype='int32')
 ```
 
 整数の並びからなる1階テンソルを作成します．
@@ -1670,7 +2190,7 @@ __戻り値__
 ### flatten
 
 ```python
-flatten(x)
+keras.backend.flatten(x)
 ```
 
 平滑化されたテンソル．
@@ -1688,7 +2208,7 @@ __戻り値__
 ### batch_flatten
 
 ```python
-batch_flatten(x)
+keras.backend.batch_flatten(x)
 ```
 
 n階テンソルを0番目の次元が保たれるように2階テンソルに変換します．
@@ -1708,10 +2228,10 @@ __戻り値__
 ### expand_dims
 
 ```python
-expand_dims(x, axis=-1)
+keras.backend.expand_dims(x, axis=-1)
 ```
 
-添字"dim"でのサイズ1の次元を加えます．
+添字"axis"でのサイズ1の次元を加えます．
 
 __引数__
 
@@ -1727,7 +2247,7 @@ __戻り値__
 ### squeeze
 
 ```python
-squeeze(x, axis)
+keras.backend.squeeze(x, axis)
 ```
 
 テンソルから添字"axis"での1次元を除きます．
@@ -1746,7 +2266,7 @@ __戻り値__
 ### temporal_padding
 
 ```python
-temporal_padding(x, padding=(1, 1))
+keras.backend.temporal_padding(x, padding=(1, 1))
 ```
 
 3階テンソルの真ん中の次元に対してパディングを行います．
@@ -1765,7 +2285,7 @@ __戻り値__
 ### spatial_2d_padding
 
 ```python
-spatial_2d_padding(x, padding=((1, 1), (1, 1)), data_format=None)
+keras.backend.spatial_2d_padding(x, padding=((1, 1), (1, 1)), data_format=None)
 ```
 
 4階テンソルの2番目と3番目の次元に対してパディングを行います．
@@ -1789,7 +2309,7 @@ __Raises__
 ### spatial_3d_padding
 
 ```python
-spatial_3d_padding(x, padding=((1, 1), (1, 1), (1, 1)), data_format=None)
+keras.backend.spatial_3d_padding(x, padding=((1, 1), (1, 1), (1, 1)), data_format=None)
 ```
 
 5階テンソルに対して深さ，高さ，幅を表す次元に沿って0パディングを行います．
@@ -1817,7 +2337,7 @@ __Raises__
 ### stack
 
 ```python
-stack(x, axis=0)
+keras.backend.stack(x, axis=0)
 ```
 
 ランク`R`のテンソルのリストをランク`R+1`のテンソルに積み上げます．
@@ -1836,7 +2356,7 @@ __戻り値__
 ### one_hot
 
 ```python
-one_hot(indices, num_classes)
+keras.backend.one_hot(indices, num_classes)
 ```
 
 整数のテンソルone-hot表現を導出します．
@@ -1855,7 +2375,7 @@ __戻り値__
 ### reverse
 
 ```python
-reverse(x, axes)
+keras.backend.reverse(x, axes)
 ```
 
 指定した軸に沿ってテンソルを逆順にする．
@@ -1874,7 +2394,7 @@ __戻り値__
 ### get_value
 
 ```python
-get_value(x)
+keras.backend.get_value(x)
 ```
 
 変数の値を返します．
@@ -1892,7 +2412,7 @@ Numpy 配列．
 ### batch_get_value
 
 ```python
-batch_get_value(xs)
+keras.backend.batch_get_value(ops)
 ```
 
 1つ以上のテンソルの変数の値を返します．
@@ -1910,7 +2430,7 @@ Numpy 配列のリスト．
 ### set_value
 
 ```python
-set_value(x, value)
+keras.backend.set_value(x, value)
 ```
 
 Numpy 配列から，変数の値を設定します．
@@ -1925,7 +2445,7 @@ __引数__
 ### batch_set_value
 
 ```python
-batch_set_value(tuples)
+keras.backend.batch_set_value(tuples)
 ```
 
 複数のテンソルの変数の値を一度にセットします．
@@ -1936,31 +2456,21 @@ __引数__
 
 ----
 
-### get_variable_shape
-
-```python
-get_variable_shape(x)
-```
-
-変数のshapeを返す．
-
-__引数__
-
-- __x__: 変数．
-
-__戻り値__
-
-整数のタプル．
-
-----
-
 ### print_tensor
 
 ```python
-print_tensor(x, message='')
+keras.backend.print_tensor(x, message='')
 ```
 
 `message`と評価されたテンソルの値を表示します．
+`print_tensor`は次のコードのように使われると`x`と等価な新しいテンソルを返すことに留意してください。
+そうしないと表示処理は評価中に考慮されません。
+
+__例__
+
+```python
+>>> x = K.print_tensor(x, message="x is: ")
+```
 
 __引数__
 
@@ -1970,562 +2480,6 @@ __引数__
 __戻り値__
 
 `x`と同じテンソル．
-
-----
-
-### sum
-
-```python
-sum(x, axis=None, keepdims=False)
-```
-
-テンソルに対して，指定した軸に沿って和を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．和を計算する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-`x`の和をとったテンソル．
-
-----
-
-### prod
-
-```python
-prod(x, axis=None, keepdims=False)
-```
-
-テンソルに対して，指定した軸に沿って積を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．積を計算する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-`x`の積をとったテンソル．
-
-----
-
-### cumsum
-
-```python
-cumsum(x, axis=0)
-```
-
-テンソルに対して，指定した軸に沿って累積和を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．和を計算する軸方向．
-
-__戻り値__
-
-`x`を`axis`に沿って累積和をとったテンソル．
-
-----
-
-### cumprod
-
-```python
-cumprod(x, axis=0)
-```
-
-テンソルに対して，指定した軸に沿って累積積を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．積を計算する軸方向．
-
-__戻り値__
-
-`x`を`axis`に沿って累積積をとったテンソル．
-
-----
-
-### var
-
-```python
-var(x, axis=None, keepdims=False)
-```
-
-指定した軸に沿ったテンソルの分散を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．分散を計算する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-`x`の要素の分散を持つテンソル．
-
-----
-
-### std
-
-```python
-std(x, axis=None, keepdims=False)
-```
-
-指定した軸に沿ったテンソルの標準偏差を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．標準偏差を計算する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-`x`の要素の標準偏差を持つテンソル．
-
-----
-
-### mean
-
-```python
-mean(x, axis=None, keepdims=False)
-```
-
-指定した軸に沿ったテンソルの平均を計算します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．平均を計算する軸方向．
-- __keepdims: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-`x`の要素の平均を持つテンソル．
-
-----
-
-### any
-
-```python
-any(x, axis=None, keepdims=False)
-```
-
-ビット単位の縮約（論理OR）．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．縮約する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-uint8のテンソル．
-
-----
-
-### all
-
-```python
-all(x, axis=None, keepdims=False)
-```
-
-ビット単位の縮約（論理AND）．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．縮約する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-uint8のテンソル．
-
-----
-
-### argmax
-
-```python
-argmax(x, axis=-1)
-```
-
-テンソルの軸に沿った最大値の添字を返します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．縮約する軸方向．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### argmin
-
-```python
-argmin(x, axis=-1)
-```
-
-テンソルの軸に沿った最小値の添字を返します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．縮約する軸方向．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### square
-
-```python
-square(x)
-```
-
-要素ごとの二乗．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### abs
-
-```python
-abs(x)
-```
-
-要素ごとの絶対値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### sqrt
-
-```python
-sqrt(x)
-```
-
-要素ごとの平方根．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### exp
-
-```python
-exp(x)
-```
-
-要素ごとの指数関数値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### log
-
-```python
-log(x)
-```
-
-要素ごとの対数．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### logsumexp
-
-```python
-logsumexp(x, axis=None, keepdims=False)
-```
-
-log(sum(exp(テンソルの次元を横断した要素)))を計算します．
-
-この関数はlog(sum(exp(x)))よりも計算上安定します．小さい入力に対して対数をとることで発生するアンダーフローと，大きな入力に対して指数関数にかけることで発生するオーバーフローを回避します．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __axis__: 整数．縮約する軸方向．
-- __keepdims__: 次元を保つかどうかの真理値．`keepdims`が`False`の場合，テンソルのランクは1に削減します．`keepdims`が`True`の場合，縮小された次元は1の長さにとどめます．
-
-__戻り値__
-
-縮約されたテンソル．
-
-----
-
-### round
-
-```python
-round(x)
-```
-
-要素ごとの最も近い整数への丸め．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### sign
-
-```python
-sign(x)
-```
-
-要素ごとの符号．
-
-__引数__
-
-- __x__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### pow
-
-```python
-pow(x, a)
-```
-
-要素ごとの指数乗．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __a__: Pythonの整数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### clip
-
-```python
-clip(x, min_value, max_value)
-```
-
-要素ごとのクリッピング．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __min_value__: PythonのFloat，または整数．
-- __max_value__: PythonのFloat，または整数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### equal
-
-```python
-equal(x, y)
-```
-
-2つのテンソル間の要素ごとの等値性．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### not_equal
-
-```python
-not_equal(x, y)
-```
-
-2つのテンソル間の要素ごとの不等性．
-
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### greater
-
-```python
-greater(x, y)
-```
-
-要素ごとの(x > y)の真理値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### greater_equal
-
-```python
-greater_equal(x, y)
-```
-
-要素ごとの(x >= y)の真理値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### less
-
-```python
-less(x, y)
-```
-
-要素ごとの(x < y)の真理値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### less_equal
-
-```python
-less_equal(x, y)
-```
-
-要素ごとの(x <= y)の真理値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-真理値からなるテンソル．
-
-----
-
-### maximum
-
-```python
-maximum(x, y)
-```
-
-2つのテンソルの要素ごとの最大値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
-
-----
-
-### minimum
-
-```python
-minimum(x, y)
-```
-
-2つのテンソルの要素ごとの最小値．
-
-__引数__
-
-- __x__: テンソル，または変数．
-- __y__: テンソル，または変数．
-
-__戻り値__
-
-テンソル．
 
 ----
 

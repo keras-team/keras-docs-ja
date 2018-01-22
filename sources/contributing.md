@@ -41,6 +41,8 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
 1. **Kerasの改善とバグ修正**は[Keras `master` branch](https://github.com/keras-team/keras/tree/master)に送ってください．
 2. **試験的な新機能**としてのレイヤーやデータセットは[keras-contrib](https://github.com/farizrahman4u/keras-contrib)に送ってください．Kerasのコアに属すべき[Requests for Contributions](https://github.com/keras-team/keras/projects/1)にある新機能以外です．もしコア機能だと思う場合は，追加する機能の説明するための設計書を送ることで，主張できます（以下の説明を見てください）．
 
+バグ修正やドキュメントの向上，新しい機能の追加とは対照的に，**コーディングタイル**を主としたPRsはほぼ拒否されることに注意してください．
+
 ここでは，あなたの改善したコードを送るためのクイックガイドを示します:
 
 1. もしPRによって機能的な変更が生じる場合，変更すべきかどうか，どのようにそれを対処するか議論するために設計書を書いてKerasのメーリングリストに投稿してください．これによって，あなたのPRが閉じられることを防ぐでしょう！もちろん，PRが単純なバグ修正なら，必要ありません．設計書の作成と投稿手順は以下の通りです：
@@ -62,9 +64,9 @@ Theanoの簡単な更新方法：`pip install git+git://github.com/Theano/Theano
     - テストに関するライブラリをインストールする必要があります：`pip install -e .[tests]`．
 
 6. 全テストが通ることを確かめてください．
-    - Python 2.7とPython 3.5のTheanoバックエンド．Theanoの開発バージョンであることを確かめてください．
-    - Python 2.7とPython 3.5のTensorFlowバックエンド．TensorFlowの開発バージョンであることを確かめてください．
-    - Python 2.7とPython 3.5のCNTKバックエンド．CNTKの開発バージョンであることを確かめてください．
+    - Python 2.7とPython 3.6のTheanoバックエンド．Theanoの開発バージョンであることを確かめてください．
+    - Python 2.7とPython 3.6のTensorFlowバックエンド．TensorFlowの開発バージョンであることを確かめてください．
+    - Python 2.7とPython 3.6のCNTKバックエンド．CNTKの開発バージョンであることを確かめてください．
 
 7. PEP8の構文規則に従っていますが，1行の長さに関しては教義的でありません．
 ただし，合理的だと考える長さを維持してください．楽をするために，PEP8 linterの実行を推奨します：
