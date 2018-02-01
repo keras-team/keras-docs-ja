@@ -4,7 +4,7 @@ Kerasには2つの利用可能なモデルがあります: 1つは[Sequentialモ
 
 これらのモデルには，共通のメソッドがあります．
 
-- `model.summary()`: モデルの要約を出力します．
+- `model.summary()`: モデルの要約を出力します．[utils.print_summary](/utils/#print_summary)へのショートカットです．
 - `model.get_config()`: モデルの設定を持つ辞書を返します．下記のように，モデルはそれ自身の設定から再インスタンス化できます．
 
 ```python
@@ -15,11 +15,11 @@ model = Sequential.from_config(config)
 ```
 
 - `model.get_weights()`: モデルの全ての重みテンソルをNumpy 配列を要素にもつリスト返します．
-- `model.set_weights(weights)`: Numpy 配列のリストからモデルの重みの値をセットします．リスト中のNumpy 配列のshapeは`get_weights()`で得られるリスト中のNumpy  配列のshapeと同じ必要があります．
+- `model.set_weights(weights)`: Numpy 配列のリストからモデルの重みの値をセットします．リスト中のNumpy 配列のshapeは`get_weights()`で得られるリスト中のNumpy配列のshapeと同じ必要があります．
 - `model.to_json()`: モデルの表現をJSON文字列として返します．このモデルの表現は，重みを含まないアーキテクチャのみであることに注意してください．下記の様に，JSON文字列から同じアーキテクチャのモデル（重みについては初期化されます）を再インスタンス化できます．
 
 ```python
-from models import model_from_json
+from keras.models import model_from_json
 
 json_string = model.to_json()
 model = model_from_json(json_string)
@@ -28,7 +28,7 @@ model = model_from_json(json_string)
 - `model.to_yaml()`: モデルの表現をYAML文字列として返します．このモデルの表現は，重みを含まないアーキテクチャのみであることに注意してください．下記の様に，YAML文字列から同じアーキテクチャのモデル（重みについては初期化されます）を再インスタンス化できます．
 
 ```python
-from models import model_from_yaml
+from keras.models import model_from_yaml
 
 yaml_string = model.to_yaml()
 model = model_from_yaml(yaml_string)
