@@ -10,7 +10,7 @@
 - `bias_constraint` バイアスの制約．
 
 ```python
-from keras.constraints import maxnorm
+from keras.constraints import max_norm
 model.add(Dense(64, kernel_constraint=max_norm(2.)))
 ```
 
@@ -18,4 +18,5 @@ model.add(Dense(64, kernel_constraint=max_norm(2.)))
 
 - __maxnorm(max_value=2, axis=0)__: 最大値ノルム制約
 - __non_neg()__: 非負値制約
-- __unit_norm()__: ノルム正規化制約，行列の最後のaxisのノルムで正規化
+- __unit_norm(axis=0)__: ノルム正規化制約
+- __min_max_norm(min_value=0.0, max_value=1.0, rate=1.0, axis=0)__: 最小/最大値ノルム制約
