@@ -2,22 +2,9 @@
 
 コールバックは訓練中で適用される関数集合です．訓練中にモデル内部の状態と統計量を可視化する際に，コールバックを使います．`Sequential`と`Model`クラスの`.fit()`メソッドに（キーワード引数`callbacks`として）コールバックのリストを渡すことができます．コールバックに関連するメソッドは，訓練の各段階で呼び出されます．
 
----
-
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L201)</span>
-### BaseLogger
-
-```python
-keras.callbacks.BaseLogger()
-```
-
-監視されている評価値のエポック平均を蓄積するコールバックです．
-
-このコールバックは全Kerasモデルに自動的に適用されます．
-
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L146)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L145)</span>
 ### Callback
 
 ```python
@@ -39,9 +26,33 @@ __プロパティ__
 - __on_batch_begin__: ログは現在のバッチのサンプル数`size`を含みます．
 - __on_batch_end__: ログは`loss`と（精度の監視が有効になっている場合は）オプションとして`acc`を含みます．
 
+---
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L201)</span>
+### BaseLogger
+
+```python
+keras.callbacks.BaseLogger()
+```
+
+監視されている評価値のエポック平均を蓄積するコールバックです．
+
+このコールバックは全Kerasモデルに自動的に適用されます．
+
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L245)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L230)</span>
+### TerminateOnNaN
+
+```python
+keras.callbacks.TerminateOnNaN()
+```
+
+損失がNaNになった時に訓練を終了するコールバックです．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L246)</span>
 ### ProgbarLogger
 
 ```python
@@ -60,7 +71,7 @@ __Raises__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L312)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L313)</span>
 ### History
 
 ```python
@@ -73,7 +84,7 @@ keras.callbacks.History()
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L331)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L332)</span>
 ### ModelCheckpoint
 
 ```python
@@ -98,7 +109,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L431)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L432)</span>
 ### EarlyStopping
 
 ```python
@@ -117,7 +128,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L513)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L514)</span>
 ### RemoteMonitor
 
 ```python
@@ -132,19 +143,17 @@ keras.callbacks.RemoteMonitor(root='http://localhost:9000', path='/publish/epoch
 __引数__
 
 - __root__: 文字列；対象サーバのルートURL．
-- __path__: 文字列；イベントを送るサーバへの相対的な`path`．
+- __path__: 文字列；イベントを送る`root`への相対パス．
 - __field__: 文字列；データを保存するJSONのフィールド．
-- __headers__: 辞書; オプションでカスタムできるHTTPヘッダー．デフォルト:
-    - `{'Accept': 'application/json', 'Content-Type': 'application/json'}`
-
+- __headers__: 辞書; オプションでカスタムできるHTTPヘッダー．
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L558)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L559)</span>
 ### LearningRateScheduler
 
 ```python
-keras.callbacks.LearningRateScheduler(schedule)
+keras.callbacks.LearningRateScheduler(schedule, verbose=0)
 ```
 
 学習率のスケジューラ．
@@ -152,21 +161,22 @@ keras.callbacks.LearningRateScheduler(schedule)
 __引数__
 
 - __schedule__: この関数はエポックのインデックス（整数, 0から始まるインデックス）を入力とし，新しい学習率（浮動小数点数）を返します．
+- __verbose__: 整数．0:：何も表示しない．1：更新メッセージを表示．
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L581)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L587)</span>
 ### TensorBoard
 
 ```python
-keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None)
+keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None)
 ```
 
 Tensorboardによる基本的な可視化．
 
-このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，訓練とテストの評価値を動的にグラフ化し，可視化できます．
+[TensorBoard](https://www.tensorflow.org/get_started/summaries_and_tensorboard)はTensorFlowによって提供されている可視化ツールです
 
-TensorBoardはTensorFlowによって提供されている可視化ツールです．
+このコールバックはTensorBoardのログを出力します．TensorBoardでは，異なる層への活性化ヒストグラムと同様に，訓練とテストの評価値を動的にグラフ化し，可視化できます．
 
 pipからTensorFlowをインストールしているならば，コマンドラインからTensorBoardを起動できます．
 
@@ -179,21 +189,20 @@ TensorBoardに関する詳細な情報は[ここ](https://www.tensorflow.org/get
 __引数__
 
 - __log_dir__: TensorfBoardによって解析されたログファイルを保存するディレクトリのパス
-- __histogram_freq__: モデルの層の活性化ヒストグラムを計算する（エポック中の）頻度．この値を0に設定するとヒストグラムが計算されません．
+- __histogram_freq__: モデルの層の活性化ヒストグラムを計算する（エポック中の）頻度．この値を0に設定するとヒストグラムが計算されません．ヒストグラムの可視化にはバリデーションデータを指定しておく必要があります．
 - __write_graph__: TensorBoardのグラフを可視化するか．`write_graph`がTrueの場合，ログファイルが非常に大きくなることがあります．
 - __write_grads__: TensorBoardに勾配のヒストグラフを可視化するかどうか．`histogram_freq`は0より大きくしなければなりません．
+- __batch_size__: ヒストグラム計算のネットワークに渡す入力のバッチサイズ．
 - __write_images__: TensorfBoardで可視化するモデルの重みを画像として書き出すかどうか．
 - __embeddings_freq__: 選択したembeddingsレイヤーを保存する（エポックに対する）頻度．
-- __embeddings_layer_names__:
-観察するレイヤー名のリスト．もしNoneか空リストなら全embeddingsレイヤーを観察します．
-- __embeddings_metadata__:
-レイヤー名からembeddingsレイヤーに関するメタデータの保存ファイル名へマップする辞書．
+- __embeddings_layer_names__: 観察するレイヤー名のリスト．もしNoneか空リストなら全embeddingsレイヤーを観察します．
+- __embeddings_metadata__: レイヤー名からembeddingsレイヤーに関するメタデータの保存ファイル名へマップする辞書．
 メタデータのファイルフォーマットの[詳細](https://www.tensorflow.org/get_started/embedding_viz#metadata_optional)．
 全embeddingsレイヤーに対して同じメタデータファイルを使う場合は文字列を渡します．
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L792)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L811)</span>
 ### ReduceLROnPlateau
 
 ```python
@@ -203,14 +212,14 @@ keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, v
 評価値の改善が止まった時に学習率を減らします．
 
 モデルは訓練が停滞した時に学習率を2〜10で割ることで恩恵を受けることがあります．
-このコールバックは評価値を監視し，patienceで指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
+このコールバックは評価値を監視し，'patience'で指定されたエポック数の間改善が見られなかった場合，学習率を減らします．
 
 __例__
 
 ```python
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2,
                               patience=5, min_lr=0.001)
-model.fit(x_train, y_train, callbacks=[reduce_lr])
+model.fit(X_train, Y_train, callbacks=[reduce_lr])
 ```
 
 __引数__
@@ -229,7 +238,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L903)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L927)</span>
 ### CSVLogger
 
 ```python
@@ -244,7 +253,7 @@ __例__
 
 ```python
 csv_logger = CSVLogger('training.log')
-model.fit(x_train, y_train, callbacks=[csv_logger])
+model.fit(X_train, Y_train, callbacks=[csv_logger])
 ```
 
 __引数__
@@ -256,7 +265,7 @@ __引数__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L974)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/callbacks.py#L1004)</span>
 ### LambdaCallback
 
 ```python
@@ -294,7 +303,7 @@ import json
 json_log = open('loss_log.json', mode='wt', buffering=1)
 json_logging_callback = LambdaCallback(
     on_epoch_end=lambda epoch, logs: json_log.write(
-    json.dumps({'epoch': epoch, 'loss': logs['loss']}) + '\n'),
+        json.dumps({'epoch': epoch, 'loss': logs['loss']}) + '\n'),
     on_train_end=lambda logs: json_log.close()
 )
 
@@ -302,16 +311,15 @@ json_logging_callback = LambdaCallback(
 processes = ...
 cleanup_callback = LambdaCallback(
     on_train_end=lambda logs: [
-    p.terminate() for p in processes if p.is_alive()])
+        p.terminate() for p in processes if p.is_alive()])
 
 model.fit(...,
-      callbacks=[batch_print_callback,
-                 json_logging_callback,
-                 cleanup_callback])
+          callbacks=[batch_print_callback,
+                     json_logging_callback,
+                     cleanup_callback])
 ```
 
 ---
-
 
 # コールバックを作成
 
@@ -319,6 +327,7 @@ model.fit(...,
 コールバックは，`self.model`プロパティによって，関連したモデルにアクセスできます．
 
 訓練中の各バッチの損失のリストを保存する簡単な例は，以下のようになります．
+
 ```python
 class LossHistory(keras.callbacks.Callback):
     def on_train_begin(self, logs={}):
@@ -371,5 +380,5 @@ model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 バリデーションロスが減少した場合に，各エポック終了後，モデルの重みを保存します
 '''
 checkpointer = ModelCheckpoint(filepath='/tmp/weights.hdf5', verbose=1, save_best_only=True)
-model.fit(x_train, y_train, batch_size=128, epochs=20, verbose=0, validation_data=(x_test, y_test), callbacks=[checkpointer])
+model.fit(x_train, y_train, batch_size=128, epochs=20, verbose=0, validation_data=(X_test, Y_test), callbacks=[checkpointer])
 ```
