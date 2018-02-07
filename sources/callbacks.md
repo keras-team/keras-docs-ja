@@ -184,8 +184,6 @@ pipからTensorFlowをインストールしているならば，コマンドラ�
 tensorboard --logdir=/full_path_to_your_logs
 ```
 
-TensorBoardに関する詳細な情報は[ここ](https://www.tensorflow.org/get_started/summaries_and_tensorboard)を参照してください．
-
 __引数__
 
 - __log_dir__: TensorfBoardによって解析されたログファイルを保存するディレクトリのパス
@@ -277,9 +275,9 @@ keras.callbacks.LambdaCallback(on_epoch_begin=None, on_epoch_end=None, on_batch_
 このコールバックは，適切なタイミングで呼び出される無名関数で構築されます．
 以下のような位置引数が必要であることに注意してください:
 
- - `on_epoch_begin` と `on_epoch_end` は2つの位置引数が必要です: `epoch`，`logs`
- - `on_batch_begin` と `on_batch_end` は2つの位置引数が必要です: `batch`，`logs`
- - `on_train_begin` と `on_train_end` は1つの位置引数が必要です: `logs`
+ - `on_epoch_begin`と`on_epoch_end`は2つの位置引数が必要です: `epoch`，`logs`
+ - `on_batch_begin`と`on_batch_end`は2つの位置引数が必要です: `batch`，`logs`
+ - `on_train_begin`と`on_train_end`は1つの位置引数が必要です: `logs`
 
 __引数__
 
