@@ -154,7 +154,7 @@ keras.layers.convolutional.Conv2DTranspose(filters, kernel_size, strides=(1, 1),
 
 このレイヤーをモデルの第一層に使うときはキーワード引数`input_shape`
 （整数のタプル，サンプル軸を含まない）を指定してください．
-例えば`data_format="channels_last"`のとき，128x128 RGB画像では`input_shape=(3, 128, 128)`となります．
+例えば`data_format="channels_last"`のとき，128x128 RGB画像では`input_shape=(128, 128, 3)`となります．
 
 __引数__
 

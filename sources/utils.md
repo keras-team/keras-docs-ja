@@ -9,7 +9,7 @@ keras.utils.CustomObjectScope()
 
 `with`では，名前によってcustomオブジェクトにアクセス可能です．
 グローバルなcustomオブジェクトへの変更は`with`で囲まれた中でのみ持続し，
-`wuth`から抜けると，グローバルなcustomオブジェクトは`with`の最初の状態に戻ります．
+`with`から抜けると，グローバルなcustomオブジェクトは`with`の最初の状態に戻ります．
 
 __例__
 
