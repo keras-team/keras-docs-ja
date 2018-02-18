@@ -32,7 +32,7 @@ model = Model(inputs=[a1, a2], outputs=[b1, b3, b3])
 ### compile
 
 ```python
-compile(self, optimizer, loss, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None)
+compile(self, optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None)
 ```
 
 学習のためのモデルを設定します．
@@ -68,7 +68,7 @@ __引数__
 - __y__: モデルが単一の入力を持つ場合は教師（targets）データのNumpy配列，もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト．モデル内のあらゆる出力が名前を当てられている場合，出力の名前とNumpy配列をマップした辞書を渡すことも可能です．フレームワーク固有のテンソル（例えばTensorFlowデータテンソル）からフィードする場合は`y`を`None`にすることもできます．
 - __batch_size__: 整数または`None`．勾配更新毎のサンプル数を示す整数．指定しなければ`batch_size`はデフォルトで32になります．
 - __epochs__: 整数．訓練データ配列の反復回数を示す整数．エポックは，提供される`x`および`y`データ全体の反復です． `initial_epoch`と組み合わせると，`epochs`は"最終エポック"として理解されることに注意してください．このモデルは`epochs`で与えられた反復回数だの訓練をするわけではなく，単に`epochs`という指標に試行が達するまで訓練します．
-- __verbose__: 0，1，2のいずれかを指定．冗長モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
+- __verbose__: 整数．0，1，2のいずれか．進行状況の表示モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
 - __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照．
 - __validation_split__: 0から1の間の浮動小数点数．バリデーションデータとして使われる訓練データの割合．モデルはこの割合の訓練データを区別し，それらでは学習を行わず，各試行の終わりにこのデータにおける損失とモデル評価関数を評価します．このバリデーションデータは，シャッフルを行う前に，与えられた`x`と`y`のデータの後ろからサンプリングされます．
 - __validation_data__: 各試行の最後に損失とモデル評価関数を評価するために用いられる`(x_val, y_val)`のタプル，または`(val_x, val_y, val_sample_weights)`のタプル．モデルはこのデータで学習を行いません．`validation_data`は`validation_split`を上書きします．
@@ -105,7 +105,7 @@ __引数__
 - __x__: モデルが単一の入力を持つ場合は訓練データのNumpy配列，もしくはモデルが複数の入力を持つ場合はNumpy配列のリスト．モデル内のあらゆる入力に名前を当てられている場合，入力の名前とNumpy配列をマップした辞書を渡すことも可能です．フレームワーク固有のテンソル（例えばTensorFlowデータテンソル）からフィードする場合は`x`を`None`にすることもできます．
 - __y__: モデルが単一の入力を持つ場合は教師（targets）データのNumpy配列，もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト．モデル内のあらゆる出力が名前を当てられている場合，出力の名前とNumpy配列をマップした辞書を渡すことも可能です．フレームワーク固有のテンソル（例えばTensorFlowデータテンソル）からフィードする場合は`y`を`None`にすることもできます．
 - __batch_size__: 整数または`None`．勾配更新毎のサンプル数を示す整数．指定しなければ`batch_size`はデフォルトで32になります．
-- __verbose__: 冗長モードで，0または1．0 = 表示なし，1 = プログレスバー．
+- __verbose__: 0または1．進行状況の表示モード．0 = 表示なし，1 = プログレスバー．
 - __sample_weight__: オプションのNumpy配列で訓練サンプルの重みです．（訓練時のみ）損失関数への重み付けに用いられます．（重みとサンプルが1:1対応するように）入力サンプルと同じ長さの1次元Numpy配列を渡すこともできますし，時系列データの場合には，`(samples, sequence_length)`の形式の2次元配列を渡すことができ，各サンプルの各タイムステップに異なる重みを割り当てられます．この場合，`compile()`内で，`sample_weight_mode="temporal"`と指定するようにします．
 - __steps__: 整数または`None`．評価ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
 
@@ -129,7 +129,7 @@ __引数__
 
 - __x__: Numpy配列の入力データ（もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト）．
 - __batch_size__: 整数値．指定しなければデフォルトで32になります．
-- __verbose__: 冗長モードで，0または1．
+- __verbose__: 進行状況の表示モードで，0または1．
 - __steps__: 整数または`None`．評価ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
 
 __戻り値__
@@ -219,39 +219,44 @@ __引数__
 
 - __generator__: ジェネレータかマルチプロセッシング時にデータの重複を防ぐための`Sequence`（`keras.utils.Sequence`）オブジェクトのインスタンス．本ジェネレータの出力は，以下のいずれかです．
     - `(inputs, targets)`のタプル．
-    - `(inputs, targets, sample_weights)`のタプル．すべての配列は同じ数のサンプルを含む必要があります．本ジェネレータは無期限にそのデータをループさせるようになっています．`steps_per_epoch`数のサンプルがモデルに与えられると1度の試行が終了します．
+    - `(inputs, targets, sample_weights)`のタプル．このタプル（単一出力のジェネレータ）は単一のバッチを作ります．つまり，このタプルにある全ての配列は全て同じ長さ（バッチサイズと等しい）でなければなりません．バッチによってサイズが異なる場合もあります．例えば，データセットのサイズがバッチサイズで割り切れない場合，一般的にエポックの最後のバッチはそれ以外よりも小さくなります．このジェネレータはデータが無限にループすることを期待します．`steps_per_epoch`数のサンプルがモデルに与えられると1度の試行が終了します．
 - __steps_per_epoch__: ある一つのエポックが終了し，次のエポックが始まる前に`generator`から使用する総ステップ数（サンプルのバッチ数）．もし，データサイズをバッチサイズで割った時，通常ユニークなサンプル数に等しくなります．`Sequence`のオプション：指定されていない場合は，`len(generator)`をステップ数として使用します．
-- __epochs__: データの反復回数の合計を示す整数．
-- __verbose__: 冗長モードで，0，1，または2．
-- __callbacks__: 訓練時に呼ばれるコールバックのリスト．
+- __epochs__: 整数．モデルを訓練させるエポック数．
+    エポックは与えられたデータ全体の反復で，`steps_per_epoch`で定義されます．
+    `initial_epoch`と組み合わせると，`epochs`は「最終エポック」として理解されることに注意してください．このモデルは`epochs`で与えられた反復回数だの訓練をするわけではなく，単に`epochs`という指標に試行が達するまで訓練します．
+- __verbose__: 整数．0，1，2のいずれか．進行状況の表示モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
+- __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照．
 - __validation_data__: これは以下のいずれかです．
     - バリデーションデータ用のジェネレータ．
     - (inputs, targets)のタプル．
-    - (inputs, targets, sample_weights)のタプル．
+    - (inputs, targets, sample_weights)のタプル．各エポックの最後に損失関数やモデルの評価関数の評価に用いられます．このデータは学習には使われません．
 - __validation_steps__: `validation_data`がジェネレータの場合にのみ関係します．終了する前に`generator`から使用する総ステップ数（サンプルのバッチ数）．`Sequence`のオプション：指定されていない場合は，`len(validation_data)`をステップ数として使用します．
 - __class_weight__: クラスインデックスと各クラスの重みをマップする辞書です．
-- __max_queue_size__: ジェネレータのキューのための最大サイズ．
+    （訓練のときだけ）損失関数の重み付けに使われます．
+    過小評価されたクラスのサンプルに「より注意を向ける」場合に有用です．
+- __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
+    指定しなければ`max_queue_size`はデフォルトで10になります．
 - __workers__: 整数．スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
 - __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`workers`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
-- __shuffle__: 各試行の初めにバッチの順番をシャッフルするかどうか．`Sequence` (keras.utils.Sequence)の時のみ使用されます．
-- __initial_epoch__: 学習を開始するエポック（前回の学習を再開するのに便利です）．
+- __shuffle__: 真理値．各試行の初めにバッチの順番をシャッフルするかどうか．`Sequence`(`keras.utils.Sequence`)の時のみ使用されます．
+- __initial_epoch__: 整数．学習を開始するエポック（前回の学習を再開するのに便利です）．
 
 __戻り値__
 
-`History`オブジェクト
+`History`オブジェクト．`History.history` 属性は
+実行に成功したエポックにおける訓練の損失値と評価関数値の記録と，（適用可能ならば）検証における損失値と評価関数値も記録しています．
 
 __例__
 
 ```python
 def generate_arrays_from_file(path):
     while 1:
-        f = open(path)
-        for line in f:
-            # create numpy arrays of input data
-            # and labels, from each line in the file
-            x1, x2, y = process_line(line)
-            yield ({'input_1': x1, 'input_2': x2}, {'output': y})
-        f.close()
+        with open(path) as f:
+            for line in f:
+                # create numpy arrays of input data
+                # and labels, from each line in the file
+                x1, x2, y = process_line(line)
+                yield ({'input_1': x1, 'input_2': x2}, {'output': y})
 
 model.fit_generator(generate_arrays_from_file('/my_file.txt'),
                     steps_per_epoch=10000, epochs=10)
@@ -303,12 +308,12 @@ predict_generator(self, generator, steps=None, max_queue_size=10, workers=1, use
 
 __引数__
 
-- __generator__: ジェネレータは入力サンプルのバッチ数を使用します．
+- __generator__: 入力サンプルのバッチかマルチプロセッシング時にデータの重複を防ぐためのSequence (keras.utils.Sequence) オブジェクトのインスタンスを生成するジェネレータ．
 - __steps__: 終了する前に`generator`から使用する総ステップ数（サンプルのバッチ数）．`Sequence`のオプション：指定されていない場合は，`len(generator)`をステップ数として使用します．
 - __max_queue_size__: ジェネレータのキューの最大サイズ．
 - __workers__: 整数．スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
 - __use_multiprocessing__: `True`ならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
-- __verbose__: 冗長モードで，0または1．
+- __verbose__: 進行状況の表示モードで，0または1．
 
 __戻り値__
 
@@ -326,7 +331,7 @@ __Raises__
 get_layer(self, name=None, index=None)
 ```
 
-レイヤーの（ユニークな）名前，またはインデックスに基づき層を返します．
+（ユニークな）名前，またはインデックスに基づきレイヤーを探します．
 
 インデックスはボトムアップの幅優先探索の順番に基づきます．
 
