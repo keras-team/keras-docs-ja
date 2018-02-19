@@ -293,7 +293,7 @@ assert conv.get_input_shape_at(1) == (None, 64, 64, 3)
 
 ## More examples
 
-コード例から学び始めることは最良の手法です。
+コード例から学び始めることは最良の手法です.
 その他の例も見てみましょう．
 
 ### Inception module
