@@ -5,19 +5,19 @@ keras.preprocessing.sequence.pad_sequences(sequences, maxlen=None, dtype='int32'
                                            padding='pre', truncating='pre', value=0.)
 ```
 
-`num_samples` シーケンスから構成されるリスト（スカラのリスト）をshapeが`(num_samples, num_timesteps)`の2次元のNumpy 配列に変換します．`num_timesteps`は`maxlen`引数が与えられれば，`maxlen`か最大のシーケンス長になります．
+`num_samples` シーケンスから構成されるリスト（スカラのリスト）をshapeが`(num_samples, num_timesteps)`の2次元のNumpy 配列に変換します．`num_timesteps`は`maxlen`引数が与えられれば`maxlen`に，与えられなければ最大のシーケンス長になります．
 `num_timesteps`より短いシーケンスは，`value`でパディングされます．
-`num_timesteps`より長いシーケンスは，指定された長さで切り捨てられます．
-パディングと切り捨ての位置はそれぞれ`padding`と`truncating`によって決められます．
+`num_timesteps`より長いシーケンスは，指定された長さに切り詰められます．
+パディングと切り詰めの位置はそれぞれ`padding`と`truncating`によって決められます．
 
-- __戻り値__: shapeが`numb_samples, num_timesteps)`の2次元のNumpy 配列．
+- __戻り値__: shapeが`(num_samples, num_timesteps)`の2次元のNumpy 配列．
 
 - __引数__:
     - __sequences__: 整数または浮動小数点数を含むリストのリスト．
-    - __maxlen__: Noneまたは整数．シーケンスの最大長．この値より長いシーケンスは切り捨てられ，短いシーケンスは0でパディングされます．
+    - __maxlen__: Noneまたは整数．シーケンスの最大長．この値より長いシーケンスは切り詰められ，短いシーケンスは0でパディングされます．
     - __dtype__: 戻り値のNumpyのdatatype．
-    - __padding__: 'pre'まはた'post'．各シーケンスの前後どちらを埋めるか．
-    - __truncating__: 'pre'まはた'post'．maxlenより長いシーケンスの前後どちらを切り捨てるか．
+    - __padding__: 'pre'または'post'．各シーケンスの前後どちらを埋めるか．
+    - __truncating__: 'pre'または'post'．maxlenより長いシーケンスの前後どちらを切り詰めるか．
     - __value__: 浮動小数点数．パディングする値．
 
 ---
