@@ -127,6 +127,56 @@ model.add(Flatten())
 
 ----
 
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/engine/topology.py#L1391)</span>
+### Input
+
+```python
+keras.engine.topology.Input()
+```
+
+`Input()`はKerasテンソルのインスタンス化に使われます．
+
+Kerasテンソルは下位のバックエンド（TheanoやTensorFlow，あるいはCNTK）からなるテンソルオブジェクトです．
+モデルの入出力がわかっていれば，Kerasのモデルを構築するためにいくつかの属性を拡張できます．
+
+例えばa, b, cがKerasのテンソルの場合，次のようにできます：
+`model = Model(input=[a, b], output=c)`
+
+追加されたKerasの属性：
+
+- `_keras_shape`: Keras側の推論から伝達された整数のshapeのタプル．
+- `_keras_history`: テンソルに適用される最後のレイヤー．全体のレイヤーグラフはこのレイヤーから再帰的に取り出せます．
+
+__引数__
+
+- __shape__: shapeのタプル（整数）で，バッチサイズを含みません．
+    例えば，`shape=(32,)`は期待される入力が32次元ベクトルのバッチであることを示します．
+- __batch_shape__: shapeのタプル（整数）で，バッチサイズを含みます．
+    例えば，`batch_shape=(10, 32)`は期待される入力が10個の32次元ベクトルのバッチであることを示します．
+    `batch_shape=(None, 32)`は任意の数の32次元ベクトルのバッチを示します．
+- __name__: オプションとなるレイヤーの名前の文字列．
+    モデルの中でユニークな値である必要があります（同じ名前は二回使えません）．
+    指定しなければ自動生成されます．
+- __dtype__: 入力から期待されるデータの型で，文字列で指定します(`float32`, `float64`, `int32`...)．
+- __sparse__: 生成されるプレースホルダをスパースにするか指定する真理値．
+- __tensor__: `Input`レイヤーをラップする既存のテンソル．
+    設定した場合，レイヤーはプレースホルダとなるテンソルを生成しません．
+
+__戻り値__
+
+テンソル．
+
+__例__
+
+```python
+# this is a logistic regression in Keras
+x = Input(shape=(32,))
+y = Dense(16, activation='softmax')(x)
+model = Model(x, y)
+```
+
+----
+
 <span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L294)</span>
 ### Reshape
 
