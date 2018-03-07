@@ -12,7 +12,7 @@ Kerasは，迅速な実験を可能にすることに重点を置いて開発さ
 - CNNとRNNの両方，およびこれらの2つの組み合わせをサポート
 - CPUとGPU上でシームレスな動作
 
-[Keras.io](https://keras.io)のドキュメントを読んでください．
+[Keras.io](https://keras.io/ja/)のドキュメントを読んでください．
 
 Kerasは**Python 2.7-3.6**に対応しています．
 
@@ -35,8 +35,8 @@ Kerasは**Python 2.7-3.6**に対応しています．
 ## 30秒でKerasに入門しましょう．
 
 Kerasの中心的なデータ構造は__model__で，レイヤーを構成する方法です．
-主なモデルは[`Sequential`](http://keras.io/getting-started/sequential-model-guide)モデルで，レイヤーの線形スタックです．
-更に複雑なアーキテクチャの場合は，[Keras functional API](http://keras.io/getting-started/functional-api-guide)を使用する必要があります．これでレイヤーのなす任意のグラフが構築可能になります．
+主なモデルは[`Sequential`](http://keras.io/ja/getting-started/sequential-model-guide)モデルで，レイヤーの線形スタックです．
+更に複雑なアーキテクチャの場合は，[Keras functional API](http://keras.io/ja/getting-started/functional-api-guide)を使用する必要があります．これでレイヤーのなす任意のグラフが構築可能になります．
 
 `Sequential` モデルの一例を見てみましょう．
 
@@ -99,8 +99,8 @@ classes = model.predict(x_test, batch_size=128)
 
 Kerasについてのより詳細なチュートリアルについては，以下を参照してください．
 
-- [Getting started with the Sequential model](http://keras.io/getting-started/sequential-model-guide)
-- [Getting started with the functional API](http://keras.io/getting-started/functional-api-guide)
+- [Getting started with the Sequential model](http://keras.io/ja/getting-started/sequential-model-guide)
+- [Getting started with the functional API](http://keras.io/ja/getting-started/functional-api-guide)
 
 リポジトリの[examples folder](https://github.com/keras-team/keras/tree/master/examples)にはさらに高度なモデルがあります．
 メモリネットワークを用いた質問応答システムや積層LSTMを用いた文章生成などです．
@@ -122,7 +122,7 @@ TensorFlowを推奨しています．
 
 - cuDNN （KerasをGPUで動かす場合は推奨）．
 - HDF5とh5py （Kerasのモデルをディスクに保存する場合は必須）．
-- graphvizとpydot （[可視化](https://keras.io/visualization/)でモデルのグラフ描画に利用）．
+- graphvizとpydot （[可視化](https://keras.io/ja/visualization/)でモデルのグラフ描画に利用）．
 
 これでKerasをインストールできるようになりました．Kerasをインストールするには2つの方法があります：
 
@@ -157,7 +157,7 @@ sudo python setup.py install
 
 ## TensorFlowからCNTKやTheanoへの変更
 
-デフォルトでは，KerasはTensorFlowをテンソル計算ライブラリとしています．Kerasのバックエンドを設定するには，[この手順](http://keras.io/backend/)に従ってください．
+デフォルトでは，KerasはTensorFlowをテンソル計算ライブラリとしています．Kerasのバックエンドを設定するには，[この手順](http://keras.io/ja/backend/)に従ってください．
 
 
 ------------------

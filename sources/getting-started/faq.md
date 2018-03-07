@@ -127,7 +127,7 @@ Kerasを正しく使うためには，以下の定義を知り，理解してお
   - 一般的に **batch** は，それぞれの入力のみの場合に比べて，入力データのばらつきをよく近似します．batchが大きいほど，その近似は精度が良くなります．しかし，そのようなbatchの処理には時間がかかるにも関わらず更新が一度しかされません．推論（もしくは評価，予測）のためには，メモリ領域を超えなくて済む最大のbatchサイズを選ぶのをおすすめします．(なぜなら，batchが大きければ，通常は高速な評価や予測につながるからです）
 - **Epoch**: "データセット全体に対する1回の処理単位"と一般的に定義されている，任意の区切りのこと．訓練のフェーズを明確に区切って，ロギングや周期的な評価するのに利用されます．
   - `evaluation_data` もしくは `evaluation_split` がKeras modelの `fit` 関数とともに使われるとき，その評価は，各 **epoch** が終わる度に行われます．
-  - Kerasでは，  **epoch** の終わりに実行されるように [callbacks](https://keras.io/callbacks/) を追加することができます．これにより例えば，学習率を変化させることやモデルのチェックポイント（保存）が行えます．
+  - Kerasでは，  **epoch** の終わりに実行されるように [callbacks](https://keras.io/ja/callbacks/) を追加することができます．これにより例えば，学習率を変化させることやモデルのチェックポイント（保存）が行えます．
 
 ---
 
@@ -242,7 +242,7 @@ from keras.models import load_model
 model = load_model('my_model.h5', custom_objects={'AttentionLayer': AttentionLayer})
 ```
 
-あるいは [custom object scope](https://keras.io/utils/#customobjectscope)を使うことも出来ます：
+あるいは [custom object scope](https://keras.io/ja/utils/#customobjectscope)を使うことも出来ます：
 
 ```python
 from keras.utils import CustomObjectScope
