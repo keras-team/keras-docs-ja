@@ -205,7 +205,6 @@ __引数__
 - __implementation__: 実装モードで，1か2．モード1は
 より小さいドット積や加算で大きな方の数を処理する構造となる一方，モード2は少ない方にし，より大きな処理．
 これらのモードはハードウェアやアプリケーションによって異なるパフォーマンスプロファイルとなるでしょう．
-mode, either 1 or 2. Mode 1 will structure its operations as a larger number of smaller dot products and additions, whereas mode 2 will batch them into fewer, larger operations. These modes will have different performance profiles on different hardware and for different applications.
 - __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
 - __return_state__: 真理値．出力とともに，最後の状態を返すかどうか．
 - __go_backwards__: 真理値（デフォルトはFalse）．Trueなら，入力系列の後ろから処理し，逆順の系列を返します．
