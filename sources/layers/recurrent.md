@@ -202,8 +202,7 @@ __引数__
 - __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
 - __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
 - __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
-- __implementation__: 実装モードで，1か2．モード1は
-より小さいドット積や加算で大きな方の数を処理する構造となる一方，モード2は少ない方にし，より大きな処理．
+- __implementation__: 実装モードで，1か2．モード1は小さなドット積や加算処理を多数行う構造である一方，モード2は少数の大きな操作をバッチ処理します．
 これらのモードはハードウェアやアプリケーションによって異なるパフォーマンスプロファイルとなるでしょう．
 - __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
 - __return_state__: 真理値．出力とともに，最後の状態を返すかどうか．
@@ -256,7 +255,8 @@ __引数__
 - __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
 - __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
 - __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
-- __implementation__: Implementation mode, either 1 or 2. Mode 1 will structure its operations as a larger number of smaller dot products and additions, whereas mode 2 will batch them into fewer, larger operations. These modes will have different performance profiles on different hardware and for different applications.
+- __implementation__: 実装モードで，1か2．モード1は小さなドット積や加算処理を多数行う構造である一方，モード2は少数の大きな操作をバッチ処理します．
+これらのモードはハードウェアやアプリケーションによって異なるパフォーマンスプロファイルとなるでしょう．
 - __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
 - __return_state__: 真理値．出力とともに，最後の状態を返すかどうか．
 - __go_backwards__: 真理値（デフォルトはFalse）．Trueなら，入力系列の後ろから処理し，逆順の系列を返します．
@@ -273,3 +273,271 @@ __参考文献__
 - [Learning to forget: Continual prediction with LSTM](http://www.mitpressjournals.org/doi/pdf/10.1162/089976600300015015)
 - [Supervised sequence labeling with recurrent neural networks](http://www.cs.toronto.edu/~graves/preprint.pdf)
 - [A Theoretically Grounded Application of Dropout in Recurrent Neural Networks](http://arxiv.org/abs/1512.05287)
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional_recurrent.py#L773)</span>
+### ConvLSTM2D
+
+畳み込みLSTM．
+
+LSTMレイヤーに似ていますが，入力の変換とリカレントな変換が畳み込みです．
+
+__引数__
+
+- __filters__: 整数，出力空間の次元（つまり畳み込みにおける出力フィルタの数）．
+- __kernel_size__: 整数かn個の整数からなるタプル/リストで，n次元の畳み込みウィンドウを指定します．
+- __strides__: 整数かn個の整数からなるタプル/リストで，畳み込みのストライドをそれぞれ指定できます．strides value != 1とすると`dilation_rate` value != 1と指定できません．
+- __padding__: `"valid"`か`"same"`のどちらかを指定します．
+- __data_format__: 文字列，`channels_last`（デフォルト）か`channels_first`のどちらかを指定します．
+  これは入力における次元の順序です．
+  `"channels_last"`の場合，入力のshapeは`(batch, time, ..., channels)`となり，`"channels_first"`の場合は`(batch, time, channels, ...)`となります．
+  デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．
+  一度も値を変更していなければ，"channels_last"になります．
+- __dilation_rate__: 整数かn個の整数からなるタプル/リストで，dilated convolutionで使われる膨張率を指定します．
+  現在，`dilation_rate` value != 1 とすると，`strides` value != 1を指定することはできません．
+- __activation__: 使用する活性化関数の名前（[activations](../activations.md)を参照），
+  何も指定しなければ，活性化は一切適用されません（つまり"線形"活性`a(x) = x`）．
+- __recurrent_activation__: recurrentステップで適用される活性化関数（[activations](../activations.md)を参照）．
+- __use_bias__: 真理値，レイヤーがバイアスベクトルを使うかどうか．
+- __kernel_initializer__: `kernel`の重み行列の初期値を指定します．入力の線形変換に使われます．（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: `recurrent_kernel`の重み行列の初期値を指定します．
+  recurrent stateの線形変換に使われます．（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: バイアスベクトルの初期値を指定します．（[initializers](../initializers.md)を参照）
+- __unit_forget_bias__: 真理値．Trueなら，初期化時に忘却ゲートのバイアスに1を加えます．
+  `bias_initializer="zeros"`とともに用いられます．
+  これは[Jozefowicz et al.](http://www.jmlr.org/proceedings/papers/v37/jozefowicz15.pdf)により推奨されています．
+- __kernel_regularizer__: `kernel`の重み行列に適用させるRegularizerを指定します．（[regularizer](../regularizers.md)を参照）
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用させるRegularizerを指定します．（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: バイアスベクトルに適用させるRegularizerを指定します．（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力テンソルに適用させるRegularizerを指定します．（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用させるConstraintを指定します．（[constraint](../constraints.md)を参照）．
+- __recurrent_constraint__: recurrent_kernelの重み行列に適用させるConstraintを指定します．（[constraint](../constraints.md)を参照）．
+- __bias_constraint__: バイアスベクトルに適用させるConstraintを指定します．（[constraint](../constraints.md)を参照）．
+- __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
+- __go_backwards__: 真理値（デフォルトはFalse）．Trueなら，入力系列の後ろから処理し，逆順の系列を返します．
+- __stateful__: 真理値（デフォルトはFalse）．Trueなら，バッチ内のインデックスiの各サンプル
+に対する最後の状態が次のバッチ内のインデックスiのサンプルに対する初期状態として使われます．
+- __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
+- __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
+
+__入力のshape__
+
+- data_format='channels_first'の場合は次のshapeの5階テンソル：`(samples,time, channels, rows, cols)`
+- data_format='channels_last'の場合は次のshapeの5階テンソル：`(samples,time, rows, cols, channels)`
+
+__出力のshape__
+
+- `return_sequences`の場合
+    - data_format='channels_first'なら次のshapeの5階テンソル：
+    `(samples, time, filters, output_row, output_col)`
+    - data_format='channels_last'なら次のshapeの5階テンソル：
+    `(samples, time, output_row, output_col, filters)`
+- それ以外の場合
+    - data_format='channels_first'なら次のshapeの4階テンソル：
+    `(samples, filters, output_row, output_col)`
+    - data_format='channels_last'なら次のshapeの4階テンソル：
+    `(samples, output_row, output_col, filters)`
+    o_rowsとo_colsはフィルタのshapeやパディングに依存します．
+
+__Raise__
+
+- __ValueError__: 無効なコンストラクタ引数の場合
+
+__参考文献__
+
+- [Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting](http://arxiv.org/abs/1506.04214v1)
+現状の実装ではcell出力におけるフィードバックループを含んでいません
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/recurrent.py#L782)</span>
+### SimpleRNNCell
+
+```python
+keras.layers.SimpleRNNCell(units, activation='tanh', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0)
+```
+
+SimpleRNNのCellクラス．
+
+__引数__
+
+- __units__: 正の整数値，出力の次元数．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．
+    デフォルト：ハイパボリックタンジェント（`tanh`）．
+    `None`を渡すと活性化関数は適用されません（つまり"線形"活性: `a(x) = x`）．
+- __use_bias__: 真理値，レイヤーがバイアスベクトルを使うかどうか．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: バイアスベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
+- __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/recurrent.py#L1154)</span>
+### GRUCell
+
+```python
+keras.layers.GRUCell(units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, implementation=1)
+```
+
+GRUレイヤーのためのCellクラス．
+
+- __units__: 正の整数値，出力の次元数．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．
+    デフォルト：ハイパボリックタンジェント（`tanh`）．
+    `None`を渡すと活性化関数は適用されません（つまり"線形"活性: `a(x) = x`）．
+- __recurrent_activation__: 再帰計算時に使う活性化関数（[activations](../activations.md)を参照）．
+- __use_bias__: 真理値，レイヤーがバイアスベクトルを使うかどうか．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
+- __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
+- __implementation__: 実装モードで，1か2．モード1は小さなドット積や加算処理を多数行う構造である一方，モード2は少数の大きな操作をバッチ処理します．
+これらのモードはハードウェアやアプリケーションによって異なるパフォーマンスプロファイルとなるでしょう．
+- __reset_after__: GRUの慣習（行列の乗算の前後のどちらでリセットゲートの適用を行うか）．False = "before" (デフォルト), True = "after" (CuDNN互換).
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/recurrent.py#L1728)</span>
+### LSTMCell
+
+```python
+keras.layers.LSTMCell(units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, implementation=1)
+```
+
+LSTMレイヤーのためのcellクラス．
+
+__引数__
+
+- __units__: 正の整数値，出力の次元数．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．
+    デフォルト：ハイパボリックタンジェント（`tanh`）．
+    `None`を渡すと活性化関数は適用されません（つまり"線形"活性: `a(x) = x`）．
+- __activation__: 活性化関数（[activations](../activations.md)を参照）．
+    デフォルト：ハイパボリックタンジェント（`tanh`）．
+    `None`を渡すと活性化関数は適用されません（つまり"線形"活性: `a(x) = x`）．
+- __use_bias__: 真理値，biasベクトルを使うかどうか．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __unit_forget_bias__: 真理値．Trueなら，初期化時に忘却ゲートのバイアスに1を加えます．
+  `bias_initializer="zeros"`とともに用いられます．
+  これは[Jozefowicz et al.](http://www.jmlr.org/proceedings/papers/v37/jozefowicz15.pdf)により推奨されています．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __dropout__: 0から1の間の浮動小数点数．入力の線形変換においてdropするユニットの割合．
+- __recurrent_dropout__: 0から1の間の浮動小数点数．再帰の線形変換においてdropするユニットの割合．
+- __implementation__: 実装モードで，1か2．モード1は小さなドット積や加算処理を多数行う構造である一方，モード2は少数の大きな操作をバッチ処理します．
+これらのモードはハードウェアやアプリケーションによって異なるパフォーマンスプロファイルとなるでしょう．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/recurrent.py#L25)</span>
+### StackedRNNCells
+
+```python
+keras.layers.StackedRNNCells(cells)
+```
+
+RNN cellのスタックの振る舞いを単一のcellのようにするためのラッパー．
+
+効率的なstacked RNNを実装するために使われます．
+
+__引数__
+
+- __cells__: RNN cellインスタンスのリスト．
+
+__例__
+
+```python
+cells = [
+    keras.layers.LSTMCell(output_dim),
+    keras.layers.LSTMCell(output_dim),
+    keras.layers.LSTMCell(output_dim),
+]
+
+inputs = keras.Input((timesteps, input_dim))
+x = keras.layers.RNN(cells)(inputs)
+```
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/cudnn_recurrent.py#L135)</span>
+### CuDNNGRU
+
+```python
+keras.layers.CuDNNGRU(units, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, return_sequences=False, return_state=False, stateful=False)
+```
+
+[CuDNN](https://developer.nvidia.com/cudnn)を利用した高速なGRU実装．
+
+TensorFlowバックエンドでGPU上でのみ動作します．
+
+__引数__
+
+- __units__: 正の整数値，出力の次元数．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
+- __return_state__: 真理値．出力とともに，最後の状態を返すかどうか．
+- __stateful__: 真理値（デフォルトはFalse）．Trueなら，バッチ内のインデックスiの各サンプルに対する最後の状態が次のバッチ内のインデックスiのサンプルに対する初期状態として使われます．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/cudnn_recurrent.py#L324)</span>
+### CuDNNLSTM
+
+```python
+keras.layers.CuDNNLSTM(units, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, return_sequences=False, return_state=False, stateful=False)
+```
+
+[CuDNN](https://developer.nvidia.com/cudnn)を利用した高速なLSTM実装．
+
+TensorFlowバックエンドでGPU上でのみ動作します．
+
+__引数__
+
+- __units__: 正の整数値，出力の次元数．
+- __kernel_initializer__: 入力の線形変換に使われる`kernel`の重み行列のためのInitializer（[initializers](../initializers.md)を参照）．
+- __unit_forget_bias__: 真理値．Trueなら，初期化時に忘却ゲートのバイアスに1を加えます．
+  `bias_initializer="zeros"`とともに用いられます．
+  これは[Jozefowicz et al.](http://www.jmlr.org/proceedings/papers/v37/jozefowicz15.pdf)により推奨されています．
+- __recurrent_initializer__: 再帰の線形変換に使われる`recurrent_kernel`の重み行列のInitializer（[initializers](../initializers.md)を参照）．
+- __bias_initializer__: biasベクトルのInitializer（[initializers](../initializers.md)を参照）．
+- __kernel_regularizer__: `kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __recurrent_regularizer__: `recurrent_kernel`の重み行列に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __bias_regularizer__: biasベクトルに適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __activity_regularizer__: 出力 (そのactivation) に適用するRegularizer関数（[regularizer](../regularizers.md)を参照）．
+- __kernel_constraint__: `kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __recurrent_constraint__: `recurrent_kernel`の重み行列に適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __bias_constraint__: biasベクトルに適用するConstraint関数（[constraints](../constraints.md)を参照）．
+- __return_sequences__: 真理値．出力系列の最後の出力を返すか，完全な系列を返すか．
+- __return_state__: 真理値．出力とともに，最後の状態を返すかどうか．
+- __stateful__: 真理値（デフォルトはFalse）．Trueなら，バッチ内のインデックスiの各サンプルに対する最後の状態が次のバッチ内のインデックスiのサンプルに対する初期状態として使われます．
