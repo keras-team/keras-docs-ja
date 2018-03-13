@@ -1,21 +1,17 @@
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L726)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L743)</span>
 ### Dense
 
 ```python
-keras.layers.core.Dense(units, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
+keras.layers.Dense(units, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
 ```
 
 通常の全結合ニューラルネットワークレイヤー．
 
 `Dense`が実行する操作：`output = activation(dot(input, kernel) + bias)`ただし，`activation`は`activation`引数として渡される要素単位の活性化関数で，`kernel`はレイヤーによって作成された重み行列であり，`bias`はレイヤーによって作成されたバイアスベクトルです.（`use_bias`が`True`の場合にのみ適用されます）．
 
-
-- Note：レイヤーへの入力のランクが2より大きい場合は，`kernel`を使用した最初のドット積の前に平坦化されます．
-
-
+- 注意：レイヤーへの入力のランクが2より大きい場合は，`kernel`を使用した最初のドット積の前に平坦化されます．
 
 __例__
-
 
 ```python
 # as first layer in a sequential model:
@@ -36,7 +32,7 @@ __引数__
     （[activations](../activations.md)を参照）
     もしあなたが何も指定しなければ，活性化は適用されない．
     （すなわち，"線形"活性化： `a(x) = x`）．
-- __use_bias__： レイヤーがバイアスベクトルを使用するかどうか．
+- __use_bias__： 真理値，レイヤーがバイアスベクトルを使用するかどうか．
 - __kernel_initializer__： `kernel`重み行列の初期化（[initializations](../initializers.md)を参照）
 - __bias_initializer__： バイアスベクトルの初期化（[initializations](../initializers.md)を参照）
 - __kernel_regularizer__： `kernel`重み行列に適用される正則化関数（[regularizers](../regularizers.md)を参照）
@@ -44,7 +40,6 @@ __引数__
 - __activity_regularizer__： レイヤーの出力に適用される正則化関数（"activation"）（[regularizers](../regularizers.md)を参照）
 - __kernel_constraint__： `kernel`重み行列に適用される制約関数（[constraints](../constraints.md)を参照）
 - __bias_constraint__： バイアスベクトルに適用される制約関数（[constraints](../constraints.md)を参照）
-
 
 __入力のshape__
 
@@ -58,11 +53,11 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L263)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L280)</span>
 ### Activation
 
 ```python
-keras.layers.core.Activation(activation)
+keras.layers.Activation(activation)
 ```
 
 出力に活性化関数を適用する．
@@ -83,14 +78,16 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L72)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L78)</span>
 ### Dropout
 
 ```python
-keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
+keras.layers.Dropout(rate, noise_shape=None, seed=None)
 ```
 
-入力にドロップアウトを適用する．ドロップアウトは，訓練時のそれぞれの更新において入力ユニットの`rate`をランダムに0にセットすることであり，それは過学習を防ぐのを助ける．
+入力にドロップアウトを適用する．
+
+訓練時の更新においてランダムに入力ユニットを0とする割合であり，過学習の防止に役立ちます．
 
 __引数__
 
@@ -104,21 +101,22 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L452)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L465)</span>
 ### Flatten
 
 ```python
-keras.layers.core.Flatten()
+keras.layers.Flatten()
 ```
 
-入力を平滑化する．バッチサイズに影響されない．
+入力を平滑化する．バッチサイズに影響を与えません．
 
 __例__
 
-
 ```python
 model = Sequential()
-model.add(Conv2D(64, (3, 3), input_shape=(3, 32, 32)))
+model.add(Conv2D(64, 3, 3,
+                 border_mode='same',
+                 input_shape=(3, 32, 32)))
 # now: model.output_shape == (None, 64, 32, 32)
 
 model.add(Flatten())
@@ -127,7 +125,7 @@ model.add(Flatten())
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/engine/topology.py#L1391)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/engine/topology.py#L1393)</span>
 ### Input
 
 ```python
@@ -177,11 +175,11 @@ model = Model(x, y)
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L294)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L314)</span>
 ### Reshape
 
 ```python
-keras.layers.core.Reshape(target_shape)
+keras.layers.Reshape(target_shape)
 ```
 
 あるshapeに出力を変形する．
@@ -221,11 +219,11 @@ model.add(Reshape((-1, 2, 2)))
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L400)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L413)</span>
 ### Permute
 
 ```python
-keras.layers.core.Permute(dims)
+keras.layers.Permute(dims)
 ```
 
 与えられたパターンにより入力の次元を入れ替える．
@@ -233,7 +231,6 @@ keras.layers.core.Permute(dims)
 例えば，RNNsやconvnetsの連結に対して役立ちます．
 
 __例__
-
 
 ```python
 model = Sequential()
@@ -256,17 +253,16 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L487)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L500)</span>
 ### RepeatVector
 
 ```python
-keras.layers.core.RepeatVector(n)
+keras.layers.RepeatVector(n)
 ```
 
 n回入力を繰り返す．
 
 __例__
-
 
 ```python
 model = Sequential()
@@ -292,22 +288,22 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L529)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L542)</span>
 ### Lambda
 
 ```python
-keras.layers.core.Lambda(function, output_shape=None, mask=None, arguments=None)
+keras.layers.Lambda(function, output_shape=None, mask=None, arguments=None)
 ```
 
-レイヤーオブジェクトのように，任意の式をラップする．
+`Layer`オブジェクトのように，任意の式をラップする．
 
 __例__
-
 
 ```python
 # add a x -> x^2 layer
 model.add(Lambda(lambda x: x ** 2))
 ```
+
 ```python
 # add a layer that returns the concatenation
 # of the positive part of the input and
@@ -352,11 +348,11 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L869)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L886)</span>
 ### ActivityRegularization
 
 ```python
-keras.layers.core.ActivityRegularization(l1=0.0, l2=0.0)
+keras.layers.ActivityRegularization(l1=0.0, l2=0.0)
 ```
 
 コスト関数に基づく入力アクティビティに更新を適用するレイヤー
@@ -376,14 +372,14 @@ __出力のshape__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L25)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/core.py#L28)</span>
 ### Masking
 
 ```python
-keras.layers.core.Masking(mask_value=0.0)
+keras.layers.Masking(mask_value=0.0)
 ```
 
-スキップされるタイムステップを特定するためのマスク値を使うことによって入力シーケンスをマスクする．
+タイプステップをスキップするためのマスク値を用いてシーケンスをマスクします．
 
 入力テンソル（テンソルの次元 #1）のそれぞれのタイムステップに対して，
 もしそのタイムステップの入力テンソルのすべての値が`mask_value`に等しいなら，そのときそのタイムステップはすべての下流レイヤー（それらがマスキングをサポートしている限り）でマスク（スキップ）されるでしょう．
