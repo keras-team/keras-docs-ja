@@ -1,4 +1,4 @@
-# Getting started with the Keras functional API
+# functional APIでKerasを始めてみよう
 
 functional APIは，複数の出力があるモデルや有向非巡回グラフ，共有レイヤーを持ったモデルなどの複雑なモデルを定義するためのインターフェースです．
 
@@ -8,7 +8,7 @@ functional APIは，複数の出力があるモデルや有向非巡回グラフ
 
 -----
 
-## First example: a densely-connected network
+## 例1: 全結合ネットワーク
 
 下記のネットワークは`Sequential`モデルによっても定義可能ですが，
 functional APIを使ったシンプルな例を見てきましょう．
@@ -40,7 +40,7 @@ model.fit(data, labels)  # starts training
 
 -----
 
-## All models are callable, just like layers
+## 全てのモデルはレイヤーと同じように関数呼び出し可能です
 
 functional APIを利用することで，訓練済みモデルの再利用が簡単になります：全てのモデルを，テンソルを引数としたlayerのように扱うことができます．これにより，モデル構造だけでなく，モデルの重みも再利用できます．
 
@@ -223,7 +223,7 @@ model.fit([data_a, data_b], labels, epochs=10)
 
 -----
 
-## The concept of layer "node"
+## "ノード"の概念
 
 ある入力を用いてレイヤーを関数呼び出しするときは常に新しいテンソル（レイヤーの出力）を生成しており，レイヤーにノードを追加すると入力のテンソルと出力のテンソルはリンクされます．
 同じレイヤーを複数回呼び出す際，そのレイヤーは0, 1, 2...とインデックスされた複数のノードを所有することになります．
@@ -291,7 +291,7 @@ assert conv.get_input_shape_at(1) == (None, 64, 64, 3)
 
 -----
 
-## More examples
+## その他の例
 
 コード例から学び始めることは最良の手法です.
 その他の例も見てみましょう．
