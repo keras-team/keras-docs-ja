@@ -1,4 +1,4 @@
-# About Keras models
+# モデルについて
 
 Kerasには2つの利用可能なモデルがあります: 1つは[Sequentialモデル](/models/sequential)，そしてもう1つは[functional APIとともに用いるモデルクラス](/models/model)．
 
