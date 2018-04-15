@@ -31,8 +31,7 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
   title={Keras},
   author={Chollet, Fran\c{c}ois and others},
   year={2015},
-  publisher={GitHub},
-  howpublished={\url{https://github.com/keras-team/keras}},
+  howpublished={\url{https://keras.io}},
 }
 ```
 
@@ -40,8 +39,8 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
 
 ### KerasをGPUで動かすには？
 
-バックエンドでTensorFlowかCNTKを使っている場合，利用可能なGPUがあれば自動的にGPUが使われます．
-バックエンドがTheanoの場合，以下の方法があります:
+バックエンドで**TensorFlow**か**CNTK**を使っている場合，利用可能なGPUがあれば自動的にGPUが使われます．
+バックエンドが**Theano**の場合，以下の方法があります:
 
 方法1: Theanoフラグを使う:
 ```bash
@@ -121,13 +120,13 @@ with tf.device_scope('/cpu:0'):
 Kerasを正しく使うためには，以下の定義を知り，理解しておく必要があります：
 
 - **Sample**: データセットの一つの要素．
-  - *例:* 一つの画像は畳み込みネットワークの一つの **sample** です
-  - *例:* 一つの音声ファイルは音声認識モデルのための一つの **sample** です
-- **Batch**: *N* のsampleのまとまり． **batch** 内のサンプルは独立して並列に処理されます． 訓練中は，batchの処理結果によりモデルが1回更新されます．
-  - 一般的に **batch** は，それぞれの入力のみの場合に比べて，入力データのばらつきをよく近似します．batchが大きいほど，その近似は精度が良くなります．しかし，そのようなbatchの処理には時間がかかるにも関わらず更新が一度しかされません．推論（もしくは評価，予測）のためには，メモリ領域を超えなくて済む最大のbatchサイズを選ぶのをおすすめします．(なぜなら，batchが大きければ，通常は高速な評価や予測につながるからです）
+  - *例:* 一つの画像は畳み込みネットワークの一つの**sample**です
+  - *例:* 一つの音声ファイルは音声認識モデルのための一つの**sample**です
+- **Batch**: *N*のsampleのまとまり．**batch**内のサンプルは独立して並列に処理されます． 訓練中は，batchの処理結果によりモデルが1回更新されます．
+  - 一般的に**batch**は，それぞれの入力のみの場合に比べて，入力データのばらつきをよく近似します．batchが大きいほど，その近似は精度が良くなります．しかし，そのようなbatchの処理には時間がかかるにも関わらず更新が一度しかされません．推論（もしくは評価，予測）のためには，メモリ領域を超えなくて済む最大のbatchサイズを選ぶのをおすすめします．(なぜなら，batchが大きければ，通常は高速な評価や予測につながるからです）
 - **Epoch**: "データセット全体に対する1回の処理単位"と一般的に定義されている，任意の区切りのこと．訓練のフェーズを明確に区切って，ロギングや周期的な評価するのに利用されます．
-  - `evaluation_data` もしくは `evaluation_split` がKeras modelの `fit` 関数とともに使われるとき，その評価は，各 **epoch** が終わる度に行われます．
-  - Kerasでは，  **epoch** の終わりに実行されるように [callbacks](https://keras.io/ja/callbacks/) を追加することができます．これにより例えば，学習率を変化させることやモデルのチェックポイント（保存）が行えます．
+  - `evaluation_data` もしくは `evaluation_split` がKeras modelの `fit` 関数とともに使われるとき，その評価は，各**epoch**が終わる度に行われます．
+  - Kerasでは，**epoch**の終わりに実行されるように [callbacks](https://keras.io/ja/callbacks/) を追加することができます．これにより例えば，学習率を変化させることやモデルのチェックポイント（保存）が行えます．
 
 ---
 
@@ -145,7 +144,7 @@ Kerasを正しく使うためには，以下の定義を知り，理解してお
 - optimizerの状態．これにより，学習を終えた時点から正確に学習を再開できます
 
 `keras.models.load_model(filepath)`によりモデルを再インスタンス化できます．
-`load_model` は，学習時の設定を利用して，モデルのコンパイルも行います（ただし，最初にモデルを定義した際に，一度もコンパイルされなかった場合を除く）．
+`load_model`は，学習時の設定を利用して，モデルのコンパイルも行います（ただし，最初にモデルを定義した際に，一度もコンパイルされなかった場合を除く）．
 
 例:
 
@@ -188,7 +187,7 @@ model = model_from_yaml(yaml_string)
 
 #### モデルの重みのみのセーブ/ロード
 
-**モデルの重み** を保存する必要がある場合，以下のコードのようにHDF5を利用できます．
+**モデルの重み**を保存する必要がある場合，以下のコードのようにHDF5を利用できます．
 
 注: 予め，HDF5とPythonライブラリの h5pyがインストールされている必要があります（Kerasには同梱されていません）．
 
@@ -196,14 +195,13 @@ model = model_from_yaml(yaml_string)
 model.save_weights('my_model_weights.h5')
 ```
 
-モデルのインスタンス作成後， *同じ* アーキテクチャのモデルへ，予め保存しておいたweightパラメータをロードできます:
+モデルのインスタンス作成後，*同じ*アーキテクチャのモデルへ，予め保存しておいたweightパラメータをロードできます:
 
 ```python
 model.load_weights('my_model_weights.h5')
 ```
 
-例えば，ファインチューニングや転移学習のために， *異なる* アーキテクチャのモデル（ただしいくつか共通のレイヤーを保持）へweightsパラメータをロードする必要がある場合， *レイヤーの名前* を指定することでweightsパラメータをロードできます：
-
+例えば，ファインチューニングや転移学習のために，*異なる*アーキテクチャのモデル（ただしいくつか共通のレイヤーを保持）へweightsパラメータをロードする必要がある場合，*レイヤーの名前*を指定することでweightsパラメータをロードできます：
 
 ```python
 model.load_weights('my_model_weights.h5', by_name=True)
@@ -232,8 +230,6 @@ model.load_weights(fname, by_name=True)
 
 #### 保存済みモデルでのカスタムレイヤ（またはその他カスタムオブジェクト）の取り扱い
 
-If the model you want to load includes custom layers or other custom classes or functions, 
-you can pass them to the loading mechanism via the `custom_objects` argument: 
 読み込もうとしているモデルにカスタムレイヤーやその他カスタムされたクラスや関数が含まれている場合，`custom_objects`引数を使ってロード機構にそのカスタムレイヤーなどを渡すことができます．
 
 ```python
@@ -251,7 +247,7 @@ with CustomObjectScope({'AttentionLayer': AttentionLayer}):
     model = load_model('my_model.h5')
 ```
 
-Custom objects handling works the same way for `load_model`, `model_from_json`, `model_from_yaml`:
+カスタムオブジェクトは`load_model`, `model_from_json`, `model_from_yaml`と同じように取り扱えます:
 
 ```python
 from keras.models import model_from_json
@@ -270,7 +266,7 @@ Kerasモデルにはtrainingとtestingという2つのモードがあります�
 
 ### 中間レイヤーの出力を得るには？
 
-シンプルな方法は，着目しているレイヤーの出力を行うための新しい `Model` を作成することです：
+シンプルな方法は，着目しているレイヤーの出力を行うための新しい`Model`を作成することです：
 
 ```python
 from keras.models import Model
@@ -296,7 +292,7 @@ layer_output = get_3rd_layer_output([x])[0]
 
 同様に，TheanoやTensorFlowのfunctionを直接利用することもできます．
 
-ただし，学習時とテスト時でモデルの振る舞いが異なる場合(例えば `Dropout`や`BatchNormalization` の利用時など)，以下のようにlearning phaseフラグを利用してください:
+ただし，学習時とテスト時でモデルの振る舞いが異なる場合(例えば`Dropout`や`BatchNormalization`の利用時など)，以下のようにlearning phaseフラグを利用してください:
 
 ```python
 get_3rd_layer_output = K.function([model.layers[0].input, K.learning_phase()],
@@ -313,9 +309,9 @@ layer_output = get_3rd_layer_output([x, 1])[0]
 
 ### メモリに載らない大きさのデータを扱うには？
 
-`model.train_on_batch(x, y)`と`model.test_on_batch(x, y)` を使うことでバッチ学習ができます．詳細は[モデルに関するドキュメント](/models/sequential)を見てください．
+`model.train_on_batch(x, y)`と`model.test_on_batch(x, y)`を使うことでバッチ学習ができます．詳細は[モデルに関するドキュメント](/models/sequential)を見てください．
 
-代わりに，訓練データのバッチを生成するジェネレータを記述して， `model.fit_generator(data_generator, samples_per_epoch, epochs)` の関数を使うこともできます．
+代わりに，訓練データのバッチを生成するジェネレータを記述して，`model.fit_generator(data_generator, samples_per_epoch, epochs)`の関数を使うこともできます．
 
 実際のバッチ学習の方法については，[CIFAR10 example](https://github.com/keras-team/keras/blob/master/examples/cifar10_cnn.py)を見てください．
 
@@ -337,24 +333,23 @@ model.fit(x, y, validation_split=0.2, callbacks=[early_stopping])
 
 ### validation splitはどのように実行されますか？
 
-`model.fit` の引数 `validation_split` を例えば0.1に設定すると，データの *最後の10％* が検証のために利用されます．例えば，0.25に設定すると，データの最後の25%が検証に使われます．ここで，validation splitからデータを抽出する際にはデータがシャッフルされないことに注意してください．なので，検証は文字通り入力データの *最後の* x% のsampleに対して行われます．
+`model.fit`の引数`validation_split`を例えば0.1に設定すると，データの*最後の10％*が検証のために利用されます．例えば，0.25に設定すると，データの最後の25%が検証に使われます．ここで，validation splitからデータを抽出する際にはデータがシャッフルされないことに注意してください．なので，検証は文字通り入力データの*最後の*x%のsampleに対して行われます．
 
-（同じ `fit` 関数が呼ばれるならば）全てのepochにおいて，同じ検証用データが使われます．
+（同じ`fit`関数が呼ばれるならば）全てのepochにおいて，同じ検証用データが使われます．
 
 ---
 
 ### 訓練時にデータはシャッフルされますか？
 
-`model.fit` の引数 `shuffle` が `True` であればシャッフルされます（初期値はTrueです）．各epochで訓練データはランダムにシャッフルされます．
+`model.fit`の引数`shuffle`が`True`であればシャッフルされます（初期値はTrueです）．各epochで訓練データはランダムにシャッフルされます．
 
 検証用データはシャッフルされません．
 
 ---
 
-
 ### 各epochのtraining/validationのlossやaccuracyを記録するには？
 
-`model.fit` が返す `History` コールバックの `history` を見てください． `history` はlossや他の指標のリストを含んでいます．
+`model.fit`が返す`History`コールバックの`history` 見てください．`history`はlossや他の指標のリストを含んでいます．
 
 ```python
 hist = model.fit(x, y, validation_split=0.2)
@@ -363,18 +358,18 @@ print(hist.history)
 
 ---
 
-### レイヤーを "freeze" するには？
+### レイヤーを"freeze"するには？
 
-レイヤーを "freeze" することは学習からそのレイヤーを除外することを意味します，その場合，そのレイヤーの重みは更新されなくなります．
+レイヤーを"freeze"することは学習からそのレイヤーを除外することを意味します，その場合，そのレイヤーの重みは更新されなくなります．
 このことはモデルのファインチューニングやテキスト入力のための固定されたembeddingsを使用する際に有用です．
 
-レイヤーのコンストラクタの `trainable` 引数に真理値を渡すことで，レイヤーを訓練しないようにできます．
+レイヤーのコンストラクタの`trainable`引数に真理値を渡すことで，レイヤーを訓練しないようにできます．
 
 ```python
 frozen_layer = Dense(32, trainable=False)
 ```
 
-加えて，インスタンス化後にレイヤーの `trainable` propertyに `True` か `False` を設定することができます．設定の有効化のためには， `trainable` propertyの変更後のモデルで `compile()` を呼ぶ必要があります．以下にその例を示します:
+加えて，インスタンス化後にレイヤーの`trainable`プロパティに`True`か`False`を設定することができます．設定の有効化のためには，`trainable`プロパティの変更後のモデルで`compile()`を呼ぶ必要があります．以下にその例を示します:
 
 ```python
 x = Input(shape=(32,))
@@ -405,13 +400,13 @@ RNNをstatefulにするとは，各バッチのサンプルの状態が，次の
 stateful RNNが使われるときには以下のような状態となっているはずです：
 
 - 全てのバッチのサンプル数が同じである
-- `x1` と `x2` が連続するバッチであるとき，各 `i`に ついて `x2[i]` は `x1[i]` のfollow-upシーケンスになっている
+- `x1`と`x2`が連続するバッチであるとき，つまり各`i`について`x2[i]`は`x1[i]`のfollow-upシーケンスになっている
 
 実際にstateful RNNを利用するには，以下を行う必要があります:
 
-- `batch_size` 引数をモデルの最初のレイヤーに渡して，バッチサイズを明示的に指定してください． 例えば，サンプル数が32，タイムステップが10，特徴量の次元が16の場合には，`batch_size=32` としてください．
+- `batch_size`引数をモデルの最初のレイヤーに渡して，バッチサイズを明示的に指定してください． 例えば，サンプル数が32，タイムステップが10，特徴量の次元が16の場合には，`batch_size=32`としてください．
 - RNNレイヤーで`stateful=True`を指定してください．
-- fit() を呼ぶときには `shuffle=False` を指定してください．
+- fit()を呼ぶときには`shuffle=False`を指定してください．
 
 蓄積された状態をリセットするには:
 
@@ -419,7 +414,6 @@ stateful RNNが使われるときには以下のような状態となってい�
 - 特定のstateful RNNレイヤーの状態をリセットするには，`layer.reset_states()`を利用してください
 
 例:
-
 
 ```python
 
@@ -445,7 +439,7 @@ model.reset_states()
 model.layers[0].reset_states()
 ```
 
-`predict`, `fit`, `train_on_batch`, `predict_classes` などの関数は *いずれも* statefulレイヤーの状態を更新することに注意してください．そのため，statefulな訓練だけでなく，statefulな予測も可能となります．
+`predict`, `fit`, `train_on_batch`, `predict_classes`などの関数は*いずれも*statefulレイヤーの状態を更新することに注意してください．そのため，statefulな訓練だけでなく，statefulな予測も可能となります．
 
 ---
 
@@ -478,7 +472,7 @@ print(len(model.layers))  # "1"
 - Inception-ResNet v2
 - MobileNet v1
 
-これらのモデルは `keras.applications` からインポートできます：
+これらのモデルは`keras.applications`からインポートできます：
 
 ```python
 from keras.applications.xception import Xception
@@ -486,12 +480,13 @@ from keras.applications.vgg16 import VGG16
 from keras.applications.vgg19 import VGG19
 from keras.applications.resnet50 import ResNet50
 from keras.applications.inception_v3 import InceptionV3
+from keras.applications.inception_resnet_v2 import InceptionResNetV2
+from keras.applications.mobilenet import MobileNet
 
 model = VGG16(weights='imagenet', include_top=True)
 ```
 
 シンプルな使用例については， [Applications moduleについてのドキュメント](/applications)を見てください．
-
 
 特徴量抽出やfine-tuningのために事前学習したモデルの使用例の詳細は，[このブログ記事](http://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)を見てください．
 
@@ -505,8 +500,8 @@ model = VGG16(weights='imagenet', include_top=True)
 
 ### KerasでHDF5ファイルを入力に使うには？
 
-`keras.utils.io_utils` から `HDF5Matrix` を使うことができます．
-詳細は[HDF5Matrixに関するドキュメント](/utils/#hdf5matrix) を確認してください．
+`keras.utils.io_utils`から`HDF5Matrix`を使うことができます．
+詳細は[HDF5Matrixに関するドキュメント](/utils/#hdf5matrix)を確認してください．
 
 また，HDF5のデータセットを直接使うこともできます：
 
@@ -527,10 +522,10 @@ Kerasの全てのデータが格納されているデフォルトのディレク
 $HOME/.keras/
 ```
 
-Windowsユーザは `$HOME` を `%USERPROFILE%` に置換する必要があることに注意してください．
-(パーミッション等の問題によって，）Kerasが上記のディレクトリを作成できない場合には， `/tmp/.keras/` がバックアップとして使われます．
+Windowsユーザは`$HOME`を`%USERPROFILE%`に置換する必要があることに注意してください．
+(パーミッション等の問題によって，）Kerasが上記のディレクトリを作成できない場合には，`/tmp/.keras/`がバックアップとして使われます．
 
-Kerasの設定ファイルはJSON形式で `$HOME/.keras/keras.json` に格納されます．
+Kerasの設定ファイルはJSON形式で`$HOME/.keras/keras.json`に格納されます．
 デフォルトの設定ファイルは以下のようになっています：
 
 ```
@@ -544,12 +539,12 @@ Kerasの設定ファイルはJSON形式で `$HOME/.keras/keras.json` に格納�
 
 この設定ファイルは次のような項目を含んでいます：
 
-- The image data format： デフォルトでは画像処理のレイヤーやユーティリティで使われます（`channels_last` もしくは `channels_first` です）.
-- `epsilon`： 数値演算におけるゼロ除算を防ぐために使われる，数値の微小量です．
-- デフォルトのfloatのデータ種類．
-- デフォルトのバックエンド．[backendに関するドキュメント](/backend)を確認してください．
+- デフォルトで画像処理のレイヤーやユーティリティで使われる画像データのフォーマット（`channels_last`もしくは`channels_first`）．
+- 数値演算におけるゼロ除算を防ぐために使われる，数値の微小量`epsilon`．
+- デフォルトの浮動小数点数データの型．
+- デフォルトのバックエンド．[backendに関するドキュメント](/backend)を参照してください．
 
-同様に，[`get_file()`](/utils/#get_file)でダウンロードされた，キャッシュ済のデータセットのファイルは，デフォルトでは `$HOME/.keras/datasets/` に格納されます．
+同様に，[`get_file()`](/utils/#get_file)でダウンロードされた，キャッシュ済のデータセットのファイルは，デフォルトでは`$HOME/.keras/datasets/`に格納されます．
 
 ---
 
