@@ -19,6 +19,7 @@
 - [KerasでHDF5ファイルを入力に使うには？](#kerashdf5)
 - [Kerasの設定ファイルの保存場所は？](#keras_2)
 - [開発中にKerasを用いて再現可能な結果を得るには？](#how-can-i-obtain-reproducible-results-using-keras-during-development)
+- [Kerasでモデルを保存するためにHDF5やh5pyをインストールするには？](#how-can-i-install-HDF5-or-h5py-to-save-my-models-in-Keras)
 
 ---
 
@@ -42,17 +43,17 @@ Kerasがあなたの仕事の役に立ったなら，ぜひ著書のなかでKer
 バックエンドで**TensorFlow**か**CNTK**を使っている場合，利用可能なGPUがあれば自動的にGPUが使われます．
 バックエンドが**Theano**の場合，以下の方法があります:
 
-方法1: Theanoフラグを使う:
+**方法1**: Theanoフラグを使う:
 ```bash
 THEANO_FLAGS=device=gpu,floatX=float32 python my_keras_script.py
 ```
 
 'gpu'の部分はデバイス識別子に合わせて変更してください（例: `gpu0`，`gpu1`など）．
 
-方法2: `.theanorc`を使う:
+**方法2**: `.theanorc`を使う:
 [使い方](http://deeplearning.net/software/theano/library/config.html)
 
-方法3: コードの先頭で，`theano.config.device`，`theano.config.floatX`を手動で設定:
+**方法3**: コードの先頭で，`theano.config.device`，`theano.config.floatX`を手動で設定:
 ```python
 import theano
 theano.config.device = 'gpu'
@@ -189,8 +190,6 @@ model = model_from_yaml(yaml_string)
 
 **モデルの重み**を保存する必要がある場合，以下のコードのようにHDF5を利用できます．
 
-注: 予め，HDF5とPythonライブラリの h5pyがインストールされている必要があります（Kerasには同梱されていません）．
-
 ```python
 model.save_weights('my_model_weights.h5')
 ```
@@ -206,6 +205,8 @@ model.load_weights('my_model_weights.h5')
 ```python
 model.load_weights('my_model_weights.h5', by_name=True)
 ```
+
+`h5py`をインストールする方法については[Kerasでモデルを保存するためにHDF5やh5pyをインストールするには？](#how-can-i-install-HDF5-or-h5py-to-save-my-models-in-Keras)も参照してください．
 
 例:
 
@@ -512,6 +513,8 @@ with h5py.File('input/file.hdf5', 'r') as f:
     model.predict(x_data)
 ```
 
+`h5py`をインストールする方法については[Kerasでモデルを保存するためにHDF5やh5pyをインストールするには？](#how-can-i-install-HDF5-or-h5py-to-save-my-models-in-Keras)も参照してください．
+
 ---
 
 ### Kerasの設定ファイルの保存場所は？
@@ -596,3 +599,21 @@ K.set_session(sess)
 
 # Rest of code follows ...
 ```
+
+---
+
+### Kerasでモデルを保存するためにHDF5やh5pyをインストールするには？
+
+KerasのモデルをHDF5ファイルとして保存する場合（例えば`keras.callbacks.ModelCheckpoint`を用いるような時），KerasではPythonパッケージのh5pyを使います．Kerasはこのパッケージと依存関係があり，デフォルトでインストールされるはずです．Debianベースのディストリビューションでは`libhdf5`のインストールも追加で必要かもしれません：
+
+```
+sudo apt-get install libhdf5-serial-dev
+```
+
+h5pyがインストールされているかわからない場合はPythonシェルを開いて次のようにもジュルーをロードできます．
+
+```
+import h5py
+```
+
+エラーなしでインポートできたらh5pyはインストールされています．そうでなければ詳細なインストール方法をこちらでご覧ください：http://docs.h5py.org/en/latest/build.html
