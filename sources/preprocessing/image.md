@@ -30,7 +30,7 @@ __引数__
 - __cval__: 浮動小数点数または整数．`fill_mode = "constant"`のときに境界周辺で利用される値．
 - __horizontal_flip__: 真理値．水平方向に入力をランダムに反転します．
 - __vertical_flip__: 真理値．垂直方向に入力をランダムに反転します．
-- __rescale__: 画像データの変更の係数．デフォルトはNone．Noneか0ならば，適用しない．それ以外であれば，(他の変換を行う前に) 与えられた値をデータに積算する．
+- __rescale__: 画素値のリスケーリング係数．デフォルトはNone．Noneか0ならば，適用しない．それ以外であれば，(他の変換を行う前に) 与えられた値をデータに積算する．
 - __preprocessing_function__: 各入力に適用される関数です．この関数は他の変更が行われる前に実行されます．この関数は3次元のNumpyテンソルを引数にとり，同じshapeのテンソルを出力するように定義する必要があります．
 - __data_format__: {"channels_first", "channels_last"}のどちらか．`"channels_last"`の場合，入力のshapeは`(samples, height, width, channels)`となり，"channels_first"の場合は`(samples, channels, height, width)`となります．デフォルトはKerasの設定ファイル`~/.keras/keras.json`の`image_data_format`の値です．一度も値を変更していなければ，"channels_last"になります．
 - __validation_split__: 浮動小数点数．検証のために予約しておく画像の割合（厳密には0から1の間）です．
