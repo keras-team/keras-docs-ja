@@ -152,6 +152,7 @@ model.fit(data, one_hot_labels, epochs=10, batch_size=32)
 ### 多層パーセプトロン (MLP) を用いた多値分類:
 
 ```python
+from keras.utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
@@ -159,9 +160,9 @@ from keras.optimizers import SGD
 # ダミーデータ生成
 import numpy as np
 x_train = np.random.random((1000, 20))
-y_train = keras.utils.to_categorical(np.random.randint(10, size=(1000, 1)), num_classes=10)
+y_train = to_categorical(np.random.randint(10, size=(1000, 1)), num_classes=10)
 x_test = np.random.random((100, 20))
-y_test = keras.utils.to_categorical(np.random.randint(10, size=(100, 1)), num_classes=10)
+y_test = to_categorical(np.random.randint(10, size=(100, 1)), num_classes=10)
 
 model = Sequential()
 # Dense(64) は，64個のhidden unitを持つ全結合層です．
