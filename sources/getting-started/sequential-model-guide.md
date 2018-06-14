@@ -152,6 +152,7 @@ model.fit(data, one_hot_labels, epochs=10, batch_size=32)
 ### 多層パーセプトロン (MLP) を用いた多値分類:
 
 ```python
+import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
