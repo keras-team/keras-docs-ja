@@ -26,7 +26,7 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 注意：
 
 - `Keras < 2.2.0`ではXceptionモデルはTensorFlowでのみ利用可能です．これは`SeparableConvolution`レイヤーに依存しているからです．
-- `Keras < 2.1.5`ではMobileNetモデルはTensorFlowでのみ利用可能です．これは`SeparableConvolution`レイヤーに依存している為です．これは`DepthwiseConvolution`レイヤーに依存しているからです．
+- `Keras < 2.1.5`ではMobileNetモデルはTensorFlowでのみ利用可能です．これは`DepthwiseConvolution`レイヤーに依存しているからです．
 
 -----
 
