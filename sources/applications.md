@@ -18,12 +18,15 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [MobileNet](#mobilenet)
 - [DenseNet](#densenet)
 - [NASNet](#nasnet)
+- [MobileNetV2](#mobilenetv2)
 
-（XceptionとMobileNetを除く）これらすべてのアーキテクチャは，TensorFlowとTheanoの両方に対応しており，`~/.keras/keras.json`の設定にしたがってモデルはインスタンス化されます．
-例えば，`image_dim_ordering=channels_last`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Width-Height-Depth"にしたがって構築されます．
+これら全てのアーキテクチャは全てのバックエンド（TensorFlowやTheano，CNTK）と互換性があり，モデルはインスタンス化する時はKerasの設定ファイル`~/.keras/keras.json`に従って画像のデータフォーマットが設定されます．
+例えば，`image_dim_ordering=channels_last`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Height-Width-Depth"にしたがって構築されます．
 
-`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能です．
-`DepthwiseConvolution`を用いているため，MobileNetモデルはTensorFlowでのみ使用可能です．
+注意：
+
+- `Keras < 2.2.0`ではXceptionモデルはTensorFlowでのみ利用可能です．これは`SeparableConvolution`レイヤーに依存しているからです．
+- `Keras < 2.1.5`ではMobileNetモデルはTensorFlowでのみ利用可能です．これは`SeparableConvolution`レイヤーに依存している為です．これは`DepthwiseConvolution`レイヤーに依存しているからです．
 
 -----
 
@@ -152,7 +155,6 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 model.fit_generator(...)
 ```
 
-
 ### Build InceptionV3 over a custom input tensor
 
 ```python
@@ -182,7 +184,6 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 | [DenseNet169](#densenet) | 57 MB | 0.759 | 0.928 | 14,307,880 | 169
 | [DenseNet201](#densenet) | 80 MB | 0.770 | 0.933 | 20,242,984 | 201
 
-
 トップ1とトップ5の精度はImageNetの検証データセットを参照しています．
 
 -----
@@ -197,8 +198,7 @@ ImageNetで事前学習した重みを利用可能なXception V1モデル．
 
 ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で，top-5のvalidation accuracyは0.945です．
 
-`SeparableConvolution`を用いているため，XceptionモデルはTensorFlowでのみ使用可能であることに注意してください．
-さらにデータフォーマットは`'channels_last'`(height, width, channels)のみサポートしています．
+データフォーマットは`'channels_last'`(height, width, channels)のみサポートしています．
 
 デフォルトの入力サイズは299x299．
 
@@ -216,7 +216,7 @@ ImageNetにおいて，このモデルのtop-1のvalidation accuracyは0.790で�
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -236,7 +236,6 @@ keras.applications.vgg16.VGG16(include_top=True, weights='imagenet', input_tenso
 
 ImageNetで事前学習した重みを利用可能なVGG16モデル．
 
-このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは224x224．
@@ -255,7 +254,7 @@ ImageNetで事前学習した重みを利用可能なVGG16モデル．
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -275,7 +274,6 @@ keras.applications.vgg19.VGG19(include_top=True, weights='imagenet', input_tenso
 
 ImageNetで事前学習した重みを利用可能なVGG19モデル．
 
-このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは224x224．
@@ -294,7 +292,7 @@ ImageNetで事前学習した重みを利用可能なVGG19モデル．
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -314,7 +312,6 @@ keras.applications.resnet50.ResNet50(include_top=True, weights='imagenet', input
 
 ImageNetで事前学習した重みを利用可能なResNet50モデル．
 
-このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは224x224．
@@ -333,7 +330,7 @@ ImageNetで事前学習した重みを利用可能なResNet50モデル．
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -353,7 +350,6 @@ keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet'
 
 ImageNetで事前学習した重みを利用可能なInception V3モデル．
 
-このモデルは，TheanoとTensorFlowの両方のbackendで利用でき，
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは299x299．
@@ -372,7 +368,7 @@ ImageNetで事前学習した重みを利用可能なInception V3モデル．
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -392,7 +388,6 @@ keras.applications.inception_resnet_v2.InceptionResNetV2(include_top=True, weigh
 
 ImageNetで事前学習したInception-ResNet V2モデル．
 
-このモデルは，TheanoとTensorFlow，CNTKのいずれのbackendでも利用でき，
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
 デフォルトの入力サイズは299x299．
@@ -431,16 +426,15 @@ keras.applications.mobilenet.MobileNet(input_shape=None, alpha=1.0, depth_multip
 
 ImageNetで事前学習したMobileNetモデル．
 
-現在TensorFlowでしかサポートされていないことに注意してください．
-このため， `~/.keras/keras.json` にあるKerasの設定でデータフォーマットが `image_data_format='channels_last'` の時のみ動作します．
-`load_model` からMobileNetモデルをロードするには，カスタムオブジェクトの `relu6` と `DepthwiseConv2D` をインポートし，  `custom_objects` パラメータに渡してください．
+データフォーマットが`'channels_last'` (height, width, channels)の時のみサポートされることに注意してください．
+
+`load_model`からMobileNetモデルをロードするには，カスタムオブジェクトの`relu6`をインポートし，`custom_objects`パラメータに渡してください．
 
 例
 
 ```python
 model = load_model('mobilenet.h5', custom_objects={
-                   'relu6': mobilenet.relu6,
-                   'DepthwiseConv2D': mobilenet.DepthwiseConv2D})
+                   'relu6': mobilenet.relu6})
 ```
 
 デフォルトの入力サイズは224x224．
@@ -465,7 +459,7 @@ model = load_model('mobilenet.h5', custom_objects={
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
@@ -479,18 +473,17 @@ Kerasのモデルインスタンス．
 
 ## DenseNet
 
-
 ```python
 keras.applications.densenet.DenseNet121(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 keras.applications.densenet.DenseNet169(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 keras.applications.densenet.DenseNet201(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
-必要に応じてImageNetで事前学習した重みをロードできます．
-TensorFlowを使う場合は最高のパフォーマンスを得るために~/.keras/keras.jsonのKeras設定で`image_data_format='channels_last'`と設定すべきことに注意してください．
+ImageNetで事前学習したDenseNetモデル．
 
-モデルと重みはTensorFlowやTheano，CNTKで互換性があります．
-モデルで使われるデータフォーマットの規約はKerasの設定ファイルで一意に決まります．
+このモデルは`'channels_first'`データフォーマット(channels, height, width)と`'channels_last'`データフォーマット(height, width, channels)の両方で構築可能です．
+
+デフォルトの入力サイズは224x224．
 
 ### 引数
 
@@ -528,8 +521,6 @@ keras.applications.nasnet.NASNetMobile(input_shape=None, include_top=True, weigh
 
 ImageNetで事前学習したNeural Architecture Search Network (NASNet)モデル．
 
-現在TensorFlowでしかサポートされていないことに注意してください． このため，`~/.keras/keras.json`にあるKerasの設定でデータフォーマットが`image_data_format='channels_last'`の時のみ動作します．
-
 デフォルトの入力サイズは，NASNetLargeモデルは331x331，NASNetMobileモデルは224x224．
 
 ### 引数
@@ -546,11 +537,63 @@ ImageNetで事前学習したNeural Architecture Search Network (NASNet)モデ�
 
 ### 戻り値
 
-Kerasのモデルインスタンス．
+Kerasの`Model`インスタンス．
 
 ### 参考文献
 
 - [Learning Transferable Architectures for Scalable Image Recognition](https://arxiv.org/abs/1707.07012)
+
+### ライセンス
+
+この重みは [Apacheライセンス](https://github.com/tensorflow/models/blob/master/LICENSE)の下で公開されています．
+
+-----
+
+## MobileNetV2
+
+```python
+keras.applications.mobilenetv2.MobileNetV2(input_shape=None, alpha=1.0, depth_multiplier=1, include_top=True, weights='imagenet', input_tensor=None, pooling=None, classes=1000)
+```
+
+ImageNetで事前学習したMobileNetV2モデル．
+
+データフォーマットが`'channels_last'` (height, width, channels)の時のみサポートされることに注意してください．
+
+`load_model`からMobileNetV2モデルをロードするには，カスタムオブジェクトの`relu6`をインポートし，`custom_objects`パラメータに渡してください．
+
+例
+
+```python
+model = load_model('mobilenet_v2.h5', custom_objects={
+                   'relu6': mobilenetv2.relu6})
+```
+
+デフォルトの入力サイズは224x224．
+
+### 引数
+
+- input_shape: オプショナルなshapeのタプル，入力画像の解像度が(224, 224, 3)でないときは指定すべきです． (224, 224, 3)のように正確に3つの入力チャネルが必要です．input_tensorからinput_shapeが推論できるならこのオプションは省くこともできます．入力するinput_tensorとinput_shapeを決めてそれらの値がマッチしていればinput_shapeが用いられ，shapeがマッチしなければエラーを送出します．例えば`(160, 160, 3)`は妥当な値です．
+- alpha: ネットワークの幅の制御．MobileNetV2の論文ではwidth multiplierとして知られています．
+    - `alpha` < 1.0の場合，各レイヤーのフィルタ数を比例して減少させます．
+    - `alpha` > 1.0の場合，各レイヤーのフィルタ層を比例して増加させます．
+    - `alpha` = 1の場合，論文のデフォルトのフィルタ数が各レイヤーで使われます．
+- depth_multiplier: 深さ方向の畳み込みための深さ乗数（resolution multiplierとも呼ばれます）
+- include_top: ネットワークの出力層側にある全結合層を含むかどうか．
+- weights: `None`(ランダム初期化)か，`'imagenet'`(ImageNetで学習した重み)か，ロードする重みファイルへのパスのいずれか．
+- input_tensor: モデルの入力画像として利用するためのオプションのKerasテンソル (つまり，`layers.Input()`の出力)
+- pooling: 特徴量抽出のためのオプショナルなpooling mode，`include_top`が`False`の場合のみ指定可能．
+    - `None`：モデルの出力が，最後のconvolutional layerの4階テンソルであることを意味しています．
+    - `'avg'`：最後のconvolutional layerの出力にglobal average poolingが適用されることで，モデルの出力が2階テンソルになることを意味しています．
+    - `'max'`：global max poolingが適用されることを意味します．
+- classes: 画像のクラス分類のためのオプショナルなクラス数，`include_top`がTrueかつ`weights`が指定されていない場合のみ指定可能．
+
+### 戻り値
+
+Kerasのモデルインスタンス．
+
+### 参考文献
+
+- [MobileNetV2: Inverted Residuals and Linear Bottlenecks](https://arxiv.org/abs/1801.04381)
 
 ### ライセンス
 
