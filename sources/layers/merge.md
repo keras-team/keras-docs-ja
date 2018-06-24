@@ -104,7 +104,7 @@ keras.layers.Concatenate(axis=-1)
 
 入力のリストをconcatenateするレイヤー．
 
-入力はすべて同じshapeをもったテンソルのリストで，全入力をconcatenateした1つのテンソルを返す．
+入力は，concatenateする際のaxisを除き，すべて同じshapeをもったテンソルのリストで，全入力をconcatenateした1つのテンソルを返す．
 
 __引数__
 
