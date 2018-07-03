@@ -280,7 +280,7 @@ intermediate_layer_model = Model(inputs=model.input,
 intermediate_output = intermediate_layer_model.predict(data)
 ```
 
-別の方法として，ある入力が与えられたときにに，あるレイヤーの出力を返すKeras functionを以下のように記述することでも可能です：
+別の方法として，ある入力が与えられたときに，あるレイヤーの出力を返すKeras functionを以下のように記述することでも可能です：
 
 ```python
 from keras import backend as K
