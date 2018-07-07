@@ -1,8 +1,8 @@
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L13)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L18)</span>
 ### LeakyReLU
 
 ```python
-keras.layers.advanced_activations.LeakyReLU(alpha=0.3)
+keras.layers.LeakyReLU(alpha=0.3)
 ```
 
 ユニットがアクティブでないときに微少な勾配を可能とするRectified Linear Unitの特別なバージョン：
@@ -28,11 +28,11 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L49)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L57)</span>
 ### PReLU
 
 ```python
-keras.layers.advanced_activations.PReLU(alpha_initializer='zeros', alpha_regularizer=None, alpha_constraint=None, shared_axes=None)
+keras.layers.PReLU(alpha_initializer='zeros', alpha_regularizer=None, alpha_constraint=None, shared_axes=None)
 ```
 
 Parametric Rectified Linear Unit：
@@ -63,11 +63,11 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L141)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L152)</span>
 ### ELU
 
 ```python
-keras.layers.advanced_activations.ELU(alpha=1.0)
+keras.layers.ELU(alpha=1.0)
 ```
 
 Exponential Linear Unit:
@@ -93,11 +93,11 @@ __参考文献__
 
 ----
 
-<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L177)</span>
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L191)</span>
 ### ThresholdedReLU
 
 ```python
-keras.layers.advanced_activations.ThresholdedReLU(theta=1.0)
+keras.layers.ThresholdedReLU(theta=1.0)
 ```
 
 Thresholded Rectified Linear Unit:
@@ -119,4 +119,52 @@ __引数__
 
 __参考文献__
 
-- [Zero-Bias Autoencoders and the Benefits of Co-Adapting Features](http://arxiv.org/pdf/1402.3337.pdf)
+- [Zero-Bias Autoencoders and the Benefits of Co-Adapting Features](http://arxiv.org/abs/1402.3337)
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L230)</span>
+### Softmax
+
+```python
+keras.layers.Softmax(axis=-1)
+```
+
+Softmax関数．
+
+__入力のshape__
+
+任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
+`input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
+
+__出力のshape__
+
+入力のshapeと同じ．
+
+__引数__
+
+- __axis__：整数，softmax正規化が適用される軸．
+
+----
+
+<span style="float:right;">[[source]](https://github.com/keras-team/keras/blob/master/keras/layers/advanced_activations.py#L262)</span>
+### ReLU
+
+```python
+keras.layers.ReLU(max_value=None)
+```
+
+Rectified Linear Unit activation function.
+
+__入力のshape__
+
+任意．このレイヤーをモデルの最初のレイヤーとして利用する場合，
+`input_shape`というキーワード引数（サンプル数の軸を含まない整数のタプル）を指定してください．
+
+__出力のshape__
+
+入力のshapeと同じ．
+
+__引数__
+
+- __max_value__：浮動小数点数，最大の出力値．
