@@ -142,7 +142,6 @@ model.compile(optimizer='rmsprop', loss='binary_crossentropy',
 
 モデルに入力と教師データをリストで渡すことで訓練できます．
 
-
 ```python
 model.fit([headline_data, additional_data], [labels, labels],
           epochs=50, batch_size=32)
@@ -177,16 +176,16 @@ model.fit({'main_input': headline_data, 'aux_input': additional_data},
 ここではLSTMの共有レイヤーによりツイートをエンコードします．
 
 functional APIでこのモデルを作成してみましょう．
-入力として`(140, 256)`のバイナリー行列をとります．
-サイズが256の140個のシーケンスで，256次元のベクトルの各次元は文字（アルファベット以外も含めた256文字の出現頻度の高いもの）の有無を表します．
+入力として`(280, 256)`のバイナリー行列をとります．
+サイズが256の280個のシーケンスで，256次元のベクトルの各次元は文字（アルファベット以外も含めた256文字の出現頻度の高いもの）の有無を表します．
 
 ```python
 import keras
 from keras.layers import Input, LSTM, Dense
 from keras.models import Model
 
-tweet_a = Input(shape=(140, 256))
-tweet_b = Input(shape=(140, 256))
+tweet_a = Input(shape=(280, 256))
+tweet_b = Input(shape=(280, 256))
 ```
 
 それぞれの入力間でレイヤーを共有するために，1つのレイヤーを生成し，そのレイヤーを用いて複数の入力を処理します．
@@ -235,7 +234,7 @@ model.fit([data_a, data_b], labels, epochs=10)
 1つのレイヤーに1つの入力しかない場合は問題はなく`.output`がレイヤーが単一の出力を返すでしょう．
 
 ```python
-a = Input(shape=(140, 256))
+a = Input(shape=(280, 256))
 
 lstm = LSTM(32)
 encoded_a = lstm(a)
@@ -246,8 +245,8 @@ assert lstm.output == encoded_a
 複数の入力がある場合はそうはなりません．
 
 ```python
-a = Input(shape=(140, 256))
-b = Input(shape=(140, 256))
+a = Input(shape=(280, 256))
+b = Input(shape=(280, 256))
 
 lstm = LSTM(32)
 encoded_a = lstm(a)
@@ -271,7 +270,7 @@ assert lstm.get_output_at(1) == encoded_b
 シンプルですね．
 
 `input_shape`と`output_shape`についても同じことが言えます．
-レイヤーが1つのノードしか持っていない，もしくは全てのノードが同じ入出力のshapeであれば，レイヤーの入出力のshapeが一意に定まり，`layer.output_shape`/`layer.input_shape`によって1つのshapeを返します．しかしながら，1つの`Conv2D`レイヤーに`(3, 32, 32)`の入力と`(3, 64, 64)`の入力を行った場合，そのレイヤーは複数のinput/output shapeを持つことになるため，それぞれのshapeはノードのインデックスを指定することで取得できます．
+レイヤーが1つのノードしか持っていない，もしくは全てのノードが同じ入出力のshapeであれば，レイヤーの入出力のshapeが一意に定まり，`layer.output_shape`/`layer.input_shape`によって1つのshapeを返します．しかしながら，1つの`Conv2D`レイヤーに`(32, 32, 3)`の入力と`(64, 64, 32)`の入力を行った場合，そのレイヤーは複数のinput/output shapeを持つことになるため，それぞれのshapeはノードのインデックスを指定することで取得できます．
 
 ```python
 a = Input(shape=(32, 32, 3))
