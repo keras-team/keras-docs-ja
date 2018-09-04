@@ -2,7 +2,7 @@
 
 ## CIFAR10 画像分類
 
-10のクラスにラベル付けされた，50000枚の32x32訓練用カラー画像，10000枚のテスト用画像のデータセット．
+10のクラスにラベル付けされた，50,000枚の32x32訓練用カラー画像，10,000枚のテスト用画像のデータセット．
 
 ### 使い方:
 
@@ -14,14 +14,14 @@ from keras.datasets import cifar10
 
 - __戻り値__:
     - 2つのタプル:
-        - __x_train, x_test__: shape (num_samples, 3, 32, 32) のRGB画像データのuint8配列．
-        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9の範囲のinteger)のuint8配列．
+        - __x_train, x_test__: shape (num_samples, 3, 32, 32)または(num_samples, 32, 32, 3)のRGB画像データのuint8配列です．これはバックエンド設定の`image_data_format`が`channels_first`と`channels_last`のいずれなのかによって決まります．
+        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9の範囲の整数)のuint8配列．
 
 ---
 
 ## CIFAR100 画像分類
 
-100のクラスにラベル付けされた，50000枚の32x32訓練用カラー画像，10000枚のテスト用画像のデータセット．
+100のクラスにラベル付けされた，50,000枚の32x32訓練用カラー画像，10,000枚のテスト用画像のデータセット．
 
 ### 使い方:
 
@@ -33,7 +33,7 @@ from keras.datasets import cifar100
 
 - __戻り値__:
     - 2つのタプル:
-        - __x_train, x_test__: shape (num_samples, 3, 32, 32) のRGB画像データのuint8配列．
+        - __x_train, x_test__: shape (num_samples, 3, 32, 32)または(num_samples, 32, 32, 3)のRGB画像データのuint8配列です．これはバックエンド設定の`image_data_format`が`channels_first`と`channels_last`のいずれなのかによって決まります．
         - __y_train, y_test__: shape (num_samples,) のカテゴリラベルのuint8配列．
 
 - __引数__:
@@ -81,7 +81,7 @@ from keras.datasets import imdb
 ---
 
 ## ロイターのニュースワイヤー トピックス分類
-46のトピックにラベル付けされた，11228個のロイターのニュースワイヤーのデータセット．IMDBデータセットと同様，各ワイヤーが一連の単語インデックスとしてエンコードされます（同じ慣例に基づく）．
+46のトピックにラベル付けされた，11,228個のロイターのニュースワイヤーのデータセット．IMDBデータセットと同様，各ワイヤーが一連の単語インデックスとしてエンコードされます（同じ慣例に基づく）．
 
 ### 使い方:
 
@@ -132,7 +132,7 @@ from keras.datasets import mnist
 - __戻り値__:
     - 2つのタプル:
         - __x_train, x_test__: shape (num_samples, 28, 28) の白黒画像データのuint8配列．
-        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9のinteger)のuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のカテゴリラベル(0-9の整数)のuint8配列．
 
 - __引数__:
     - __path__: データをローカルに持っていない場合 (`'~/.keras/datasets/' + path`) ，この位置にダウンロードされます．
@@ -167,7 +167,7 @@ from keras.datasets import fashion_mnist
 - __戻り値__:
     - 2つのタプル:
         - __x_train, x_test__: shape (num_samples, 28, 28) の白黒画像データのuint8配列．
-        - __y_train, y_test__: shape (num_samples,) のラベル(0-9のinteger)のuint8配列．
+        - __y_train, y_test__: shape (num_samples,) のラベル(0-9の整数)のuint8配列．
 
 ---
 
