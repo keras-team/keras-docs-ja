@@ -103,7 +103,7 @@ __引数__
 - __monitor__: 監視する値．
 - __verbose__: 冗長モード, 0 または 1．
 - __save_best_only__: `save_best_only=True`の場合，監視しているデータによって最新の最良モデルが上書きされません．
-- __mode__: {auto, min, max}の内の一つが選択されます．`save_best_only=True`ならば，現在保存されているファイルを上書きするかは，監視されている値の最大化か最小化によって決定されます．`val_acc`の場合，この引数は`max`となり，`val_loss`の場合は`min`になります．`auto`モードでは，この傾向は自動的に監視されている値から推定します．
+- __mode__: {auto, min, max}の内の一つが選択されます．`save_best_only=True`ならば，現在保存されているファイルを上書きするかは，監視されている値の最大化か最小化によって決定されます．`val_acc`の場合，この引数は`max`となり，`val_loss`の場合は`min`になります．`auto`モードでは，最大化・最小化のいずれかを監視されている値の名前から自動的に推定します．
 - __save_weights_only__: Trueなら，モデルの重みが保存されます (`model.save_weights(filepath)`)，そうでないなら，モデルの全体が保存されます (`model.save(filepath)`)．
 - __period__: チェックポイント間の間隔（エポック数）．
 
