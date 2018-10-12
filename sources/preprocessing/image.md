@@ -199,7 +199,7 @@ __引数__
 - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPGかBMPかPPMかTIF形式の画像を含まなければいけません．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を見てください．
 - __target_size__: 整数のタプル`(height, width)`．デフォルトは`(256, 256)`．この値に全画像はリサイズされます．
 - __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
-- __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．クラス名からクラスインデックスへのマッピングを含む辞書は`class_indeces`属性を用いて取得できます．
+- __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．クラス名からクラスインデックスへのマッピングを含む辞書は`class_indices`属性を用いて取得できます．
 - __class_mode__: "categorical"か"binary"か"sparse"か"input"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定します："categorical"は2次元のone-hotにエンコード化されたラベル，"binary"は1次元の2値ラベル，"sparse"は1次元の整数ラベル，"input"は入力画像と同じ画像になります（主にオートエンコーダで用いられます）．Noneであれば，ラベルを返しません（ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用）．class_modeがNoneの場合，正常に動作させるためには`directory`のサブディレクトリにデータが存在する必要があることに注意してください．
 - __batch_size__: データのバッチのサイズ（デフォルト: 32）．
 - __shuffle__: データをシャッフルするかどうか（デフォルト: True）．
