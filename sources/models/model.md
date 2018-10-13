@@ -16,23 +16,17 @@ model = Model(inputs=a, outputs=b)
 また，マルチ入力またはマルチ出力のモデルの場合は，リストを使うこともできます．
 
 ```python
-model = Model(inputs=[a1, a2], outputs=[b1, b3, b3])
+model = Model(inputs=[a1, a2], outputs=[b1, b2, b3])
 ```
 
 `Model`の詳しい解説は，[Keras functional API](/getting-started/functional-api-guide)をご覧ください．
-
-## モデルの便利な属性
-
-- `model.layers` はモデルのグラフで構成される層を平坦化したリストです．
-- `model.inputs` はテンソル入力のリストです．
-- `model.outputs` はテンソル出力のリストです．
 
 ## メソッド
 
 ### compile
 
 ```python
-compile(self, optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None)
+compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None)
 ```
 
 学習のためのモデルを設定します．
@@ -57,7 +51,7 @@ __Raises__
 ### fit
 
 ```python
-fit(self, x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None)
+fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None)
 ```
 
 固定回数（データセットの反復）の試行でモデルを学習させます．
@@ -81,7 +75,8 @@ __引数__
 
 __戻り値__
 
-`History`インスタンス．本インスタンスの`History.history`属性は訓練時に得られた全ての情報を含みます．
+`History` オブジェクト．`History.history`属性は
+実行に成功したエポックにおける訓練の損失値と評価関数値の記録と，（適用可能ならば）検証における損失値と評価関数値も記録しています．
 
 __Raises__
 
@@ -93,7 +88,7 @@ __Raises__
 ### evaluate
 
 ```python
-evaluate(self, x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None)
+evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None)
 ```
 
 テストモードにおいて，モデルの損失値と評価値を返します．
@@ -118,7 +113,7 @@ __戻り値__
 ### predict
 
 ```python
-predict(self, x, batch_size=None, verbose=0, steps=None)
+predict(x, batch_size=None, verbose=0, steps=None)
 ```
 
 入力サンプルに対する予測の出力を生成します．
@@ -130,7 +125,7 @@ __引数__
 - __x__: Numpy配列の入力データ（もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト）．
 - __batch_size__: 整数値．指定しなければデフォルトで32になります．
 - __verbose__: 進行状況の表示モードで，0または1．
-- __steps__: 整数または`None`．評価ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
+- __steps__: 予測ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
 
 __戻り値__
 
@@ -145,7 +140,7 @@ __Raises__
 ### train_on_batch
 
 ```python
-train_on_batch(self, x, y, sample_weight=None, class_weight=None)
+train_on_batch(x, y, sample_weight=None, class_weight=None)
 ```
 
 単一バッチデータにつき一度の勾配更新を行います．
@@ -166,7 +161,7 @@ __戻り値__
 ### test_on_batch
 
 ```python
-test_on_batch(self, x, y, sample_weight=None)
+test_on_batch(x, y, sample_weight=None)
 ```
 
 サンプルの単一バッチでモデルをテストします．
@@ -188,7 +183,7 @@ __戻り値__
 ### predict_on_batch
 
 ```python
-predict_on_batch(self, x)
+predict_on_batch(x)
 ```
 
 サンプルの単一バッチに関する予測を返します．
@@ -206,10 +201,10 @@ __戻り値__
 ### fit_generator
 
 ```python
-fit_generator(self, generator, steps_per_epoch=None, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_queue_size=10, workers=1, use_multiprocessing=False, shuffle=True, initial_epoch=0)
+fit_generator(generator, steps_per_epoch=None, epochs=1, verbose=1, callbacks=None, validation_data=None, validation_steps=None, class_weight=None, max_queue_size=10, workers=1, use_multiprocessing=False, shuffle=True, initial_epoch=0)
 ```
 
-Pythonジェネレータによりバッチ毎に生成されたデータでモデルを訓練します．
+Pythonジェネレータ（または`Sequence`のインスタンス）によりバッチ毎に生成されたデータでモデルを訓練します．
 
 本ジェネレータは効率性のためモデルに並列して実行されます．例えば，モデルをGPUで学習させながらCPU上で画像のリアルタイムデータ拡張を行うことができるようになります．
 
@@ -246,11 +241,15 @@ __戻り値__
 `History`オブジェクト．`History.history` 属性は
 実行に成功したエポックにおける訓練の損失値と評価関数値の記録と，（適用可能ならば）検証における損失値と評価関数値も記録しています．
 
+__Raises__
+
+- __ValueError__: ジェネレータが無効なフォーマットのデータを使用した場合．
+
 __例__
 
 ```python
 def generate_arrays_from_file(path):
-    while 1:
+    while True:
         with open(path) as f:
             for line in f:
                 # create numpy arrays of input data
@@ -262,16 +261,12 @@ model.fit_generator(generate_arrays_from_file('/my_file.txt'),
                     steps_per_epoch=10000, epochs=10)
 ```
 
-__Raises__
-
-- __ValueError__: ジェネレータが無効なフォーマットのデータを使用した場合．
-
 ----
 
 ### evaluate_generator
 
 ```python
-evaluate_generator(self, generator, steps=None, max_queue_size=10, workers=1, use_multiprocessing=False)
+evaluate_generator(generator, steps=None, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0)
 ```
 
 データジェネレータでモデルを評価します．
@@ -285,6 +280,7 @@ __引数__:
 - __max_queue_size__: ジェネレータのキューのための最大サイズ．
 - __workers__: 整数．スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
 - __use_multiprocessing__: `True`ならスレッドベースのプロセスを使います．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
+- __verbose__: 進行状況の表示モードで，0または1．
 
 __戻り値__
 
@@ -299,7 +295,7 @@ __Raises__
 ### predict_generator
 
 ```python
-predict_generator(self, generator, steps=None, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0)
+predict_generator(generator, steps=None, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0)
 ```
 
 データジェネレータから得た入力サンプルに対する予測を生成します．
@@ -328,10 +324,12 @@ __Raises__
 ### get_layer
 
 ```python
-get_layer(self, name=None, index=None)
+get_layer(name=None, index=None)
 ```
 
 （ユニークな）名前，またはインデックスに基づきレイヤーを探します．
+
+`name`と`index`の両方が与えられた場合，`index`が優先されます．
 
 インデックスはボトムアップの幅優先探索の順番に基づきます．
 
