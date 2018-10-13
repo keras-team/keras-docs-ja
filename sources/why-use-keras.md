@@ -12,25 +12,30 @@
 ---
 
 ## Kerasは事業と研究コミュニティの両方で幅広く使用されています
-2017年11月現在，Kerasは20万以上の個人ユーザーがおり，TensorFlow自体を除いて，他の深層学習フレームワークよりも事業と研究コミュニティの両方で多く採用されています（KerasはTensorFlowとの組み合わせでよく使用されます）．
+
+<a href='https://towardsdatascience.com/deep-learning-framework-power-scores-2018-23607ddf297a'>
+    <img style='width: 80%; margin-left: 10%;' src='https://s3.amazonaws.com/keras.io/img/dl_frameworks_power_scores.png'/>
+</a>
+<p style='font-style: italic; font-size: 10pt; text-align: center;'>
+    Deep learning frameworks ranking computed by Jeff Hale, based on 11 data sources across 7 categories
+</i>
+
+2018年中旬の時点で，Kerasは25万以上の個人ユーザーがおり，TensorFlow自体を除いて，他の深層学習フレームワークよりも事業と研究コミュニティの両方で多く採用されています（そしてKeras APIは`tf.keras`を経由することでTensorFlowの公式なフロントエンドとなっています）．
 
 あなたはすでにKerasで構築された機能を日常で使用しています -- Netflix，Uber，Yelp，Instacart，Zocdoc，Squareなど多くの企業がKerasを使用しています．特に，自社製品の核となる部分で深層学習を用いているようなスタートアップ企業で人気があります．
-また，Kerasは，深層学習研究者の間でも人気があり，プレプリント・サーバ[arXiv.org](https://arxiv.org/archive/cs)にアップロードされた，科学技術論文で言及されているフレームワークの中で二番目に使用されています。
 
-<img src='https://keras.io/img/arxiv-mentions.png' style='width:500px; display: block; margin: 0 auto;'/>
-
-また，Kerasは，大規模な科学機関，例えば，CERNやNASAの研究者によって採用されています．
+また，Kerasは，深層学習研究者の間でも人気があり，プレプリント・サーバ[arXiv.org](https://arxiv.org/archive/cs)にアップロードされた，科学技術論文で言及されているフレームワークの中で二番目に使用されています．また，Kerasは，大規模な科学機関，例えば，CERNやNASAの研究者によって採用されています．
 
 ---
 
 ## Kerasは簡単にモデルを製品化できます
 Kerasのモデルは，他の深層学習フレームワークよりも多くのプラットフォームで，簡単にデプロイできます．
 
-- iOS（[Apple’s CoreML](https://developer.apple.com/documentation/coreml)経由，Kerasのサポートは正式にAppleから提供されています）
-- Android（TensorFlow Androidランタイム経由）
+- iOS（[Apple’s CoreML](https://developer.apple.com/documentation/coreml)経由，Kerasのサポートは正式にAppleから提供されています）．こちらが[チュートリアル](https://www.pyimagesearch.com/2018/04/23/running-keras-models-on-ios-with-coreml/)です．
+- Android（TensorFlow Androidランタイム経由）例: [Not Hotdog app](https://medium.com/@timanglade/how-hbos-silicon-valley-built-not-hotdog-with-mobile-tensorflow-keras-react-native-ef03260747f3).
 - ブラウザ（[Keras.js](https://transcranial.github.io/keras-js/#/)や，[WebDNN](https://mil-tokyo.github.io/webdnn/)などのGPU利用が可能なJavaScriptランタイム経由）
 - Google Cloud（[TensorFlow-Serving](https://www.tensorflow.org/serving/)経由）
-- Pythonのウェブアプリのバックエンド（例えば，Flaskアプリ）
+- [（Flaskアプリのような）Pythonのウェブアプリのバックエンド](https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.html)．
 - JVM（[SkyMindによって提供されたDL4J モデル](https://deeplearning4j.org/model-import-keras)経由）
 - ラズベリーパイ
 
@@ -63,7 +68,7 @@ Amazonも現在，KerasのMXNetバックエンドの開発にも取り組んで�
 ---
 
 ## Kerasの開発は深層学習の主要企業によってサポートされています
-Kerasの開発は主にGoogleによってサポートされ，Keras APIはTensorFlowに `tf.keras`としてパッケージ化されています． 加えて，MicrosoftはCNTK Kerasバックエンドを管理しています． Amazon AWSはMXNetサポートを開発中です．
+Kerasの開発は主にGoogleによってサポートされ，Keras APIはTensorFlowに`tf.keras`としてパッケージ化されています． 加えて，MicrosoftはCNTK Kerasバックエンドを管理しています． Amazon AWSはMXNetサポートを開発中です．
 その他，NVIDIA，Uber，Apple（CoreML）によって，サポートされています．
 
 <img src='https://keras.io/img/google-logo.png' style='width:200px; margin-right:15px;'/>
