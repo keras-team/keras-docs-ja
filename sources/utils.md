@@ -68,13 +68,16 @@ datasetのようなデータの系列にfittingのためのベースオブジェ
 
 Sequenceは`__getitem__`と`__len__`メソッドを実装しなければなりません．エポックの間にデータセットを変更したい場合には`on_epoch_end`を実装すべきです．`__getitem__`メソッドは完全なバッチを返すべきです．
 
+__注意__
+
+`Sequence`はマルチプロセッシングの利用に対して安全な方法です．この構造は，ジェネレータを使用しない限り，エポック毎に各サンプルを1度しか学習しないことを保証します．
+
 __例__
 
 ``` python
 from skimage.io import imread
 from skimage.transform import resize
 import numpy as np
-import math
 
 # Here, `x_set` is list of path to the images
 # and `y_set` are the associated classes.
@@ -86,7 +89,7 @@ class CIFAR10Sequence(Sequence):
         self.batch_size = batch_size
 
     def __len__(self):
-        return math.ceil(len(self.x) / self.batch_size)
+        return int(np.ceil(len(self.x) / float(self.batch_size)))
 
     def __getitem__(self, idx):
         batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
@@ -102,7 +105,7 @@ class CIFAR10Sequence(Sequence):
 ### to_categorical
 
 ```python
-keras.utils.to_categorical(y, num_classes=None)
+keras.utils.to_categorical(y, num_classes=None, dtype='float32')
 ```
 
 整数のクラスベクトルから2値クラスの行列への変換します．
@@ -113,10 +116,28 @@ __引数__
 
 - __y__: 行列に変換されるクラスベクトル（0から`num_classes`までの整数）
 - __num_classes__: 総クラス数
+- __dtype__: 入力に期待されるデータ型で，文字列型です（`float32`, `float64`, `int32`...）．
 
 __戻り値__
 
 入力のバイナリ行列表現．
+
+__例__
+
+```python
+# Consider an array of 5 labels out of a set of 3 classes {0, 1, 2}:
+> labels
+array([0, 2, 1, 2, 0])
+# `to_categorical` converts this into a matrix with as many
+# columns as there are classes. The number of rows
+# stays the same.
+> to_categorical(labels)
+array([[ 1.,  0.,  0.],
+       [ 0.,  0.,  1.],
+       [ 0.,  1.,  0.],
+       [ 0.,  0.,  1.],
+       [ 1.,  0.,  0.]], dtype=float32)
+```
 
 ---
 
@@ -174,7 +195,7 @@ __戻り値__
 ### print_summary
 
 ```python
-keras.utils.print_summary(model, line_length=None, positions=None, print_fn=<built-in function print>)
+keras.utils.print_summary(model, line_length=None, positions=None, print_fn=None)
 ```
 
 モデルのサマリを表示します．
@@ -184,14 +205,14 @@ __引数__
 - __model__: Kerasのモデルインスタンス.
 - __line_length__: 表示行数の合計（例えば別のターミナルウィンドウのサイズに合わせる為にセットします）．
 - __positions__: 行毎のログの相対または絶対位置．指定しなければ[.33, .55, .67, 1.]の用になります．
-- __print_fn__: 使うためのプリント関数．サマリの各行で呼ばれます．サマリの文字列をキャプチャするためにカスタム関数を指定することもできます．
+- __print_fn__: 使うためのプリント関数．サマリの各行で呼ばれます．サマリの文字列をキャプチャするためにカスタム関数を指定することもできます．デフォルトは`print`（標準出力へのprint）です．
 
 ---
 
 ### plot_model
 
 ```python
-keras.utils.plot_model(model, to_file='model.png', show_shapes=False, show_layer_names=True, rankdir='TB')
+keras.utils.plot_model(model, to_file='model.png', show_shapes=False, show_layer_names=True, rankdir='TB', expand_nested=False, dpi=96)
 ```
 
 Kerasモデルをdotフォーマットに変換しファイルに保存します．
@@ -203,13 +224,15 @@ __引数__
 - __show_shapes__: shapeの情報を表示するかどうか
 - __show_layer_names__: レイヤー名を表示するかどうか
 - __rankdir__: PyDotに渡す`rankdir`引数，プロットのフォーマットを指定する文字列：'TB' はvertical plot，'LR'はhorizontal plot．
+- __expand_nested__: ネストされたモデルをクラスタに展開するかどうか．
+- __dpi__: dot DPI.
 
 ---
 
 ### multi_gpu_model
 
 ```python
-keras.utils.multi_gpu_model(model, gpus)
+keras.utils.multi_gpu_model(model, gpus=None, cpu_merge=True, cpu_relocation=False)
 ```
 
 異なるGPUでモデルを反復します．
@@ -228,14 +251,19 @@ keras.utils.multi_gpu_model(model, gpus)
 
 __引数__
 
-- model: Kerasのモデルインスタンス．このインスタンスのモデルはOOMエラーを避けるためにCPU上でビルドされるべきです（下記の使用例を参照してください）．
-- gpus: 2以上の整数でGPUの個数，またはGPUのIDである整数のリスト．モデルのレプリカ作成に使われます．
+- __model__: Kerasのモデルインスタンス．このインスタンスのモデルはOOMエラーを避けるためにCPU上でビルドされるべきです（下記の使用例を参照してください）．
+- __gpus__: 2以上の整数でGPUの個数，またはGPUのIDである整数のリスト．モデルのレプリカ作成に使われます．
+- __cpu_merge__: CPUのスコープ下にあるモデルの重みを強制的にマージするか否かを判別する為の真理値．
+A boolean value to identify whether to force merging model weights under the scope of the CPU or not.
+- __cpu_relocation__: CPUのスコープ下のモデルの重みを作るかを判別するための真理値です．事前にモデルがデバイススコープの下で定義されていない場合でも，このオプションを有効化することでモデルを救出することができます．
 
 __返り値__
 
 初めに用いられた`model`に似たKerasの`Model`インスタンスですが，複数のGPUにワークロードが分散されたものです．
 
 __例__
+
+例1 - CPU上で重みをマージしてモデルを訓練
 
 ```python
 import tensorflow as tf
@@ -274,6 +302,41 @@ parallel_model.fit(x, y, epochs=20, batch_size=256)
 
 # Save model via the template model (which shares the same weights):
 model.save('my_model.h5')
+```
+
+例2 - cpu_relocationを用いてCPU上で重みをマージしてモデルを訓練
+
+```python
+..
+# Not needed to change the device scope for model definition:
+model = Xception(weights=None, ..)
+
+try:
+    parallel_model = multi_gpu_model(model, cpu_relocation=True)
+    print("Training using multiple GPUs..")
+except ValueError:
+    parallel_model = model
+    print("Training using single GPU or CPU..")
+parallel_model.compile(..)
+..
+```
+
+例3 - GPU上(NV-linkを推奨)で重みをマージしてモデルを訓練
+
+```python
+..
+# Not needed to change the device scope for model definition:
+model = Xception(weights=None, ..)
+
+try:
+    parallel_model = multi_gpu_model(model, cpu_merge=False)
+    print("Training using multiple GPUs..")
+except:
+    parallel_model = model
+    print("Training using single GPU or CPU..")
+
+parallel_model.compile(..)
+..
 ```
 
 __モデルの保存__
