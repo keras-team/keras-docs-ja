@@ -188,6 +188,43 @@ __戻り値__
 
 ---
 
+#### flow_from_dataframe
+
+```python
+flow_from_dataframe(dataframe， directory=None， x_col='filename'， y_col='class'， target_size=(256， 256)， color_mode='rgb'， classes=None， class_mode='categorical'， batch_size=32， shuffle=True， seed=None， save_to_dir=None， save_prefix=''， save_format='png'， subset=None， interpolation='nearest'， drop_duplicates=True)
+```
+
+Pandasデータフレームとディレクトリのパスを受け取り，拡張/正規化されたデータのバッチを生成します．
+
+チュートリアルは[こちら](http://bit.ly/keras_flow_from_dataframe)
+
+__引数__
+
+- __dataframe__: ディレクトリから画像への相対パス（`directory`がNoneの場合絶対パス）を含むPandasデータフレーム． `class_mode`によって単一，または複数の列が必要です． "categorical"（デフォルト）の場合，画像のクラスを指定する`y_col`列が必要です． 列の値は，単一のクラスの場合文字列かリストかタプル，複数クラスの場合はリストかタプルです． "binary"か"sparse"の場合，クラスを文字列で指定する`y_col`が必要です． "other"の場合は任意の値を含む単一、又は複数の`y_col`が必要です． "input"またはNoneの場合は特に必要ありません．
+- __directory__: 文字列． 画像を読み込むディレクトリのパス． Noneの場合，`x_col`に含まれるデータは絶対パスでなくてはなりません．
+- __x_col__: 文字列． ファイル名（`directory`がNoneの場合は絶対パス）を含む`dataframe`の列名
+- __y_col__: 文字列かリスト． ターゲットとなるデータを含む`dataframe`の列名
+- __target_size__: 整数のタプル（height， width）．デフォルトは（256， 256）．この値に全画像はリサイズされます．
+- __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
+- __classes__: クラスサブディレクトリのリスト．（例えば，`['dogs', 'cats']`）．デフォルトはNone．与えられなければ，クラスのリスト自動的に推論されます（そして，ラベルのインデックスと対応づいたクラスの順序はalphanumericになります）．クラス名からクラスインデックスへのマッピングを含む辞書は`class_indices`属性を用いて取得できます．
+- __class_mode__: "categorical"か"binary"か"sparse"か"input"か"other"か"None"のいずれか1つ．デフォルトは"categorical"．返すラベルの配列のshapeを決定します："binary"は1次元の2値ラベル，"categorical"は2次元のone-hotにエンコード化されたラベル，"sparse"は1次元の整数ラベル，"input"は入力画像と同じ画像（主にオートエンコーダで用いられます），"other"は`y_col`のnumpy配列になります．Noneであれば，ラベルを返しません（ジェネレーターは画像のバッチのみ生成するため，`model.predict_generator()`や`model.evaluate_generator()`などを使う際に有用）．
+- __batch_size__: データのバッチのサイズ（デフォルト: 32）．
+- __shuffle__: データをシャッフルするかどうか（デフォルト: True）．
+- __seed__: シャッフルや変換のためのオプションの乱数シード．
+- __save_to_dir__: Noneまたは文字列（デフォルト: None）．生成された拡張画像を保存するディレクトリを指定できます（行ったことの可視化に有用です）．
+- __save_prefix__: 文字列．画像を保存する際にファイル名に付けるプリフィックス（`set_to_dir`に引数が与えられた時のみ有効）．
+- __save_format__: "png"または"jpeg"（`set_to_dir`に引数が与えられた時のみ有効）．デフォルトは"png"．
+- __follow_links__: サブディレクトリ内のシンボリックリンクに従うかどうか．デフォルトはFalse．
+- __subset__: データのサブセット（`"training"`か`"validation"`)． `ImageDataGenerator`で`validation_split`が与えられた場合に指定します．
+- __interpolation__: `target_size`が読み込まれた画像のサイズと異なっていた場合の補間方法．"nearest"か"bilinear"か"bicubic"が対応．バージョン1.1.3以上のPILがインストールされていれば"lanczos"も対応します．バージョン3.4.0以上のPILがインストールされていれば"box"と"hamming"も対応します．デフォルトは"nearst"．
+- __drop_duplicates__: 真理値．ファイル名が重複した行を削除するかどうか．
+
+__戻り値__
+
+`x`が画像データのNumpy配列で`y`がそれに対応したラベルのNumpy配列である`(x, y)`から生成されるDirectoryIteratorです．
+
+---
+
 #### flow_from_directory
 
 ```python
@@ -197,6 +234,7 @@ flow_from_directory(directory, target_size=(256, 256), color_mode='rgb', classes
 ディレクトリへのパスを受け取り，拡張/正規化したデータのバッチを生成します．
 
 __引数__
+
 - __directory__: ディレクトリへのパス．クラスごとに1つのサブディレクトリを含み，サブディレクトリはPNGかJPGかBMPかPPMかTIF形式の画像を含まなければいけません．詳細は[このスクリプト](https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)を見てください．
 - __target_size__: 整数のタプル`(height, width)`．デフォルトは`(256, 256)`．この値に全画像はリサイズされます．
 - __color_mode__: "grayscale"か"rbg"の一方．デフォルトは"rgb"．画像を1か3チャンネルの画像に変換するかどうか．
