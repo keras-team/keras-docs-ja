@@ -22,7 +22,7 @@ __引数__
 
 __戻り値__
 
-[Sequence](../utils/#sequence)インスタンス．
+[Sequence](/utils/#sequence)インスタンス．
 
 __例__
 
