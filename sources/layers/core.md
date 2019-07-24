@@ -49,7 +49,7 @@ __入力のshape__
 __出力のshape__
 
 以下のshapeを持つn階テンソル： `(batch_size, ..., units)`．
-例えば，以下のshapeを持つ2階テンソル `(batch_size, input_dim)`の入力に対して，アウトプットは以下のshapwを持つ`(batch_size, units)`．
+例えば，以下のshapeを持つ2階テンソル `(batch_size, input_dim)`の入力に対して，アウトプットは以下のshapeを持つ`(batch_size, units)`．
 
 ----
 
