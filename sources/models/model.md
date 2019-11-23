@@ -51,7 +51,8 @@ __Raises__
 ### fit
 
 ```python
-fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None)
+fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None,
+validation_freq=1, max_queue_size=10, workers=1, use_multiprocessing=False)
 ```
 
 固定回数（データセットの反復）の試行でモデルを学習させます．
@@ -63,7 +64,7 @@ __引数__
 - __batch_size__: 整数または`None`．勾配更新毎のサンプル数を示す整数．指定しなければ`batch_size`はデフォルトで32になります．
 - __epochs__: 整数．訓練データ配列の反復回数を示す整数．エポックは，提供される`x`および`y`データ全体の反復です． `initial_epoch`と組み合わせると，`epochs`は"最終エポック"として理解されることに注意してください．このモデルは`epochs`で与えられた反復回数だの訓練をするわけではなく，単に`epochs`という指標に試行が達するまで訓練します．
 - __verbose__: 整数．0，1，2のいずれか．進行状況の表示モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
-- __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照．
+- __callbacks__: 訓練時に呼ばれる`keras.callbacks.Callback`インスタンスのリスト．詳細は[callbacks](/callbacks)を参照してください．
 - __validation_split__: 0から1の間の浮動小数点数．バリデーションデータとして使われる訓練データの割合．モデルはこの割合の訓練データを区別し，それらでは学習を行わず，各試行の終わりにこのデータにおける損失とモデル評価関数を評価します．このバリデーションデータは，シャッフルを行う前に，与えられた`x`と`y`のデータの後ろからサンプリングされます．
 - __validation_data__: 各試行の最後に損失とモデル評価関数を評価するために用いられる`(x_val, y_val)`のタプル，または`(val_x, val_y, val_sample_weights)`のタプル．モデルはこのデータで学習を行いません．`validation_data`は`validation_split`を上書きします．
 - __shuffle__: 真理値（訓練データを各試行の前にシャッフルするかどうか）または文字列（'batch'の場合）．'batch'はHDF5データの限界を扱うための特別なオプションです．バッチサイズのチャンクでシャッフルします．`steps_per_epoch`が`None`でない場合には効果がありません．
@@ -72,6 +73,12 @@ __引数__
 - __initial_epoch__: 整数．訓練を開始するエポック（前回の学習を再開するのに便利です）．
 - __steps_per_epoch__: 整数または`None`．終了した1エポックを宣言して次のエポックを始めるまでのステップ数の合計（サンプルのバッチ）．TensorFlowのデータテンソルのような入力テンソルを使用して訓練する場合，デフォルトの`None`はデータセットのサンプル数をバッチサイズで割ったものに等しくなります．それが決定できない場合は1になります．
 - __validation_steps__: `steps_per_epoch`を指定している場合のみ関係します．停止する前にバリデーションするステップの総数（サンプルのバッチ）．
+- __validation_freq__: `validation_data`が指定されている場合のみ関係します. 型は整数,リスト,タプル,集合のいずれかです. 整数として与えられた場合, 評価が行われるまでの間に何エポックの学習を行うかを意味します. 例えば `validation_freq=2` の時, 評価は2エポック毎に行われます. リスト,タプル,集合として与えられた場合, 何エポック目の後に評価が行われるのかを意味します. 例えば `validation_freq=[1, 2, 10]` の時, 評価は1エポック目, 2エポック目, 10エポック目の後に行われます.
+- __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
+    指定しなければ`max_queue_size`はデフォルトで10になります．
+- __workers__: 整数．ジェネレータ,もしくは`keras.utils.Sequence`が入力として与えられた場合のみ使用されます. スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
+- __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`use_multiprocessing`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
+- __**kwargs__: バックエンドの互換性のために使用されます.
 
 __戻り値__
 
@@ -88,7 +95,7 @@ __Raises__
 ### evaluate
 
 ```python
-evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None)
+evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None, max_queue_size=10, workers=1, use_multiprocessing=False)
 ```
 
 テストモードにおいて，モデルの損失値と評価値を返します．
@@ -103,6 +110,11 @@ __引数__
 - __verbose__: 0または1．進行状況の表示モード．0 = 表示なし，1 = プログレスバー．
 - __sample_weight__: オプションのNumpy配列で訓練サンプルの重みです．（訓練時のみ）損失関数への重み付けに用いられます．（重みとサンプルが1:1対応するように）入力サンプルと同じ長さの1次元Numpy配列を渡すこともできますし，時系列データの場合には，`(samples, sequence_length)`の形式の2次元配列を渡すことができ，各サンプルの各タイムステップに異なる重みを割り当てられます．この場合，`compile()`内で，`sample_weight_mode="temporal"`と指定するようにします．
 - __steps__: 整数または`None`．評価ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
+- __callbacks__: 評価時に呼ばれる`keras.callbacks.Callback`のインスタンスのリストです. 詳細は[callbacks](/callbacks)を参照してください．
+- __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
+    指定しなければ`max_queue_size`はデフォルトで10になります．
+- __workers__: 整数．ジェネレータ,もしくは`keras.utils.Sequence`が入力として与えられた場合のみ使用されます. スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
+- __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`use_multiprocessing`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
 
 __戻り値__
 
@@ -113,7 +125,7 @@ __戻り値__
 ### predict
 
 ```python
-predict(x, batch_size=None, verbose=0, steps=None)
+predict(x, batch_size=None, verbose=0, steps=None, callbacks=None, max_queue_size=10, workers=1, use_multiprocessing=False)
 ```
 
 入力サンプルに対する予測の出力を生成します．
@@ -126,6 +138,11 @@ __引数__
 - __batch_size__: 整数値．指定しなければデフォルトで32になります．
 - __verbose__: 進行状況の表示モードで，0または1．
 - __steps__: 予測ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
+- __callbacks__: 予測時に実行される`keras.callbacks.Callback`のインスタンスのリストです. 詳細は[callbacks](/callbacks)を参照してください．
+- __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
+    指定しなければ`max_queue_size`はデフォルトで10になります．
+- __workers__: 整数．ジェネレータ,もしくは`keras.utils.Sequence`が入力として与えられた場合のみ使用されます. スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
+- __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`use_multiprocessing`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
 
 __戻り値__
 
@@ -140,7 +157,7 @@ __Raises__
 ### train_on_batch
 
 ```python
-train_on_batch(x, y, sample_weight=None, class_weight=None)
+train_on_batch(x, y, sample_weight=None, class_weight=None, reset_metrics=True)
 ```
 
 単一バッチデータにつき一度の勾配更新を行います．
@@ -151,6 +168,7 @@ __引数__
 - __y__: モデルが単一の入力を持つ場合は教師（targets）データのNumpy配列，もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト．モデル内のあらゆる出力が名前を当てられている場合，出力の名前とNumpy配列をマップした辞書を渡すことも可能です．
 - __sample_weight__: オプションのNumpy配列で訓練サンプルの重みです．（訓練時のみ）損失関数への重み付けに用いられます．（重みとサンプルが1:1対応するように）入力サンプルと同じ長さの1次元Numpy配列を渡すこともできますし，時系列データの場合には，`(samples, sequence_length)`の形式の2次元配列を渡すことができ，各サンプルの各タイムステップに異なる重みを割り当てられます．この場合，`compile()`内で，`sample_weight_mode="temporal"`と指定するようにします．
 - __class_weight__: クラスのインデックスと重み（浮動小数点数）をマップするオプションの辞書で，訓練時に各クラスのサンプルに関するモデルの損失に適用します．これは過小評価されたクラスのサンプルに「より注意を向ける」ようモデルに指示するために有用です．
+- __reset_metrics__: `True`の場合, 与えられたバッチに対する評価値のみが返されます. `False`の場合, 評価値はバッチをまたいで計算されます.
 
 __戻り値__
 
@@ -161,7 +179,7 @@ __戻り値__
 ### test_on_batch
 
 ```python
-test_on_batch(x, y, sample_weight=None)
+test_on_batch(x, y, sample_weight=None, reset_metrics=True)
 ```
 
 サンプルの単一バッチでモデルをテストします．
@@ -173,6 +191,7 @@ __引数__
 - __y__: 教師データのNumpy配列，もしくはモデルが複数の出力を持つ場合はNumpy配列のリスト．
     モデル内のあらゆる出力が名前を当てられている場合，出力の名前とNumpy配列をマップした辞書を渡すことも可能です．
 - __sample_weight__: オプションのNumpy配列で訓練サンプルの重みです．（訓練時のみ）損失関数への重み付けに用いられます．（重みとサンプルが1:1対応するように）入力サンプルと同じ長さの1次元Numpy配列を渡すこともできますし，時系列データの場合には，`(samples, sequence_length)`の形式の2次元配列を渡すことができ，各サンプルの各タイムステップに異なる重みを割り当てられます．この場合，`compile()`内で，`sample_weight_mode="temporal"`と指定するようにします．
+- __reset_metrics__: `True`の場合, 与えられたバッチに対する評価値のみが返されます. `False`の場合, 評価値はバッチをまたいで計算されます.
 
 __戻り値__
 
@@ -220,7 +239,7 @@ __引数__
     エポックは与えられたデータ全体の反復で，`steps_per_epoch`で定義されます．
     `initial_epoch`と組み合わせると，`epochs`は「最終エポック」として理解されることに注意してください．このモデルは`epochs`で与えられた反復回数だの訓練をするわけではなく，単に`epochs`という指標に試行が達するまで訓練します．
 - __verbose__: 整数．0，1，2のいずれか．進行状況の表示モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
-- __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照．
+- __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照してください．
 - __validation_data__: これは以下のいずれかです．
     - バリデーションデータ用のジェネレータ．
     - (inputs, targets)のタプル．
@@ -232,7 +251,7 @@ __引数__
 - __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
     指定しなければ`max_queue_size`はデフォルトで10になります．
 - __workers__: 整数．スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
-- __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`workers`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
+- __use_multiprocessing__: 真理値．`True`ならスレッドベースのプロセスを使います．指定しなければ`use_multiprocessing`はデフォルトでFalseになります．実装がmultiprocessingに依存しているため，子プロセスに簡単に渡すことができないものとしてPickableでない引数をジェネレータに渡すべきではないことに注意してください．
 - __shuffle__: 真理値．各試行の初めにバッチの順番をシャッフルするかどうか．`Sequence`(`keras.utils.Sequence`)の時のみ使用されます．
 - __initial_epoch__: 整数．学習を開始するエポック（前回の学習を再開するのに便利です）．
 
