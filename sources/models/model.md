@@ -138,7 +138,7 @@ __引数__
 - __batch_size__: 整数値．指定しなければデフォルトで32になります．
 - __verbose__: 進行状況の表示モードで，0または1．
 - __steps__: 予測ラウンド終了を宣言するまでの総ステップ数（サンプルのバッチ）．デフォルト値の`None`ならば無視されます．
-- __callbacks__: - __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．予測時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照． 詳細は[callbacks](/callbacks)を参照してください．
+- __callbacks__: - __callbacks__: 予測時に呼ばれる`keras.callbacks.Callback`インスタンスのリスト． 詳細は[callbacks](/callbacks)を参照してください．
 - __max_queue_size__: 整数．ジェネレータのキューのための最大サイズ．
     指定しなければ`max_queue_size`はデフォルトで10になります．
 - __workers__: 整数．ジェネレータ,もしくは`keras.utils.Sequence`が入力として与えられた場合のみ使用されます. スレッドベースのプロセス使用時の最大プロセス数．指定しなければ`workers`はデフォルトで1になります．もし0ならジェネレータはメインスレッドで実行されます．
@@ -239,7 +239,7 @@ __引数__
     エポックは与えられたデータ全体の反復で，`steps_per_epoch`で定義されます．
     `initial_epoch`と組み合わせると，`epochs`は「最終エポック」として理解されることに注意してください．このモデルは`epochs`で与えられた反復回数だの訓練をするわけではなく，単に`epochs`という指標に試行が達するまで訓練します．
 - __verbose__: 整数．0，1，2のいずれか．進行状況の表示モード．0 = 表示なし，1 = プログレスバー，2 = 各試行毎に一行の出力．
-- __callbacks__: - __callbacks__: `keras.callbacks.Callback`インスタンスのリスト．訓練時に呼ばれるコールバックのリスト．詳細は[callbacks](/callbacks)を参照．詳細は[callbacks](/callbacks)を参照してください．
+- __callbacks__: - __callbacks__: 訓練時に呼ばれる`keras.callbacks.Callback`インスタンスのリスト．詳細は[callbacks](/callbacks)を参照してください．
 - __validation_data__: これは以下のいずれかです．
     - バリデーションデータ用のジェネレータ．
     - (inputs, targets)のタプル．
