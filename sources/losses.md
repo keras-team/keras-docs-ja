@@ -26,7 +26,7 @@ model.compile(loss=losses.mean_squared_error, optimizer='sgd')
 ### mean_squared_error
 
 ```python
-mean_squared_error(y_true, y_pred)
+keras.losses.mean_squared_error(y_true, y_pred)
 ```
 
 ---
@@ -34,7 +34,7 @@ mean_squared_error(y_true, y_pred)
 ### mean_absolute_error
 
 ```python
-mean_absolute_error(y_true, y_pred)
+keras.losses.mean_absolute_error(y_true, y_pred)
 ```
 
 ---
@@ -42,7 +42,7 @@ mean_absolute_error(y_true, y_pred)
 ### mean_absolute_percentage_error
 
 ```python
-mean_absolute_percentage_error(y_true, y_pred)
+keras.losses.mean_absolute_percentage_error(y_true, y_pred)
 ```
 
 ---
@@ -50,7 +50,7 @@ mean_absolute_percentage_error(y_true, y_pred)
 ### mean_squared_logarithmic_error
 
 ```python
-mean_squared_logarithmic_error(y_true, y_pred)
+keras.losses.mean_squared_logarithmic_error(y_true, y_pred)
 ```
 
 ---
@@ -58,7 +58,7 @@ mean_squared_logarithmic_error(y_true, y_pred)
 ### squared_hinge
 
 ```python
-squared_hinge(y_true, y_pred)
+keras.losses.squared_hinge(y_true, y_pred)
 ```
 
 ---
@@ -66,7 +66,7 @@ squared_hinge(y_true, y_pred)
 ### hinge
 
 ```python
-hinge(y_true, y_pred)
+keras.losses.hinge(y_true, y_pred)
 ```
 
 ---
@@ -74,7 +74,7 @@ hinge(y_true, y_pred)
 ### categorical_hinge
 
 ```python
-categorical_hinge(y_true, y_pred)
+keras.losses.categorical_hinge(y_true, y_pred)
 ```
 
 ---
@@ -82,7 +82,7 @@ categorical_hinge(y_true, y_pred)
 ### logcosh
 
 ```python
-logcosh(y_true, y_pred)
+keras.losses.logcosh(y_true, y_pred)
 ```
 
 予測誤差のハイパボリックコサインの対数．
@@ -94,21 +94,21 @@ logcosh(y_true, y_pred)
 ### categorical_crossentropy
 
 ```python
-categorical_crossentropy(y_true, y_pred)
+keras.losses.categorical_crossentropy(y_true, y_pred)
 ```
 ---
 
 ### sparse_categorical_crossentropy
 
 ```python
-sparse_categorical_crossentropy(y_true, y_pred)
+keras.losses.sparse_categorical_crossentropy(y_true, y_pred)
 ```
 ---
 
 ### binary_crossentropy
 
 ```python
-binary_crossentropy(y_true, y_pred)
+keras.losses.binary_crossentropy(y_true, y_pred)
 ```
 ---
 
@@ -122,14 +122,14 @@ kullback_leibler_divergence(y_true, y_pred)
 ### poisson
 
 ```python
-poisson(y_true, y_pred)
+keras.losses.poisson(y_true, y_pred)
 ```
 ---
 
 ### cosine_proximity
 
 ```python
-cosine_proximity(y_true, y_pred)
+keras.losses.cosine_proximity(y_true, y_pred)
 ```
 ---
 
@@ -137,7 +137,9 @@ __NOTE__: `categorical_crossentropy`を使う場合，目的値はカテゴリ�
 *整数の目的値からカテゴリカルな目的値に*変換するためには，Keras utilityの`to_categorical`を使えます．
 
 ```
-from keras.utils.np_utils import to_categorical
+from keras.utils import to_categorical
 
 categorical_labels = to_categorical(int_labels, num_classes=None)
 ```
+
+`sparse_categorical_crossentropy`を使う場合，目的値は整数値にしなければいけません．もしカテゴリカルな目的値を持つ場合，`categorical_crossentropy`を使えます．
