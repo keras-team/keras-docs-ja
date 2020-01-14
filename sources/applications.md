@@ -344,7 +344,9 @@ Kerasの`Model`インスタンス．
 
 ### 参考文献
 
-- [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+- `ResNet`: [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+- `ResNetV2`: [Identity Mappings in Deep Residual Networks](https://arxiv.org/abs/1603.05027)
+
 ### ライセンス
 
 この重みは[Kaiming He](https://github.com/KaimingHe/deep-residual-networks)により[MITライセンス](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE)の下で公開されたものを移植しています．
