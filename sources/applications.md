@@ -349,7 +349,10 @@ Kerasの`Model`インスタンス．
 
 ### ライセンス
 
-この重みは[Kaiming He](https://github.com/KaimingHe/deep-residual-networks)により[MITライセンス](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE)の下で公開されたものを移植しています．
+これらの重みは以下のライセンスの元で公開されたものを移植しています:
+
+- `ResNet`: [The original repository of Kaiming He](https://github.com/KaimingHe/deep-residual-networks) under the [MIT license](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE).
+- `ResNetV2`: [Facebook](https://github.com/facebook/fb.resnet.torch) under the [BSD license](https://github.com/facebook/fb.resnet.torch/blob/master/LICENSE).
 
 -----
 
