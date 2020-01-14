@@ -179,6 +179,9 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 | [ResNet50](#resnet) | 99 MB | 0.759 | 0.929 | 25,636,712 | 168
 | [ResNet101](#resnet) | 171 MB | 0.764 | 0.928 | 44,707,176 | - |
 | [ResNet152](#resnet) | 232 MB | 0.766 | 0.931 | 60,419,944 | - |
+| [ResNet50V2](#resnet) | 98 MB | 0.760 | 0.930 | 25,613,800 | - |
+| [ResNet101V2](#resnet) | 171 MB | 0.772 | 0.938 | 44,675,560 | - |
+| [ResNet152V2](#resnet) | 232 MB | 0.780 | 0.942 | 60,380,648 | - |
 | [InceptionV3](#inceptionv3) | 92 MB | 0.788 | 0.944 | 23,851,784 | 159 |
 | [InceptionResNetV2](#inceptionresnetv2) | 215 MB | 0.804 | 0.953 | 55,873,736 | 572 |
 | [MobileNet](#mobilenet) | 17 MB | 0.665 | 0.871 | 4,253,864 | 88
@@ -312,9 +315,12 @@ Kerasの`Model`インスタンス．
 keras.applications.resnet.ResNet50(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 keras.applications.resnet.ResNet101(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 keras.applications.resnet.ResNet152(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+keras.applications.resnet_v2.ResNet50V2(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+keras.applications.resnet_v2.ResNet101V2(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
+keras.applications.resnet_v2.ResNet152V2(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
-ImageNetで事前学習した重みを利用可能なResNetモデル．
+ImageNetで事前学習した重みを利用可能なResNet，ResNetV2モデル．
 
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
@@ -339,7 +345,6 @@ Kerasの`Model`インスタンス．
 ### 参考文献
 
 - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
-
 ### ライセンス
 
 この重みは[Kaiming He](https://github.com/KaimingHe/deep-residual-networks)により[MITライセンス](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE)の下で公開されたものを移植しています．
