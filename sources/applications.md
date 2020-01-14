@@ -12,7 +12,7 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [Xception](#xception)
 - [VGG16](#vgg16)
 - [VGG19](#vgg19)
-- [ResNet](#resnet)
+- [ResNet, ResNetV2](#resnet)
 - [InceptionV3](#inceptionv3)
 - [InceptionResNetV2](#inceptionresnetv2)
 - [MobileNet](#mobilenet)
