@@ -176,7 +176,7 @@ model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=T
 | [Xception](#xception) | 88 MB | 0.790 | 0.945| 22,910,480 | 126 |
 | [VGG16](#vgg16) | 528 MB| 0.715 | 0.901 | 138,357,544 | 23
 | [VGG19](#vgg19) | 549 MB | 0.727 | 0.910 | 143,667,240 | 26
-| [ResNet50](#resnet) | 99 MB | 0.759 | 0.929 | 25,636,712 | 168
+| [ResNet50](#resnet) | 98 MB | 0.749 | 0.921 | 25,636,712 | - |
 | [ResNet101](#resnet) | 171 MB | 0.764 | 0.928 | 44,707,176 | - |
 | [ResNet152](#resnet) | 232 MB | 0.766 | 0.931 | 60,419,944 | - |
 | [ResNet50V2](#resnet) | 98 MB | 0.760 | 0.930 | 25,613,800 | - |
