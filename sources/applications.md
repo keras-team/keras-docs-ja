@@ -320,7 +320,7 @@ keras.applications.resnet_v2.ResNet101V2(include_top=True, weights='imagenet', i
 keras.applications.resnet_v2.ResNet152V2(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 ```
 
-ImageNetで事前学習した重みを利用可能なResNet，ResNetV2モデル．
+ImageNetで事前学習した重みを利用可能なResNet， ResNetV2モデル．
 
 `'channels_first'`データフォーマット (channels, height, width) か`'channels_last'`データフォーマット (height, width, channels)の両方で構築可能です．
 
