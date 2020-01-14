@@ -16,9 +16,9 @@ Kerasの応用は事前学習した重みを利用可能な深層学習のモデ
 - [InceptionV3](#inceptionv3)
 - [InceptionResNetV2](#inceptionresnetv2)
 - [MobileNet](#mobilenet)
+- [MobileNetV2](#mobilenetv2)
 - [DenseNet](#densenet)
 - [NASNet](#nasnet)
-- [MobileNetV2](#mobilenetv2)
 
 これら全てのアーキテクチャは全てのバックエンド（TensorFlowやTheano，CNTK）と互換性があり，モデルはインスタンス化する時はKerasの設定ファイル`~/.keras/keras.json`に従って画像のデータフォーマットが設定されます．
 例えば，`image_dim_ordering=channels_last`とした際は，このリポジトリからロードされるモデルは，TensorFlowの次元の順序"Height-Width-Depth"にしたがって構築されます．
