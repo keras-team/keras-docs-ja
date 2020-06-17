@@ -610,7 +610,7 @@ KerasのモデルをHDF5ファイルとして保存する場合（例えば`kera
 sudo apt-get install libhdf5-serial-dev
 ```
 
-h5pyがインストールされているかわからない場合はPythonシェルを開いて次のようにもジュルーをロードできます．
+h5pyがインストールされているかわからない場合はPythonシェルを開いて次のようにモジュールをロードできます．
 
 ```
 import h5py
